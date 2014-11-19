@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule ([0-9a-z\-._]+).json $1.php	[QSA,L,NC]

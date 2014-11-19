@@ -1,0 +1,81 @@
+body, html, .container-fluid{
+	height: 100%;
+}
+
+body {
+	background-color: #F1F1F1;	
+}
+
+.container-fluid {
+	padding:0px;
+}
+
+.main-sidebar {
+	padding:0px;
+}
+
+.main-sidebar a {
+	color:#555;
+}
+
+.main-content {
+	background-color:#FFF;
+	border-top:1px solid #E5E5E5;
+	border-left:1px solid #E5E5E5;
+	padding:5px 25px 0 25px;
+	min-height: 100%;
+}
+
+.arrow {
+	display: none;
+}
+
+.main-sidebar .nav > li.active .arrow {
+	display: block;
+}
+
+.bubble-arrow-border {
+	border-color: transparent #E5E5E5 transparent transparent;
+	border-style: solid;
+	border-width: 10px;
+	height:0;
+	width:0;
+	position:absolute;
+	top: 10px;
+	right: 0px;
+}
+
+.bubble-arrow {
+	border-color: transparent #FFF transparent transparent;
+	border-style: solid;
+	border-width: 10px;
+	height:0;
+	width:0;
+	position:absolute;
+	top: 10px;
+	right: -1px;
+	z-index:2;
+
+}
+
+/* START JSON DYNAMIC TABLES */
+table.table-json thead tr th[data-json-sort]:before{
+  font-family:"Glyphicons Halflings";
+  line-height:1;
+  margin:0 10px 0 0;
+  display:inline-block;
+  font-size:10px;
+}
+
+table.table-json thead tr th[data-json-sort=asc]:before{
+  content:"\e113";
+}
+
+table.table-json thead tr th[data-json-sort=desc]:before{
+  content:"\e114";
+}
+
+table.table-json thead tr th[data-json-column] {
+	cursor:pointer;
+}
+/* END JSON DYNAMIC TABLES */
