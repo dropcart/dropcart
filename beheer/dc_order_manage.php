@@ -54,7 +54,7 @@ if ($strAction == "export") {
 			
 		}
 		
-		$objOrder 		= $objDB->getObject($result);
+		$objOrder 			= $objDB->getObject($result);
 			
 		// Remove spaces
 		$objOrder->zipcode 		= str_replace(" ", "", $objOrder->zipcode);
@@ -118,14 +118,11 @@ if ($strAction == "export") {
 	
 		while ($objDetails = $objDB->getObject($result)) {
 	
-			$taxRate = 1.21;
-			$dblPrice = round($objDetails->price / 1.21, 2);
-	
-			$arrOrderDetails[] 		= array (
-				'productId' 		=> $objDetails->productId,
-				'quantity' 		=> $objDetails->quantity,
-				'price' 			=> $dblPrice,
-				'taxRate' 		=> $taxRate,
+			$arrOrderDetails[] 	= array (
+				'productId' 	=> $objDetails->productId,
+				'quantity' 	=> $objDetails->quantity,
+				'price' 		=> $dblPrice,
+				'taxRate' 	=> $objDetails->tax,
 			);
 	
 		}
@@ -134,13 +131,18 @@ if ($strAction == "export") {
 		$arrJson['order'] 		= array (
 			'orderDate'		=> $objOrder->entryDate,
 			'shippingCosts'	=> $objOrder->shippingCosts,
-			'totalPrice'	=> $objOrder->totalPrice,
+			'totalPrice'		=> $objOrder->totalPrice,
 			'tax'			=> NULL,
 			'payMethod'		=> 'Mollie',
 			'paymentStatus'	=> $objOrder->paymentStatus,
 			'discountCode'	=> $objOrder->kortingscode . (($objOrder->validationCode != '') ? ' / ' . $objOrder->validationCode : ''),
-			'discountAmount'=> abs($objOrder->kortingsbedrag),
-			'items' 		=> $arrOrderDetails,
+			'discountAmount' 	=> abs($objOrder->kortingsbedrag),
+			'items' 			=> $arrOrderDetails,
+		);
+
+		$arrJson['metadata'] 		= array (
+			'dc_version'		=> DROPCART_VERSION,
+
 		);
 	
 		header('Content-type: application/json');
