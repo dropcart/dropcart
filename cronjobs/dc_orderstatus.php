@@ -21,7 +21,7 @@ $mpdf=new mPDF();
 
 // Initialize Twig
 Twig_Autoloader::register();
-$twig = new Twig_Environment( new Twig_Loader_Filesystem(SITE_PATH."/includes/templates"), array("cache" => false) );
+$loader = new Twig_Loader_Filesystem(SITE_PATH."/includes/templates");
 
 $strSQL = "SELECT * " .
 	"FROM ".DB_PREFIX."customers_orders co " .
@@ -37,6 +37,9 @@ while($objOrder = $objDB->getObject($result)) {
 		$update = $objDB->sqlExecute($strSQL);
 		
 		if($Order->status_code == 4) {
+			
+			$twig = new Twig_Environment( $loader, array("cache" => false) );
+			// Set twig variable
 			
 			$intCustomerId	= $objOrder->custId;
 			$intOrderId		= $objOrder->orderId;
