@@ -21,8 +21,8 @@ if (isset($_POST)) {
 	foreach ($_POST as $key => $value) {
 
 		$value = trim($value);
-		
-		if (empty($value)) { 
+
+		if (empty($value)) {
 			$value = 'NULL';
 		}
 		else {
@@ -104,13 +104,19 @@ if (!empty($_GET['succes'])) {
 					<input type="text" class="form-control" id="maximum_page_products" name="maximum_page_products" value="<?php echo formOption('maximum_page_products'); ?>" autocomplete="off">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
+			<div class="form-group">
+			<label for="order_number_prefix" class="col-sm-2 control-label">order_number_prefix</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="order_number_prefix" name="order_number_prefix" value="<?php echo formOption('order_number_prefix'); ?>" autocomplete="off">
+				</div><!-- /col -->
+			</div><!-- /form-group -->
 			<hr />
-			
+
 			<div class="form-group">
 			<label for="mail_server" class="col-sm-2 control-label">mail_server</label>
 				<div class="col-sm-8">
 					<select class="form-control" id="mail_server" name="mail_server" onChange="
-						if(this.selectedIndex == 1) { 
+						if(this.selectedIndex == 1) {
 							document.getElementById('smtp-settings').style.display = 'block';
 						} else {
 							document.getElementById('smtp-settings').style.display = 'none';
@@ -122,9 +128,9 @@ if (!empty($_GET['succes'])) {
 					<p class="help-block">Hier kunt u een eventueel eigen SMTP server opgeven</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
-			
+
 			<div id="smtp-settings" style=" <?php if(formOption('mail_server') != 'smtp') echo 'display:none'; ?>">
-			
+
 				<div class="form-group">
 				<label for="site_email" class="col-sm-2 control-label">smtp_server</label>
 					<div class="col-sm-8">
@@ -132,7 +138,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Geef de SMTP server op</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_port" class="col-sm-2 control-label">smtp_port</label>
 					<div class="col-sm-8">
@@ -140,7 +146,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Geef de poort van de SMTP server op</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_secure" class="col-sm-2 control-label">smtp_secure</label>
 					<div class="col-sm-8">
@@ -152,12 +158,12 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Maak een keuze uit een beveiligde of onbeveiligde verbinding</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_auth" class="col-sm-2 control-label">smtp_auth</label>
 					<div class="col-sm-8">
 						<select class="form-control" id="smtp_auth" name="smtp_auth" onChange="
-						if(this.selectedIndex == 1) { 
+						if(this.selectedIndex == 1) {
 							document.getElementById('smtp-auth').style.display = 'block';
 						} else {
 							document.getElementById('smtp-auth').style.display = 'none';
@@ -169,7 +175,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Inloggen met gebruikersnaam en wachtwoord voor de SMTP server</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div id="smtp-auth" style=" <?php if(formOption('smtp_auth') != 'true') echo 'display:none'; ?>">
 
 					<div class="form-group">
@@ -179,7 +185,7 @@ if (!empty($_GET['succes'])) {
 							<p class="help-block">Geef de gebruikersnaam van de SMTP server op</p>
 						</div><!-- /col -->
 					</div><!-- /form-group -->
-					
+
 					<div class="form-group">
 					<label for="smtp_password" class="col-sm-2 control-label">smtp_password</label>
 						<div class="col-sm-8">
@@ -187,11 +193,11 @@ if (!empty($_GET['succes'])) {
 							<p class="help-block">Geef het wachtwoord van de SMTP server op</p>
 						</div><!-- /col -->
 					</div><!-- /form-group -->
-				
+
 				</div>
-			
+
 			</div>
-			
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Bewerken</button>
