@@ -383,7 +383,8 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (44, 'smtp_auth', 'true'),
 (45, 'smtp_username', '- email username here -'),
 (46, 'smtp_password', '- email password here - '),
-(163, 'update_build', 'stable');
+(163, 'update_build', 'stable'),
+(47, 'order_number_prefix', '');
 
 --
 -- Table structure for table `dc_pages_content`
