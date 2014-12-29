@@ -21,7 +21,7 @@ function pre($strPre, $exit = false){
 function cleanInput($input) {
 
 	// http://css-tricks.com/snippets/php/sanitize-database-inputs/
- 
+
 	$search = array(
 	'@<script[^>]*?>.*?</script>@si',   // Strip out javascript
 	'@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
@@ -35,7 +35,7 @@ function cleanInput($input) {
 
 function sanitize($input) {
 
-	global $objDB;	
+	global $objDB;
 
 	// http://css-tricks.com/snippets/php/sanitize-database-inputs/
 
@@ -67,19 +67,19 @@ function ip() {
 	}
 	else
 	{
-		$IPadres = $_SERVER["REMOTE_ADDR"]; 
+		$IPadres = $_SERVER["REMOTE_ADDR"];
 	}
-	
+
 	return $IPadres;
 }
 
 function calculateProductPrice($objPrice, $productId = null, $format = true) {
 
 	global $objDB;
-	
+
 	// if $productId is filled in, check if price is in DB
 	if (!empty($productId)) {
-		
+
 		$strSQL 	= "SELECT price FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 		$result 	= $objDB->sqlExecute($strSQL);
 		list($price) 	= $objDB->getRow($result);
@@ -106,33 +106,25 @@ function calculateProductPrice($objPrice, $productId = null, $format = true) {
 			$apiPrice = $objPrice->price;
 		}
 
-		// get price increment
-		$strSQL 	= "SELECT optionValue FROM ".DB_PREFIX."options WHERE optionName = 'price_increment'";
-		$result 	= $objDB->sqlExecute($strSQL);
-		list($price_increment) = $objDB->getRow($result);
+		$priceOperators = json_decode(formOption('price_operators'));
+		$priceValues = json_decode(formOption('price_values'));
 
-		if ($price_increment == "percentage") {
-			$strSQL = "SELECT optionValue FROM ".DB_PREFIX."options WHERE optionName = 'price_increment_percentage'";
-			$result = $objDB->sqlExecute($strSQL);
-			list($price_percentage) = $objDB->getRow($result);
 
-			$productPrice = $apiPrice * $price_percentage;
-		}
+		$productPrice = $apiPrice;
 
-		if ($price_increment == "addition") {
-			$strSQL = "SELECT optionValue FROM ".DB_PREFIX."options WHERE optionName = 'price_increment_addition'";
-			$result = $objDB->sqlExecute($strSQL);
-			list($price_addition) = $objDB->getRow($result);
-
-			$productPrice = $apiPrice + $price_addition;
-		}
-
-		if ($price_increment == "deduction") {
-			$strSQL = "SELECT optionValue FROM ".DB_PREFIX."options WHERE optionName = 'price_increment_deduction'";
-			$result = $objDB->sqlExecute($strSQL);
-			list($price_deduction) = $objDB->getRow($result);
-
-			$productPrice = $apiPrice - $price_deduction;
+		for($i=0; $i< count($priceOperators); $i++) {
+			$operator = $priceOperators[$i];
+			switch($operator) {
+				case '*':
+					$productPrice *= $priceValues[$i];
+				break;
+				case '+':
+					$productPrice += $priceValues[$i];
+				break;
+				case '-':
+					$productPrice -= $priceValues[$i];
+				break;
+			}
 		}
 
 		// TODO: ceil / floor for rounding
@@ -215,11 +207,11 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 		$strPrice 					= calculateProductPrice($objPrice, $Product->getId());
 		$arrReplace['[PRODUCT_PRICE]'] 	= $strPrice;
 
-		// check if PRODUCT_SPEC_ 
+		// check if PRODUCT_SPEC_
 		if (strpos($content, '[PRODUCT_SPEC_') > -1) {
 
 			foreach ($Product->getSpecifications() AS $spec) {
-			
+
 				if ($spec->label == "Kleur") {
 					$spec_color = $spec->value;
 				}
@@ -251,13 +243,13 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 			$arrReplace['[PRODUCT_SPEC_CAPACITY]'] 	= @$spec_capacity;
 			$arrReplace['[PRODUCT_SPEC_ML]'] 		= @$spec_ml;
 			$arrReplace['[PRODUCT_SPEC_PAGES]'] 	= @$spec_pages;
-			$arrReplace['[PRODUCT_SPEC_TYPE]'] 		= @$spec_type;			
+			$arrReplace['[PRODUCT_SPEC_TYPE]'] 		= @$spec_type;
 
-		}	
+		}
 
 	}
 
-	// check if SITE_ 
+	// check if SITE_
 	if (strpos($content, '[SITE_') > -1) {
 
 		$arrReplace['[SITE_NAME]'] 		= formOption('site_name');
@@ -265,7 +257,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 		$arrReplace['[SITE_EMAIL]']		= formOption('site_email');
 	}
 
-	// check if PRINTER_ 
+	// check if PRINTER_
 	if (!empty($arrProducts)) {
 
 		$arrReplace['[PRINTER_BRAND]'] 		= $arrProducts->printers->brand;
@@ -274,8 +266,8 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 	}
 
 	$content = str_replace (
-		array_keys($arrReplace), 
-		array_values($arrReplace), 
+		array_keys($arrReplace),
+		array_values($arrReplace),
 		$content
 	);
 
@@ -301,7 +293,7 @@ function getProductTitle($objProduct, $productId = null) {
 		list($strTitle) 	= $objDB->getRow($result);
 
 	}
-	
+
 	// empty means database didn't contain a custom title
 	// fallback to boilerplate content
 	if (empty($strTitle)) {
@@ -334,7 +326,7 @@ function getProductDesc($objProduct, $productId = null) {
 		list($strDesc) 	= $objDB->getRow($result);
 
 	}
-	
+
 	// empty means database didn't contain a custom desc
 	// fallback to boilerplate content
 	if (empty($strDesc)) {
@@ -403,17 +395,17 @@ function getStatusDesc($intOrderStatus) {
 	return $strStatus;
 }
 
-function deleteDir($dir) {  
-	$iterator = new RecursiveDirectoryIterator($dir);  
-	foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {  
-		
-		if ($file->isDir()) {  
-			rmdir($file->getPathname());  
-		} else {  
-			unlink($file->getPathname());  
+function deleteDir($dir) {
+	$iterator = new RecursiveDirectoryIterator($dir);
+	foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+
+		if ($file->isDir()) {
+			rmdir($file->getPathname());
+		} else {
+			unlink($file->getPathname());
 		}
 	}
-	rmdir($dir);  
+	rmdir($dir);
 }
 
 function generateInvoicePDF($intOrderId, $blnDownload = false) {
@@ -428,7 +420,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 	$tpl = $twig->loadTemplate( "dc_invoice_template.tpl" );
 
 	// order information
-	$strSQL = 
+	$strSQL =
 		"SELECT co.firstname,
 		co.lastname,
 		co.address,
@@ -444,7 +436,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		co.shippingCosts,
 		co.totalPrice
 		FROM ".DB_PREFIX."customers_orders co
-		WHERE co.orderId = '".$intOrderId."'; 
+		WHERE co.orderId = '".$intOrderId."';
 		";
 	$result = $objDB->sqlExecute($strSQL);
 	$objOrder = $objDB->getObject($result);
@@ -454,7 +446,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 	$arrLanguages = array('nl' => 'Nederland', 'be' => 'België', 'pl' => 'Polen', 'de' => 'Duitsland', 'uk' => 'Engeland', '' => 'Nederland');
 
 	// order details (products)
-	$strSQL = 
+	$strSQL =
 		"SELECT productId,
 		price,
 		discount,
@@ -466,14 +458,14 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 	while($objDetails = $objDB->getObject($result)) {
 
 		$Product = $Api->getProduct($objDetails->productId, '?fields=title');
-		
+
 		$objDetails->title		= $Product->getTitle();
 		$objDetails->taxRate		= $objDetails->tax;
 		$objDetails->taxPerc		= $objDetails->tax * 100 - 100;
 		$objDetails->priceTotal 	= number_format($objDetails->price * $objDetails->tax * $objDetails->quantity, 2, ',', ' ');
 		$objDetails->price		= number_format($objDetails->price * $objDetails->tax, 2, ',', ' ');
 		$objDetails->priceEx		= number_format($objDetails->price, 2, ',', ' ');
-		
+
 		$dblTotalEx += $objDetails->price * $objDetails->quantity;
 		$details[] = $objDetails;
 	}
@@ -490,8 +482,8 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 			'invoice_date' => $objOrder->entryDate,
 			'order_details' => $details,
 			'discount_code' => $objOrder->kortingscode,
-			'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),		
-			'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),		
+			'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),
+			'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),
 			'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
 			'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
 			'tax' => $arrTax,

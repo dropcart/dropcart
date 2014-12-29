@@ -14,23 +14,22 @@ $strSQL 		= "SELECT optionName, optionValue FROM ".DB_PREFIX."options";
 $result	 		= $objDB->sqlExecute($strSQL);
 $objSetting		= $objDB->getObject($result);
 
-
-// GET ALL TABLES
-$result = $objDB->sqlExecute('SHOW TABLES');
-
-while($row = $objDB->getArray($result))
-{
-    $tables[] = $row[0];
-}
-//
-
 if (isset($_POST)) {
 
 	$_POST 	= sanitize($_POST);
 
+	if(is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
+		foreach($_POST['price_values'] as $key=>$value) {
+			$_POST['price_values'][$key] = str_replace(",", ".", $value);
+		}
+		$_POST['price_values'] 		= 	json_encode($_POST['price_values']);
+		$_POST['price_operators'] 	= 	json_encode($_POST['price_operators']);
+	}
+
 	foreach ($_POST as $key => $value) {
 
 		$value = trim($value);
+
 
 		if (empty($value)) {
 			$value = 'NULL';
@@ -225,7 +224,6 @@ if (!empty($_GET['succes'])) {
 		<div class="panel-body">
 
 		<form class="form-horizontal" role="form" method="POST">
-
 			<div class="form-group">
 			<label for="price_base" class="col-sm-2 control-label">price_base</label>
 				<div class="col-sm-8">
@@ -233,53 +231,22 @@ if (!empty($_GET['succes'])) {
 					<p class="help-block">Geldige values: <code>price</code> = Inktweb.nl prijs, inclusief BTW, <code>purchase</code> = Inkoopprijs exclusief BTW, <code>msrp</code> = Adviesprijs exclusief BTW.</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
+			<div id="formula">
 
 			<div class="form-group">
-			<label for="price_increment" class="col-sm-2 control-label">price_increment</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment" name="price_increment" value="<?php echo formOption('price_increment'); ?>" autocomplete="off">
-					<p class="help-block">Geldige values: <code>percentage</code>, <code>addition</code>, <code>deduction</code>.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-			<label for="price_increment_percentage" class="col-sm-2 control-label">price_increment_percentage</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_percentage" name="price_increment_percentage" value="<?php echo formOption('price_increment_percentage'); ?>" autocomplete="off">
-					<p class="help-block">Als price_increment' staat op <code>percentage</code> wordt deze waarde gebruikt.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-			<label for="price_increment_addition" class="col-sm-2 control-label">price_increment_addition</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_addition" name="price_increment_addition" value="<?php echo formOption('price_increment_addition'); ?>" autocomplete="off">
-					<p class="help-block">Als 'price_increment' staat op <code>addition</code> wordt deze waarde gebruikt.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-			<label for="price_increment_deduction" class="col-sm-2 control-label">price_increment_deduction</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_deduction" name="price_increment_deduction" value="<?php echo formOption('price_increment_deduction'); ?>" autocomplete="off">
-					<p class="help-block">Als 'price_increment' staat op <code>deduction</code> wordt deze waarde gebruikt.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-				<label class="col-sm-2 control-label sr-only">Formule uitleg</label>
-				<div class="col-sm-8">
-					<h4 class="help-block">De formule is <code>{gekozen prijs}</code> keer (plus <em>óf</em> min) <code>{gekozen waarde}</code>.</h4>
-
-					<p class="help-block">10% over de inkoopprijs ziet er als volgt uit: <strong>price_base</strong> = <code>purchase</code>, <strong>price_increment</strong> = <code>percentage</code>, <strong>price_increment_percentage</strong> = <code>1.1</code>. <br />
-					Praktijkvoorbeeld met een inkoopprijs van &euro; 8,00: <code>&euro; 8,00 x 1.1 = &euro; 8,80</code>. <br />
-					<small><em>(Inkoopprijs wordt doorgeven als exclusief BTW door de API)</em></small>
-					</p>
-
-					<p class="help-block">&euro; 1,50 onder de adviesprijs ziet er als volgt uit: <strong>price_base</strong> = <code>msrp</code>, <strong>price_increment</strong> = <code>deduction</code>, <strong>price_increment_deduction</strong> = <code>1.50</code>. <br />
-					</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
+				<label for="price_base" class="col-sm-2 control-label">prijs</label>
+					<div class="col-sm-8">
+						<div id="dcFormula"></div>
+						<br>
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-danger" id="dcRemoveButton"><i class="glyphicon glyphicon-minus"></i></a>
+							<a href="#" class="btn btn-sm btn-success" id="dcAddButton"><i class="glyphicon glyphicon-plus"></i></a>
+						</div>
+						<br><br>
+						<p class="help-block"><strong>Voorbeeld:</strong> <span id="dcPreviewContainer"></span></p>
+					</div>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
@@ -369,19 +336,15 @@ if (!empty($_GET['succes'])) {
 	</div><!-- /panel -->
 
 <div class="panel panel-default">
-		<div class="panel-heading">Database backup</div><!-- /panel-heading -->
+		<div class="panel-heading">Technische instellingen</div><!-- /panel-heading -->
 		<div class="panel-body">
 
 		<form class="form-horizontal" role="form" action="dc_backup.php" method="POST">
 
 			<div class="form-group">
-			<label for="tables" class="col-sm-2 control-label">Maak backup</label>
+			<label for="api_key" class="col-sm-2 control-label">Maak backup</label>
 				<div class="col-sm-8">
-					<select name="tables[]" class="form-control" rows="40" id="tables" multiple="multiple">
-						<?php foreach($tables as $table): ?>
-							<option value="<?php echo $table; ?>" selected><?php echo $table; ?></option>
-						<?php endforeach; ?>
-					</select>
+					<input type="text" class="form-control" name="tables">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 
@@ -396,5 +359,32 @@ if (!empty($_GET['succes'])) {
 	</div><!-- /panel -->
 
 </div><!-- /col -->
+
+<!-- Price calculator -->
+<script src="/includes/script/jquery.dcpriceformula.js"></script>
+<script type="text/template" id="dcPriceFormulaTemplate">
+    <div class="modifier row" style="clear:both">
+    <div class="col-sm-2">
+        <select  name="price_operators[]" class="operator form-control">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">&times;</option>
+        </select>
+    </div>
+    <div class="col-sm-3">
+        <input type="text" name="price_values[]" class="value form-control col-sm-2" />
+    </div>
+    </div>
+</script>
+<script>
+    $(function() {
+        $('#formula').dcPriceFormula({
+            operators: <?php echo formOption('price_operators'); ?>,
+            values: <?php echo formOption('price_values'); ?>
+        });
+    });
+</script>
+<!-- /Price calculator -->
+
 
 <?php require('includes/php/dc_footer.php'); ?>
