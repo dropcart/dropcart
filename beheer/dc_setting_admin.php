@@ -8,6 +8,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 // Page specific includes
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
+
 $objDB 		= new DB();
 
 $strSQL 		= "SELECT optionName, optionValue FROM ".DB_PREFIX."options";
@@ -21,6 +22,12 @@ while($row = $objDB->getArray($result))
 $tables[] = $row[0];
 }
 //
+
+// MOLLIE API
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Mollie/API/Autoloader.php');
+// Mollie Payment API
+$mollie = new Mollie_API_Client;
+$mollie->setApiKey(MOLLIE_API_KEY);
 
 
 if (isset($_POST)) {
@@ -257,6 +264,33 @@ if (!empty($_GET['succes'])) {
 				</div>
 			</div>
 
+			<hr>
+
+			<div class="col-sm-offset-2 col-sm-10">
+				<p class="help-block">Extra transactiekosten per betaalmethode.</p>
+			</div>
+			<?php
+				$methods = $mollie->methods->all();
+				foreach ($methods as $method):
+					$optionId = $method->id . '_fee';
+			?>
+			<div class="form-group">
+			<label for="<?php echo $optionId; ?>" class="col-sm-2 control-label"><?php echo $method->description; ?> fee</label>
+				<div class="col-sm-1">
+					<div class="input-group">
+  					<span class="input-group-addon">%</span>
+					<input type="text" class="form-control" id="<?php echo $optionId; ?>" name="<?php echo $optionId; ?>_percent" value="<?php echo formOption($optionId . '_percent'); ?>" autocomplete="off">
+					</div>
+				</div><!-- /col -->
+				<div class="col-sm-1">
+					<div class="input-group">
+  					<span class="input-group-addon">+</span>
+					<input type="text" class="form-control" id="<?php echo $optionId; ?>" name="<?php echo $optionId; ?>_addition" value="<?php echo formOption($optionId . '_addition'); ?>" autocomplete="off">
+					</div>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<?php endforeach; ?>
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Bewerken</button>
@@ -389,27 +423,6 @@ if (!empty($_GET['succes'])) {
 				</form><!-- /form -->
 			</div><!-- /panel-body -->
 		</div><!-- /panel -->
-
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Betaalmethodes</div><!-- /panel-heading -->
-			<div class="panel-body">
-				<form class="form-horizontal" role="form" method="POST">
-					<div class="form-group">
-					<label for="payment_method_fee" class="col-sm-2 control-label">payment_method_fee</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" id="payment_method_fee" name="payment_method_fee" value="<?php echo formOption('payment_method_fee'); ?>" autocomplete="off">
-						</div><!-- /col -->
-					</div><!-- /form-group -->
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-default">Bewerken</button>
-						</div><!-- /col -->
-					</div><!-- /form-group -->
-				</form><!-- /form -->
-			</div><!-- /panel-body -->
-		</div><!-- /panel -->
-
 
 </div><!-- /col -->
 

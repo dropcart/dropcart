@@ -92,30 +92,13 @@ if($intCartItems == 0)
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
 
+		$method = $_POST['paymentMethod'];
 
-		$paymentMethod = $_POST['paymentMethod'];
-		if($paymentMethod == 'iDeal') {
-			$method = Mollie_API_Object_Method::IDEAL;
-		}elseif($paymentMethod == 'MisterCash') {
-			$method = Mollie_API_Object_Method::MISTERCASH;
-		}elseif($paymentMethod == 'Creditcard') {
-			$method = Mollie_API_Object_Method::CREDITCARD;
-		}elseif($paymentMethod == 'SOFORTBanking') {
-			$method = Mollie_API_Object_Method::SOFORT;
-		}elseif($paymentMethod == 'Bitcoin') {
-			$method = Mollie_API_Object_Method::BITCOIN;
-		}elseif($paymentMethod == 'Paypal') {
-			$method = Mollie_API_Object_Method::PAYPAL;
-		}elseif($paymentMethod == 'Overboeking') {
-			$method = Mollie_API_Object_Method::BANKTRANSFER;
-		}elseif($paymentMethod == 'Paysafecard') {
-			$method = Mollie_API_Object_Method::PAYSAFECARD;
-		}
+		$transactionFeeAddition = formOption($method . '_fee_addition');
+		$transactionFeePercentage = formOption($method . '_fee_percent') / 100;
 
 
-		if($paymentMethod != 'iDeal') {
-			$dblNodePriceTotal = round($dblNodePriceTotal + ($dblNodePriceTotal * formOption('payment_method_fee')),2);
-		}
+		$dblNodePriceTotal = round($dblNodePriceTotal + ($dblNodePriceTotal * $transactionFeePercentage) + $transactionFeeAddition,2);
 
 		/*
 		 * Payment parameters:
@@ -127,7 +110,7 @@ if($intCartItems == 0)
 		$payment = $mollie->payments->create(array(
 			"amount"       => $dblNodePriceTotal,
 			"method"       => $method,
-			"description"  => SITE_NAME . " Ordernr. " . $intOrderId,
+			"description"  => SITE_NAME . " Ordernr. " . formOption('order_number_prefix') . $intOrderId,
 			"redirectUrl"  => "{$protocol}://{$hostname}{$path}/dc_shoppingcart4.php?order_id={$intOrderId}",
 			"metadata"     => array(
 				"order_id" => $intOrderId,
@@ -276,10 +259,15 @@ require_once('includes/php/dc_header.php');
 					<td style="text-align:right;" colspan="2">Verzendkosten</td>
 					<td class="shippingCosts">' . $strShippingCosts . '</td>
 				</tr>
+				<tr class="table-footer transactionFeeRow" style="display:none;"">
+					<td>&nbsp;</td>
+					<td style="text-align:right;" colspan="2">Transactiekosten</td>
+					<td class="transactionFee">0</td>
+				</tr>
 				<tr class="table-footer">
 					<td>&nbsp;</td>
 					<td style="text-align:right;" colspan="2">Totaal</td>
-					<td><h3 class="total">' . $strNodePriceTotal . '</h3></td>
+					<td><h3 class="total" data-total="' . $dblNodePriceTotal . '">' . $strNodePriceTotal . '</h3></td>
 				</tr>
 				</tbody>
 			</table>
@@ -296,30 +284,75 @@ require_once('includes/php/dc_header.php');
 	</div><!-- /col -->
 
 
+
+
 	<div class="form-group">
 		<div class="col-sm-3">
-			<label for="paymentMethod">Kies uw betaal methode</label>
+			<label for="paymentMethod">Kies uw betaal methode:</label>
 		</div>
 		<div class="col-sm-9">
-			<select name="paymentMethod" id="paymentMethod" class="form-control">
-				<option value="iDeal">iDeal</option>
-				<option value="MisterCash">Mister Cash</option>
-				<option value="Creditcard">Creditcard</option>
-				<option value="SOFORTBanking">SOFORTBanking</option>
-				<option value="Paypal">Paypal</option>
-				<option value="Overboeking">Overboeking</option>
-				<option value="Paysafecard">PaySafeCard</option>
-			</select>
+			<?php
+			$methods = $mollie->methods->all();
+			foreach ($methods as $method):
+				$addition = formOption($method->id . '_fee_addition');
+				$percentage = formOption($method->id . '_fee_percent');
+
+				if($percentage > 0 && $addition > 0) {
+					$transactionCost = sprintf('%s%% en %s euro', $percentage, $addition);
+				} elseif($percentage > 0 && empty($addition)) {
+					$transactionCost = sprintf('%s%%', $percentage);
+				} elseif($addition > 0 && empty($percentage)) {
+					$transactionCost = sprintf('%s euro', $addition);
+				} else {
+					$transactionCost = 'geen';
+				}
+
+				$transactionNotice= sprintf('Wanneer u via %s betaalt, worden er %s extra transactiekosten bovenop de totaalprijs in rekening gebracht.', $method->description, $transactionCost);
+			?>
+			<div class="radio paymentMethod" style="line-height:40px; vertical-align:top">
+				<label>
+					<input<?php echo ($method->id == 'ideal' ? ' checked' : ''); ?> data-addition="<?php echo $addition; ?>" data-percent="<?php echo $percentage; ?>" class="paymentMethodInput" type="radio" style="margin-top:15px;" name="paymentMethod" value="<?php echo $method->id; ?>">
+					<img src="<?php echo htmlspecialchars($method->image->normal) ?>">
+					<?php echo htmlspecialchars($method->description) . ' (' .  htmlspecialchars($method->id) . ')'; ?>
+				</label>
+				<div class="alert alert-info transactionNotice" style="padding: 5px 5px;line-height:18px;">
+					<?php echo $transactionNotice; ?>
+				</div>
+			</div>
+			<?php endforeach; ?>
 			<p id="paymentMethodNotice" style="display:none;">Bij betalingen anders dan via iDeal wordt er 3% transactiekosten bovenop de totaalprijs gerekend.</p>
 			<script>
 				$(function() {
-					$('#paymentMethod').change(function() {
-						if($(this).val() === 'iDeal') {
-							$('#paymentMethodNotice').hide();
-						} else {
-							$('#paymentMethodNotice').show();
+					$('.transactionNotice').hide();
+
+					$('.paymentMethodInput').change(function() {
+						$('.transactionNotice').slideUp();
+						var $this = $(this);
+						if($this.is(':checked')) {
+							var percent = parseFloat($this.data('percent'));
+							var addition = parseFloat($this.data('addition'));
+							var total = parseFloat($('.total').data('total'));
+							var transactionFee = 0;
+							if(percent > 0 && addition > 0) {
+								$('.transactionFeeRow').show();
+								transactionFee = (parseFloat(total*(percent/100)) + parseFloat(addition));
+							} else if(percent > 0 && isNaN(addition)) {
+								$('.transactionFeeRow').show();
+								transactionFee = (parseFloat(total*(percent/100)));
+							} else if(addition > 0 && isNaN(percent)) {
+								$('.transactionFeeRow').show();
+								transactionFee = (parseFloat(addition));
+							} else {
+								$('.transactionFeeRow').hide();
+							}
+
+							$('.transactionFee').html('&euro; ' + transactionFee.toFixed(2).replace('.', ','));
+							$('.total').html('&euro; ' + (total + transactionFee).toFixed(2).replace('.', ','));
+							$this.parents('.paymentMethod').find('.transactionNotice').slideDown();
 						}
 					});
+
+					$('.paymentMethodInput:eq(0)').trigger('change');
 				});
 			</script>
 		</div>
