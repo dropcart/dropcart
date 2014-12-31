@@ -44,13 +44,13 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 
 	$Product	= $Api->getProduct($objNodeCart->productId);
 	$arrImages 	= (array) $Product->getImages();
-	
+
 	$arrCartItems[$i]['intQuantity']		= $objNodeCart->quantity;
 	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product->getPrice(), $objNodeCart->productId, false);
 
 	$intNodeItems 		+= $objNodeCart->quantity;
 	$dblNodePriceTotal 	+= $arrCartItems[$i]['dblPrice'] * $objNodeCart->quantity;
-	
+
 	$i++;
 }
 
@@ -85,13 +85,38 @@ if($intCartItems == 0)
 
 	$strSQL = "INSERT INTO ".DB_PREFIX."customers_orders_id (customerId) VALUES (".$_SESSION["customerId"].")";
 	$result = $objDB->sqlExecute($strSQL);
-	$intOrderId = $objDB->getInsertedId();	
-	
+	$intOrderId = $objDB->getInsertedId();
+
 	if($dblNodePriceTotal >= 0.50) {
-		
+
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
-		
+
+
+		$paymentMethod = $_POST['paymentMethod'];
+		if($paymentMethod == 'iDeal') {
+			$method = Mollie_API_Object_Method::IDEAL;
+		}elseif($paymentMethod == 'MisterCash') {
+			$method = Mollie_API_Object_Method::MISTERCASH;
+		}elseif($paymentMethod == 'Creditcard') {
+			$method = Mollie_API_Object_Method::CREDITCARD;
+		}elseif($paymentMethod == 'SOFORTBanking') {
+			$method = Mollie_API_Object_Method::SOFORT;
+		}elseif($paymentMethod == 'Bitcoin') {
+			$method = Mollie_API_Object_Method::BITCOIN;
+		}elseif($paymentMethod == 'Paypal') {
+			$method = Mollie_API_Object_Method::PAYPAL;
+		}elseif($paymentMethod == 'Overboeking') {
+			$method = Mollie_API_Object_Method::BANKTRANSFER;
+		}elseif($paymentMethod == 'Paysafecard') {
+			$method = Mollie_API_Object_Method::PAYSAFECARD;
+		}
+
+
+		if($paymentMethod != 'iDeal') {
+			$dblNodePriceTotal = round($dblNodePriceTotal + ($dblNodePriceTotal * formOption('payment_method_fee')),2);
+		}
+
 		/*
 		 * Payment parameters:
 		 *   amount        Amount in EUROs. This example creates a € 10,- payment.
@@ -99,31 +124,31 @@ if($intCartItems == 0)
 		 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
 		 *   metadata      Custom metadata that is stored with the payment.
 		 */
-	
 		$payment = $mollie->payments->create(array(
 			"amount"       => $dblNodePriceTotal,
+			"method"       => $method,
 			"description"  => SITE_NAME . " Ordernr. " . $intOrderId,
 			"redirectUrl"  => "{$protocol}://{$hostname}{$path}/dc_shoppingcart4.php?order_id={$intOrderId}",
 			"metadata"     => array(
 				"order_id" => $intOrderId,
 			),
 		));
-		
+
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = '".$payment->status."', transactionId = '".$payment->id."' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
-	
+
 		header("Location: " . $payment->getPaymentUrl());
-		
+
 	} else {
-	
+
 		// Price is 0, so we give a custom status to process the order
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = 'ready' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
-		
+
 		header("Location: /dc_shoppingcart3_process.php?orderId=".$intOrderId);
-		
+
 	}
-	
+
 }
 unset($arrCartItems);
 
@@ -150,7 +175,7 @@ require_once('includes/php/dc_header.php');
 	<fieldset>
 
 	<legend>Klopt alles?</legend>
-	
+
 	<?
 	$strSQL = "SELECT ca_invoice.*, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, c.email, c.id as customerId FROM ".DB_PREFIX."customers c " .
 		"INNER JOIN ".DB_PREFIX."customers_addresses ca_invoice ON ca_invoice.custId = c.id AND ca_invoice.defaultInv = 1 " .
@@ -159,7 +184,7 @@ require_once('includes/php/dc_header.php');
 	$result = $objDB->sqlExecute($strSQL);
 	$objCustomer = $objDB->getObject($result);
 	?>
-	
+
 	<div class="row" style="margin-bottom:20px">
 		<div class="col-md-4">
 		<strong>Factuuradres</strong><br/>
@@ -167,7 +192,7 @@ require_once('includes/php/dc_header.php');
 		<?=$objCustomer->firstname?> <?=$objCustomer->lastname?><br/>
 		<?=$objCustomer->address?> <?=$objCustomer->houseNr?><?=$objCustomer->houseNrAdd?><br/>
 		<?=$objCustomer->zipcode?> <?=$objCustomer->city?><br/>
-		<?php 
+		<?php
 		if ($objCustomer->lang == 'be') {
 			echo 'België';
 		}
@@ -176,14 +201,14 @@ require_once('includes/php/dc_header.php');
 		}
 		?>
 		</div>
-	
+
 		<div class="col-md-4">
 		<strong>Afleveradres</strong><br/>
 		<?=($objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
 		<?=$objCustomer->delFirstname?> <?=$objCustomer->delLastname?><br/>
 		<?=$objCustomer->delAddress?> <?=$objCustomer->delHouseNr?><?=$objCustomer->delHouseNrAdd?><br/>
 		<?=$objCustomer->delZipcode?> <?=$objCustomer->delCity?><br/>
-		<?php 
+		<?php
 		if ($objCustomer->delLang == 'be') {
 			echo 'België';
 		}
@@ -193,15 +218,15 @@ require_once('includes/php/dc_header.php');
 		?>
 		</div>
 	</div>
-		
+
 	<div class="row">
 		<div class="col-md-12">
 			<strong>Uw bestelling</strong>
 		<?
 		$intCartRows = count($arrCartItems);
-		
+
 		if($intCartRows > 0) { ?>
-		
+
 			<table class="table shoppingcart">
 				<thead>
 					<tr>
@@ -214,9 +239,9 @@ require_once('includes/php/dc_header.php');
 				<tbody>
 
 			<? foreach($arrCartItems as $arrCartItem) {
-				
+
 					$strStock = ($arrCartItem['stock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
-					
+
 					echo '
 						<tr>
 							<td class="text-left">
@@ -227,18 +252,18 @@ require_once('includes/php/dc_header.php');
 							<td class="text-left">'.$arrCartItem['strPrice'].'</td>
 							<td class="text-right productTotal">'.$arrCartItem['strPriceTotal'].'</td>
 						</tr>';
-						
+
 				}
-			
+
 			if($_SESSION["discountCode"] != "") {
-				
+
 				echo '
 					<tr class="table-footer">
 						<td>&nbsp;</td>
 						<td style="text-align:right;" colspan="2">Kortingscode '.$_SESSION["discountCode"].'</td>
 						<td class="discountAmount">' . $dblDiscountAmount . '</td>
 					</tr>';
-			
+
 			}
 			echo '
 				<tr class="table-footer">
@@ -259,16 +284,46 @@ require_once('includes/php/dc_header.php');
 				</tbody>
 			</table>
 			';
-			
+
 		} else {
-		
+
 			echo '<p>Geen producten in winkelwagen.</p>';
-			
+
 		}
-		
+
 		?>
 		</div>
 	</div><!-- /col -->
+
+
+	<div class="form-group">
+		<div class="col-sm-3">
+			<label for="paymentMethod">Kies uw betaal methode</label>
+		</div>
+		<div class="col-sm-9">
+			<select name="paymentMethod" id="paymentMethod" class="form-control">
+				<option value="iDeal">iDeal</option>
+				<option value="MisterCash">Mister Cash</option>
+				<option value="Creditcard">Creditcard</option>
+				<option value="SOFORTBanking">SOFORTBanking</option>
+				<option value="Paypal">Paypal</option>
+				<option value="Overboeking">Overboeking</option>
+				<option value="Paysafecard">PaySafeCard</option>
+			</select>
+			<p id="paymentMethodNotice" style="display:none;">Bij betalingen anders dan via iDeal wordt er 3% transactiekosten bovenop de totaalprijs gerekend.</p>
+			<script>
+				$(function() {
+					$('#paymentMethod').change(function() {
+						if($(this).val() === 'iDeal') {
+							$('#paymentMethodNotice').hide();
+						} else {
+							$('#paymentMethodNotice').show();
+						}
+					});
+				});
+			</script>
+		</div>
+	</div>
 
 	<div class="form-group checkbox">
 		<div class="col-sm-12">
@@ -333,17 +388,17 @@ $(document).ready(function() {
 					}
 				}
 			}
-			
+
 		}
     });
 });
 </script>
 <script>
 $('#discountCode').click(function(){
-	
+
 	$(this).hide();
 	$('.discount_container').show();
-	
+
 });
 
 $('#discountCodeSend').click(function(){
@@ -359,23 +414,23 @@ $('#discountCodeSend').click(function(){
 		// Handle success
 
 			$('.discount_error').html('');
-			
+
 			if(data.validationRequired == 1) {
-				
+
 				$('.discount_input').hide();
-				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');				
+				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
 				$('.discount_message').html(
 					'<div class="italic">Voor deze code is een validatiecode vereist.<br/>Vul uw validatiecode in die u heeft ontvangen.</div>' +
 					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=$_SESSION["validationCode"]?>" />' +
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
-				
+
 				<? if($_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
 				<? } ?>
-				
+
 			} else {
-				
+
 				$('.discountAmount_container').show();
 				$('.discount_error').html('');
 				$('.discount_message').html('');
@@ -386,8 +441,8 @@ $('#discountCodeSend').click(function(){
 				$('.total').html(data.cartTotal);
 
 			}
-			
-		
+
+
 		},
 		error: function(xhr, textStatus, errorThrown) {
 			// Handle error
@@ -415,7 +470,7 @@ $(document).on('click','#validationCodeSend',function(){
 		data:		{ code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
 		success: function(data, textStatus) {
 		// Handle success
-		
+
 			$('.discountAmount_container').show();
 			$('.discount_error').html('');
 			$('.discount_message').html('');
@@ -424,11 +479,11 @@ $(document).on('click','#validationCodeSend',function(){
 			$('.subtotal').html(data.cartSubTotal);
 			$('.shippingCosts').html(data.cartShippingcosts);
 			$('.total').html(data.cartTotal);
-			
+
 //			$('.cartItems').html(data.cartItems);
 //			$('.cartSubtotal').html(data.cartSubTotal);
-						
-		
+
+
 		},
 		error: function(xhr, textStatus, errorThrown) {
 			// Handle error
@@ -444,7 +499,7 @@ $('.cartQuantity').change(function(){
 	var curThis		= $(this);
 	var intQuantity	= $(this).val();
 	var intCartId	= $(this).data('cartid');
-	
+
 	$.get(
 		'/includes/json/updateCartQuantity.php',
 		{
@@ -453,15 +508,15 @@ $('.cartQuantity').change(function(){
 			timestamp	: '<?=$_SERVER["REQUEST_TIME"]?>'
 		},
 		function(data) {
-			
+
 			$(curThis).parent().parent().find('.productTotal').html(data.productTotal);
 			$('.subtotal').html(data.cartSubTotal);
 			$('.shippingCosts').html(data.cartShippingcosts);
 			$('.total').html(data.cartTotal);
-			
+
 			$('.cartItems').html(data.cartItems);
 			$('.cartSubtotal').html(data.cartSubTotal);
-			
+
 		},
 		'json'
 	);
@@ -469,10 +524,10 @@ $('.cartQuantity').change(function(){
 });
 
 $('.deleteItem').click(function() {
-	
+
 	var curThis		= $(this);
 	var intCartId	= $(this).data('cartid');
-	
+
 	$.get(
 		'/includes/json/deleteCartItem.php',
 		{
@@ -480,31 +535,31 @@ $('.deleteItem').click(function() {
 			timestamp	: '<?=$_SERVER["REQUEST_TIME"]?>'
 		},
 		function(data) {
-			
+
 			$(curThis).parent().parent().fadeOut(400, function() {
 				$(this).remove();
 			});
-			
+
 			if(data.cartItems == null) {
 				// Zero product in cart left. Refresh page to show a empty cart.
-				
+
 				document.location.href = '?';
-				
+
 			} else {
 
 				$('.subtotal').html(data.cartSubTotal);
 				$('.shippingCosts').html(data.cartShippingcosts);
 				$('.total').html(data.cartTotal);
-				
+
 				$('.cartItems').html(data.cartItems);
 				$('.cartSubtotal').html(data.cartSubTotal);
 
 			}
-			
+
 		},
 		'json'
 	);
-	
+
 });
 </script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js" ></script>

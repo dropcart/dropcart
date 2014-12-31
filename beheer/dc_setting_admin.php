@@ -346,27 +346,72 @@ if (!empty($_GET['succes'])) {
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Database backup</div><!-- /panel-heading -->
+		<div class="panel-body">
+			<form class="form-horizontal" role="form" action="dc_backup.php" method="POST">
+				<div class="form-group">
+					<label for="tables" class="col-sm-2 control-label">Maak backup</label>
+					<div class="col-sm-8">
+						<select name="tables[]" class="form-control" rows="40" id="tables" multiple="multiple">
+						<?php foreach($tables as $table): ?>
+							<option value="<?php echo $table; ?>" selected><?php echo $table; ?></option>
+						<?php endforeach; ?>
+						</select>
+					</div><!-- /col -->
+				</div><!-- /form-group -->
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Download backup</button>
+					</div><!-- /col -->
+				</div><!-- /form-group -->
+			</form><!-- /form -->
+		</div><!-- /panel-body -->
+	</div><!-- /panel -->
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Download betalingsoverzicht</div><!-- /panel-heading -->
 			<div class="panel-body">
-				<form class="form-horizontal" role="form" action="dc_backup.php" method="POST">
+				<form class="form-horizontal" role="form" action="dc_overview_excel.php" method="POST">
 					<div class="form-group">
-						<label for="tables" class="col-sm-2 control-label">Maak backup</label>
+						<label for="tables" class="col-sm-2 control-label">Overzicht downloaden</label>
 						<div class="col-sm-8">
-							<select name="tables[]" class="form-control" rows="40" id="tables" multiple="multiple">
-							<?php foreach($tables as $table): ?>
-								<option value="<?php echo $table; ?>" selected><?php echo $table; ?></option>
-							<?php endforeach; ?>
-							</select>
-						</div><!-- /col -->
+							<p class="help-block">Van</p>
+							<input type="text" class="form-control" name="overviewFromDate" id="overviewFromDate" value="" placeholder="dd-mm-jjjj">
+							<p class="help-block">Tot</p>
+							<input type="text" class="form-control" name="overviewToDate" id="overviewToDate" value="" placeholder="dd-mm-jjjj">
+						</div>
 					</div><!-- /form-group -->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-default">Download backup</button>
+							<button type="submit" class="btn btn-default">Download overzicht</button>
 						</div><!-- /col -->
 					</div><!-- /form-group -->
 				</form><!-- /form -->
 			</div><!-- /panel-body -->
 		</div><!-- /panel -->
-	</div><!-- /col -->
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Betaalmethodes</div><!-- /panel-heading -->
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" method="POST">
+					<div class="form-group">
+					<label for="payment_method_fee" class="col-sm-2 control-label">payment_method_fee</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="payment_method_fee" name="payment_method_fee" value="<?php echo formOption('payment_method_fee'); ?>" autocomplete="off">
+						</div><!-- /col -->
+					</div><!-- /form-group -->
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Bewerken</button>
+						</div><!-- /col -->
+					</div><!-- /form-group -->
+				</form><!-- /form -->
+			</div><!-- /panel-body -->
+		</div><!-- /panel -->
+
+
+</div><!-- /col -->
 
 <!-- Price calculator -->
 <script src="/includes/script/jquery.dcpriceformula.js"></script>
@@ -387,8 +432,8 @@ if (!empty($_GET['succes'])) {
 <script>
     $(function() {
         $('#formula').dcPriceFormula({
-            operators: <?php echo formOption('price_operators'); ?>,
-            values: <?php echo formOption('price_values'); ?>
+            operators: <?php echo (null !== formOption('price_operators')) ? formOption('price_operators') : "[]"; ?>,
+            values: <?php echo (null !== formOption('price_values')) ? formOption('price_values') : "[]"; ?>
         });
     });
 </script>
