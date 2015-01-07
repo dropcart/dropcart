@@ -25,7 +25,7 @@ if (empty($intId)) {
 if (!empty($_POST)) {
 
 	foreach ($_POST as $key => $value) {
-
+		
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET `".$key."` = '".$value."' WHERE orderId = '".$intId."'";
 		$objDB->sqlExecute($strSQL);
 
@@ -33,10 +33,10 @@ if (!empty($_POST)) {
 }
 
 if ($strAction == "export") {
-
+	
 	if(isset($_GET["uuid"]) && $_GET["id"])  {
-
-		$strSQL 		=
+		
+		$strSQL 		= 
 					"SELECT c.id, c.email, c.gender, c.firstname, c.lastname, co.phoneNr, co.ip, co.extOrderId, co.company, co.firstname, co.lastname, co.address, co.houseNr, co.houseNrAdd, co.zipcode, co.city, co.lang, co.delCompany, co.delFirstname, co.delLastname, co.delAddress, co.delHouseNr, co.delHouseNrAdd, co.delZipcode, co.delCity, co.delLang, co.entryDate, co.totalPrice, co.shippingCosts, co.paymentStatus, co.paymethodId, co.status, co.internalComments, co.kortingscode, co.kortingsbedrag, dc_c.validationCode
 					FROM ".DB_PREFIX."customers_orders co
 					INNER JOIN ".DB_PREFIX."customers c ON (c.id = co.custId)
@@ -44,22 +44,22 @@ if ($strAction == "export") {
 					WHERE co.orderId = '".$intId."' AND co.uuid = '".$intUuid."'
 					GROUP BY co.orderId";
 		$result 		= $objDB->sqlExecute($strSQL);
-
+		
 		if($objDB->getNumRows($result) == 0) {
-
+			
 			$arrJson['error'] = 'Order not found.';
 			header('Content-type: application/json');
 			echo json_encode($arrJson);
 			exit();
-
+			
 		}
-
-		$objOrder 		= $objDB->getObject($result);
-
+		
+		$objOrder 			= $objDB->getObject($result);
+			
 		// Remove spaces
 		$objOrder->zipcode 		= str_replace(" ", "", $objOrder->zipcode);
 		$objOrder->delZipcode 	= str_replace(" ", "", $objOrder->delZipcode);
-
+	
 		$arrJson 			= array (
 			'firstName'		=> $objOrder->firstname,
 			'lastName'		=> $objOrder->lastname,
@@ -69,22 +69,22 @@ if ($strAction == "export") {
 			'mobileNr'		=> NULL,
 			'ip'			=> $objOrder->ip,
 		);
-
+	
 		$zipcodeBilling 		= substr($objOrder->zipcode, 0, 4);
-
+	
 		if (strlen($objOrder->zipcode) == 6) {
 			$zipcodeCharsBilling= substr($objOrder->zipcode, -2);
 			$zipcodeCharsBilling= strtoupper($zipcodeCharsBilling);
 		}
-
+	
 		$zipcodeShipping 		= substr($objOrder->delZipcode, 0, 4);
-
+	
 		if (strlen($objOrder->delZipcode) == 6) {
 			$zipcodeCharsShipping= substr($objOrder->delZipcode, -2);
 			$zipcodeCharsShipping= strtoupper($zipcodeCharsShipping);
 		}
-
-
+	
+	
 		$arrJson['billingAddress'] 	= array (
 			'company' 		=> $objOrder->company,
 			'firstName' 		=> $objOrder->firstname,
@@ -97,7 +97,7 @@ if ($strAction == "export") {
 			'city' 			=> $objOrder->city,
 			'lang' 			=> $objOrder->lang,
 		);
-
+	
 		$arrJson['shippingAddress'] = array (
 			'company' 		=> $objOrder->delCompany,
 			'firstName' 		=> $objOrder->delFirstname,
@@ -110,53 +110,55 @@ if ($strAction == "export") {
 			'city' 			=> $objOrder->delCity,
 			'lang' 			=> $objOrder->delLang,
 		);
-
+	
 		$arrOrderDetails 		= array();
-
+	
 		$strSQL 			= "SELECT productId, price, discount, tax, quantity FROM ".DB_PREFIX."customers_orders_details WHERE orderId = '".$intId."'";
 		$result 			= $objDB->sqlExecute($strSQL);
-
+	
 		while ($objDetails = $objDB->getObject($result)) {
-
-			$taxRate = 1.21;
-			$dblPrice = round($objDetails->price / 1.21, 2);
-
-			$arrOrderDetails[] 		= array (
-				'productId' 		=> $objDetails->productId,
-				'quantity' 		=> $objDetails->quantity,
-				'price' 			=> $dblPrice,
-				'taxRate' 		=> $taxRate,
+	
+			$arrOrderDetails[] 	= array (
+				'productId' 	=> $objDetails->productId,
+				'quantity' 	=> $objDetails->quantity,
+				'price' 		=> $dblPrice,
+				'taxRate' 	=> $objDetails->tax,
 			);
-
+	
 		}
-
-
+		
+	
 		$arrJson['order'] 		= array (
 			'orderDate'		=> $objOrder->entryDate,
 			'shippingCosts'	=> $objOrder->shippingCosts,
-			'totalPrice'	=> $objOrder->totalPrice,
+			'totalPrice'		=> $objOrder->totalPrice,
 			'tax'			=> NULL,
 			'payMethod'		=> 'Mollie',
 			'paymentStatus'	=> $objOrder->paymentStatus,
 			'discountCode'	=> $objOrder->kortingscode . (($objOrder->validationCode != '') ? ' / ' . $objOrder->validationCode : ''),
-			'discountAmount'=> abs($objOrder->kortingsbedrag),
-			'items' 		=> $arrOrderDetails,
+			'discountAmount' 	=> abs($objOrder->kortingsbedrag),
+			'items' 			=> $arrOrderDetails,
 		);
 
+		$arrJson['metadata'] 		= array (
+			'dc_version'		=> DROPCART_VERSION,
+
+		);
+	
 		header('Content-type: application/json');
 		echo json_encode($arrJson);
-
+	
 		exit();
-
+		
 	} else {
-
+		
 		$arrJson['error'] = 'Unique identifier required.';
 		header('Content-type: application/json');
 		echo json_encode($arrJson);
-		exit();
-
+		exit();	
+		
 	}
-
+	
 }
 elseif ($strAction == "remove") {
 
@@ -169,43 +171,43 @@ elseif ($strAction == "remove") {
 
 require('includes/php/dc_header.php');
 
-$strSQL 		=
-			"SELECT c.id,
-			c.email,
-			c.gender,
-			c.firstname,
-			c.lastname,
-			co.phoneNr,
+$strSQL 		= 
+			"SELECT c.id, 
+			c.email, 
+			c.gender, 
+			c.firstname, 
+			c.lastname, 
+			co.phoneNr, 
 			co.orderId,
-			co.ip,
-			co.extOrderId,
-			co.company,
-			co.firstname,
-			co.lastname,
-			co.address,
-			co.houseNr,
-			co.houseNrAdd,
-			co.zipcode,
-			co.city,
-			co.lang,
-			co.delCompany,
-			co.delFirstname,
-			co.delLastname,
-			co.delAddress,
-			co.delHouseNr,
-			co.delHouseNrAdd,
-			co.delZipcode,
-			co.delCity,
-			co.delLang,
-			co.entryDate,
-			co.totalPrice,
-			co.shippingCosts,
-			co.paymentStatus,
-			co.paymethodId,
-			co.status,
-			co.internalComments,
-			co.kortingscode,
-			co.kortingsbedrag,
+			co.ip, 
+			co.extOrderId, 
+			co.company, 
+			co.firstname, 
+			co.lastname, 
+			co.address, 
+			co.houseNr, 
+			co.houseNrAdd, 
+			co.zipcode, 
+			co.city, 
+			co.lang, 
+			co.delCompany, 
+			co.delFirstname, 
+			co.delLastname, 
+			co.delAddress, 
+			co.delHouseNr, 
+			co.delHouseNrAdd, 
+			co.delZipcode, 
+			co.delCity, 
+			co.delLang, 
+			co.entryDate, 
+			co.totalPrice, 
+			co.shippingCosts, 
+			co.paymentStatus, 
+			co.paymethodId, 
+			co.status, 
+			co.internalComments, 
+			co.kortingscode, 
+			co.kortingsbedrag, 
 			dc_c.validationCode
 			FROM ".DB_PREFIX."customers_orders co
 			INNER JOIN ".DB_PREFIX."customers c ON (c.id = co.custId)
@@ -245,7 +247,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 		</tr>
 		<tr>
 			<th>Ordernr</th>
-			<td><?php echo formOption('order_number_prefix') . $objOrder->orderId; ?></td>
+			<td><?php echo $objOrder->orderId; ?></td>
 		</tr>
 		<tr>
 			<th>Ordernr (extern)</th>
@@ -385,7 +387,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 		</tr>
 		<tr>
 			<td colspan="2">Interne opmerkingen <br /><textarea name="internalComments" class="form-control" rows="3"><?php echo $objOrder->internalComments; ?></textarea></td>
-		</tr>
+		</tr>	
 	</table>
 </div><!-- /col-md-4 -->
 

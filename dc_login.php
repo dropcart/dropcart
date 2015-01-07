@@ -84,7 +84,7 @@ require_once('includes/php/dc_header.php');
 		</div><!-- /row -->
 
 		<span class="button-checkbox">
-			<!-- <a href="/dc_password_reset.php" class="btn btn-link pull-right">Wachtwoord vergeten?</a> -->
+			<a href="/dc_password_reset.php" class="btn btn-link pull-right">Wachtwoord vergeten?</a>
 		</span><!-- /button-checkbox -->
 
 		</fieldset>
