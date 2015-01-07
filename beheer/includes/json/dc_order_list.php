@@ -20,6 +20,7 @@ $strQuery		= $_GET["query"];
 $strShow		= $_GET["show"];
 $intOffset		= (int) $_GET["offset"];
 $intLimit		= (int) $_GET["limit"];
+$orderNumberPrefix = formOption('order_number_prefix');
 
 $strSort	= ($strSortColumn != '') ? " ORDER BY `" . $strSortColumn . "` ".$strSortOrder : '';
 $strWhere	.= ($strQuery != '') ? " AND (co.company LIKE '%".$strQuery."%' OR co.firstname LIKE '%".$strQuery."%' OR co.lastname LIKE '%".$strQuery."%')" : '';
@@ -32,7 +33,7 @@ elseif ($strShow == "done") {
 	$strWhere .= " AND co.status = 4";
 }
 
-$strSQL 	= 
+$strSQL 	=
 		"SELECT co.orderId,
 		co.custId,
 		co.entryDate,
@@ -45,12 +46,12 @@ $strSQL 	=
 		co.paymethodId,
 		co.status,
 		SUM(cod.quantity) AS items
-		FROM ".DB_PREFIX."customers_orders co 
+		FROM ".DB_PREFIX."customers_orders co
 		INNER JOIN ".DB_PREFIX."customers_orders_details cod ON (cod.orderId = co.orderId)
 		WHERE 1
-		".$strWhere . 
+		".$strWhere .
 		" GROUP BY co.orderId DESC" .
-		$strSort; 
+		$strSort;
 $resultCount = $objDB->sqlExecute($strSQL);
 $count 	= $objDB->getNumRows($resultCount);
 
@@ -68,15 +69,15 @@ while ($objOrder = $objDB->getObject($result)) {
 	}
 	$name .= $objOrder->firstname . " ";
 	$name .= $objOrder->lastname . " ";
-		
-	$arrJson['details'][$i][]	= $objOrder->orderId;
+
+	$arrJson['details'][$i][]	= $orderNumberPrefix . $objOrder->orderId;
 	$arrJson['details'][$i][]	= $objOrder->entryDate;
 	$arrJson['details'][$i][]	= $name;
 	$arrJson['details'][$i][]	= $objOrder->items;
 	$arrJson['details'][$i][]	= money_format('%(#1n', $objOrder->totalPrice);
 	$arrJson['details'][$i][]	= '<a href="/includes/pdf/dc_invoice.php?orderId='.$objOrder->orderId.'"><span class="glyphicon glyphicon-file"></span></a>';
 	$arrJson['details'][$i][]	= '<a href="/beheer/dc_order_manage.php?id='.$objOrder->orderId.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
-	
+
 	$i++;
 }
 

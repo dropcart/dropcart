@@ -8,21 +8,46 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 // Page specific includes
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
+
 $objDB 		= new DB();
 
 $strSQL 		= "SELECT optionName, optionValue FROM ".DB_PREFIX."options";
 $result	 		= $objDB->sqlExecute($strSQL);
 $objSetting		= $objDB->getObject($result);
 
+// GET ALL TABLES
+$result = $objDB->sqlExecute('SHOW TABLES');
+while($row = $objDB->getArray($result))
+{
+$tables[] = $row[0];
+}
+//
+
+// MOLLIE API
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Mollie/API/Autoloader.php');
+// Mollie Payment API
+$mollie = new Mollie_API_Client;
+$mollie->setApiKey(MOLLIE_API_KEY);
+
+
 if (isset($_POST)) {
 
 	$_POST 	= sanitize($_POST);
 
+	if(is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
+		foreach($_POST['price_values'] as $key=>$value) {
+			$_POST['price_values'][$key] = str_replace(",", ".", $value);
+		}
+		$_POST['price_values'] 		= 	json_encode($_POST['price_values']);
+		$_POST['price_operators'] 	= 	json_encode($_POST['price_operators']);
+	}
+
 	foreach ($_POST as $key => $value) {
 
 		$value = trim($value);
-		
-		if (empty($value)) { 
+
+
+		if (empty($value)) {
 			$value = 'NULL';
 		}
 		else {
@@ -104,13 +129,19 @@ if (!empty($_GET['succes'])) {
 					<input type="text" class="form-control" id="maximum_page_products" name="maximum_page_products" value="<?php echo formOption('maximum_page_products'); ?>" autocomplete="off">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
+			<div class="form-group">
+			<label for="order_number_prefix" class="col-sm-2 control-label">order_number_prefix</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="order_number_prefix" name="order_number_prefix" value="<?php echo formOption('order_number_prefix'); ?>" autocomplete="off">
+				</div><!-- /col -->
+			</div><!-- /form-group -->
 			<hr />
-			
+
 			<div class="form-group">
 			<label for="mail_server" class="col-sm-2 control-label">mail_server</label>
 				<div class="col-sm-8">
 					<select class="form-control" id="mail_server" name="mail_server" onChange="
-						if(this.selectedIndex == 1) { 
+						if(this.selectedIndex == 1) {
 							document.getElementById('smtp-settings').style.display = 'block';
 						} else {
 							document.getElementById('smtp-settings').style.display = 'none';
@@ -122,9 +153,9 @@ if (!empty($_GET['succes'])) {
 					<p class="help-block">Hier kunt u een eventueel eigen SMTP server opgeven</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
-			
+
 			<div id="smtp-settings" style=" <?php if(formOption('mail_server') != 'smtp') echo 'display:none'; ?>">
-			
+
 				<div class="form-group">
 				<label for="site_email" class="col-sm-2 control-label">smtp_server</label>
 					<div class="col-sm-8">
@@ -132,7 +163,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Geef de SMTP server op</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_port" class="col-sm-2 control-label">smtp_port</label>
 					<div class="col-sm-8">
@@ -140,7 +171,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Geef de poort van de SMTP server op</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_secure" class="col-sm-2 control-label">smtp_secure</label>
 					<div class="col-sm-8">
@@ -152,12 +183,12 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Maak een keuze uit een beveiligde of onbeveiligde verbinding</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div class="form-group">
 				<label for="smtp_auth" class="col-sm-2 control-label">smtp_auth</label>
 					<div class="col-sm-8">
 						<select class="form-control" id="smtp_auth" name="smtp_auth" onChange="
-						if(this.selectedIndex == 1) { 
+						if(this.selectedIndex == 1) {
 							document.getElementById('smtp-auth').style.display = 'block';
 						} else {
 							document.getElementById('smtp-auth').style.display = 'none';
@@ -169,7 +200,7 @@ if (!empty($_GET['succes'])) {
 						<p class="help-block">Inloggen met gebruikersnaam en wachtwoord voor de SMTP server</p>
 					</div><!-- /col -->
 				</div><!-- /form-group -->
-				
+
 				<div id="smtp-auth" style=" <?php if(formOption('smtp_auth') != 'true') echo 'display:none'; ?>">
 
 					<div class="form-group">
@@ -179,7 +210,7 @@ if (!empty($_GET['succes'])) {
 							<p class="help-block">Geef de gebruikersnaam van de SMTP server op</p>
 						</div><!-- /col -->
 					</div><!-- /form-group -->
-					
+
 					<div class="form-group">
 					<label for="smtp_password" class="col-sm-2 control-label">smtp_password</label>
 						<div class="col-sm-8">
@@ -187,11 +218,11 @@ if (!empty($_GET['succes'])) {
 							<p class="help-block">Geef het wachtwoord van de SMTP server op</p>
 						</div><!-- /col -->
 					</div><!-- /form-group -->
-				
+
 				</div>
-			
+
 			</div>
-			
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Bewerken</button>
@@ -209,7 +240,6 @@ if (!empty($_GET['succes'])) {
 		<div class="panel-body">
 
 		<form class="form-horizontal" role="form" method="POST">
-
 			<div class="form-group">
 			<label for="price_base" class="col-sm-2 control-label">price_base</label>
 				<div class="col-sm-8">
@@ -217,53 +247,49 @@ if (!empty($_GET['succes'])) {
 					<p class="help-block">Geldige values: <code>price</code> = Inktweb.nl prijs, inclusief BTW, <code>purchase</code> = Inkoopprijs exclusief BTW, <code>msrp</code> = Adviesprijs exclusief BTW.</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
+			<div id="formula">
 
 			<div class="form-group">
-			<label for="price_increment" class="col-sm-2 control-label">price_increment</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment" name="price_increment" value="<?php echo formOption('price_increment'); ?>" autocomplete="off">
-					<p class="help-block">Geldige values: <code>percentage</code>, <code>addition</code>, <code>deduction</code>.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
+				<label for="price_base" class="col-sm-2 control-label">prijs</label>
+					<div class="col-sm-8">
+						<div id="dcFormula"></div>
+						<br>
+						<div class="btn-group">
+							<a href="#" class="btn btn-sm btn-danger" id="dcRemoveButton"><i class="glyphicon glyphicon-minus"></i></a>
+							<a href="#" class="btn btn-sm btn-success" id="dcAddButton"><i class="glyphicon glyphicon-plus"></i></a>
+						</div>
+						<br><br>
+						<p class="help-block"><strong>Voorbeeld:</strong> <span id="dcPreviewContainer"></span></p>
+					</div>
+				</div>
+			</div>
 
+			<hr>
+
+			<div class="col-sm-offset-2 col-sm-10">
+				<p class="help-block">Extra transactiekosten per betaalmethode.</p>
+			</div>
+			<?php
+				$methods = $mollie->methods->all();
+				foreach ($methods as $method):
+					$optionId = $method->id . '_fee';
+			?>
 			<div class="form-group">
-			<label for="price_increment_percentage" class="col-sm-2 control-label">price_increment_percentage</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_percentage" name="price_increment_percentage" value="<?php echo formOption('price_increment_percentage'); ?>" autocomplete="off">
-					<p class="help-block">Als price_increment' staat op <code>percentage</code> wordt deze waarde gebruikt.</p>
+			<label for="<?php echo $optionId; ?>" class="col-sm-2 control-label"><?php echo $method->description; ?> fee</label>
+				<div class="col-sm-1">
+					<div class="input-group">
+  					<span class="input-group-addon">%</span>
+					<input type="text" class="form-control" id="<?php echo $optionId; ?>" name="<?php echo $optionId; ?>_percent" value="<?php echo formOption($optionId . '_percent'); ?>" autocomplete="off">
+					</div>
+				</div><!-- /col -->
+				<div class="col-sm-1">
+					<div class="input-group">
+  					<span class="input-group-addon">+</span>
+					<input type="text" class="form-control" id="<?php echo $optionId; ?>" name="<?php echo $optionId; ?>_addition" value="<?php echo formOption($optionId . '_addition'); ?>" autocomplete="off">
+					</div>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
-
-			<div class="form-group">
-			<label for="price_increment_addition" class="col-sm-2 control-label">price_increment_addition</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_addition" name="price_increment_addition" value="<?php echo formOption('price_increment_addition'); ?>" autocomplete="off">
-					<p class="help-block">Als 'price_increment' staat op <code>addition</code> wordt deze waarde gebruikt.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-			<label for="price_increment_deduction" class="col-sm-2 control-label">price_increment_deduction</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="price_increment_deduction" name="price_increment_deduction" value="<?php echo formOption('price_increment_deduction'); ?>" autocomplete="off">
-					<p class="help-block">Als 'price_increment' staat op <code>deduction</code> wordt deze waarde gebruikt.</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
-
-			<div class="form-group">
-				<label class="col-sm-2 control-label sr-only">Formule uitleg</label>
-				<div class="col-sm-8">
-					<h4 class="help-block">De formule is <code>{gekozen prijs}</code> keer (plus <em>óf</em> min) <code>{gekozen waarde}</code>.</h4>
-
-					<p class="help-block">10% over de inkoopprijs ziet er als volgt uit: <strong>price_base</strong> = <code>purchase</code>, <strong>price_increment</strong> = <code>percentage</code>, <strong>price_increment_percentage</strong> = <code>1.1</code>. <br />
-					Praktijkvoorbeeld met een inkoopprijs van &euro; 8,00: <code>&euro; 8,00 x 1.1 = &euro; 8,80</code>. <br />
-					<small><em>(Inkoopprijs wordt doorgeven als exclusief BTW door de API)</em></small>
-					</p>
-
-					<p class="help-block">&euro; 1,50 onder de adviesprijs ziet er als volgt uit: <strong>price_base</strong> = <code>msrp</code>, <strong>price_increment</strong> = <code>deduction</code>, <strong>price_increment_deduction</strong> = <code>1.50</code>. <br />
-					</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
+			<?php endforeach; ?>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
@@ -352,6 +378,79 @@ if (!empty($_GET['succes'])) {
 		</div><!-- /panel-body -->
 	</div><!-- /panel -->
 
+	<div class="panel panel-default">
+		<div class="panel-heading">Database backup</div><!-- /panel-heading -->
+		<div class="panel-body">
+			<form class="form-horizontal" role="form" action="dc_backup.php" method="POST">
+				<div class="form-group">
+					<label for="tables" class="col-sm-2 control-label">Maak backup</label>
+					<div class="col-sm-8">
+						<select name="tables[]" class="form-control" rows="40" id="tables" multiple="multiple">
+						<?php foreach($tables as $table): ?>
+							<option value="<?php echo $table; ?>" selected><?php echo $table; ?></option>
+						<?php endforeach; ?>
+						</select>
+					</div><!-- /col -->
+				</div><!-- /form-group -->
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Download backup</button>
+					</div><!-- /col -->
+				</div><!-- /form-group -->
+			</form><!-- /form -->
+		</div><!-- /panel-body -->
+	</div><!-- /panel -->
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Download betalingsoverzicht</div><!-- /panel-heading -->
+			<div class="panel-body">
+				<form class="form-horizontal" role="form" action="dc_overview_excel.php" method="POST">
+					<div class="form-group">
+						<label for="tables" class="col-sm-2 control-label">Overzicht downloaden</label>
+						<div class="col-sm-8">
+							<p class="help-block">Van</p>
+							<input type="text" class="form-control" name="overviewFromDate" id="overviewFromDate" value="" placeholder="dd-mm-jjjj">
+							<p class="help-block">Tot</p>
+							<input type="text" class="form-control" name="overviewToDate" id="overviewToDate" value="" placeholder="dd-mm-jjjj">
+						</div>
+					</div><!-- /form-group -->
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-default">Download overzicht</button>
+						</div><!-- /col -->
+					</div><!-- /form-group -->
+				</form><!-- /form -->
+			</div><!-- /panel-body -->
+		</div><!-- /panel -->
+
 </div><!-- /col -->
+
+<!-- Price calculator -->
+<script src="/includes/script/jquery.dcpriceformula.js"></script>
+<script type="text/template" id="dcPriceFormulaTemplate">
+    <div class="modifier row" style="clear:both">
+    <div class="col-sm-2">
+        <select  name="price_operators[]" class="operator form-control">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">&times;</option>
+        </select>
+    </div>
+    <div class="col-sm-3">
+        <input type="text" name="price_values[]" class="value form-control col-sm-2" />
+    </div>
+    </div>
+</script>
+<script>
+    $(function() {
+        $('#formula').dcPriceFormula({
+            operators: <?php echo (null !== formOption('price_operators')) ? formOption('price_operators') : "[]"; ?>,
+            values: <?php echo (null !== formOption('price_values')) ? formOption('price_values') : "[]"; ?>
+        });
+    });
+</script>
+<!-- /Price calculator -->
+
 
 <?php require('includes/php/dc_footer.php'); ?>

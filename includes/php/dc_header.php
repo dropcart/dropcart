@@ -190,5 +190,14 @@ if (!empty($canonical)) {
 			</ul><!-- /navbar-left -->
 		</div><!-- /navbar -collapse -->
 	</nav><!-- /nav -->
+	
+	<?php
+	if (filter_var(formOption('api_test'), FILTER_VALIDATE_BOOLEAN) === true) {
+		echo '<div class="alert alert-info" role="alert">';
+		echo '<strong>Let op!</strong> Deze website staat momenteel in <code>api_test</code> = <code>true</code> modes. ';
+		echo '</div>';
+	}
+	?>
+
 </div><!-- /col -->
 </div><!-- /row -->
