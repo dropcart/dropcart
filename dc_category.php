@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// if POST, redirect it to a GET 
+// if POST, redirect it to a GET
 if ($_POST['brands']) {
 
 	if (empty($_GET['pageNumber'])) {
 		$_GET['pageNumber'] = "1";
 	}
 
-		
+
 	$strBrands = implode(',', $_POST['brands']);
 
 	header('Location: ?pageNumber='.$_GET['pageNumber'].'&brands='.$strBrands);
@@ -105,12 +105,12 @@ $arrBrandOptions 		= array (
 		<h1><?=$arrProducts->categories[0]->name?></h1>
 
 		<div class="row">
-		
+
 			<?
 			if(count($arrProducts->products) > 0) {
-			
+
 				foreach($arrProducts->products as $arrProduct) {
-					
+
 					$objPrice	= $arrProduct->details[0];
 					$strPrice 	= calculateProductPrice($objPrice, $arrProduct->id);
 
@@ -120,9 +120,9 @@ $arrBrandOptions 		= array (
 					if (@!getimagesize($strProductImg)) {
 						$strProductImg 	= DEFAULT_PRODUCT_IMAGE;
 					}
-					
+
 				?>
-				
+
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
 							<a href="/product/<?php echo $arrProduct->id; ?>/">
@@ -130,40 +130,49 @@ $arrBrandOptions 		= array (
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
-						
+
 						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
-				
+
 				<?
 				}
-				
+
 			} else {
 				echo "<p>Geen resultaten gevonden.</p>";
 			}
-			?>			
+			?>
 		</div><!-- /row -->
 
 		<div class="row text-center">
 			<ul class="pagination">
-				
 				<?
-				if($intPageNumber > 1) {
-				
-					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
-				
-				}
-				
-				for($i=1;$i<=$intPages;$i++) {
-					
-					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
-					echo '<li ' . $active . '><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
-					
+				$split = 5;// Maximum number of pages left and right of active
+				$start = $intPageNumber - $split;
+				$end = $intPageNumber + $split;
+
+				if ($start < 1) {
+					$start = 1;
+					$end = $split * 2;
 				}
 
-				if(($i-1) != $intPageNumber && $i != 1) {
-				
-					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . ($i - 1) . '">&raquo;</a></li>';
-				
+				if ($end > $intPages) {
+					$end = $intPages;
+					$start = $end - ($split * 2) +1;
+					if ($start < 1) $start = 1;
+				}
+
+				if($intPageNumber > 1) {
+					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
+				}
+
+				for($i=$start;$i<=$end;$i++) {
+
+					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
+					echo '<li ' . $active . '><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
+				}
+
+				if(($intPages-1) != $intPageNumber && $intPages != 1) {
+					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
 				}
 				?>
 			</ul>
