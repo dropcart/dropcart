@@ -14,7 +14,7 @@ $_GET 	= sanitize($_GET);
 $strShow 	= strtolower($_GET['show']);
 
 
-$strSQL 	= 
+$strSQL 	=
 		"SELECT co.orderId,
 		co.custId,
 		co.entryDate,
@@ -27,7 +27,7 @@ $strSQL 	=
 		co.paymethodId,
 		co.status,
 		SUM(cod.quantity) AS items
-		FROM ".DB_PREFIX."customers_orders co 
+		FROM ".DB_PREFIX."customers_orders co
 		INNER JOIN ".DB_PREFIX."customers_orders_details cod ON (cod.orderId = co.orderId)
 		WHERE 1
 		".$sqlWhere . " GROUP BY co.orderId DESC";

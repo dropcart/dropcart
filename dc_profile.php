@@ -22,7 +22,7 @@ if (empty($_SESSION['customerId'])) {
 
 $_POST 		= sanitize($_POST);
 
-$strSQL 		= 
+$strSQL 		=
 			"SELECT c.id,
 			c.company,
 			c.firstname,
@@ -44,12 +44,12 @@ $strSQL 		=
 			LEFT JOIN ".DB_PREFIX."customers_orders co ON (co.custId = c.id)
 			WHERE 1
 			AND ca.defaultInv = 1
-			AND c.id = '".$_SESSION['customerId']."' 
+			AND c.id = '".$_SESSION['customerId']."'
 			";
 $result 		= $objDB->sqlExecute($strSQL);
 $objCust 		= $objDB->getObject($result);
 
-$Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);		
+$Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
@@ -78,7 +78,7 @@ require_once('includes/php/dc_header.php');
 					<?php if ($objCust->gender == 1) echo 'Mannelijk'; ?>
 					<?php if ($objCust->gender == 2) echo 'Vrouwelijk'; ?>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>E-mailadres:</td>
 				<td><?php echo $objCust->email; ?></td>
@@ -133,13 +133,13 @@ require_once('includes/php/dc_header.php');
 			</tr>
 
 			<?php
-			$strSQL 	= 
+			$strSQL 	=
 					"SELECT co.orderId,
 					co.entryDate,
 					co.paymethodId,
 					co.status
 					FROM ".DB_PREFIX."customers_orders co
-					INNER JOIN ".DB_PREFIX."customers_orders_details cod ON (cod.orderId = co.orderId) 
+					INNER JOIN ".DB_PREFIX."customers_orders_details cod ON (cod.orderId = co.orderId)
 					WHERE co.custId = '".$_SESSION['customerId']."'
 					GROUP BY co.orderId";
 			$result 	= $objDB->sqlExecute($strSQL);
@@ -152,13 +152,13 @@ require_once('includes/php/dc_header.php');
 
 				$strSQL 	= "SELECT COUNT(productId) * quantity FROM ".DB_PREFIX."customers_orders_details WHERE orderId = '".$objOrder->orderId."'";
 				$result 	= $objDB->sqlExecute($strSQL);
-				list($items) 	= $objDB->getRow($result); 
+				list($items) 	= $objDB->getRow($result);
 
 				$strSQL 	= "SELECT productId, price, discount, quantity FROM ".DB_PREFIX."customers_orders_details WHERE orderId = '".$objOrder->orderId."'";
 				$result 	= $objDB->sqlExecute($strSQL);
 
 				echo '<tr class="order" title="Klik om order details te bekijken">';
-				echo '<td><a>'.$objOrder->orderId.'</a></td>';
+				echo '<td><a>'.formOption('order_number_prefix') . $objOrder->orderId.'</a></td>';
 				echo '<td>'.$objOrder->entryDate.'</td>';
 				echo '<td>'.$items.'</td>';
 				echo '<td>'.$objOrder->paymethodId.'</td>';
@@ -170,7 +170,7 @@ require_once('includes/php/dc_header.php');
 					$Product = $Api->getProduct($objDetails->productId);
 
 					echo '<tr class="order_details active">';
-						echo '<td colspan="2"><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>'; 
+						echo '<td colspan="2"><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
 						echo '<td>'.money_format('%(#1n', $objDetails->price).'</td>';
 						echo '<td>'.$objDetails->quantity.'</td>';
 						echo '<td>'.money_format('%(#1n', $objDetails->price * $objDetails->quantity).'</td>';

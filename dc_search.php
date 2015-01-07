@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// if POST, redirect it to a GET 
+// if POST, redirect it to a GET
 if ($_POST['brands']) {
 
 	if (empty($_GET['sort'])) {
@@ -12,7 +12,7 @@ if ($_POST['brands']) {
 		$_GET['pageNumber'] = "1";
 	}
 
-		
+
 	$strBrands = implode(',', $_POST['brands']);
 
 	header('Location: ?q='.$_GET['q'].'&sort='.$_GET['sort'].'&pageNumber='.$_GET['pageNumber'].'&brands='.$strBrands);
@@ -80,7 +80,7 @@ $arrBrandOptions 		= array (
 
 <div class="row">
 	<div class="col-md-3">
-		
+
 		<div class="well well-small">
 			<ul class="nav nav-list">
 			<form method="post" id="form-brand">
@@ -109,12 +109,12 @@ $arrBrandOptions 		= array (
 		<h1>Resultaten voor: <em>&#8220;<?=$strQuery?>&#8221;</em></h1>
 
 		<div class="row">
-		
+
 			<?
 			if(count($arrProducts->products) > 0) {
-				
+
 				foreach($arrProducts->products as $arrProduct) {
-					
+
 					$objPrice	= $arrProduct->details[0];
 					$strPrice 	= calculateProductPrice($objPrice, $arrProduct->id);
 
@@ -124,9 +124,9 @@ $arrBrandOptions 		= array (
 					if (@!getimagesize($strProductImg)) {
 						$strProductImg 	= DEFAULT_PRODUCT_IMAGE;
 					}
-					
+
 				?>
-				
+
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
 							<a href="/product/<?php echo $arrProduct->id; ?>/">
@@ -134,43 +134,52 @@ $arrBrandOptions 		= array (
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
-						
+
 						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
-				
+
 				<?
 				}
-			
+
 			} else {
-				echo "<p>Geen resultaten gevonden. Probeer uw zoekterm te verfijnen,</p>";				
+				echo "<p>Geen resultaten gevonden. Probeer uw zoekterm te verfijnen,</p>";
 			}
 			?>
-			
+
 		</div><!-- /row -->
 
 		<div class="row text-center">
 			<ul class="pagination">
-				
 				<?
-				if($intPageNumber > 1) {
-				
-					echo '<li><a href="#">&laquo;</a></li>';
-				
-				}
-				
-				for($i=1;$i<=$intPages;$i++) {
-					
-					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
-					echo '<li ' . $active . '><a href="/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
-					
+				$split = 5;// Maximum number of pages left and right of active
+				$start = $intPageNumber - $split;
+				$end = $intPageNumber + $split;
+
+				if ($start < 1) {
+					$start = 1;
+					$end = $split * 2;
 				}
 
-				if(($i-1) != $intPageNumber && $i != 1) {
-				
-					echo '<li><a href="#">&raquo;</a></li>';
-				
+				if ($end > $intPages) {
+					$end = $intPages;
+					$start = $end - ($split * 2);
+					$start++; // add one so that we get double the split at the end
+					if ($start < 1) $start = 1;
 				}
-				
+
+				if($intPageNumber > 1) {
+					echo '<li><a href="/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=1">&laquo;</a></li>';
+				}
+
+				for($i=$start;$i<=$end;$i++) {
+
+					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
+					echo '<li ' . $active . '><a href="/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
+				}
+
+				if(($intPages-1) != $intPageNumber && $intPages != 1) {
+					echo '<li><a href="/search/' . $intPages . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
+				}
 				?>
 			</ul>
 		</div><!-- /row -->
