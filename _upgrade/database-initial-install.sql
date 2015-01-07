@@ -364,13 +364,11 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (10, 'api_test', 'false'),
 (11, 'api_debug', 'false'),
 (12, 'api_restrict', 'true'),
-(13, 'price_increment', 'percentage'),
-(14, 'price_increment_percentage', '1.21'),
-(15, 'price_increment_addition', NULL),
-(16, 'price_increment_deduction', NULL),
+(13, 'price_operators', '["*"]'),
+(14, 'price_values', '["1.21"]'),
 (17, 'price_base', 'price'),
 (18, 'site_shipping', '5.95'),
-(19, 'dropcart_version', 'v1.5.0'),
+(19, 'dropcart_version', 'v1.5.1'),
 (20, 'email_bcc', 'bcc@dropcart.nl'),
 (21, 'site_email_template', 'includes/templates/dc_mail_template.html'),
 (22, 'tmp_path', 'tmp/'),
@@ -383,7 +381,8 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (44, 'smtp_auth', 'true'),
 (45, 'smtp_username', '- email username here -'),
 (46, 'smtp_password', '- email password here - '),
-(163, 'update_build', 'stable');
+(163, 'update_build', 'stable'),
+(47, 'order_number_prefix', '');
 
 --
 -- Table structure for table `dc_pages_content`
