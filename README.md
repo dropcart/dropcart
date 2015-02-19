@@ -12,7 +12,16 @@ There is two sides to Dropcart; the shop owners and the suppliers. The code you 
 # Installation instructions
 Download the latest *stable* release from [Github](https://github.com/dropcart/dropcart).
 
+## Requirements
+(this list is incomplete)
+
+- PHP Version: **5.3.+**
+- PHP's [money_format()](http://php.net/manual/en/function.money-format.php)
+
+## Instructions
 - Unzip the .zip file
+- Create a new database and save the credentials
+- Insert the database found in the folder */_upgrade/* is a *v{versionnumber}-initial-install.sql* file
 - Enter your database credentials in the file *includes/php/dc_connect.php*
 - Upload everything to your root (or sub-)domain
 - Navigate to *yourwebsite.com/beheer* and login with *admin*/*inktweb*
