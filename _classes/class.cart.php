@@ -145,6 +145,11 @@ class Cart {
 			$strExtraSQL = "AND sessionId='".$this->intSessionId."'";
 		}
 
+		// Dont allow negative values to be inserted
+		if (empty($intQuantity) OR $intQuantity < 1) {
+			$intQuantity = 1;
+		}
+
 		//checking if product already exists in cart
 		$intNrOf = $this->objDB->getRecordCount("cart","id","WHERE productId=".$intProductId." ".$strExtraSQL);
 		if($intNrOf == 0) {

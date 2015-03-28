@@ -131,7 +131,7 @@ if (@!getimagesize($strProductImg)) {
 						
 					</select>
 
-					<input type="number" class="quantity hidden" id="quantityInput" name="quantity" />
+					<input type="number" class="quantity hidden" id="quantityInput" name="quantity" min="1" />
 				</div><!-- /pull-left -->
 				<div class="pull-right">
 					<?php
