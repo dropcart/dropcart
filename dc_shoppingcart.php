@@ -95,7 +95,7 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 						var stock_<?php echo $arrCartItem['intProductId']; ?> = "<?php echo $arrCartItem['intStock']; ?>";
 					</script>
 
-			<? 		if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) {
+			<? 		if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
 						$strStock = 'Op voorraad';
 					}
 					elseif ($arrCartItem['intStock'] > 0) {

@@ -50,6 +50,11 @@ $objPrinters		= $Product->getCompatible();
 $arrImages 		= (array) $Product->getImages();
 $strProductImg 	= @$arrImages[0]->url;
 
+// Support infinite stock by setting it to high value
+if ($intStock == 'infinite') {
+	$intStock = 99;
+}
+
 // check if valid image (ignore warnings)
 if (@!getimagesize($strProductImg)) {
 	$strProductImg 	= DEFAULT_PRODUCT_IMAGE;
