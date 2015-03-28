@@ -162,8 +162,10 @@ if (@!getimagesize($strProductImg)) {
 				
 					foreach($objSpecifications as $objSpecification) {
 
-						// extra check for NULL results
-						if (!empty($objSpecification->label)) {
+						// dont display empty information
+						if (empty($objSpecification->label) OR empty($objSpecification->value)) {
+							continue;
+						}
 
 						$strUnit = (!empty($objSpecification->unit)) ? $objSpecification->unit : '';
 
@@ -172,9 +174,7 @@ if (@!getimagesize($strProductImg)) {
 								<td>'.$objSpecification->value.' '.$strUnit.'</td>
 							  </tr>';
 						}
-						
-					}
-					
+											
 					echo '</table>';
 					
 					
