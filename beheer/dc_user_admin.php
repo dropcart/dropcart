@@ -23,6 +23,10 @@ if (!empty($_GET['succes'])) {
 	echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
 }
 
+if (!empty($_GET['firsttime'])) {
+	echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Belangrijk!</strong> Maak <a href="/beheer/dc_user_manage.php?action=add">een nieuwe gebruiker aan</a> met een veilig wachtwoord en verwijder daarna het <em>admin</em> account.</div>';
+}
+
 ?>
 
 <input type="search" id="search" value="" class="form-control search-json" placeholder="Zoeken" style="margin-bottom:20px" data-json-table="#table">
