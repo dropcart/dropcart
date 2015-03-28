@@ -186,13 +186,25 @@ class Cart {
 	function deleteProduct($intCartId) {
 		//checking if user is logged in, if not, use sessionId	
 		if(!empty($this->intCustomerId)) $strExtraSQL = "AND customerId=".$this->intCustomerId;
-		else "AND sessionId='".$this->intSessionId."'";
+		else $strExtraSQL = "AND sessionId='".$this->intSessionId."'";
 		
 		//removing product from cart
 		$strSQL = "DELETE FROM ".DB_PREFIX."cart " .
 					"WHERE id=".$intCartId." " .
 					$strExtraSQL;
 		$this->objDB->sqlExecute($strSQL);
+	}
+
+	function deleteProductById($intProductId) {
+		//checking if user is logged in, if not, use sessionId	
+		if(!empty($this->intCustomerId)) $strExtraSQL = "AND customerId=".$this->intCustomerId;
+		else $strExtraSQL = "AND sessionId='".$this->intSessionId."'";
+		
+		//removing product from cart
+		$strSQL = "DELETE FROM ".DB_PREFIX."cart " .
+					"WHERE productId=".$intProductId." " .
+					$strExtraSQL;
+		$this->objDB->sqlExecute($strSQL);		
 	}
 	
 	//empty cart
