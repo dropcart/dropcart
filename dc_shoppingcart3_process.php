@@ -128,7 +128,7 @@ while($objStatus = $objDB->getObject($result2)) {
 		$result = $objDB->sqlExecute($strSQL);
 		
 		// import order
-		$strJsonUrl = SITE_URL . '/beheer/dc_order_manage.php?action=export&uuid='.$intUuid.'&id='.$intOrderId;
+		$strJsonUrl = SITE_URL . 'beheer/dc_order_manage.php?action=export&uuid='.$intUuid.'&id='.$intOrderId;
 		$Order	= $Api->importOrder($strJsonUrl);
 		
 		$intExtOrderId = ($Order->orderId != '') ? $Order->orderId : 0;

@@ -50,7 +50,7 @@ foreach ($arrCategories as $intCategory) {
 			'Titel'			=> $product->title,
 			'Verzendkosten'	=> SITE_SHIPPING,
 			'Prijs'			=> calculateProductPrice($product->details[0], $product->id, false),
-			'URL'			=> SITE_URL.'/product/'.$product->id.'/'
+			'URL'			=> SITE_URL.'product/'.$product->id.'/'
 		);
 
 		$arrProducts[] = $arrProduct;

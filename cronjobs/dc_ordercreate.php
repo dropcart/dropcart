@@ -28,7 +28,7 @@ $strSQL =
 $result = $objDB->sqlExecute($strSQL);
 while($objOrder = $objDB->getObject($result)) {
 
-	$strJsonUrl = SITE_URL . '/beheer/dc_order_manage.php?action=export&uuid='.$objOrder->uuid.'&id='.$objOrder->orderId;
+	$strJsonUrl = SITE_URL . 'beheer/dc_order_manage.php?action=export&uuid='.$objOrder->uuid.'&id='.$objOrder->orderId;
 	$Order = $Api->importOrder($strJsonUrl);
 	
 	$intExtOrderId = intval($Order->orderId);
