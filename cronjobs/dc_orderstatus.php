@@ -5,23 +5,16 @@ require_once(SITE_PATH.'includes/php/dc_connect.php');
 require_once(SITE_PATH.'_classes/class.database.php');
 $objDB = new DB();
 
-require_once (SITE_PATH.'includes/php/dc_config.php');
-require_once (SITE_PATH.'includes/php/dc_functions.php');
-require_once (SITE_PATH.'includes/php/dc_mail.php');
-require_once (SITE_PATH.'_classes/class.cart.php');
-require_once (SITE_PATH.'libaries/Api_Inktweb/API.class.php');	// Inktweb API
-require_once (SITE_PATH.'libaries/mpdf/mpdf.php'); // MPDF Libary
-require_once (SITE_PATH.'libaries/Twig/Autoloader.php'); // Twig template engine
+require_once(SITE_PATH.'includes/php/dc_config.php');
+require_once(SITE_PATH.'includes/php/dc_functions.php');
+require_once(SITE_PATH.'includes/php/dc_mail.php');
+require_once(SITE_PATH.'_classes/class.cart.php');
+require_once(SITE_PATH.'libaries/Api_Inktweb/API.class.php');	// Inktweb API
+require_once(SITE_PATH.'libaries/mpdf/mpdf.php'); // MPDF Libary
+require_once(SITE_PATH.'libaries/Twig/Autoloader.php'); // Twig template engine
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
-
-// New mPDF object
-$mpdf=new mPDF();
-
-// Initialize Twig
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem(SITE_PATH."/includes/templates");
 
 $strSQL = "SELECT * " .
 	"FROM ".DB_PREFIX."customers_orders co " .
@@ -38,8 +31,14 @@ while($objOrder = $objDB->getObject($result)) {
 		
 		if($Order->status_code == 4) {
 			
-			$twig = new Twig_Environment( $loader, array("cache" => false) );
 			// Set twig variable
+			// Initialize Twig
+			Twig_Autoloader::register();
+			$loader 		= new Twig_Loader_Filesystem(SITE_PATH."/includes/templates");
+			$twig 			= new Twig_Environment( $loader, array("cache" => false) );
+
+			// New mPDF object
+			$mpdf 			= new mPDF();			
 			
 			$intCustomerId	= $objOrder->custId;
 			$intOrderId		= $objOrder->orderId;
@@ -49,6 +48,11 @@ while($objOrder = $objDB->getObject($result)) {
 			// send order shipping mail
 			sendMail('sentmail', $objOrder->email, $objOrder->firstname . ' ' . $objOrder->lastname, array(), $strAttachement);
 			
+			// Unset all vars to prevent from wrong data being used next loop
+			$twig 			= null;
+			$loader 		= null;
+			$strAttachement = null;
+			$mpdf 			= null;
 		}
 		
 	}
