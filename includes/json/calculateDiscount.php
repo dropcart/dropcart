@@ -120,9 +120,9 @@ if($intError == 0 && empty($arrOutput['validationRequired'])) {
 		
 	$arrDiscount		= calculateDiscount($strDiscountCode);	
 
-	$dblDiscountAmount	= $arrDiscount['dblDiscountAmount'];
+	$strDiscountAmount	= $arrDiscount['strDiscountAmount'];
 	$dblDiscountOver	= $arrDiscount['dblDiscountOver'];
-	$dblPriceTotal	= $arrDiscount['dblPriceTotal'];
+	$dblPriceTotal		= $arrDiscount['dblPriceTotal'];
 	$dblShippingcosts 	= SITE_SHIPPING;
 	
 
@@ -139,10 +139,10 @@ if($intError == 0 && empty($arrOutput['validationRequired'])) {
 	}
 
 	$arrOutput['valid']					= 1;
-	$arrOutput['discountCode']				= $strDiscountCode;
-	$arrOutput['cartDiscountAmount']			= '€ ' . number_format($dblDiscountAmount,2,',', ' ');
-	$arrOutput['cartSubTotal']				= money_format('%(#1n', $dblPriceTotal);
-	$arrOutput['cartShippingcosts']			= money_format('%(#1n', $dblShippingcosts);
+	$arrOutput['discountCode']			= $strDiscountCode;
+	$arrOutput['cartDiscountAmount']	= $strDiscountAmount;
+	$arrOutput['cartSubTotal']			= money_format('%(#1n', $dblPriceTotal);
+	$arrOutput['cartShippingcosts']		= money_format('%(#1n', $dblShippingcosts);
 	$arrOutput['cartTotal']				= money_format('%(#1n', $dblPriceTotal + $dblShippingcosts);
 	
 	$_SESSION["discountCode"]			= $strDiscountCode;

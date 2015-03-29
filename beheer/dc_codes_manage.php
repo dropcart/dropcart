@@ -91,14 +91,14 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="navDesc" class="col-sm-2 control-label">Geldig vanaf</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="validFrom" name="validFrom" placeholder="yyyy-mm-dd hh:mm:ss" value="<?php echo $objCode->validFrom; ?>">
+			<input type="text" class="form-control datepicker" id="validFrom" name="validFrom" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo $objCode->validFrom; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="navDesc" class="col-sm-2 control-label">Geldig tot</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="validTill" name="validTill" placeholder="yyyy-mm-dd hh:mm:ss" value="<?php echo $objCode->validTill; ?>">
+			<input type="text" class="form-control datepicker" id="validTill" name="validTill" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo $objCode->validTill; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 	
@@ -149,4 +149,5 @@ if (!empty($_GET['fail'])) {
 
 <hr />
 
+<script src="/includes/script/bootstrap-datepicker.js"></script>
 <?php require('includes/php/dc_footer.php'); ?>
