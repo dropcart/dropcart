@@ -29,7 +29,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 // Generate page title & meta tags
 $strPageTitle		= getContent('search_title');
@@ -110,7 +110,7 @@ $arrBrandOptions 		= array (
 
 		<div class="row">
 
-			<?
+			<?php
 			if(count($arrProducts->products) > 0) {
 
 				foreach($arrProducts->products as $arrProduct) {
@@ -138,7 +138,7 @@ $arrBrandOptions 		= array (
 						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 
-				<?
+				<?php
 				}
 
 			} else {
@@ -150,7 +150,7 @@ $arrBrandOptions 		= array (
 
 		<div class="row text-center">
 			<ul class="pagination">
-				<?
+				<?php
 				$split = 5;// Maximum number of pages left and right of active
 				$start = $intPageNumber - $split;
 				$end = $intPageNumber + $split;

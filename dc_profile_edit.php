@@ -13,7 +13,7 @@ require_once('includes/php/dc_functions.php');
 require_once ('_classes/class.password.php'); // Password compatibility library with PHP 5.5
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 if (empty($_SESSION['customerId'])) {
 	// not logged in, redirect

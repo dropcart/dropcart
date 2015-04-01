@@ -73,7 +73,7 @@ function ip() {
 	return $IPadres;
 }
 
-function calculateProductPrice($objPrice, $productId = null, $format = true) {
+function calculateProductPrice($objPrice, $productId = null, $quantity = null, $format = true) {
 
 	global $objDB;
 
@@ -83,11 +83,27 @@ function calculateProductPrice($objPrice, $productId = null, $format = true) {
 		$strSQL 	= "SELECT price FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 		$result 	= $objDB->sqlExecute($strSQL);
 		list($price) 	= $objDB->getRow($result);
-
 	}
 	// Use DB price ifset ELSE default formula
 	if (!empty($price)) {
 		$productPrice = $price;
+
+		// Check for tiered pricing
+		if (!empty($quantity)) {
+
+			// Returns the highest percentage discount for this quantity
+			$strSQL = "SELECT percentage FROM ".DB_PREFIX."products_tiered WHERE productId = '".$productId."' AND quantity <= '".$quantity."' ORDER BY quantity DESC LIMIT 1 ";
+			$result = $objDB->sqlExecute($strSQL);
+			list($intDiscountPercentage) = $objDB->getRow($result);
+
+			if (!empty($intDiscountPercentage)) {
+				$discountPerProduct = ($productPrice / 100) * $intDiscountPercentage;
+				$productPrice = $productPrice - $discountPerProduct;
+			}	
+
+
+		}
+
 	}
 	else {
 
@@ -173,7 +189,7 @@ function getContent($strContent, $parse = true, $Product = null, $arrProducts = 
  */
 function parseMarkdown($content) {
 
-	require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Parsedown/Parsedown.php');
+	require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Parsedown/Parsedown.php');
 
 	$Parsedown = new Parsedown();
 	$content = $Parsedown->text($content);

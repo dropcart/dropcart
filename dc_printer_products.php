@@ -12,7 +12,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
@@ -49,7 +49,7 @@ $arrSortOptions 		= array (
 			<ul class="nav nav-list">
 
 				<li class="nav-header">Sorteer op</li>
-				<? foreach($arrSortOptions as $sortIndex => $sortTitle) {
+				<?php foreach($arrSortOptions as $sortIndex => $sortTitle) {
 					
 					$active = ($sortIndex == $strSort) ? 'class="active" ' : '';
 					echo '<li ' . $active . '><a href="?sort='.$sortIndex.'"><span class="glyphicon glyphicon-ok"></span> '.$sortTitle.'</a></li>';
@@ -66,7 +66,7 @@ $arrSortOptions 		= array (
 
 		<div class="row">
 		
-			<?
+			<?php
 			
 			if(count($arrProducts->products) > 0) {
 
@@ -95,7 +95,7 @@ $arrSortOptions 		= array (
 						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 				
-				<?
+				<?php
 				}
 			
 			} else {
@@ -108,7 +108,7 @@ $arrSortOptions 		= array (
 		<div class="row text-center">
 			<ul class="pagination">
 				
-				<?
+				<?php
 				if($intPageNumber > 1) {
 				
 					echo '<li><a href="#">&laquo;</a></li>';

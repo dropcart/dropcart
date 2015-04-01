@@ -10,10 +10,10 @@ require_once('includes/php/dc_config.php');
 // Page specific includes
 require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
-require_once('libaries/Mollie/API/Autoloader.php');
+require_once('libraries/Mollie/API/Autoloader.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 // Mollie Payment API
 $mollie = new Mollie_API_Client;
@@ -46,7 +46,7 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 	$arrImages 	= (array) $Product->getImages();
 
 	$arrCartItems[$i]['intQuantity']		= $objNodeCart->quantity;
-	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product->getPrice(), $objNodeCart->productId, false);
+	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product->getPrice(), $objNodeCart->productId, $arrCartItems[$i]['intQuantity'], false);
 
 	$intNodeItems 		+= $objNodeCart->quantity;
 	$dblNodePriceTotal 	+= $arrCartItems[$i]['dblPrice'] * $objNodeCart->quantity;
@@ -76,14 +76,14 @@ if(!empty($_SESSION["discountCode"])) {
 }
 
 
-$intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".intval($_SESSION["customerId"])." AND customerId != 0)");
+$intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".$intCustomerId." AND customerId != 0)");
 if($intCartItems == 0)
 {
 	header("Location: /dc_shoppingcart.php");
 	exit;
 } elseif(!empty($_POST)) {
 
-	$strSQL = "INSERT INTO ".DB_PREFIX."customers_orders_id (customerId) VALUES (".$_SESSION["customerId"].")";
+	$strSQL = "INSERT INTO ".DB_PREFIX."customers_orders_id (customerId) VALUES (".$intCustomerId.")";
 	$result = $objDB->sqlExecute($strSQL);
 	$intOrderId = $objDB->getInsertedId();
 
@@ -92,11 +92,10 @@ if($intCartItems == 0)
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
 
-		$method = $_POST['paymentMethod'];
+		$method = checkInput($_POST['paymentMethod']);
 
 		$transactionFeeAddition = formOption($method . '_fee_addition');
 		$transactionFeePercentage = formOption($method . '_fee_percent') / 100;
-
 
 		$dblNodePriceTotal = round($dblNodePriceTotal + ($dblNodePriceTotal * $transactionFeePercentage) + $transactionFeeAddition,2);
 
@@ -159,7 +158,7 @@ require_once('includes/php/dc_header.php');
 
 	<legend>Klopt alles?</legend>
 
-	<?
+	<?php
 	$strSQL = "SELECT ca_invoice.*, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, c.email, c.id as customerId FROM ".DB_PREFIX."customers c " .
 		"INNER JOIN ".DB_PREFIX."customers_addresses ca_invoice ON ca_invoice.custId = c.id AND ca_invoice.defaultInv = 1 " .
 		"INNER JOIN ".DB_PREFIX."customers_addresses ca_delivery ON ca_delivery.custId = c.id AND ca_delivery.defaultDel = 1 " .
@@ -205,7 +204,7 @@ require_once('includes/php/dc_header.php');
 	<div class="row">
 		<div class="col-md-12">
 			<strong>Uw bestelling</strong>
-		<?
+		<?php
 		$intCartRows = count($arrCartItems);
 
 		if($intCartRows > 0) { ?>
@@ -221,7 +220,7 @@ require_once('includes/php/dc_header.php');
 				</thead>
 				<tbody>
 
-			<? foreach($arrCartItems as $arrCartItem) {
+			<?php foreach($arrCartItems as $arrCartItem) {
 
 					$strStock = ($arrCartItem['stock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
 
@@ -287,10 +286,8 @@ require_once('includes/php/dc_header.php');
 
 
 	<div class="form-group">
-		<div class="col-sm-3">
-			<label for="paymentMethod">Kies uw betaal methode:</label>
-		</div>
-		<div class="col-sm-9">
+		<div class="col-md-12">
+			<strong>Kies uw betaal methode:</strong>
 			<?php
 			$methods = $mollie->methods->all();
 			foreach ($methods as $method):
@@ -458,9 +455,9 @@ $('#discountCodeSend').click(function(){
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
 
-				<? if($_SESSION["validationCode"] != "") { ?>
+				<?php if($_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
-				<? } ?>
+				<?php } ?>
 
 			} else {
 
@@ -486,10 +483,10 @@ $('#discountCodeSend').click(function(){
 
 });
 
-<? if($_SESSION["discountCode"] != "") { ?>
+<?php if($_SESSION["discountCode"] != "") { ?>
 	$('#discountCode').click();
 	$('#discountCodeSend').click();
-<? } ?>
+<?php } ?>
 
 $(document).on('click','#validationCodeSend',function(){
 

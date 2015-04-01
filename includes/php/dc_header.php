@@ -40,7 +40,7 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 	
 	$arrCartItems[$i]['strProductTitle']		= $Product_cart->getTitle();
 	$arrCartItems[$i]['intQuantity']		= $objNodeCart->quantity;
-	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product_cart->getPrice(), $objNodeCart->productId, false);
+	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product_cart->getPrice(), $objNodeCart->productId, $arrCartItems[$i]['intQuantity'], false);
 	$arrCartItems[$i]['strPrice']			= money_format('%(#1n', $arrCartItems[$i]['dblPrice']);
 	$arrCartItems[$i]['strPriceTotal']		= money_format('%(#1n', ($arrCartItems[$i]['dblPrice'] * $arrCartItems[$i]['intQuantity']) );
 	$arrCartItems[$i]['intStock']			= $Product_cart->getStock();

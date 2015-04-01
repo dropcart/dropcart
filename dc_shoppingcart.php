@@ -12,7 +12,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
@@ -31,7 +31,7 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 	$Product	= $Api->getProduct($objNodeCart->productId);
 	$arrImages 	= (array) $Product->getImages();
 	
-	$arrCartItems[$i]['cartId']				= $objNodeCart->id;
+	$arrCartItems[$i]['cartId']			= $objNodeCart->id;
 	$arrCartItems[$i]['strImageUrl']		= $arrImages[0]->url;
 
 	// check if valid image (ignore warnings)
@@ -39,9 +39,9 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 		$arrCartItems[$i]['strImageUrl'] 	= DEFAULT_PRODUCT_IMAGE;
 	}
 
-	$arrCartItems[$i]['strProductTitle']	= $Product->getTitle();
+	$arrCartItems[$i]['strProductTitle']		= $Product->getTitle();
 	$arrCartItems[$i]['intQuantity']		= $objNodeCart->quantity;
-	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product->getPrice(), $objNodeCart->productId, false);
+	$arrCartItems[$i]['dblPrice']			= calculateProductPrice($Product->getPrice(), $objNodeCart->productId, $arrCartItems[$i]['intQuantity'], false);
 	$arrCartItems[$i]['strPrice']			= money_format('%(#1n', $arrCartItems[$i]['dblPrice']);
 	$arrCartItems[$i]['strPriceTotal']		= money_format('%(#1n', ($arrCartItems[$i]['dblPrice'] * $arrCartItems[$i]['intQuantity']) );
 	$arrCartItems[$i]['intStock']			= $Product->getStock();
@@ -65,14 +65,14 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 	<div class="col-xs-12">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-			<li class="<? if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<? if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart2.php'; else '#'; ?>"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="<? if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<? if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart2.php'; else '#'; ?>"><strong>Stap 2)</strong> Gegevens</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
 			<li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->
 	<div class="col-xs-9">
 
-		<?
+		<?php
 		$intCartRows = count($arrCartItems);
 		
 		if($intCartRows > 0) { ?>
@@ -89,13 +89,13 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 				</thead>
 				<tbody>
 		
-			<? foreach($arrCartItems as $arrCartItem) { ?> 
+			<?php foreach($arrCartItems as $arrCartItem) { ?> 
 
 					<script>
 						var stock_<?php echo $arrCartItem['intProductId']; ?> = "<?php echo $arrCartItem['intStock']; ?>";
 					</script>
 
-			<? 		if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
+			<?php 		if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
 						$strStock = 'Op voorraad';
 					}
 					elseif ($arrCartItem['intStock'] > 0) {
@@ -118,7 +118,8 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 							<td><a class="btn btn-danger btn-sm deleteItem" title="Verwijder artikel uit winkelmandje" data-cartid="'.$arrCartItem['cartId'].'"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
 						</tr>';
 					}
-			
+
+		
 			echo '
 			
 				<tr class="table-footer discountAmount_container" style="display:none">
@@ -237,9 +238,9 @@ $('#discountCodeSend').click(function(){
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
 				
-				<? if($_SESSION["validationCode"] != "") { ?>
+				<?php if($_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
-				<? } ?>
+				<?php } ?>
 				
 			} else {
 				
@@ -265,10 +266,10 @@ $('#discountCodeSend').click(function(){
 
 });
 
-<? if($_SESSION["discountCode"] != "") { ?>
+<?php if($_SESSION["discountCode"] != "") { ?>
 	$('#discountCode').click();
 	$('#discountCodeSend').click();
-<? } ?>
+<?php } ?>
 
 $(document).on('click','#validationCodeSend',function(){
 

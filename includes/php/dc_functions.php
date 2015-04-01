@@ -104,12 +104,13 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 		$dblDiscountAmount	= $dblPriceTotal - $dblPriceTotalOld;
 		$dblDiscountOver	= $objCode->discountValue + $dblDiscountAmount;
 
-		$strDiscountAmount = '€ ' . number_format($dblDiscountAmount,2,',', ' '); 
+		$strDiscountAmount = '€ ' . number_format($dblDiscountAmount,2,',', ' ');
 		
 	} elseif($objCode->discountType == "percentage") {
-		
+
 		$dblDiscountAmount = $objCode->discountValue;
 		$strDiscountAmount = $dblDiscountAmount . "%"; 
+		
 		$discountValue = (100 - $objCode->discountValue) / 100;
 		$dblPriceTotal = $dblPriceTotal * $discountValue;
 		$dblDiscountOver = 0;

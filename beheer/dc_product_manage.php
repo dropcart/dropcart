@@ -8,24 +8,25 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 
 // Page specific includes
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/libaries/Api_Inktweb/API.class.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
 
 
 $objDB 		= new DB();
 
 $intId 			= intval($_GET['id']);
 
-if (!empty($_POST)) {
+if (!empty($_POST) AND !empty($intId)) {
 
 	$_POST 		= sanitize($_POST);
 
-	$product_title 		= $_POST['product_title'];
-	$product_price 		= $_POST['product_price'];
-	$product_price_from	= $_POST['product_price_from'];
-	$product_description 	= $_POST['product_description'];
 
-	$opt_cart 			= $_POST['check_cart'];
-	$opt_top5 			= $_POST['check_top5'];
+	$product_title 		= $_POST['product_title'];
+	$product_price 	= $_POST['product_price'];
+	$product_price_from	= $_POST['product_price_from'];
+	$product_description = $_POST['product_description'];
+
+	$opt_cart 		= $_POST['check_cart'];
+	$opt_top5 		= $_POST['check_top5'];
 
 	// Set to NULL if empty
 	if (empty($product_title)) {
@@ -89,7 +90,32 @@ if (!empty($_POST)) {
 		opt_cart	= ".$opt_cart.",
 		opt_top5	= ".$opt_top5." ";
 	$objDB->sqlExecute($strSQL);
-		
+
+	// Handle price tiered
+	$arrTiersQuantity = $_POST['product_price_tiers_qty'];
+	$arrTiersPercentage = $_POST['product_price_tiers_percentage'];
+	$arrTiers = array_combine($arrTiersQuantity, $arrTiersPercentage); // merges seperate input fields into one array for easier looping
+
+	// empty table to prevent duplicates 
+	$strSQL = "DELETE FROM ".DB_PREFIX."products_tiered WHERE productId = '".$intId."' ";
+	$objDB->sqlExecute($strSQL);
+
+	// Add to table
+	foreach ($arrTiers as $key => $value) {
+
+		// Insert key/values only if not empty AND greater than 0
+		if ($key > 0 AND $value > 0) {
+			$strSQL = 
+			"INSERT INTO ".DB_PREFIX."products_tiered
+			(productId, quantity, percentage)
+			VALUES
+			('".$intId."', '".$key."', '".$value."')";
+			$objDB->sqlExecute($strSQL);
+		}
+	}
+
+	// Redirect to same page (prevents double submits)
+	header('Location: ?id='.$intId.'&succes='.urlencode('Product is aangepast.'));
 }
 
 $strSQL 		= 
@@ -115,6 +141,14 @@ require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
 ?>
 
 <h1>Product details <small><?php echo $intId; ?></small></h1>
+
+<?php
+
+if (!empty($_GET['succes'])) {
+	echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
+}
+
+?>
 
 <hr />
 
@@ -153,7 +187,73 @@ require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
 					<input type="text" class="form-control" id="product_price" name="product_price" value="<?php echo $objProduct->price; ?>" autocomplete="off">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
+	
+			<div id="productTiers">
+			<?php
+			$strSQL = "SELECT quantity, percentage FROM ".DB_PREFIX."products_tiered WHERE productId = '".$intId."' ORDER BY quantity ASC ";
+			$result = $objDB->sqlExecute($strSQL);
+			$numTiers = $objDB->getNumRows($result);
+			if ($numTiers > 0) {
+				while ($objTier = $objDB->getObject($result)) {
+				?>
+					<div class="form-group">
+					<div class="col-sm-8 col-sm-offset-2">
+						<label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
+						<div class="col-sm-3">
+							<input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  value="<?=$objTier->quantity;?>" autocomplete="off">
+						</div><!-- /col -->
+						<label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>
+						<div class="col-sm-3">
+							<input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  value="<?=$objTier->percentage;?>" autocomplete="off">
+						</div><!-- /col -->
+					</div><!-- /col -->
+					</div><!-- /form-group -->
+				<?php
+				}
+			}
+			else {
+			?>
+				<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-2">
+					<label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
+					<div class="col-sm-3">
+						<input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  autocomplete="off">
+					</div><!-- /col -->
+					<label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>
+					<div class="col-sm-3">
+						<input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  autocomplete="off">
+					</div><!-- /col -->
+				</div><!-- /col -->
+				</div><!-- /form-group -->
+			<?php
+			}
+			?>
+			</div><!-- / #productTiers -->
 
+			<div class="form-group">
+				<div class="col-sm-3 pull-right">
+					<a  class="btn btn-sm btn-success addTier"><i class="glyphicon glyphicon-plus"></i></a>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+
+			<script type="text/javascript">
+			$(document).ready(function() {
+				$(".addTier").click(function() {
+					$("#productTiers").append('<div class="form-group">\
+								<div class="col-sm-8 col-sm-offset-2">\
+									<label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>\
+									<div class="col-sm-3">\
+										<input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  autocomplete="off">\
+									</div><!-- /col -->\
+									<label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>\
+									<div class="col-sm-3">\
+										<input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  autocomplete="off">\
+									</div><!-- /col -->\
+								</div><!-- /col -->\
+								</div><!-- /form-group -->');
+				});
+			});
+			</script>
 			<hr />
 
 			<div class="form-group">
@@ -185,7 +285,7 @@ require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
 
 	<p>
 		<a href="https://www.inktweb.nl/products_detail.php?id=<?php echo $intId; ?>" class="btn btn-default">Bekijk op Inktweb.nl</a>
-		<a href="<?php echo formOption('site_url'); ?>product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
+		<a href="/product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
 	</p>
 
 </div><!-- /col -->
@@ -235,7 +335,7 @@ require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
 	</a>
 
 	<a class="list-group-item">
-		<h4 class="list-group-item-heading">Price <span class="label label-primary">LIVE</span></h4>
+		<h4 class="list-group-item-heading">Price <span class="label label-primary" title="De prijs die momenteel op de website staat.">LIVE</span></h4>
 		<p class="list-group-item-text"><?php echo $strPrice; ?></p>
 	</a>
 </div><!-- /list-group -->

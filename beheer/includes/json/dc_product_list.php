@@ -11,7 +11,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
 // Start API
-require_once($_SERVER['DOCUMENT_ROOT'].'/libaries/Api_Inktweb/API.class.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 

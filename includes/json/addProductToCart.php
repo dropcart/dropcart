@@ -12,7 +12,7 @@ require_once('../../_classes/class.cart.php');
 require_once('../php/dc_functions.php');
 
 // Start API
-require_once('../../libaries/Api_Inktweb/API.class.php');
+require_once('../../libraries/Api_Inktweb/API.class.php');
 
 $intSessionId 	= session_id();
 $intCustomerId 	= (isset($_SESSION["customerId"])) ? $_SESSION["customerId"] : 0;
@@ -40,7 +40,7 @@ $result_cart = $objCart->getCart();
 while($objCart = $objDB->getObject($result_cart)) {
 	
 	$Product	= $Api->getProduct($objCart->productId);
-	$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, false);
+	$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, $objCart->quantity, false);
 	
 	//adding to totals
 	$intItems += $objCart->quantity;

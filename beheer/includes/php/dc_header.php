@@ -2,8 +2,8 @@
 
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_session.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Api_Inktweb/API.class.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Api_Dropcart/API.class.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Dropcart/API.class.php');
 
 // Start Dropcart API
 $strBuild = (formOption('UPDATE_BUILD') != '') ? formOption('UPDATE_BUILD') : 'stable'; // if build is not set, set to stable

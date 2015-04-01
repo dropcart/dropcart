@@ -9,9 +9,9 @@ require_once(SITE_PATH.'includes/php/dc_config.php');
 require_once(SITE_PATH.'includes/php/dc_functions.php');
 require_once(SITE_PATH.'includes/php/dc_mail.php');
 require_once(SITE_PATH.'_classes/class.cart.php');
-require_once(SITE_PATH.'libaries/Api_Inktweb/API.class.php');	// Inktweb API
-require_once(SITE_PATH.'libaries/mpdf/mpdf.php'); // MPDF Libary
-require_once(SITE_PATH.'libaries/Twig/Autoloader.php'); // Twig template engine
+require_once(SITE_PATH.'libraries/Api_Inktweb/API.class.php');	// Inktweb API
+require_once(SITE_PATH.'libraries/mpdf/mpdf.php'); // MPDF Libary
+require_once(SITE_PATH.'libraries/Twig/Autoloader.php'); // Twig template engine
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);

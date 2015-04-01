@@ -10,11 +10,11 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_session.php');
 
 // Page specific includes
 require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_functions.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/mpdf/mpdf.php'); // MPDF Libary
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Twig/Autoloader.php'); // Twig template engine
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/mpdf/mpdf.php'); // MPDF Libary
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Twig/Autoloader.php'); // Twig template engine
 
 // Start API
-require_once('../../libaries/Api_Inktweb/API.class.php');
+require_once('../../libraries/Api_Inktweb/API.class.php');
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 $intOrderId = (int) $_GET["orderId"];

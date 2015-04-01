@@ -167,6 +167,33 @@ class Cart {
 			$this->objDB->sqlExecute($strSQL);
 		}
 	}
+
+	// Return number of times productId is in cart
+	function getProductQuantity($intCartId, $intProductId) {
+		//checking if user is logged in, if not, use sessionId
+		if(!empty($this->intCustomerId)) {
+			$this->intSessionId = 0;
+			$strExtraSQL = "AND customerId=".$this->intCustomerId;
+		}
+		else {
+			$this->intCustomerId = 0;
+			$strExtraSQL = "AND sessionId='".$this->intSessionId."'";
+		}
+
+		if (empty($intCartId) OR empty($intProductId)) {
+			trigger_error("Not all required variables are set", E_USER_ERROR);
+		}
+		
+		$strSQL = "SELECT quantity FROM ".DB_PREFIX."cart WHERE id = '".$intCartId."' AND productId = '".$intProductId."' " . $strExtraSQL;
+		$result = $this->objDB->sqlExecute($strSQL);
+		list($intQuantity) = $this->objDB->getRow($result);
+
+		if (empty($intQuantity)) {
+			$intQuantity = 0;
+		}
+
+		return $intQuantity;
+	}
 	
 	//updating quantity of product in cart
 	function updateProductQuantity($intCartId, $intQuantity) {

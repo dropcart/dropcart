@@ -8,7 +8,7 @@ if (PHP_SAPI == 'cli')
 
 date_default_timezone_set('Europe/Amsterdam');
 
-require_once '../libaries/phpexcel/PHPExcel.php';
+require_once '../libraries/phpexcel/PHPExcel.php';
 
 // Required includes
 require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');

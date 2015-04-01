@@ -15,7 +15,7 @@ require_once (SITE_PATH_CRON.'includes/php/dc_config.php');
 require_once (SITE_PATH_CRON.'includes/php/dc_functions.php');
 require_once (SITE_PATH_CRON.'includes/php/dc_mail.php');
 require_once (SITE_PATH_CRON.'_classes/class.cart.php');
-require_once (SITE_PATH_CRON.'libaries/Api_Inktweb/API.class.php');// Inktweb API
+require_once (SITE_PATH_CRON.'libraries/Api_Inktweb/API.class.php');// Inktweb API
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);

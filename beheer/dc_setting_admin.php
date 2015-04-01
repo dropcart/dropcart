@@ -9,7 +9,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
 // For mollie paymethods
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Mollie/API/Autoloader.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Mollie/API/Autoloader.php');
 
 $objDB 		= new DB();
 

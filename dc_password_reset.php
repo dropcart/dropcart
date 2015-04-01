@@ -13,7 +13,7 @@ require_once('includes/php/dc_functions.php');
 require_once('includes/php/dc_mail.php'); // Password reset email
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 if (!empty($_SESSION['customerId'])) {
 	header('Location: /dc_profile.php');
