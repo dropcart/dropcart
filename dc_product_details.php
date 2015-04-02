@@ -204,13 +204,15 @@ if (@!getimagesize($strProductImg)) {
 			<?php
 			echo getProductDesc($Product, $Product->getId());
 			?>
-
-			<h3>Geschikte printers</h3>
-			Dit product is gegarandeerd geschikt voor de volgende printers: 
+	
 			<?php
-			foreach ($objPrinters->printers as $printer) {
-				print_r($printer->title);
-				echo ", ";
+			if (count($objPrinters->printers) > 0) {
+			echo '<h3>Geschikte printers</h3>';
+			echo '<p>Dit product is gegarandeerd geschikt voor de volgende printers: </p>';
+				foreach ($objPrinters->printers as $printer) {
+					print_r($printer->title);
+					echo ", ";
+				}
 			}
 			?>
 
