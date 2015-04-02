@@ -9,7 +9,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
 // Dropcart API
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Api_Dropcart/API.class.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Dropcart/API.class.php');
 
 $Api_Dropcart = new Dropcart\API(API_KEY, API_DEBUG);
 $Api_Dropcart->debug = true;
@@ -116,16 +116,16 @@ require('includes/php/dc_header.php');
 		<div class="panel-body">
 			<p>Uw huidige versie van Dropcart is <strong><?=DROPCART_VERSION?></strong></p>
 				
-			<? if(!empty($arrVersion->{'version_'.$strBuild})) { ?>
+			<?php if(!empty($arrVersion->{'version_'.$strBuild})) { ?>
 			
 				<p>Beschikbare versie: <strong><?=$strVersionNumber?></strong> (uitgebracht op <?=$strVersionDate?>)</p>
 				<a class="btn btn-primary" href="?update=1">Nu updaten</a>
 
-			<? } else { ?>
+			<?php } else { ?>
 			
 				<p><strong>Geen update beschikbaar</strong></p>
 				
-			<? } ?>
+			<?php } ?>
 			
 		</div><!-- /panel-body -->
 	</div><!-- /panel -->

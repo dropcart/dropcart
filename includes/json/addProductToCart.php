@@ -12,7 +12,7 @@ require_once('../../_classes/class.cart.php');
 require_once('../php/dc_functions.php');
 
 // Start API
-require_once('../../libaries/Api_Inktweb/API.class.php');
+require_once('../../libraries/Api_Inktweb/API.class.php');
 
 $intSessionId 	= session_id();
 $intCustomerId 	= (isset($_SESSION["customerId"])) ? $_SESSION["customerId"] : 0;
@@ -40,17 +40,20 @@ $result_cart = $objCart->getCart();
 while($objCart = $objDB->getObject($result_cart)) {
 	
 	$Product	= $Api->getProduct($objCart->productId);
-	$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, false);
+	$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, $objCart->quantity, false);
 	
 	//adding to totals
 	$intItems += $objCart->quantity;
 	$dblPriceTotal += ($dblPrice * $objCart->quantity);
 }
 
-$arrOutput['cartItems']			= $intItems;
+$dblShippingCosts			= calculateSiteShipping($dblPriceTotal, '', false);
+$strShippingCosts			= money_format('%(#1n', $dblShippingCosts);
+
+$arrOutput['cartItems']		= $intItems;
 $arrOutput['cartSubTotal']		= money_format('%(#1n', $dblPriceTotal);
-$arrOutput['cartShippingCosts']	= money_format('%(#1n', SITE_SHIPPING);
-$arrOutput['cartTotal']			= money_format('%(#1n', $dblPriceTotal + SITE_SHIPPING);
+$arrOutput['cartShippingCosts']	= $strShippingCosts;
+$arrOutput['cartTotal']		= money_format('%(#1n', $dblPriceTotal + $dblShippingCosts);
 
 echo json_encode($arrOutput);
 

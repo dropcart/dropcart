@@ -6,7 +6,7 @@
 -- Generation Time: Nov 11, 2014 at 01:39 PM
 -- Server version: 5.5.9-log
 -- PHP Version: 5.5.18
--- Dropcart Version: v1.5.0
+-- Dropcart Version: v1.6.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -366,23 +366,24 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (12, 'api_restrict', 'true'),
 (13, 'price_operators', '["*"]'),
 (14, 'price_values', '["1.21"]'),
-(17, 'price_base', 'price'),
-(18, 'site_shipping', '5.95'),
-(19, 'dropcart_version', 'v1.5.1'),
-(20, 'email_bcc', 'bcc@dropcart.nl'),
-(21, 'site_email_template', 'includes/templates/dc_mail_template.html'),
-(22, 'tmp_path', 'tmp/'),
-(23, 'lc_monetary', 'nl_NL.UTF-8'),
-(24, 'meta_robots', 'index,follow'),
-(25, 'mail_server', 'smtp'),
-(41, 'smtp_server', 'smtp.gmail.com'),
-(42, 'smtp_port', '465'),
-(43, 'smtp_secure', 'ssl'),
-(44, 'smtp_auth', 'true'),
-(45, 'smtp_username', '- email username here -'),
-(46, 'smtp_password', '- email password here - '),
-(163, 'update_build', 'stable'),
-(47, 'order_number_prefix', '');
+(15, 'price_base', 'price'),
+(16, 'site_shipping', '5.95'),
+(17, 'dropcart_version', 'v1.6.0'),
+(18, 'email_bcc', 'bcc@dropcart.nl'),
+(19, 'site_email_template', 'includes/templates/dc_mail_template.html'),
+(20, 'tmp_path', 'tmp/'),
+(21, 'lc_monetary', 'nl_NL.UTF-8'),
+(22, 'meta_robots', 'index,follow'),
+(23, 'mail_server', 'smtp'),
+(24, 'smtp_server', 'smtp.gmail.com'),
+(25, 'smtp_port', '465'),
+(26, 'smtp_secure', 'ssl'),
+(27, 'smtp_auth', 'true'),
+(28, 'smtp_username', '- email username here -'),
+(29, 'smtp_password', '- email password here - '),
+(30, 'update_build', 'stable'),
+(31, 'order_number_prefix', ''),
+(32, 'site_shipping_free_from', '0');
 
 --
 -- Table structure for table `dc_pages_content`
@@ -414,6 +415,18 @@ CREATE TABLE IF NOT EXISTS `dc_products` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Table structure for table `dc_products_tiered`
+--
+CREATE TABLE IF NOT EXISTS `dc_products_tiered` (
+`id` int(11) unsigned NOT NULL,
+  `productId` int(11) unsigned NOT NULL,
+  `quantity` int(5) unsigned DEFAULT NULL,
+  `percentage` int(3) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `dc_products_tiered`
+ ADD PRIMARY KEY (`id`), ADD KEY `productId` (`productId`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -6,7 +6,7 @@ $objDB = new DB();
 require_once('../php/dc_config.php');
 
 // Page specific includes
-require_once('../../libaries/Api_Inktweb/API.class.php');
+require_once('../../libraries/Api_Inktweb/API.class.php');
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);

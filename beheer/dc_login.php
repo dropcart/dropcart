@@ -26,7 +26,13 @@ if ($_POST['username'] != "" AND $_POST['password'] != "") {
 			// start session and redirect user
 			$_SESSION['sessionAdminId'] = $userId;
 			$_SESSION['sessionAdminUsername'] = $username;
-			header('Location: /beheer/dc_index.php');
+
+			if ($username == "admin") {
+				header('Location: /beheer/dc_user_admin.php?firsttime=1');
+			}
+			else {
+				header('Location: /beheer/dc_index.php');
+			}
 		}
 		else {
 			echo 'Gebruikersnaam en/of wachtwoord niet correct';

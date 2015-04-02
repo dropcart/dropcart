@@ -30,9 +30,9 @@ $('#discountCodeSend').click(function(){
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
 				
-				<? if($_SESSION["validationCode"] != "") { ?>
+				<?php if($_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
-				<? } ?>
+				<?php } ?>
 				
 			}
 			
@@ -47,10 +47,10 @@ $('#discountCodeSend').click(function(){
 
 });
 
-<? if($_SESSION["discountCode"] != "") { ?>
+<?php if($_SESSION["discountCode"] != "") { ?>
 	$('#discountCode').click();
 	$('#discountCodeSend').click();
-<? } ?>
+<?php } ?>
 
 $(document).on('click','#validationCodeSend',function(){
 

@@ -113,7 +113,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="bcc" class="col-sm-2 control-label">BCC e-mailadres</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="bcc" name="bcc" value="<?php echo $objEmail->bcc; ?>" required>
+			<input type="text" class="form-control" id="bcc" name="bcc" value="<?php echo $objEmail->bcc; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 

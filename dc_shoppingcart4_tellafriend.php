@@ -9,7 +9,7 @@ require_once('includes/php/dc_config.php');
 require_once('includes/php/dc_functions.php');
 require_once('includes/php/dc_mail.php');
 require_once('_classes/class.cart.php');
-require_once('libaries/Api_Inktweb/API.class.php');	// DropCart API
+require_once('libraries/Api_Inktweb/API.class.php');	// DropCart API
 
 $intOrderId		= (int) $_POST["orderId"];
 $intCustomerId	= (int) $_SESSION["customerId"];

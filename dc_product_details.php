@@ -12,7 +12,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 $_GET 	= sanitize($_GET);
 $_POST 	= sanitize($_POST);
@@ -41,7 +41,7 @@ require_once('includes/php/dc_header.php');
 
 
 $objPrice 		= $Product->getPrice();
-$dblPrice 		= calculateProductPrice($objPrice, $intProductId, false);
+$dblPrice 		= calculateProductPrice($objPrice, $intProductId, '', false);
 $strPrice 		= money_format('%(#1n', $dblPrice);
 
 $intStock 		= $Product->getStock();
@@ -49,6 +49,11 @@ $objSpecifications 	= $Product->getSpecifications();
 $objPrinters		= $Product->getCompatible();
 $arrImages 		= (array) $Product->getImages();
 $strProductImg 	= @$arrImages[0]->url;
+
+// Support infinite stock by setting it to high value
+if ($intStock == 'infinite') {
+	$intStock = 99;
+}
 
 // check if valid image (ignore warnings)
 if (@!getimagesize($strProductImg)) {
@@ -79,8 +84,25 @@ if (@!getimagesize($strProductImg)) {
 		<div class="product-header">
 			<h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId; ?>" data-url="/post" data-title="Verander prijs">
 				<?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '' ;?>
-				<?php echo $strPrice?>
+				<?php echo $strPrice?> <small>inclusief BTW</small>
 			</h2>
+	
+			<?php
+			$strSQL = "SELECT quantity, percentage FROM ".DB_PREFIX."products_tiered WHERE productId = '".$intProductId."' ORDER BY quantity ASC ";
+			$result = $objDB->sqlExecute($strSQL);
+			$numTiers = $objDB->getNumRows($result);
+				if ($numTiers > 0) {
+					echo '<div class="productTiered well">';
+				}
+				while ($objTier = $objDB->getObject($result)) {
+					$dblSaving = ($dblPrice / 100) * $objTier->percentage;
+					$dblPiecePrice = $dblPrice - $dblSaving;
+					echo '<p>Koop '.$objTier->quantity.' stuks voor <strong>'.money_format('%(#1n', $dblPiecePrice).'</strong> per stuk en <strong>bespaar '.$objTier->percentage.'%</strong>.</p>';
+				}
+				if ($numTiers > 0) {
+					echo '</div>';
+				}
+			?>
 
 			<div class="product-stock">
 				<p><strong>Voorraad</strong>:
@@ -131,7 +153,7 @@ if (@!getimagesize($strProductImg)) {
 						
 					</select>
 
-					<input type="number" class="quantity hidden" id="quantityInput" name="quantity" />
+					<input type="number" min="1" class="quantity hidden" id="quantityInput" name="quantity" />
 				</div><!-- /pull-left -->
 				<div class="pull-right">
 					<?php
@@ -158,7 +180,9 @@ if (@!getimagesize($strProductImg)) {
 					foreach($objSpecifications as $objSpecification) {
 
 						// extra check for NULL results
-						if (!empty($objSpecification->label)) {
+						if (empty($objSpecification->label) OR empty($objSpecification->value)) {
+							continue;
+						}
 
 						$strUnit = (!empty($objSpecification->unit)) ? $objSpecification->unit : '';
 
@@ -166,8 +190,7 @@ if (@!getimagesize($strProductImg)) {
 								<td><strong>'.$objSpecification->label.':</strong></td>
 								<td>'.$objSpecification->value.' '.$strUnit.'</td>
 							  </tr>';
-						}
-						
+					
 					}
 					
 					echo '</table>';

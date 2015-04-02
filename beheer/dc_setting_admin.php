@@ -9,7 +9,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
 require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
 
 // For mollie paymethods
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libaries/Mollie/API/Autoloader.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Mollie/API/Autoloader.php');
 
 $objDB 		= new DB();
 
@@ -91,6 +91,14 @@ if (!empty($_GET['succes'])) {
 			<label for="site_shipping" class="col-sm-2 control-label">site_shipping</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="site_shipping" name="site_shipping" value="<?php echo formOption('site_shipping'); ?>" autocomplete="off">
+					<p class="help-block">Verzendkosten inclusief BTW</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+			<label for="site_shipping_free_from" class="col-sm-2 control-label">site_shipping_free_from</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_shipping_free_from" name="site_shipping_free_from" value="<?php echo formOption('site_shipping_free_from'); ?>" autocomplete="off">
+					<p class="help-block">Vanaf welk bedrag (inclusief BTW) moet de verzendkosten komen te vervallen? Zet op <code>0</code> om hier geen gebruik van te maken.</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">

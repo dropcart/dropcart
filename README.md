@@ -26,10 +26,11 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 - Upload everything to your root (or sub-)domain
 - Navigate to *yourwebsite.com/beheer* and login with *admin*/*inktweb*
 - In the *Settings* menu add the required information (including your *api_key*)
-- Navigate to *yourwebsite.com*
+- Navigate to *yourwebsite.com* and test if everything works
+- Setup a cronjob for `/beheer/cronjobs/dc_orderstatus.php`. This checks the order status from the supplier and updates the customer (e.g. if the order is shipped). Min: daily. Recommended: hourly.
 
 ### Files that still need customization
-- In the CMS delete the default account and add your own
+- In the CMS delete the default `admin` account and add your own
 - In the CMS customize your emails / add logos
 - Change the default images in the */images* folder
 - Change/customize the email template(s) in *includes/templates* both the *.tpl* and *.html* file
