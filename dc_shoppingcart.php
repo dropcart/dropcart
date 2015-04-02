@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -342,8 +343,10 @@ $('.cartQuantity').change(function(){
 			$('.cartItems').html(data.cartItems);
 			$('.cartSubtotal').html(data.cartSubTotal);
 			
-			$('#discountCode').click();
-			$('#discountCodeSend').click();
+			if ($('#discountCodeValue').val() != "") {
+				$('#discountCode').click();
+				$('#discountCodeSend').click();
+			}
 			
 		},
 		'json'
