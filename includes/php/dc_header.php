@@ -63,7 +63,7 @@ if(!empty($_SESSION["discountCode"])) {
 }
 
 $strNodePriceSubtotal	= money_format('%(#1n', $dblNodePriceTotal);
-$dblShippingCosts		= SITE_SHIPPING;
+$dblShippingCosts		= calculateSiteShipping($dblNodePriceTotal, '', false);
 $strShippingCosts		= money_format('%(#1n', $dblShippingCosts);
 $dblNodePriceTotal		= $dblNodePriceTotal + $dblShippingCosts;
 $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);

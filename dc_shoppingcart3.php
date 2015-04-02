@@ -54,7 +54,7 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 	$i++;
 }
 
-$dblShippingcosts		= SITE_SHIPPING;
+$dblShippingcosts 		= calculateSiteShipping($dblNodePriceTotal, '', false);
 $dblNodePriceTotal		= $dblNodePriceTotal + $dblShippingcosts;
 
 if(!empty($_SESSION["discountCode"])) {
@@ -75,7 +75,6 @@ if(!empty($_SESSION["discountCode"])) {
 
 }
 
-
 $intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".$intCustomerId." AND customerId != 0)");
 if($intCartItems == 0)
 {
@@ -83,16 +82,19 @@ if($intCartItems == 0)
 	exit;
 } elseif(!empty($_POST)) {
 
+	$_POST = sanitize($_POST);
+	$_SERVER = sanitize($_SERVER);
+
 	$strSQL = "INSERT INTO ".DB_PREFIX."customers_orders_id (customerId) VALUES (".$intCustomerId.")";
 	$result = $objDB->sqlExecute($strSQL);
 	$intOrderId = $objDB->getInsertedId();
 
-	if($dblNodePriceTotal >= 0.50) {
+	if ($dblNodePriceTotal > 0) {
 
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
 
-		$method = checkInput($_POST['paymentMethod']);
+		$method = $_POST['paymentMethod'];
 
 		$transactionFeeAddition = formOption($method . '_fee_addition');
 		$transactionFeePercentage = formOption($method . '_fee_percent') / 100;
@@ -133,6 +135,7 @@ if($intCartItems == 0)
 
 }
 unset($arrCartItems);
+
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
@@ -541,7 +544,7 @@ $('.cartQuantity').change(function(){
 
 			$(curThis).parent().parent().find('.productTotal').html(data.productTotal);
 			$('.subtotal').html(data.cartSubTotal);
-			$('.shippingCosts').html(data.cartShippingcosts);
+			$('.shippingCosts').html(data.cartShippingCosts);
 			$('.total').html(data.cartTotal);
 
 			$('.cartItems').html(data.cartItems);
@@ -578,7 +581,7 @@ $('.deleteItem').click(function() {
 			} else {
 
 				$('.subtotal').html(data.cartSubTotal);
-				$('.shippingCosts').html(data.cartShippingcosts);
+				$('.shippingCosts').html(data.cartShippingCosts);
 				$('.total').html(data.cartTotal);
 
 				$('.cartItems').html(data.cartItems);

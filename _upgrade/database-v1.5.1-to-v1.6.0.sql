@@ -13,6 +13,12 @@ ALTER TABLE `dc_products_tiered`
 
 
  --
+ -- Add option "site_shipping_free_from"
+ --
+INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES (NULL, 'site_shipping_free_from', '0');
+
+
+ --
  -- Set version number
  --
  UPDATE  `dc_options` SET  `optionValue` =  'v1.6.0' WHERE  `dc_options`.`optionName` = 'dropcart_version'

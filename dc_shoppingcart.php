@@ -55,7 +55,7 @@ while($objNodeCart = $objDB->getObject($result_header_cart)) {
 
 
 $strNodePriceSubtotal	= money_format('%(#1n', $dblNodePriceTotal);
-$dblShippingCosts		= SITE_SHIPPING;
+$dblShippingCosts		= calculateSiteShipping($dblNodePriceTotal, '', false);
 $strShippingCosts		= money_format('%(#1n', $dblShippingCosts);
 $dblNodePriceTotal		= $dblNodePriceTotal + $dblShippingCosts;
 $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
@@ -336,7 +336,7 @@ $('.cartQuantity').change(function(){
 			
 			$(curThis).parent().parent().find('.productTotal').html(data.productTotal);
 			$('.subtotal').html(data.cartSubTotal);
-			$('.shippingCosts').html(data.cartShippingcosts);
+			$('.shippingCosts').html(data.cartShippingCosts);
 			$('.total').html(data.cartTotal);
 			
 			$('.cartItems').html(data.cartItems);

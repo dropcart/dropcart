@@ -154,6 +154,31 @@ function calculateProductPrice($objPrice, $productId = null, $quantity = null, $
 
 }
 
+
+
+function calculateSiteShipping($cartTotal = 0, $deliveryLang = null, $format = true) {
+
+	global $objDB;
+	$shippingCosts = SITE_SHIPPING;
+
+	if ($cartTotal > 0) {
+		$freeShippingFrom = formOption('site_shipping_free_from');
+
+		// If shipping is not 0 and current amount exceeds "free_shipping"
+		if (!empty($freeShippingFrom) AND $cartTotal >= $freeShippingFrom) {
+			$shippingCosts = "0.00";
+		}
+	}
+
+	// @todo: dynamic based on delivery lang
+
+
+	if ($format == true) {
+		$shippingCosts = money_format('%(#1n', $shippingCosts);
+	}
+	return $shippingCosts;
+}
+
 /**
  * Get content from the database. Could be default values for products or more advanced like the text for the footer
  * @param  str $strContent how the content is called in the db

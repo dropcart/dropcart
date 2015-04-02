@@ -92,7 +92,7 @@ while($objStatus = $objDB->getObject($result2)) {
 			
 		}
 		
-		$dblShippingcosts = SITE_SHIPPING;
+		$dblShippingcosts = calculateSiteShipping($dblPriceTotal, '', false);
 		$dblDiscountAmount = "0.00";
 
 		if($objCustomer->discountCode != '') {
@@ -122,7 +122,7 @@ while($objStatus = $objDB->getObject($result2)) {
 		
 		$dblPriceTotal += $dblShippingcosts;
 
-		$dblShippingcosts = SITE_SHIPPING;
+		$dblShippingcosts = calculateSiteShipping($dblPriceTotal, '', false);
 
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET shippingCosts = ".$dblShippingcosts.", totalPrice = ".$dblPriceTotal.", kortingscode = '".$objCustomer->discountCode."', kortingsbedrag = '".$dblDiscountAmount."' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
