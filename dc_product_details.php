@@ -35,7 +35,21 @@ if (!empty($Product->errors)) {
 $strPageTitle		= getContent('product_title', true, $Product);
 $strMetaDescription	= getContent('product_meta_description', true, $Product);
 
-$strCanonical = '<link rel="canonical" href="/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $intProductId . '/" />';
+// Handle pretty urls / canonical / 301 old URLs
+if (!is_null($Product->getCategorieTitle()) AND !is_null($Product->getTitle()) AND !empty($intProductId)) {
+	
+	// $canonical gets set to full `link rel` in dc_header.php
+	$canonical 		= '/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $intProductId . '/';
+	
+	// Redirect to canonical if current url doesnt match (prevent duplicate indexing)
+	if ($_SERVER['REQUEST_URI'] !== $canonical) {
+		header("HTTP/1.1 301 Moved Permanently"); 
+		header("Location: " . $canonical); 
+	}
+}
+
+
+
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
