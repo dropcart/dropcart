@@ -145,6 +145,11 @@ class Cart {
 			$strExtraSQL = "AND sessionId='".$this->intSessionId."'";
 		}
 
+		// Dont allow negative values to be inserted
+		if (empty($intQuantity) OR $intQuantity < 1) {
+			$intQuantity = 1;
+		}
+
 		//checking if product already exists in cart
 		$intNrOf = $this->objDB->getRecordCount("cart","id","WHERE productId=".$intProductId." ".$strExtraSQL);
 		if($intNrOf == 0) {
@@ -161,6 +166,33 @@ class Cart {
 						$strExtraSQL;
 			$this->objDB->sqlExecute($strSQL);
 		}
+	}
+
+	// Return number of times productId is in cart
+	function getProductQuantity($intCartId, $intProductId) {
+		//checking if user is logged in, if not, use sessionId
+		if(!empty($this->intCustomerId)) {
+			$this->intSessionId = 0;
+			$strExtraSQL = "AND customerId=".$this->intCustomerId;
+		}
+		else {
+			$this->intCustomerId = 0;
+			$strExtraSQL = "AND sessionId='".$this->intSessionId."'";
+		}
+
+		if (empty($intCartId) OR empty($intProductId)) {
+			trigger_error("Not all required variables are set", E_USER_ERROR);
+		}
+		
+		$strSQL = "SELECT quantity FROM ".DB_PREFIX."cart WHERE id = '".$intCartId."' AND productId = '".$intProductId."' " . $strExtraSQL;
+		$result = $this->objDB->sqlExecute($strSQL);
+		list($intQuantity) = $this->objDB->getRow($result);
+
+		if (empty($intQuantity)) {
+			$intQuantity = 0;
+		}
+
+		return $intQuantity;
 	}
 	
 	//updating quantity of product in cart
@@ -181,13 +213,25 @@ class Cart {
 	function deleteProduct($intCartId) {
 		//checking if user is logged in, if not, use sessionId	
 		if(!empty($this->intCustomerId)) $strExtraSQL = "AND customerId=".$this->intCustomerId;
-		else "AND sessionId='".$this->intSessionId."'";
+		else $strExtraSQL = "AND sessionId='".$this->intSessionId."'";
 		
 		//removing product from cart
 		$strSQL = "DELETE FROM ".DB_PREFIX."cart " .
 					"WHERE id=".$intCartId." " .
 					$strExtraSQL;
 		$this->objDB->sqlExecute($strSQL);
+	}
+
+	function deleteProductById($intProductId) {
+		//checking if user is logged in, if not, use sessionId	
+		if(!empty($this->intCustomerId)) $strExtraSQL = "AND customerId=".$this->intCustomerId;
+		else $strExtraSQL = "AND sessionId='".$this->intSessionId."'";
+		
+		//removing product from cart
+		$strSQL = "DELETE FROM ".DB_PREFIX."cart " .
+					"WHERE productId=".$intProductId." " .
+					$strExtraSQL;
+		$this->objDB->sqlExecute($strSQL);		
 	}
 	
 	//empty cart

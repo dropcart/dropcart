@@ -12,7 +12,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 //opening database
 $objDB = new DB();
@@ -160,7 +160,7 @@ $('#btn_maf').click(function(){
 	$('#div_maf').slideDown();
 });
 </script>
-<script src="/libaries/bootstrapValidator/js/bootstrapValidator.min.js" ></script>
+<script src="/libraries/bootstrapValidator/js/bootstrapValidator.min.js" ></script>
 
 <?php
 require('includes/php/dc_footer.php');

@@ -10,23 +10,24 @@ require_once('includes/php/dc_config.php');
 // Page specific includes
 require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
-require_once('libaries/Parsedown/Parsedown.php');
+require_once('libraries/Parsedown/Parsedown.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
-// Generate page title & meta tags
-$strPageTitle		= getContent('page_title');
-$strMetaDescription	= getContent('page_meta_description');
+$intId 		= (int)$_GET['id'];
+
+$strSQL 	= "SELECT pageTitle, pageDesc, navTitle, txt FROM ".DB_PREFIX."pages_content WHERE online = 1 AND id = '".$intId."'";
+$result		= $objDB->sqlExecute($strSQL);
+$objPage 	= $objDB->getObject($result);
+
+// Set page title, meta
+$strPageTitle		= $objPage->pageTitle;
+$strMetaDescription	= $objPage->pageDesc;
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
 
-$intId 		= (int)$_GET['id'];
-
-$strSQL 	= "SELECT navTitle, txt FROM ".DB_PREFIX."pages_content WHERE online = 1 AND id = '".$intId."'";
-$result		= $objDB->sqlExecute($strSQL);
-$objPage 	= $objDB->getObject($result);
 
 $Parsedown 	= new Parsedown();
 

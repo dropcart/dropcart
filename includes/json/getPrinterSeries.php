@@ -8,7 +8,7 @@ $objDB = new DB();
 require_once('../php/dc_config.php');
 
 // Start API
-require_once('../../libaries/Api_Inktweb/API.class.php');
+require_once('../../libraries/Api_Inktweb/API.class.php');
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);

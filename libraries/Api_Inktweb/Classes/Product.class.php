@@ -20,6 +20,7 @@
 		private $urls;
 		private $images;
 		private $compatible;
+		private $categorie;
 		
 		public function __construct($product=NULL) {
 			
@@ -40,6 +41,7 @@
 				$this->url			= (string)$product->urls->product;
 				$this->images		= (object)$product->images;
 				$this->compatible		= (object)$product->compatible;
+				$this->categorie		= (object)$product->categorie;
 				
 			}
 			
@@ -118,6 +120,15 @@
 		public function getCompatible() {
 			return $this->compatible;
 		}
+		
+		public function getCategorieTitle() {
+			return $this->categorie->title;
+		}
+		
+		public function getCategorieId() {
+			return $this->categorie->id;
+		}
+
 		
 	}
 

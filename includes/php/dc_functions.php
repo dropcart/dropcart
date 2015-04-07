@@ -103,8 +103,13 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 		
 		$dblDiscountAmount	= $dblPriceTotal - $dblPriceTotalOld;
 		$dblDiscountOver	= $objCode->discountValue + $dblDiscountAmount;
+
+		$strDiscountAmount = '€ ' . number_format($dblDiscountAmount,2,',', ' ');
 		
 	} elseif($objCode->discountType == "percentage") {
+
+		$dblDiscountAmount = $objCode->discountValue;
+		$strDiscountAmount = $dblDiscountAmount . "%"; 
 		
 		$discountValue = (100 - $objCode->discountValue) / 100;
 		$dblPriceTotal = $dblPriceTotal * $discountValue;
@@ -114,11 +119,12 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 	
 	return array(
 		'dblDiscountAmount' => $dblDiscountAmount,
+		'strDiscountAmount' => $strDiscountAmount,
 		'dblDiscountOver' => $dblDiscountOver,
-		'dblPriceTotal' => $dblPriceTotal)
-	;
+		'dblPriceTotal' => $dblPriceTotal);
 	
 }
+
 
 function generateCodeRemaingValue($strDiscountCode, $dblDiscountAmount, $intOrderId) {
 
@@ -144,13 +150,29 @@ function generateCodeRemaingValue($strDiscountCode, $dblDiscountAmount, $intOrde
 	}
 
 	if($dblDiscountOver > 0) {
-	
-		$strChars	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$strCode	= "CRT" . substr( str_shuffle( $strChars ), 0, 5);
-	
-		$strSQL = "INSERT INTO dc_discountcodes_codes (codeId, parentOrderId, code, discountValue, discountType) VALUES (7, ".$intOrderId.", '".$strCode."', ".$dblDiscountOver.", 'price')";
+
+		$continue = true;
+		while ($continue) {
+			
+			// Generate random code
+			$strChars	= "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+			$strCode	= "CRT" . substr( str_shuffle( $strChars ), 0, 5);
+
+			// Check if code exists
+			$strSQL = "SELECT codeId FROM ".DB_PREFIX."discountcodes_codes WHERE code = '".$strCode."' ";
+			$result = $objDB->sqlExecute($strSQL);
+			list($intCodeId) = $objDB->getRow($result);
+
+			// if code is empty (record not found in database) stop this while loop
+			if (empty($intCodeId)) {
+				$continue = false;
+			}
+
+		}
+			
+		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (codeId, parentOrderId, code, discountValue, discountType) VALUES ('".$objCode->codeId."', ".$intOrderId.", '".$strCode."', ".$dblDiscountOver.", 'price')";
 		$result = $objDB->sqlExecute($strSQL);
-		
+				
 		return $strCode;
 		
 	} else {

@@ -26,7 +26,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 $_GET 	= sanitize($_GET);
 $_POST 	= sanitize($_POST);
@@ -52,6 +52,7 @@ if (!empty($strBrands)) {
 
 $intCategoryId		= (int) $_GET['categoryId'];
 $arrProducts			= $Api->getProductsByCategory($intCategoryId, '?limit=' . MAXIMUM_PAGE_PRODUCTS . '&offset=' . $intOffset . '&fields=price,images'.$queryBrands);
+
 $intTotalProducts		= $arrProducts->itemsTotal;
 $intPages			= ceil($arrProducts->itemsTotal / MAXIMUM_PAGE_PRODUCTS);
 
@@ -106,7 +107,7 @@ $arrBrandOptions 		= array (
 
 		<div class="row">
 
-			<?
+			<?php
 			if(count($arrProducts->products) > 0) {
 
 				foreach($arrProducts->products as $arrProduct) {
@@ -125,16 +126,16 @@ $arrBrandOptions 		= array (
 
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/product/<?php echo $arrProduct->id; ?>/">
+							<a href="/<?php echo rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 
-						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="/<?php echo rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 
-				<?
+				<?php
 				}
 
 			} else {
@@ -145,7 +146,7 @@ $arrBrandOptions 		= array (
 
 		<div class="row text-center">
 			<ul class="pagination">
-				<?
+				<?php
 				$split = 5;// Maximum number of pages left and right of active
 				$start = $intPageNumber - $split;
 				$end = $intPageNumber + $split;

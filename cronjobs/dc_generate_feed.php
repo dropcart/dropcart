@@ -16,7 +16,7 @@ $objDB = new DB();
 
 require_once(SITE_PATH_CRON.'includes/php/dc_config.php');
 require_once(SITE_PATH_CRON.'includes/php/dc_functions.php');
-require_once(SITE_PATH_CRON.'libaries/Api_Inktweb/API.class.php');	// DropCart API
+require_once(SITE_PATH_CRON.'libraries/Api_Inktweb/API.class.php');	// DropCart API
 
 // New Inktweb Api object
 $Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
@@ -49,8 +49,8 @@ foreach ($arrCategories as $intCategory) {
 			'Merk' 			=> $product->brand,
 			'Titel'			=> $product->title,
 			'Verzendkosten'	=> SITE_SHIPPING,
-			'Prijs'			=> calculateProductPrice($product->details[0], $product->id, false),
-			'URL'			=> SITE_URL.'/product/'.$product->id.'/'
+			'Prijs'			=> calculateProductPrice($product->details[0], $product->id, '', false),
+			'URL'			=> SITE_URL.'product/'.$product->id.'/'
 		);
 
 		$arrProducts[] = $arrProduct;

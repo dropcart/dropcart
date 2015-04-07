@@ -1,4 +1,4 @@
-<?
+<?php
 $arrPrinters = $Api->getPrinterBrands();
 
 if (!empty($smallSelector)) {

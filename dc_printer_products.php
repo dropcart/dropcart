@@ -12,7 +12,7 @@ require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
@@ -25,6 +25,7 @@ $strSort			= (isset($_GET["sort"]) ? $_GET["sort"] : 'titleAsc');
 
 $intPrinterId			= (int) $_GET['printerId'];
 $arrProducts			= $Api->getProductsByPrinter($intPrinterId, '?limit=' . MAXIMUM_PAGE_PRODUCTS . '&offset=' . $intOffset . '&sort=' . $strSort . '&fields=price,images');
+
 $intTotalProducts		= $arrProducts->itemsTotal;
 $intPages			= ceil($arrProducts->itemsTotal / MAXIMUM_PAGE_PRODUCTS);
 
@@ -49,7 +50,7 @@ $arrSortOptions 		= array (
 			<ul class="nav nav-list">
 
 				<li class="nav-header">Sorteer op</li>
-				<? foreach($arrSortOptions as $sortIndex => $sortTitle) {
+				<?php foreach($arrSortOptions as $sortIndex => $sortTitle) {
 					
 					$active = ($sortIndex == $strSort) ? 'class="active" ' : '';
 					echo '<li ' . $active . '><a href="?sort='.$sortIndex.'"><span class="glyphicon glyphicon-ok"></span> '.$sortTitle.'</a></li>';
@@ -66,7 +67,7 @@ $arrSortOptions 		= array (
 
 		<div class="row">
 		
-			<?
+			<?php
 			
 			if(count($arrProducts->products) > 0) {
 
@@ -86,16 +87,16 @@ $arrSortOptions 		= array (
 				
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/product/<?php echo $arrProduct->id; ?>/">
+							<a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 						
-						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 				
-				<?
+				<?php
 				}
 			
 			} else {
@@ -108,7 +109,7 @@ $arrSortOptions 		= array (
 		<div class="row text-center">
 			<ul class="pagination">
 				
-				<?
+				<?php
 				if($intPageNumber > 1) {
 				
 					echo '<li><a href="#">&laquo;</a></li>';

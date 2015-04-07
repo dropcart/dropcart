@@ -13,7 +13,7 @@ require_once('includes/php/dc_functions.php');
 require_once ('_classes/class.password.php'); // Password compatibility library with PHP 5.5
 
 // Start API
-require_once('libaries/Api_Inktweb/API.class.php');
+require_once('libraries/Api_Inktweb/API.class.php');
 
 //opening database
 $objDB = new DB();
@@ -221,7 +221,7 @@ require_once('includes/php/dc_header.php');
 		<ul class="nav nav-tabs">
 			<li class=""><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
 			<li class="active"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="<? if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<? if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
 			<li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->
@@ -233,7 +233,7 @@ require_once('includes/php/dc_header.php');
 	<fieldset>
 	<legend>Waar mogen wij uw bestelling naar toezenden?</legend>
 	
-	<? if(isset($intError) && $intError == 1) {
+	<?php if(isset($intError) && $intError == 1) {
 		echo '<p>U heeft niet alle verplichte velden ingevuld.</p>';
 	} ?>
 	
@@ -262,7 +262,7 @@ require_once('includes/php/dc_header.php');
 		<label class="col-sm-2 control-label" for="textinput">Wachtwoord</label>
 		<div class="col-sm-10">
 			<div class="input-group">
-				<input type="password" class="form-control pwd" value="" name="password" <? if(!isset($strEmail)) echo 'data-bv-notempty="true" data-bv-message="Dit veld is verplicht"'; ?>>
+				<input type="password" class="form-control pwd" value="" name="password" <?php if(!isset($strEmail)) echo 'data-bv-notempty="true" data-bv-message="Dit veld is verplicht"'; ?>>
 				<span class="input-group-btn">
 					<button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
 				</span>
@@ -315,11 +315,11 @@ require_once('includes/php/dc_header.php');
 
 	<div class="form-group checkbox">
 		<div class="col-sm-12">
-			<label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <? if($intDelivery == 1) echo 'checked="checked"'; ?>> Mijn bestelling afleveren op een ander adres</label>
+			<label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if($intDelivery == 1) echo 'checked="checked"'; ?>> Mijn bestelling afleveren op een ander adres</label>
 		</div><!-- /col -->
 	</div><!-- /form-group -->
 
-		<div id="delivery" <? if($intDelivery != 1) echo 'style="display:none"'; ?>>
+		<div id="delivery" <?php if($intDelivery != 1) echo 'style="display:none"'; ?>>
 			<legend>Bezorgadres</legend>
 
 				<div class="form-group">

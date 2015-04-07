@@ -1,4 +1,4 @@
-<?
+<?php
 function formatTemplateVars($strTemplate, $templateVars = array()) {
 	
 	global $objDB;
@@ -15,6 +15,8 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 	 * @param [String} Returns given string
 	 * @param [Function} Returns string from given function
 	 */
+	
+	$orderNumberPrefix = formOption('order_number_prefix');
 	 
 	$arrVariables = array(
 		
@@ -38,7 +40,7 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 			'discountValue',
 			'parentOrderId='.$intOrderId
 		),
-		'ORDER_NR' => $intOrderId,
+		'ORDER_NR' => $orderNumberPrefix.$intOrderId,
 		'ORDER_ADDRESSES' => loadAddresses(),
 		'ORDER_DETAILS' => loadOrderDetails()
 		
@@ -110,7 +112,7 @@ function sendMail($strMailName, $strToEmail, $strToName, $templateVars = array()
 	global $objDB;
 
 	require_once SITE_PATH.'_classes/PHPMailerAutoload.php';
-	require_once SITE_PATH.'libaries/Parsedown/Parsedown.php';
+	require_once SITE_PATH.'libraries/Parsedown/Parsedown.php';
 
 	$strSQL = "SELECT ec.txt " .
 		"FROM ".DB_PREFIX."emails e " .
@@ -271,7 +273,7 @@ function loadOrderDetails(){
 		while($objCart = $objDB->getObject($result)) {
 		
 			$Product		= $Api->getProduct($objCart->productId);
-			$dblPrice 		= calculateProductPrice($Product->getPrice(), $objCart->productId, false);
+			$dblPrice 		= calculateProductPrice($Product->getPrice(), $objCart->productId, $objCart->quantity, false);
 			$strPrice 		= '&euro; ' . number_format($dblPrice, 2, ',', ' ');
 			$dblPriceTotal 	+= $dblPrice * $objCart->quantity;
 

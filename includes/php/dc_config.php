@@ -19,7 +19,8 @@ function formOption($optionName) {
 
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 
-define('SITE_PATH',$_SERVER['DOCUMENT_ROOT'].'/');
+define('SITE_URL', formOption('SITE_URL')); // ends in a slash
+define('SITE_PATH', $_SERVER['DOCUMENT_ROOT'].'/');
 define('SITE_NAME', formOption('SITE_NAME'));
 define('SITE_SHIPPING', formOption('SITE_SHIPPING'));
 define('SITE_EMAIL_TEMPLATE', SITE_PATH.formOption('SITE_EMAIL_TEMPLATE'));
