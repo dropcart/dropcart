@@ -35,6 +35,8 @@ if (!empty($Product->errors)) {
 $strPageTitle		= getContent('product_title', true, $Product);
 $strMetaDescription	= getContent('product_meta_description', true, $Product);
 
+$strCanonical = '<link rel="canonical" href="/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $intProductId . '/" />';
+
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
 

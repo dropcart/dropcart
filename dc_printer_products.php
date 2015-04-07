@@ -25,6 +25,7 @@ $strSort			= (isset($_GET["sort"]) ? $_GET["sort"] : 'titleAsc');
 
 $intPrinterId			= (int) $_GET['printerId'];
 $arrProducts			= $Api->getProductsByPrinter($intPrinterId, '?limit=' . MAXIMUM_PAGE_PRODUCTS . '&offset=' . $intOffset . '&sort=' . $strSort . '&fields=price,images');
+
 $intTotalProducts		= $arrProducts->itemsTotal;
 $intPages			= ceil($arrProducts->itemsTotal / MAXIMUM_PAGE_PRODUCTS);
 
@@ -86,13 +87,13 @@ $arrSortOptions 		= array (
 				
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/product/<?php echo $arrProduct->id; ?>/">
+							<a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 						
-						<h4><a href="/product/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 				
 				<?php

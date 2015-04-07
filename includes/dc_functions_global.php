@@ -544,4 +544,26 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 	return $pdf;
 }
 
+function rewriteUrl($strString) {
+	
+	$strString = stripslashes($strString);
+	$strString = trim($strString);
+	$strString = str_replace("'","",$strString);
+	$strString = str_replace(",","",$strString);
+	$strString = str_replace("\"","",$strString);
+	$strString = str_replace("?","",$strString);
+	$strString = str_replace("(","",$strString);
+	$strString = str_replace(")","",$strString);
+	$strString = str_replace("/","",$strString);
+	$strString = str_replace("&","",$strString);
+	$strString = str_replace("&iuml;","",$strString);
+	$strString = str_replace(" ","-",$strString);
+	$strString = str_replace("_","-",$strString);
+	$strString = str_replace("“","",$strString);
+	$strString = str_replace("”","",$strString);
+	$strString = strtolower($strString);
+	
+	return $strString;
+	
+}
 ?>
