@@ -185,10 +185,12 @@ if (!empty($_GET['succes'])) {
 			<label for="product_price" class="col-sm-2 control-label">Price</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="product_price" name="product_price" value="<?php echo $objProduct->price; ?>" autocomplete="off">
+					<p class="help-block">Overschrijf standaard prijsformule. Verplicht voor het invullen van volume prijzen.</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 	
 			<div id="productTiers">
+			<div class="col-sm-6 col-sm-offset-4"><p class="help-block">Volume prijzen. Vul in het eerste veld vanaf welk aantal (bijvoorbeeld  &ldquo;3&rdquo;) en in het tweede veld het percentage korting wat gegeven wordt (bijvoorbeeld &ldquo;5&rdquo;).</p></div><!-- /col -->
 			<?php
 			$strSQL = "SELECT quantity, percentage FROM ".DB_PREFIX."products_tiered WHERE productId = '".$intId."' ORDER BY quantity ASC ";
 			$result = $objDB->sqlExecute($strSQL);
