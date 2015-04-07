@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `dc_products_tiered` (
 
 ALTER TABLE `dc_products_tiered`
  ADD PRIMARY KEY (`id`), ADD KEY `productId` (`productId`);
+ALTER TABLE  `dc_products_tiered` CHANGE  `id`  `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 
  --
