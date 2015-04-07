@@ -109,7 +109,7 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 					echo '
 						<tr>
 							<td class="text-left">
-								<img class="img-responsive pull-left" alt="product naam" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
+								<img class="img-responsive pull-left" alt="'.$arrCartItem['strProductTitle'].'" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
 								<h4>'.$arrCartItem['strProductTitle'].'</h4>
 								<p><strong>Voorraad: </strong><span class="stock_message">'.$strStock.'</span></p>
 							</td>
