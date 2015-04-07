@@ -15,6 +15,8 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 	 * @param [String} Returns given string
 	 * @param [Function} Returns string from given function
 	 */
+	
+	$orderNumberPrefix = formOption('order_number_prefix');
 	 
 	$arrVariables = array(
 		
@@ -38,7 +40,7 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 			'discountValue',
 			'parentOrderId='.$intOrderId
 		),
-		'ORDER_NR' => $intOrderId,
+		'ORDER_NR' => $orderNumberPrefix.$intOrderId,
 		'ORDER_ADDRESSES' => loadAddresses(),
 		'ORDER_DETAILS' => loadOrderDetails()
 		
