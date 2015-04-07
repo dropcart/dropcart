@@ -65,6 +65,7 @@ if (!empty($_GET['succes'])) {
 		<th width="10%" data-json-column="orderId" data-json-sort="desc">Ordernummer</th>
 		<th width="10%" data-json-column="entryDate">Datum</th>
 		<th data-json-column="firstname">Naam</th>
+		<th width="10%">Extern</th>
 		<th width="10%">Aantal art</th>
 		<th width="10%">Bedrag</th>
 		<th width="5%">Factuur</th>

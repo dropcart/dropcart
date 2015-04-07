@@ -35,6 +35,7 @@ elseif ($strShow == "done") {
 
 $strSQL 	=
 		"SELECT co.orderId,
+		co.extOrderId,
 		co.custId,
 		co.entryDate,
 		co.company,
@@ -73,6 +74,7 @@ while ($objOrder = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $orderNumberPrefix . $objOrder->orderId;
 	$arrJson['details'][$i][]	= $objOrder->entryDate;
 	$arrJson['details'][$i][]	= $name;
+	$arrJson['details'][$i][]	= $objOrder->extOrderId;
 	$arrJson['details'][$i][]	= $objOrder->items;
 	$arrJson['details'][$i][]	= money_format('%(#1n', $objOrder->totalPrice);
 	$arrJson['details'][$i][]	= '<a href="/includes/pdf/dc_invoice.php?orderId='.$objOrder->orderId.'"><span class="glyphicon glyphicon-file"></span></a>';
