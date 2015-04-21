@@ -121,7 +121,7 @@ if ($strAction == "export") {
 			$arrOrderDetails[] 	= array (
 				'productId' 	=> $objDetails->productId,
 				'quantity' 	=> $objDetails->quantity,
-				'price' 		=> $dblPrice,
+				'price' 		=> $objDetails->price,
 				'taxRate' 	=> $objDetails->tax,
 			);
 	
