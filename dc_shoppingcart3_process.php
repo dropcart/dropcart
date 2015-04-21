@@ -124,7 +124,14 @@ while($objStatus = $objDB->getObject($result2)) {
 
 		$dblShippingcosts = calculateSiteShipping($dblPriceTotal, '', false);
 
-		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET shippingCosts = ".$dblShippingcosts.", totalPrice = ".$dblPriceTotal.", kortingscode = '".$objCustomer->discountCode."', kortingsbedrag = '".$dblDiscountAmount."' WHERE orderId = ".$intOrderId;
+		$strSQL = 
+			"UPDATE ".DB_PREFIX."customers_orders 
+			SET shippingCosts = ".$dblShippingcosts.", 
+			totalPrice = ".$dblPriceTotal.", 
+			kortingscode = '".$objCustomer->discountCode."', 
+			kortingsbedrag = '".$dblDiscountAmount."',
+			paymentStatus = '1' 
+			WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 		
 		// import order
