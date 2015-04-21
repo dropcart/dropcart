@@ -52,6 +52,7 @@ else {
 
 <script>
 
+// Step 1
 $('#printerBrandSelect').change(function(){
 	
 	var printerBrandId = $(this).val();
@@ -77,6 +78,10 @@ $('#printerBrandSelect').change(function(){
 			}
 			
 			$('#printerSerieSelect').prop('disabled', false);
+
+			// Auto select first element
+			$("#printerSerieSelect").val($("#printerSerieSelect option:first").val());
+			$('#printerSerieSelect').trigger("change");
 			
         },
         'json'
@@ -84,6 +89,7 @@ $('#printerBrandSelect').change(function(){
 	
 });
 
+// Step 2
 $('#printerSerieSelect').change(function(){
 	
 	var printerBrandId = $('#printerBrandSelect').val();
@@ -110,7 +116,9 @@ $('#printerSerieSelect').change(function(){
 			}
 			
 			$('#printerTypeSelect').prop('disabled', false);
-			
+
+			// Auto select first element
+			$("#printerTypeSelect").val($("#printerTypeSelect option:first").val());
         },
         'json'
     );
