@@ -38,10 +38,19 @@ while($objStatus = $objDB->getObject($result2)) {
 		
 	} else {
 		
-		$intTransactionId	= $objStatus->transactionId;
-		$payment 			= $mollie->payments->get($intTransactionId);
-		$strStatus			= $payment->status;
-		$intOrderId			= $payment->metadata->order_id;
+		$intTransactionId		= $objStatus->transactionId;
+		
+		// Check payment using Mollie API
+		try {
+			$payment 			= $mollie->payments->get($intTransactionId);
+			$strStatus			= $payment->status;
+			$intOrderId			= $payment->metadata->order_id;
+		}
+		catch (Exception $e) {
+			// something went wrong with this payment
+			// skip while loop iteration
+			continue;
+		}
 		
 	}
 	
