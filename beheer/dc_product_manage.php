@@ -60,6 +60,7 @@ if (!empty($_POST) AND !empty($intId)) {
 		$product_price = "'" . $product_price . "'"; // adds single quotes
 	}
 
+
 	// Set to NULL if empty
 	if (empty($opt_cart)) {
 		$opt_cart = 'NULL';
@@ -172,7 +173,7 @@ if (!empty($_GET['succes'])) {
 			<div class="form-group">
 			<label for="product_description" class="col-sm-2 control-label">Description</label>
 				<div class="col-sm-8">
-					<textarea class="form-control" id="product_description" name="product_description" rows="5"><?php echo $objProduct->description; ?></textarea>
+					<textarea class="form-control" id="product_description" name="product_description" rows="7"><?php echo $objProduct->description; ?></textarea>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
@@ -343,4 +344,12 @@ if (!empty($_GET['succes'])) {
 </div><!-- /list-group -->
 </div>
 
+<script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
+<script type="text/javascript">
+(function () {
+ 
+	$("textarea#product_description").pagedownBootstrap();
+ 
+})();
+</script>
 <?php require('includes/php/dc_footer.php'); ?>

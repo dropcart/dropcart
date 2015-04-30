@@ -358,6 +358,7 @@ function getProductTitle($objProduct, $productId = null) {
 function getProductDesc($objProduct, $productId = null) {
 
 	global $objDB;
+	global $Parsedown;
 
 	// if $productId is entered, check if it has a custom desc in DB
 	if (!empty($productId)) {
@@ -365,6 +366,10 @@ function getProductDesc($objProduct, $productId = null) {
 		$strSQL 	= "SELECT description FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 		$result 	= $objDB->sqlExecute($strSQL);
 		list($strDesc) 	= $objDB->getRow($result);
+
+		if (!empty($strDesc)) {
+			$strDesc = $Parsedown->text($strDesc);
+		}
 
 	}
 

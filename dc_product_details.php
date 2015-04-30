@@ -10,6 +10,7 @@ require_once('includes/php/dc_config.php');
 // Page specific includes
 require_once('_classes/class.cart.php');
 require_once('includes/php/dc_functions.php');
+require_once('libraries/Parsedown/Parsedown.php');
 
 // Start API
 require_once('libraries/Api_Inktweb/API.class.php');
@@ -218,6 +219,7 @@ if (@!getimagesize($strProductImg)) {
 	
 			<h3>Omschrijving</h3>
 			<?php
+			$Parsedown = new Parsedown();
 			echo getProductDesc($Product, $Product->getId());
 			?>
 	
