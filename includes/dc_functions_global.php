@@ -503,8 +503,8 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		$objDetails->title		= $Product->getTitle();
 		$objDetails->taxRate		= $objDetails->tax;
 		$objDetails->taxPerc		= $objDetails->tax * 100 - 100;
-		$objDetails->priceTotal 	= number_format($objDetails->price * $objDetails->tax * $objDetails->quantity, 2, ',', ' ');
-		$objDetails->price		= number_format($objDetails->price * $objDetails->tax, 2, ',', ' ');
+		$objDetails->priceTotal 	= number_format(round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity, 2, ',', ' ');
+		$objDetails->price		= number_format(round($objDetails->price * $objDetails->tax, 2), 2, ',', ' ');
 		$objDetails->priceEx		= number_format($objDetails->price, 2, ',', ' ');
 
 		$dblTotalEx += $objDetails->price * $objDetails->quantity;
