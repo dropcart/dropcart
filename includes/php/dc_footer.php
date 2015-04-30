@@ -23,7 +23,7 @@
 		</p>
 		</div><!-- /col -->
 		<div class="col-xs-12 powered-by">
-		<p class="text-center"><?php echo getContent('html_footer_powered'); ?> <a href="http://www.dropcart.nl/">DropCart <?php echo DROPCART_VERSION; ?></a></p>
+		<p class="text-center"><?php echo getContent('html_footer_powered'); ?> <a href="https://dropcart.nl/">DropCart <?php echo DROPCART_VERSION; ?></a></p>
 		</div><!-- /col -->
 	</div><!-- /container -->
 </div><!-- /footer -->

@@ -360,7 +360,7 @@ require_once('includes/php/dc_header.php');
 
 	<div class="form-group checkbox">
 		<div class="col-sm-12">
-			<label><input type="checkbox" name="conditions"> Ik ga akoord met de algemene voorwaarden</label> <a href="/dc_page.php?id=1"><small>(download)</small></a>
+			<label><input type="checkbox" name="conditions"> Ik ga akoord met de algemene voorwaarden</label> </a>
 		</div><!-- /col -->
 	</div><!-- /form-group -->
 

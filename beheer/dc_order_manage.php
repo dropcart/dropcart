@@ -121,7 +121,7 @@ if ($strAction == "export") {
 			$arrOrderDetails[] 	= array (
 				'productId' 	=> $objDetails->productId,
 				'quantity' 	=> $objDetails->quantity,
-				'price' 		=> $dblPrice,
+				'price' 		=> $objDetails->price,
 				'taxRate' 	=> $objDetails->tax,
 			);
 	
@@ -302,12 +302,12 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 			echo '<tr>';
 			echo '<td><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
-			echo '<td>'.money_format('%(#1n', $objDetails->price * $objDetails->tax).'</td>';
+			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)).'</td>';
 			echo '<td>'.$objDetails->quantity.'</td>';
-			echo '<td>'.money_format('%(#1n', $objDetails->price * $objDetails->tax * $objDetails->quantity).'</td>';
+			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity).'</td>';
 			echo '</tr>';
 
-			$subTotal = $subTotal + ($objDetails->price * $objDetails->tax * $objDetails->quantity);
+			$subTotal = $subTotal + (round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity);
 		}
 		?>
 		<tr>

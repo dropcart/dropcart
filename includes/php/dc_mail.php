@@ -311,7 +311,7 @@ function loadOrderDetails(){
 					Subtotaal
 				</td>
 				<td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
-					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">' . money_format('%(#1n', $dblPriceTotal) . '</span>
+					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($dblPriceTotal, 2, ',', ' ') . '</span>
 				</td>
 			</tr>
 			<tr>
@@ -322,7 +322,7 @@ function loadOrderDetails(){
 					Verzendkosten
 				</td>
 				<td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
-					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">' . money_format('%(#1n', $objOrder->shippingCosts) . '</span>
+					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->shippingCosts, 2, ',', ' ') . '</span>
 				</td>
 			</tr>
 		';
@@ -337,7 +337,7 @@ function loadOrderDetails(){
 						Korting
 					</td>
 					<td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
-						<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">' . money_format('%(#1n', $objOrder->kortingsbedrag) . '</span>
+						<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->kortingsbedrag, 2, ',', ' ') . '</span>
 					</td>
 				</tr>
 			';
@@ -352,7 +352,7 @@ function loadOrderDetails(){
 					Totaal
 				</td>
 				<td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
-					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">' . money_format('%(#1n', $objOrder->totalPrice) . '</span>
+					<span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->totalPrice, 2, ',', ' ') . '</span>
 				</td>
 			</tr>
 		';

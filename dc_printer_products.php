@@ -119,7 +119,7 @@ $arrSortOptions 		= array (
 				for($i=1;$i<=$intPages;$i++) {
 					
 					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
-					echo '<li ' . $active . '><a href="/search/' . $i . '/?sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
+					echo '<li ' . $active . '><a href="?sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
 					
 				}
 

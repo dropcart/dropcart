@@ -358,6 +358,7 @@ function getProductTitle($objProduct, $productId = null) {
 function getProductDesc($objProduct, $productId = null) {
 
 	global $objDB;
+	global $Parsedown;
 
 	// if $productId is entered, check if it has a custom desc in DB
 	if (!empty($productId)) {
@@ -365,6 +366,10 @@ function getProductDesc($objProduct, $productId = null) {
 		$strSQL 	= "SELECT description FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 		$result 	= $objDB->sqlExecute($strSQL);
 		list($strDesc) 	= $objDB->getRow($result);
+
+		if (!empty($strDesc)) {
+			$strDesc = $Parsedown->text($strDesc);
+		}
 
 	}
 
@@ -469,9 +474,9 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		co.zipcode,
 		co.city,
 		co.lang,
-		co.custid,
+		co.custId,
 		co.orderId,
-		co.entryDate,
+		DATE_FORMAT(co.entryDate, '%d-%m-%Y') as entryDate,
 		co.kortingscode,
 		co.kortingsbedrag,
 		co.shippingCosts,
@@ -503,8 +508,8 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		$objDetails->title		= $Product->getTitle();
 		$objDetails->taxRate		= $objDetails->tax;
 		$objDetails->taxPerc		= $objDetails->tax * 100 - 100;
-		$objDetails->priceTotal 	= number_format($objDetails->price * $objDetails->tax * $objDetails->quantity, 2, ',', ' ');
-		$objDetails->price		= number_format($objDetails->price * $objDetails->tax, 2, ',', ' ');
+		$objDetails->priceTotal 	= number_format(round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity, 2, ',', ' ');
+		$objDetails->price		= number_format(round($objDetails->price * $objDetails->tax, 2), 2, ',', ' ');
 		$objDetails->priceEx		= number_format($objDetails->price, 2, ',', ' ');
 
 		$dblTotalEx += $objDetails->price * $objDetails->quantity;
@@ -528,7 +533,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 			'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
 			'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
 			'tax' => $arrTax,
-			'site_path' => dirname(__DIR__)
+			'site_path' => dirname(__DIR__),
 		)
 	);
 

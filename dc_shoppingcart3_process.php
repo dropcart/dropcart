@@ -38,10 +38,19 @@ while($objStatus = $objDB->getObject($result2)) {
 		
 	} else {
 		
-		$intTransactionId	= $objStatus->transactionId;
-		$payment 			= $mollie->payments->get($intTransactionId);
-		$strStatus			= $payment->status;
-		$intOrderId			= $payment->metadata->order_id;
+		$intTransactionId		= $objStatus->transactionId;
+		
+		// Check payment using Mollie API
+		try {
+			$payment 			= $mollie->payments->get($intTransactionId);
+			$strStatus			= $payment->status;
+			$intOrderId			= $payment->metadata->order_id;
+		}
+		catch (Exception $e) {
+			// something went wrong with this payment
+			// skip while loop iteration
+			continue;
+		}
 		
 	}
 	
@@ -124,7 +133,14 @@ while($objStatus = $objDB->getObject($result2)) {
 
 		$dblShippingcosts = calculateSiteShipping($dblPriceTotal, '', false);
 
-		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET shippingCosts = ".$dblShippingcosts.", totalPrice = ".$dblPriceTotal.", kortingscode = '".$objCustomer->discountCode."', kortingsbedrag = '".$dblDiscountAmount."' WHERE orderId = ".$intOrderId;
+		$strSQL = 
+			"UPDATE ".DB_PREFIX."customers_orders 
+			SET shippingCosts = ".$dblShippingcosts.", 
+			totalPrice = ".$dblPriceTotal.", 
+			kortingscode = '".$objCustomer->discountCode."', 
+			kortingsbedrag = '".$dblDiscountAmount."',
+			paymentStatus = '1' 
+			WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 		
 		// import order
