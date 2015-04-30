@@ -469,9 +469,9 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		co.zipcode,
 		co.city,
 		co.lang,
-		co.custid,
+		co.custId,
 		co.orderId,
-		co.entryDate,
+		DATE_FORMAT(co.entryDate, '%d-%m-%Y') as entryDate,
 		co.kortingscode,
 		co.kortingsbedrag,
 		co.shippingCosts,
@@ -528,7 +528,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 			'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
 			'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
 			'tax' => $arrTax,
-			'site_path' => dirname(__DIR__)
+			'site_path' => dirname(__DIR__),
 		)
 	);
 
