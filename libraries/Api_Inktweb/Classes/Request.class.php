@@ -80,7 +80,14 @@
 			}
 			$headers .= "\r\n";
 			
-			$socket = fsockopen('ssl://' . $this->environments[$this->currentEnv]['url'], $this->environments[$this->currentEnv]['port'], $errno, $errstr, 30);
+			$connection_options = array( 
+				'ssl'         => array( 
+				 'verify_peer'  => false
+			   )
+			); 
+
+			$context  = stream_context_create($connection_options); 
+			$socket = stream_socket_client('ssl://' . $this->environments[$this->currentEnv]['url'] . ':' . $this->environments[$this->currentEnv]['port'], $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
 			if (!$socket) {
 				throw new Exception("{$errstr} ({$errno})");
 			}
