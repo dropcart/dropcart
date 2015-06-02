@@ -23,7 +23,7 @@ require_once('includes/php/dc_header.php');
 ?>
 
 
-<h1><?php echo formOption('site_name'); ?> <small>Sinds 1845</h1>
+<h1><?php echo formOption('site_name'); ?> <small>Sinds 1845</small></h1>
 
 <hr />
 
