@@ -83,7 +83,7 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 	while($objCart = $objDB->getObject($result_cart)) {
 		
 		$Product	= $Api->getProduct($objCart->productId);
-		$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, false);
+		$dblPrice 	= calculateProductPrice($Product->getPrice(), $objCart->productId, $objCart->quantity, false);
 				
 		//adding to totals
 		$dblPriceTotal += ($dblPrice * $objCart->quantity);
