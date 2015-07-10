@@ -94,8 +94,10 @@ class DB {
 	
 	//fetch object
 	function getObject($resResult) {
-		$objResult = $resResult->fetch_object();
-		
+		$objResult = null;
+		if(is_object($resResult)) {
+			$objResult = $resResult->fetch_object();
+		}
 		return $objResult;
 	}
 	

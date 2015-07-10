@@ -13,13 +13,14 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 $_GET = sanitize($_GET);
 
 $strShow 	= strtolower($_GET['show']);
+$strWhere = NULL;
 
-$strSortColumn	= $_GET["sort_column"];
-$strSortOrder	= strtoupper($_GET["sort_order"]);
-$strQuery		= $_GET["query"];
-$strShow		= $_GET["show"];
-$intOffset		= (int) $_GET["offset"];
-$intLimit		= (int) $_GET["limit"];
+$strSortColumn	= (isset($_GET["sort_column"] )) ? $_GET["sort_column"] : null;
+$strSortOrder	= (isset($_GET["sort_order"] )) ? strtoupper($_GET["sort_order"]) : null;
+$strQuery		= (isset($_GET["query"])) ? $_GET["query"] : null;
+$strShow		= (isset($_GET["show"])) ? $_GET["show"] : null;
+$intOffset		= (isset($_GET["offset"])) ? (int) $_GET["offset"] : 0;
+$intLimit		= (isset($_GET["limit"])) ? (int) $_GET["limit"]: 15;
 $orderNumberPrefix = formOption('order_number_prefix');
 
 $strSort	= ($strSortColumn != '') ? " ORDER BY `" . $strSortColumn . "` ".$strSortOrder : '';
