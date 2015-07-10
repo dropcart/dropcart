@@ -11,7 +11,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= (isset($_GET['id'])) ? (int) $_GET['id'] : null;
+$intId 		= (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
 $intCodeId 	= (isset($_GET['codeId'])) ? (int) $_GET['codeId'] : null;
 $strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
@@ -21,21 +21,24 @@ $objCode  	= $objDB->getObject($result);
 
 if ($_POST) {
 
-	$strCode 					= $_POST['code'];
-	$intLimit 					= (int) $_POST['limit'];
+	$strCode 					= (isset($_POST['code'])) ? $_POST['code'] : null;
+	$intLimit 					= (isset($_POST['limit'])) ? (int) $_POST['limit'] : null;
+	$strValue 					= (isset($_POST['code_value'])) ? (int) $_POST['code_value'] : null;
 
 	if($intId == 0) {
 		
-		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`) VALUES (".$intCodeId.", '".$strCode."',  ".$intLimit.")";
+		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`, `discountValue`) VALUES ('".$intCodeId."', '".$strCode."',  ".$intLimit.", '".$strValue."')";
+
 		$result = $objDB->sqlExecute($strSQL);
 		$intId = $objDB->getInsertedId();
 		
 	} else {
 	
 		$strSQL = "UPDATE ".DB_PREFIX."discountcodes_codes
-				SET `codeId` = ".$intCodeId.",
+				SET `codeId` = '".$intCodeId."',
 				`code` = '".$strCode."',
-				`limit` = ".$intLimit."
+				`limit` = ".$intLimit.",
+				`discountValue` = '".$strValue."'
 				WHERE id = '".$intId."' ";
 		$result 		= $objDB->sqlExecute($strSQL);
 	
@@ -82,6 +85,14 @@ if (!empty($_GET['fail'])) {
 		<div class="col-sm-10">
 			<input type="text" class="form-control" id="limit" name="limit" value="<?php echo (isset($objCode->limit)) ? $objCode->limit : null; ?>">
 			<p class="help-block">0 is oneindig</p>
+		</div><!-- /col -->
+	</div><!-- /form group -->
+
+	<div class="form-group">
+		<label for="limit" class="col-sm-2 control-label">Waarde</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="code_value" name="code_value" value="<?php echo (isset($objCode->discountValue)) ? $objCode->discountValue : null; ?>">
+			<p class="help-block">Bijvoorbeeld: 10.00</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 

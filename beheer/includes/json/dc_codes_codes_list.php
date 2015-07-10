@@ -43,6 +43,7 @@ $strSQL =
 		INNER JOIN ".DB_PREFIX."discountcodes dc ON dc.id = dc_c.codeId
 		WHERE dc_c.codeId = ".$intCodeId." " .
 		$strWhere . $strSort;
+
 $resultCount = $objDB->sqlExecute($strSQL);
 $count 	= $objDB->getNumRows($resultCount);
 
@@ -54,16 +55,21 @@ $i=0;
 
 while ($objCode = $objDB->getObject($result)) {
 
+	/* is there a values set for the code ? */
+	$discountValue = (!is_null($objCode->discountValue))
+		? $objCode->discountValue 			# Yes, use it
+		: $objCode->discountValueCodes;		# No, use default
+
 	$arrJson['details'][$i][]	= $objCode->code;
 	
 	if($objCode->discountType == 'price') {
-		$arrJson['details'][$i][]	= '&euro; '.$objCode->discountValue;
+		$arrJson['details'][$i][]	= '&euro; '.$discountValue;
 	} elseif($objCode->discountType == 'percentage') {
-		$arrJson['details'][$i][]	= $objCode->discountValue.' %';
+		$arrJson['details'][$i][]	= $discountValue.' %';
 	} elseif($objCode->discountTypeCodes == 'price') {
-		$arrJson['details'][$i][]	= '&euro; '.$objCode->discountValueCodes;
+		$arrJson['details'][$i][]	= '&euro; '.$discountValue;
 	} elseif($objCode->discountTypeCodes == 'percentage') {
-		$arrJson['details'][$i][]	= $objCode->discountValueCodes.' %';
+		$arrJson['details'][$i][]	= $discountValue.' %';
 	}
 	
 	$arrJson['details'][$i][]	= ($objCode->parentOrderId != 0) ? '<a href="dc_order_manage.php?id='.$objCode->parentOrderId.'&action=view">'.$objCode->parentOrderId.'</a>' : '';

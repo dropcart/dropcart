@@ -33,7 +33,7 @@ switch($strAction){
 		
 		
 		$strSQL = "
-			SELECT code, validationCode
+			SELECT code, validationCode, discountValue
 			FROM ".DB_PREFIX."discountcodes_codes dc_c
 			WHERE dc_c.codeId = " . $intCodeId . " " .
 			$strWhere;
