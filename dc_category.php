@@ -92,7 +92,7 @@ $arrBrandOptions 		= array (
 				foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
 					$selected 		= '';
-					$arrGetBrand 	= explode(',', $_GET['brands']);
+					$arrGetBrand 	= explode(',', $strBrands);
 					foreach ($arrGetBrand AS $getBrand) {
 						if ($getBrand == $brandKey) {
 							$selected = "checked";
