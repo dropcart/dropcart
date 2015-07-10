@@ -61,6 +61,7 @@ if ($strAction == "export") {
 		$objOrder->delZipcode 	= str_replace(" ", "", $objOrder->delZipcode);
 	
 		$arrJson 			= array (
+			'id' 			=>	$objOrder->id,
 			'firstName'		=> $objOrder->firstname,
 			'lastName'		=> $objOrder->lastname,
 			'email' 			=> $objOrder->email,
