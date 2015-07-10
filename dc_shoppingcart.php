@@ -23,6 +23,7 @@ $dblNodePriceTotal = 0;
 
 $arrCartItems = array();
 
+$discountCode = (isset($_SESSION["discountCode"]) ) ? $_SESSION["discountCode"] : null;
 
 
 $i = 0;
@@ -151,7 +152,7 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 						<p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> Code invoeren</a></p>
 						<div class="discount_container" style="display:none">
 							<div class="discount_input">
-								<input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="'.$_SESSION["discountCode"].'" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
+								<input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="'.$discountCode.'" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
 							</div>
 							<div class="discount_code"></div>
 							<div class="discount_message"></div>
