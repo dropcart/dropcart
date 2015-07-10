@@ -145,9 +145,9 @@ tfoot td {
 	<table width="100%" cellpadding="1" class="footer">
 		<tr valign="top">
 			<td valign="top" width="25%">
-				Printduurzaam.nl<br/>
-				W.M. Dudokweg 27<br/>
-				1703 DA Heerhugowaard
+				{{ _site_name }}<br/>
+				{{ _site_street_name }} {{ _site_street_number }}{{ _site_street_number_addition }}<br/>
+				{{ _site_postal_code }} {{ _site_city_name }}
 			</td>
 			<td valign="top" width="10%" style="font-weight:bold">
 				Telefoon:<br/>
@@ -155,30 +155,30 @@ tfoot td {
 				Website:
 			</td>
 			<td valign="top" width="20%">
-				072 - 567 50 52<br/>
-				info@printduurzaam.nl<br/>
-				www.printduurzaam.nl
+				{{ _site_phone_number }}<br/>
+				{{ _site_email }}<br/>
+				{{ _site_url }}
 			</td>
 			<td valign="top" width="6%" style="font-weight:bold">
 				KVK:<br/>
 				BTW:
 			</td>
 			<td valign="top" width="18%">
-				60680326<br/>
-				NL854012965B01
+				{{ _site_kvk }}<br/>
+				{{ _site_btw }}
 			</td>
 			<td valign="top" width="6%" style="font-weight:bold">
 				IBAN:<br/>
 				BIC:
 			</td>
 			<td valign="top" width="15%">
-				NL77RABO0148966128<br/>
-				RABONL2U
+				{{ _site_iban }}<br/>
+				{{ _site_bic }}
 			</td>
 		</tr>
 		<tr>
 			<td colspan="7" style="padding-top:10px;text-align:center">
-				Op al onze transacties zijn onze algemene voorwaarden van toepassing. Deze zijn te vinden op: www.printduurzaam.nl
+				Op al onze transacties zijn onze algemene voorwaarden van toepassing. Deze zijn te vinden op: {{ _site_url }}
 			</td>
 		</tr>
 	</table>		

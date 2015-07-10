@@ -555,6 +555,16 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 
 	$tpl = $twig->loadTemplate( "dc_invoice_template.tpl" );
 
+	$settings = array();
+
+	/* get site settings */
+	$siteSettingsSQL = "SELECT * FROM dc_options";
+	$resultSettings = $objDB->sqlExecute($siteSettingsSQL);
+	while($row = $objDB->getObject($resultSettings) ){
+		$settings['_'.$row->optionName] = $row->optionValue;
+	}
+
+
 	// order information
 	$strSQL =
 		"SELECT co.firstname,
@@ -576,6 +586,9 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		";
 	$result = $objDB->sqlExecute($strSQL);
 	$objOrder = $objDB->getObject($result);
+
+
+
 
 	$dblTotalEx = $objOrder->totalPrice / 1.21;
 	$arrTax[21] = number_format($objOrder->totalPrice - $dblTotalEx, 2, ',', ' ');
@@ -606,26 +619,28 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		$details[] = $objDetails;
 	}
 
-	$strTemplate = $tpl->render(
-		array(
-			'name' => $objOrder->firstname.' '.$objOrder->lastname,
-			'address' => $objOrder->address.' '.$objOrder->houseNr,
-			'zipcode' => $objOrder->zipcode,
-			'city' => $objOrder->city,
-			'country' => $arrLanguages[$objOrder->lang],
-			'customer_nr' => str_pad($objOrder->custId,9,'0',STR_PAD_LEFT),
-			'invoice_nr' => str_pad($objOrder->orderId,9,'0',STR_PAD_LEFT),
-			'invoice_date' => $objOrder->entryDate,
-			'order_details' => $details,
-			'discount_code' => $objOrder->kortingscode,
-			'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),
-			'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),
-			'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
-			'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
-			'tax' => $arrTax,
-			'site_path' => dirname(__DIR__),
-		)
+	$strTemplateVars = array(
+		'name' => $objOrder->firstname.' '.$objOrder->lastname,
+		'address' => $objOrder->address.' '.$objOrder->houseNr,
+		'zipcode' => $objOrder->zipcode,
+		'city' => $objOrder->city,
+		'country' => $arrLanguages[$objOrder->lang],
+		'customer_nr' => str_pad($objOrder->custId,9,'0',STR_PAD_LEFT),
+		'invoice_nr' => str_pad($objOrder->orderId,9,'0',STR_PAD_LEFT),
+		'invoice_date' => $objOrder->entryDate,
+		'order_details' => $details,
+		'discount_code' => $objOrder->kortingscode,
+		'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),
+		'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),
+		'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
+		'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
+		'tax' => $arrTax,
+		'site_path' => dirname(__DIR__),
 	);
+
+	$strTemplateVars = array_merge($strTemplateVars, $settings);
+
+	$strTemplate = $tpl->render($strTemplateVars);
 
 	$mpdf->setAutoTopMargin = 'pad';
 	$mpdf->setAutoBottomMargin = 'pad';

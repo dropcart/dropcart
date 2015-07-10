@@ -88,6 +88,76 @@ if (!empty($_GET['succes'])) {
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
+				<label for="site_phone_number" class="col-sm-2 control-label">site_phone_number</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_phone_number" name="site_phone_number" value="<?php echo formOption('site_phone_number'); ?>" autocomplete="off">
+					<p class="help-block">Algemene text adres voor de website (hieruit worden orderbevestigingen e.d. verstuurd)</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_name" class="col-sm-2 control-label">site_street_name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_name" name="site_street_name" value="<?php echo formOption('site_street_name'); ?>" autocomplete="off">
+					<p class="help-block">Straatnaam van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_number" class="col-sm-2 control-label">site_street_number</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_number" name="site_street_number" value="<?php echo formOption('site_street_number'); ?>" autocomplete="off">
+					<p class="help-block">Straatnummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_number_addition" class="col-sm-2 control-label">site_street_number_addition</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_number_addition" name="site_street_number_addition" value="<?php echo formOption('site_street_number_addition'); ?>" autocomplete="off">
+					<p class="help-block">Straatnummer toevoeging van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_postal_code" class="col-sm-2 control-label">site_postal_code</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_postal_code" name="site_postal_code" value="<?php echo formOption('site_postal_code'); ?>" autocomplete="off">
+					<p class="help-block">postcode van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_city_name" class="col-sm-2 control-label">site_city_name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_city_name" name="site_city_name" value="<?php echo formOption('site_city_name'); ?>" autocomplete="off">
+					<p class="help-block">Plaatsnaam toevoeging van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_kvk" class="col-sm-2 control-label">site_kvk</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_kvk" name="site_kvk" value="<?php echo formOption('site_kvk'); ?>" autocomplete="off">
+					<p class="help-block">KVK-nummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_btw" class="col-sm-2 control-label">site_btw</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_btw" name="site_btw" value="<?php echo formOption('site_btw'); ?>" autocomplete="off">
+					<p class="help-block">BTW-nummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_iban" class="col-sm-2 control-label">site_iban</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_iban" name="site_iban" value="<?php echo formOption('site_iban'); ?>" autocomplete="off">
+					<p class="help-block">IBAN-code van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_bic" class="col-sm-2 control-label">site_bic</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_bic" name="site_bic" value="<?php echo formOption('site_bic'); ?>" autocomplete="off">
+					<p class="help-block">BIC-code van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
 			<label for="site_shipping" class="col-sm-2 control-label">site_shipping</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" id="site_shipping" name="site_shipping" value="<?php echo formOption('site_shipping'); ?>" autocomplete="off">
