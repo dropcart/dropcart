@@ -14,6 +14,7 @@ $objNode = new Cart();
 $objNode->setDatabaseObject($objDB);
 $objNode->setSessionId($intSessionId);
 $objNode->setCustomerId($intCustomerId);
+$strCanonical = null;
 
 //get cart info for cart node
 $result_header_cart = $objNode->getCart();
@@ -86,7 +87,7 @@ if (!empty($canonical)) {
 
 	<title><?php echo $strPageTitle; ?></title>
 
-	<?php echo $strCanonical; ?>
+	<?php if(isset($strCanonical)){ $strCanonical; } ?>
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/includes/css/custom.css" rel="stylesheet">
