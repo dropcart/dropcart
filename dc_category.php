@@ -49,7 +49,7 @@ $intPageNumber		= (int) (isset($_GET["pageNumber"]) ? $_GET["pageNumber"] : 1);
 $intOffset			= ($intPageNumber - 1) * MAXIMUM_PAGE_PRODUCTS;
 $strSort			= (isset($_GET["sort"]) ? $_GET["sort"] : 'titleAsc');
 
-$strBrands 			= $_GET['brands'];
+$strBrands 			=  ( isset($_GET['brands']) ) ? $_GET['brands'] : null;
 $queryBrands 		= "";
 if (!empty($strBrands)) {
 	$queryBrands 	= "&brands=".$strBrands;
