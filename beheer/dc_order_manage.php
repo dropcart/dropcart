@@ -13,9 +13,9 @@ $objDB 	= new DB();
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= $_GET['id'];
-$intUuid	= $_GET['uuid'];
-$strAction 	= strtolower($_GET['action']);
+$intId 		= (isset($_GET['id'])) ? $_GET['id'] : null;
+$intUuid	= (isset($_GET['uuid'])) ? $_GET['uuid'] : null;
+$strAction 	= (isset($_GET['action'])) ? strtolower($_GET['action']) : null;
 
 if (empty($intId)) {
 	header('Location: /beheer/dc_order_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
