@@ -2,16 +2,21 @@
 session_start();
 
 // if POST, redirect it to a GET
-if ($_POST['brands']) {
 
-	if (empty($_GET['pageNumber'])) {
-		$_GET['pageNumber'] = "1";
+
+if( $_SERVER['REQUEST_METHOD'] == "POST") {
+
+	if (isset($_POST['brands']) ) {
+
+		if (!isset($_GET['pageNumber']) || empty($_GET['pageNumber'])) {
+			$_GET['pageNumber'] = "1";
+		}
+
+
+		$strBrands = implode(',', $_POST['brands']);
+
+		header('Location: ?pageNumber=' . $_GET['pageNumber'] . '&brands=' . $strBrands);
 	}
-
-
-	$strBrands = implode(',', $_POST['brands']);
-
-	header('Location: ?pageNumber='.$_GET['pageNumber'].'&brands='.$strBrands);
 }
 
 
