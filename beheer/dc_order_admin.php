@@ -12,7 +12,7 @@ $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
 $strShow 	= strtolower($_GET['show']);
-
+$sqlWhere = null;
 
 $strSQL 	=
 		"SELECT co.orderId,

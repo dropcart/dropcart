@@ -48,7 +48,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 
 		<?php
 		// compare versions
-		if ($Versions->version_stable->number) {
+		if (isset($Versions->version_stable->number)) {
 			echo '<a href="dc_update.php" class="label label-info">'.$Versions->version_stable->number.' beschikbaar</a>';
 		}
 		?>

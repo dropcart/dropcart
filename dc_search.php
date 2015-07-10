@@ -2,13 +2,13 @@
 session_start();
 
 // if POST, redirect it to a GET
-if ($_POST['brands']) {
+if (isset($_POST['brands']) ) {
 
-	if (empty($_GET['sort'])) {
+	if (!isset($_GET['sort'] ) || empty($_GET['sort'])) {
 		$_GET['sort'] = "salesDesc";
 	}
 
-	if (empty($_GET['pageNumber'])) {
+	if (!isset($_GET['pageNumber']) || empty($_GET['pageNumber'])) {
 		$_GET['pageNumber'] = "1";
 	}
 
@@ -45,17 +45,17 @@ $intPageNumber		= (int) (isset($_GET["pageNumber"]) ? $_GET["pageNumber"] : 1);
 $intOffset			= ($intPageNumber - 1) * MAXIMUM_PAGE_PRODUCTS;
 $strSort			= (isset($_GET["sort"]) ? $_GET["sort"] : 'titleAsc');
 
-$strBrands 			= $_GET['brands'];
+$strBrands 			= (isset($_GET['brands']) ) ? $_GET['brands'] : null;
 $queryBrands 		= "";
 if (!empty($strBrands)) {
 	$queryBrands 	= "&brands='.$strBrands";
 }
 
-$strQuery			= sanitize($_GET['q']);
+$strQuery			= (isset($_GET['q'])) ? sanitize($_GET['q']) : null;
 $strQueryEncode		= urlencode ($strQuery);
 $arrProducts			= $Api->getProductsByKeywords($strQueryEncode, '?limit=' . MAXIMUM_PAGE_PRODUCTS . '&offset=' . $intOffset . '&sort=' . $strSort . '&fields=price,images'.$queryBrands);
-$intTotalProducts		= $arrProducts->itemsTotal;
-$intPages			= ceil($arrProducts->itemsTotal / MAXIMUM_PAGE_PRODUCTS);
+$intTotalProducts		= (isset($arrProducts->itemsTotal)) ? $arrProducts->itemsTotal : 0;
+$intPages			= ($intTotalProducts != 0) ? ceil($intTotalProducts / MAXIMUM_PAGE_PRODUCTS) : 0;
 
 $arrSortOptions 		= array (
 	'salesDesc' 		=> 'Populair',
@@ -89,7 +89,7 @@ $arrBrandOptions 		= array (
 				foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
 					$selected 		= '';
-					$arrGetBrand 	= explode(',', $_GET['brands']);
+					$arrGetBrand 	= explode(',', $strBrands);
 					foreach ($arrGetBrand AS $getBrand) {
 						if ($getBrand == $brandKey) {
 							$selected = "checked";
@@ -110,7 +110,7 @@ $arrBrandOptions 		= array (
 		<div class="row">
 
 			<?php
-			if(count($arrProducts->products) > 0) {
+			if( isset($arrProducts->products) && count($arrProducts->products) > 0) {
 
 				foreach($arrProducts->products as $arrProduct) {
 

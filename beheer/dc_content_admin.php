@@ -12,38 +12,39 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 if (isset($_POST)) {
 
 	$_POST 	= sanitize($_POST);
+	if( !empty($_POST) ) {
+		foreach ($_POST as $key => $value) {
 
-	foreach ($_POST as $key => $value) {
+			// only insert actual content and not the labels
+			if (!empty($value) AND ($value != "1")) {
 
-		// only insert actual content and not the labels
-		if (!empty($value) AND ($value != "1")) {
+				// get $value for markdown checkbox
+				$parse_markdown = $_POST[$key . '_markdown'];
+				if (empty($parse_markdown)) {
+					$parse_markdown = '0';
+				}
 
-			// get $value for markdown checkbox
-			$parse_markdown = $_POST[$key.'_markdown'];
-			if (empty($parse_markdown)) {
-				$parse_markdown = '0';
-			}
+				// get $value for boilerplate checkbox
+				$parse_boilerplate = $_POST[$key . '_boilerplate'];
+				if (empty($parse_boilerplate)) {
+					$parse_boilerplate = '0';
+				}
 
-			// get $value for boilerplate checkbox
-			$parse_boilerplate = $_POST[$key.'_boilerplate'];
-			if (empty($parse_boilerplate)) {
-				$parse_boilerplate = '0';
-			}
-
-			$strSQL = 
-				"INSERT INTO ".DB_PREFIX."content 
+				$strSQL =
+					"INSERT INTO " . DB_PREFIX . "content
 				(name, value, parse_markdown, parse_boilerplate) 
 				VALUES 
-				('".$key."', '".$value."', '".$_POST[$key.'_markdown']."', '".$_POST[$key.'_boilerplate']."') 
+				('" . $key . "', '" . $value . "', '" . $_POST[$key . '_markdown'] . "', '" . $_POST[$key . '_boilerplate'] . "')
 				ON DUPLICATE KEY UPDATE 
-				name = '".$key."', 
-				value = '".$value."',
-				parse_markdown = '".$_POST[$key.'_markdown']."',
-				parse_boilerplate = '".$_POST[$key.'_boilerplate']."' ";
-			$objDB->sqlExecute($strSQL);
+				name = '" . $key . "',
+				value = '" . $value . "',
+				parse_markdown = '" . $_POST[$key . '_markdown'] . "',
+				parse_boilerplate = '" . $_POST[$key . '_boilerplate'] . "' ";
+				$objDB->sqlExecute($strSQL);
+			}
+
+
 		}
-
-
 	}
 
 }

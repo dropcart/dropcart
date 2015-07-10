@@ -38,6 +38,7 @@ $intNodeItems = 0;
 $dblNodePriceTotal = 0;
 
 $arrCartItems = array();
+$discountCode = (isset($_SESSION["discountCode"])) ? $_SESSION["discountCode"] : null;
 
 $i = 0;
 while($objNodeCart = $objDB->getObject($result_header_cart)) {
@@ -168,6 +169,8 @@ require_once('includes/php/dc_header.php');
 		"WHERE c.id = " . $intCustomerId;
 	$result = $objDB->sqlExecute($strSQL);
 	$objCustomer = $objDB->getObject($result);
+
+
 	?>
 
 	<div class="row" style="margin-bottom:20px">
@@ -189,7 +192,7 @@ require_once('includes/php/dc_header.php');
 
 		<div class="col-md-4">
 		<strong>Afleveradres</strong><br/>
-		<?=($objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
+		<?=(isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
 		<?=$objCustomer->delFirstname?> <?=$objCustomer->delLastname?><br/>
 		<?=$objCustomer->delAddress?> <?=$objCustomer->delHouseNr?><?=$objCustomer->delHouseNrAdd?><br/>
 		<?=$objCustomer->delZipcode?> <?=$objCustomer->delCity?><br/>
@@ -225,7 +228,9 @@ require_once('includes/php/dc_header.php');
 
 			<?php foreach($arrCartItems as $arrCartItem) {
 
-					$strStock = ($arrCartItem['stock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
+
+
+					$strStock = ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
 
 					echo '
 						<tr>
@@ -240,12 +245,12 @@ require_once('includes/php/dc_header.php');
 
 				}
 
-			if($_SESSION["discountCode"] != "") {
+			if($discountCode != null) {
 
 				echo '
 					<tr class="table-footer">
 						<td>&nbsp;</td>
-						<td style="text-align:right;" colspan="2">Kortingscode '.$_SESSION["discountCode"].'</td>
+						<td style="text-align:right;" colspan="2">Kortingscode '.$discountCode.'</td>
 						<td class="discountAmount">' . $dblDiscountAmount . '</td>
 					</tr>';
 
