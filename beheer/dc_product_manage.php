@@ -12,8 +12,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
 
 
 $objDB 		= new DB();
-
-$intId 			= intval($_GET['id']);
+$intId 		=  ( isset($_GET['id']) ) ? intval($_GET['id']) : 0;
 
 if (!empty($_POST) AND !empty($intId)) {
 
@@ -137,11 +136,13 @@ $objProduct 		= $objDB->getObject($result);
 $Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 $Product 		= $Api->getProduct($intId);
 
+
+
 require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
 
 ?>
 
-<h1>Product details <small><?php echo $intId; ?></small></h1>
+<h1>Product details <small><?php if(isset($intId) && $intId != 0 ){$intId;} ?></small></h1>
 
 <?php
 
@@ -152,7 +153,13 @@ if (!empty($_GET['succes'])) {
 ?>
 
 <hr />
+<?php if( isset($Product->errors) ): ?>
 
+	<div class="alert alert-danger" role="alert">
+		Geen gelidge product ID opgegeven
+	</div>
+
+<?php  else : ?>
 <div class="col-md-8">
 
 	<div class="alert alert-warning" role="alert"><strong>Let op</strong>: Indien een veld niet ingevuld is wordt de informatie uit de API of Boilerplate content gehaald.</div>
@@ -342,6 +349,7 @@ if (!empty($_GET['succes'])) {
 		<p class="list-group-item-text"><?php echo $strPrice; ?></p>
 	</a>
 </div><!-- /list-group -->
+	<?php endif; ?>
 </div>
 
 <script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
