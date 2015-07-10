@@ -36,6 +36,7 @@ function cleanInput($input) {
 function sanitize($input) {
 
 	global $objDB;
+	$output = null;
 
 	// http://css-tricks.com/snippets/php/sanitize-database-inputs/
 
