@@ -25,6 +25,11 @@ if ($_POST) {
 	$intLimit 					= (isset($_POST['limit'])) ? (int) $_POST['limit'] : null;
 	$strValue 					= (isset($_POST['code_value'])) ? (int) $_POST['code_value'] : null;
 
+	if( strlen( trim($strCode) ) == 0 ){
+		header('Location: ?id='.$intId.'&action='.$strAction.'&fail='.urlencode('Het code veld is verplicht!'));
+		return false;
+	}
+
 	if($intId == 0) {
 		
 		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`, `discountValue`) VALUES ('".$intCodeId."', '".$strCode."',  ".$intLimit.", '".$strValue."')";

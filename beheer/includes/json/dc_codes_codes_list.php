@@ -76,7 +76,9 @@ while ($objCode = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $objCode->validationCode;
 	$arrJson['details'][$i][]	= ($objCode->orderId != 0) ? 'Ja (<a href="dc_order_manage.php?id='.$objCode->orderId.'&action=view">'.$objCode->orderId.'</a>)' : 'Nee';
 	$arrJson['details'][$i][]	= ($objCode->export == 1) ? 'Ja' : 'Nee';
-	
+	$arrJson['details'][$i][]	= '<a href="/beheer/dc_codes_codes_manage.php?codeId='.$objCode->codeId.'&amp;id='.$objCode->id.'">
+	<span class="glyphicon glyphicon-edit"></span></a>';
+
 	$i++;
 }
 

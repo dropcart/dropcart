@@ -157,6 +157,7 @@ if (!empty($_GET['succes'])) {
 		<th width="10%" data-json-column="validationCode">Validatiecode</th>
 		<th width="10%" data-json-column="orderId">Gebruikt</th>
 		<th width="5%" data-json-column="export">Verzilverd</th>
+		<th width="10%" data-json-column="export">Bewerken</th>
 	</tr>
 	</thead>
 	<tbody>
