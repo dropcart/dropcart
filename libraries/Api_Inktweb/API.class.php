@@ -111,7 +111,7 @@
 		 */
 		public function getPrinterBrands() {
 			
-			$responseArray = $this->Request->fetch('/api/v1/selector/', 'GET', $parameters);
+			$responseArray = $this->Request->fetch('/api/v1/selector/', 'GET');
 			return $responseArray;
 			
 		}

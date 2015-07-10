@@ -2,16 +2,21 @@
 session_start();
 
 // if POST, redirect it to a GET
-if ($_POST['brands']) {
 
-	if (empty($_GET['pageNumber'])) {
-		$_GET['pageNumber'] = "1";
+
+if( $_SERVER['REQUEST_METHOD'] == "POST") {
+
+	if (isset($_POST['brands']) ) {
+
+		if (!isset($_GET['pageNumber']) || empty($_GET['pageNumber'])) {
+			$_GET['pageNumber'] = "1";
+		}
+
+
+		$strBrands = implode(',', $_POST['brands']);
+
+		header('Location: ?pageNumber=' . $_GET['pageNumber'] . '&brands=' . $strBrands);
 	}
-
-
-	$strBrands = implode(',', $_POST['brands']);
-
-	header('Location: ?pageNumber='.$_GET['pageNumber'].'&brands='.$strBrands);
 }
 
 
@@ -44,7 +49,7 @@ $intPageNumber		= (int) (isset($_GET["pageNumber"]) ? $_GET["pageNumber"] : 1);
 $intOffset			= ($intPageNumber - 1) * MAXIMUM_PAGE_PRODUCTS;
 $strSort			= (isset($_GET["sort"]) ? $_GET["sort"] : 'titleAsc');
 
-$strBrands 			= $_GET['brands'];
+$strBrands 			=  ( isset($_GET['brands']) ) ? $_GET['brands'] : null;
 $queryBrands 		= "";
 if (!empty($strBrands)) {
 	$queryBrands 	= "&brands=".$strBrands;
@@ -87,7 +92,7 @@ $arrBrandOptions 		= array (
 				foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
 					$selected 		= '';
-					$arrGetBrand 	= explode(',', $_GET['brands']);
+					$arrGetBrand 	= explode(',', $strBrands);
 					foreach ($arrGetBrand AS $getBrand) {
 						if ($getBrand == $brandKey) {
 							$selected = "checked";

@@ -12,14 +12,13 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 
 $_GET = sanitize($_GET);
 
-$strShow 	= strtolower($_GET['show']);
-
-$strSortColumn	= $_GET["sort_column"];
-$strSortOrder	= strtoupper($_GET["sort_order"]);
-$strQuery		= $_GET["query"];
-$strShow		= $_GET["show"];
-$intOffset		= (int) $_GET["offset"];
-$intLimit		= (int) $_GET["limit"];
+$strShow 	= (isset($_GET['show'])) ? strtolower($_GET['show']) : null;
+$strWhere = null;
+$strSortColumn	= (isset($_GET['sort_column'])) ? $_GET["sort_column"] : null;
+$strSortOrder	= (isset($_GET['sort_order'])) ? strtoupper($_GET["sort_order"]) : null;
+$strQuery		= (isset($_GET['query'])) ? $_GET["query"] : null;
+$intOffset		= (isset($_GET['offset'])) ? (int) $_GET["offset"] : 0;
+$intLimit		= (isset($_GET['limit'])) ? (int) $_GET["limit"] : 15;
 
 $strSort	= ($strSortColumn != '') ? " ORDER BY `" . $strSortColumn . "` ".$strSortOrder : '';
 $strWhere	.= ($strQuery != '') ? " AND (pc.navTitle LIKE '%".$strQuery."%')" : '';
@@ -45,7 +44,7 @@ while ($objPage = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $objPage->navTitle;
 	$arrJson['details'][$i][]	= ($objPage->online == 0) ? '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=online"><span class="glyphicon glyphicon-eye-close"></span></a>' : '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=offline"><span class="glyphicon glyphicon-eye-open"></span></a>';
 	$arrJson['details'][$i][]	= '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=remove"><span class="glyphicon glyphicon-remove"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=remove" onclick="return confirm(\'Weet je zeker dat je deze pagina wilt verwijderen?\')"><span class="glyphicon glyphicon-remove"></span></a>';
 	
 	$i++;
 }

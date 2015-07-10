@@ -17,17 +17,19 @@ require_once('libraries/Api_Inktweb/API.class.php');
 //opening database
 $objDB = new DB();
 
-$intOrderId		= (int) $_GET["order_id"];
-$intCustomerId	= (int) $_SESSION["customerId"];
+$intOrderId		= ( isset($_GET["order_id"] ) ) ? $_GET["order_id"] : 0;
+$intCustomerId	= ( isset($_SESSION["customerId"] ) ) ? $_SESSION["customerId"] : 0;
 
 $strSQL = "SELECT status FROM ".DB_PREFIX."customers_orders_id WHERE orderId = ".$intOrderId." AND customerId = ".$intCustomerId;
 $result = $objDB->sqlExecute($strSQL);
 $objResult = $objDB->getObject($result);
 
-$status = $objResult->status;
+$status = (isset($objResult->status)) ? $objResult->status : null;
 
 $_SESSION["discountCode"] = "";
 
+$strMessageTitle = null;
+$strMessage = null;
 switch($status) {
 	
 	case 'paid':

@@ -34,6 +34,8 @@ $objCart->deleteProduct($intCartId);
 
 //getting cart
 $result_cart = $objCart->getCart();
+$intItems = 0;
+$dblPriceTotal = 0;
 
 //calculating total
 while($objCart = $objDB->getObject($result_cart)) {

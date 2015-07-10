@@ -14,7 +14,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Mollie/API/Autoloader.php');
 $objDB 		= new DB();
 
 // Update database
-if (isset($_POST)) {
+if (isset($_POST) && !empty($_POST)) {
 
 	$_POST 	= sanitize($_POST);
 
