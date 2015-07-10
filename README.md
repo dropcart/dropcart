@@ -10,13 +10,15 @@ Setting up a dropshipment store is very cumbersome. It requires coding knowledge
 There is two sides to Dropcart; the shop owners and the suppliers. The code you are looking at right now is to connect with our API's — both reading and writing. We build these by reading feeds from the suppliers.
 
 # Installation instructions
-Download the latest *stable* release from [Github](https://github.com/dropcart/dropcart).
+Download the latest *stable* release from [Github](https://github.com/dropcart/dropcart/releases).
 
 ## Requirements
 (this list is incomplete)
 
 - PHP Version: **5.3.+**
 - PHP's [money_format()](http://php.net/manual/en/function.money-format.php)
+- PHP short_tags 
+- PHP [cURL](http://php.net/manual/en/book.curl.php) 
 
 ## Instructions
 - Unzip the .zip file
