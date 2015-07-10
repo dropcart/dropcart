@@ -44,7 +44,7 @@ while ($objUser = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $objUser->name;
 	$arrJson['details'][$i][]	= $objUser->email;
 	$arrJson['details'][$i][]	= '<a href="/beheer/dc_user_manage.php?id='.$objUser->id.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_user_manage.php?id='.$objUser->id.'&action=remove"><span class="glyphicon glyphicon-remove"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="/beheer/dc_user_manage.php?id='.$objUser->id.'&action=remove" onclick="return confirm(\'Weet je zeker dat je deze pagina wilt verwijderen?\')"><span class="glyphicon glyphicon-remove"></span></a>';
 	
 	$i++;
 }
