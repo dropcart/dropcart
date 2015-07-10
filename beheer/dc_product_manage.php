@@ -166,26 +166,26 @@ if (!empty($_GET['succes'])) {
 			<div class="form-group">
 			<label for="product_title" class="col-sm-2 control-label">Title</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="product_title" name="product_title" value="<?php echo $objProduct->title; ?>" autocomplete="off">
+					<input type="text" class="form-control" id="product_title" name="product_title" value="<?php if(isset($objProduct->title)){ echo $objProduct->title; } ?>" autocomplete="off">
 					<p class="help-block">Wordt (momenteel) enkel gebruikt op de products_details pagina</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
 			<label for="product_description" class="col-sm-2 control-label">Description</label>
 				<div class="col-sm-8">
-					<textarea class="form-control" id="product_description" name="product_description" rows="7"><?php echo $objProduct->description; ?></textarea>
+					<textarea class="form-control" id="product_description" name="product_description" rows="7"><?php if( isset($objProduct->description) ) { echo $objProduct->description;} ?></textarea>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
 			<label for="product_price" class="col-sm-2 control-label">Price from</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="product_price_from" name="product_price_from" value="<?php echo $objProduct->price_from; ?>" autocomplete="off">
+					<input type="text" class="form-control" id="product_price_from" name="product_price_from" value="<?php if(isset($objProduct->price_from)){ $objProduct->price_from; }?>" autocomplete="off">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
 			<label for="product_price" class="col-sm-2 control-label">Price</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" id="product_price" name="product_price" value="<?php echo $objProduct->price; ?>" autocomplete="off">
+					<input type="text" class="form-control" id="product_price" name="product_price" value="<?php if(isset($objProduct->price)){ echo $objProduct->price; }?>" autocomplete="off">
 					<p class="help-block">Overschrijf standaard prijsformule. Verplicht voor het invullen van volume prijzen.</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
@@ -262,7 +262,7 @@ if (!empty($_GET['succes'])) {
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
-						<label for="check_cart"><input type="checkbox" name="check_cart" id="check_cart" value="1" <?php if ($objProduct->opt_cart == "1") { echo 'checked'; } ?>> Tonen in winkelmand</label>
+						<label for="check_cart"><input type="checkbox" name="check_cart" id="check_cart" value="1" <?php if (isset($objProduct->opt_cart) && $objProduct->opt_cart == "1") { echo 'checked'; } ?>> Tonen in winkelmand</label>
 					</div>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
@@ -270,7 +270,7 @@ if (!empty($_GET['succes'])) {
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="checkbox">
-						<label for="check_top5"><input type="checkbox" name="check_top5" id="check_top5" value="1" <?php if ($objProduct->opt_top5 == "1") { echo 'checked'; } ?>> Tonen in Top 5</label>
+						<label for="check_top5"><input type="checkbox" name="check_top5" id="check_top5" value="1" <?php if (isset($objProduct) && $objProduct->opt_top5 == "1") { echo 'checked'; } ?>> Tonen in Top 5</label>
 					</div>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
@@ -324,7 +324,7 @@ if (!empty($_GET['succes'])) {
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price (Purchase ex)</h4>
-		<p class="list-group-item-text"><?php echo $objPrice->pricePurchase; ?></p>
+		<p class="list-group-item-text"><?php echo (isset($objPrice->pricePurchase) ) ? $objPrice->pricePurchase : '<i> niet beschikbaar</i>';?></p>
 	</a>
 
 	<a class="list-group-item">
@@ -334,7 +334,7 @@ if (!empty($_GET['succes'])) {
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price (MSRP)</h4>
-		<p class="list-group-item-text"><?php echo $objPrice->priceMSRP; ?></p>
+		<p class="list-group-item-text"><?php echo (isset($objPrice->priceMSRP)) ? $objPrice->priceMSRP : '<i> niet beschikbaar</i>'; ?></p>
 	</a>
 
 	<a class="list-group-item">
