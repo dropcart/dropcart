@@ -11,8 +11,8 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$strAction		= $_GET["action"];
-$intCodeId		= (int) $_GET["id"];
+$strAction		= (isset($_GET['action'])) ? $_GET["action"] : null;
+$intCodeId		= (isset($_GET['id'])) ? (int) $_GET["id"]: null;
 
 switch($strAction){
 	case 'export':
@@ -92,7 +92,7 @@ switch($strAction){
 	break;	
 }
 
-$strShow 	= strtolower($_GET['show']);
+$strShow 	= (isset($_GET['show'])) ? strtolower($_GET['show']) : null;
 
 if (empty($strShow) OR $strShow == "all") {
 	$sqlWhere = " ";

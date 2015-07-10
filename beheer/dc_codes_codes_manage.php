@@ -11,9 +11,9 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php')
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= (int) $_GET['id'];
-$intCodeId 	= (int) $_GET['codeId'];
-$strAction 	= $_GET['action'];
+$intId 		= (isset($_GET['id'])) ? (int) $_GET['id'] : null;
+$intCodeId 	= (isset($_GET['codeId'])) ? (int) $_GET['codeId'] : null;
+$strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
 $strSQL 	= "SELECT dc_c.* FROM ".DB_PREFIX."discountcodes_codes dc_c WHERE dc_c.id = '".$intId."' ";
 $result 	= $objDB->sqlExecute($strSQL);
@@ -64,7 +64,7 @@ if (!empty($_GET['fail'])) {
 
 ?>
 
-<h1>Codes beheren <small><?php echo $objCode->title; ?></small></h1>
+<h1>Codes beheren <small><?php echo (isset($objCode->title)) ? $objCode->title : null; ?></small></h1>
 
 <hr />
 
@@ -73,14 +73,14 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="code" class="col-sm-2 control-label">Code</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="code" name="code" placeholder="" value="<?php echo $objCode->code; ?>">
+			<input type="text" class="form-control" id="code" name="code" placeholder="" value="<?php echo (isset($objCode->code)) ? $objCode->code : null; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="limit" class="col-sm-2 control-label">Aantal keer te gebruiken</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="limit" name="limit" value="<?php echo $objCode->limit; ?>">
+			<input type="text" class="form-control" id="limit" name="limit" value="<?php echo (isset($objCode->limit)) ? $objCode->limit : null; ?>">
 			<p class="help-block">0 is oneindig</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
