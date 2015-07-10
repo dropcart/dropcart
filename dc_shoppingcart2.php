@@ -18,6 +18,28 @@ require_once('libraries/Api_Inktweb/API.class.php');
 //opening database
 $objDB = new DB();
 
+/* Initialize vars */
+$customerId = (isset($_SESSION["customerId"])) ? $_SESSION["customerId"] : null;
+
+$strFirstname 			= null;
+$strLastname 			= null;
+$strAddress 			= null;
+$strHouseNr 			= null;
+$strHouseNrAdd 			= null;
+$strZipcode				= null;
+$strCity 				= null;
+$strLang				= null;
+$strEmail				= null;
+$strDelFirstname		= null;
+$strDelLastname			= null;
+$strDelZipcode			= null;
+$strDelLang			= null;
+$strDelHouseNr			= null;
+$strDelHouseNrAdd		= null;
+$strDelAddress			= null;
+$strDelCity				= null;
+
+
 if(!empty($_POST)) {
 	// Form submitted
 	
@@ -168,7 +190,7 @@ if(!empty($_POST)) {
 	
 }
 
-$intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".intval($_SESSION["customerId"])." AND customerId != 0) OR sessionId='".session_id()."'");
+$intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".intval($customerId)." AND customerId != 0) OR sessionId='".session_id()."'");
 if($intCartItems == 0)
 {
 	header("Location: /dc_shoppingcart.php");
@@ -210,7 +232,6 @@ if(!empty($_SESSION["customerId"])) {
 	
 	
 }
-
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
 ?>
@@ -315,11 +336,11 @@ require_once('includes/php/dc_header.php');
 
 	<div class="form-group checkbox">
 		<div class="col-sm-12">
-			<label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if($intDelivery == 1) echo 'checked="checked"'; ?>> Mijn bestelling afleveren op een ander adres</label>
+			<label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if(!isset($intDelivery) || $intDelivery == 1) echo 'checked="checked"'; ?>> Mijn bestelling afleveren op een ander adres</label>
 		</div><!-- /col -->
 	</div><!-- /form-group -->
 
-		<div id="delivery" <?php if($intDelivery != 1) echo 'style="display:none"'; ?>>
+		<div id="delivery" <?php if(isset($intDelivery) && $intDelivery != 1) echo 'style="display:none"'; ?>>
 			<legend>Bezorgadres</legend>
 
 				<div class="form-group">
