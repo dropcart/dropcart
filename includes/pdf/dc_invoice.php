@@ -1,17 +1,17 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_config.php');
+require_once (__DIR__.'/../includes/php/dc_config.php');
 
 // Require login
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_session.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_session.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_functions.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/mpdf/mpdf.php'); // MPDF Libary
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Twig/Autoloader.php'); // Twig template engine
+require_once (__DIR__.'/../includes/php/dc_functions.php');
+require_once (__DIR__.'/../libraries/mpdf/mpdf.php'); // MPDF Libary
+require_once (__DIR__.'/../libraries/Twig/Autoloader.php'); // Twig template engine
 
 require_once('../../libraries/Api_Inktweb/API.class.php');
 

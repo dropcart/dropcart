@@ -304,7 +304,7 @@ function getContent($strContent, $parse = true, $Product = null, $arrProducts = 
  */
 function parseMarkdown($content) {
 
-	require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Parsedown/Parsedown.php');
+	require_once (__DIR__.'/../libraries/Parsedown/Parsedown.php');
 
 	$Parsedown = new Parsedown();
 	$content = $Parsedown->text($content);
