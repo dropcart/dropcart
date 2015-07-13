@@ -17,6 +17,31 @@ function formOption($optionName) {
 	return $optionValue;
 }
 
+
+function getSiteUrl(){
+
+	$url = 'http';
+
+	// Check if connection is secure
+	if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443 ){
+		 $url.= 's'; # so it becomes https
+	}
+
+	$url.= '://'.$_SERVER['SERVER_NAME'];
+
+	/* Determine if we have a subdirectory */
+
+	/* Substract document root from absolute path */
+	$path =  str_replace( $_SERVER['DOCUMENT_ROOT'].'', '', dirname(__FILE__));
+
+	/* Remove the config dir from the path */
+	$path = str_replace( '/includes/php', '', $path);
+
+	$url.= $path;
+
+	return $url;
+}
+
 /*
 	Turn on or off developer mode:
 	Enables all errors
@@ -24,7 +49,7 @@ function formOption($optionName) {
 
 define('DEV_MODE', false); # NEVER change this value in production environment
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
-define('SITE_URL', formOption('SITE_URL')); // ends in a slash
+define('SITE_URL', getSiteUrl()); // ends in a slash
 
 /*
 	Get the absolute path of the dropcart installation.

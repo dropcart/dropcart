@@ -120,7 +120,16 @@ if (!empty($canonical)) {
 
 <div class="row header-top hidden-print">
 	<div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-		<a href="/"><img src="/images/logo_small.png" alt="Website logo" class="img-responsive"></a>
+		<a href="/">
+			<?php
+				$image = SITE_URL."/images/logo_small.png";
+				$logo = formOption('SITE_LOGO');
+
+				if( !empty( $logo ) ){
+					$image = SITE_URL.'/images/logo/'.$logo;
+				}
+			?>
+			<img src="<?php echo $image ?>" alt="Website logo" class="img-responsive"></a>
 	</div><!-- /col logo -->
 
 	<div class="col-lg-5 col-md-6 col-sm-8 col-xs-12">

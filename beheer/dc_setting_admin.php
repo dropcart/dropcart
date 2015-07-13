@@ -63,6 +63,36 @@ if (!empty($_GET['succes'])) {
 <div class="col-md-12">
 
 	<div class="panel panel-default">
+		<div class="panel-heading">Logo Uploaden</div><!-- /panel-heading -->
+		<div class="panel-body">
+			<div class="col-sm-offset-2 col-sm-10">
+
+				<?php $image = formOption('SITE_LOGO');
+					if( !empty($image)):?>
+					<p><img id="site_logo_setting"class="img-thumbnail image-responsive" alt="logo" src="<?php echo SITE_URL.'/images/logo/'.$image ?>"</p>
+						<?php else: ?>
+						<p>U heeft nog geen logo ingesteld</p>
+						<?php endif; ?>
+			</div>
+			<form class="form-horizontal" action="dc_upload_logo.php" role="form" method="POST" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="logo-upload" class="col-sm-2 control-label" >Logo</label>
+					<div class="col-sm-8">
+
+					<input type="file" id="logo-upload" name="logo" class="form-control">
+					</div>
+					<p class="help-block">Upload een afbeelding van de bestandstype jpg, png of gif. </p>
+			  	</div>
+
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Uploaden</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+	<div class="panel panel-default">
 		<div class="panel-heading">Website instellingen</div><!-- /panel-heading -->
 		<div class="panel-body">
 

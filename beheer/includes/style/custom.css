@@ -79,3 +79,9 @@ table.table-json thead tr th[data-json-column] {
 	cursor:pointer;
 }
 /* END JSON DYNAMIC TABLES */
+
+
+#site_logo_setting{
+	max-width:300px;
+	max-height:300px;
+}
