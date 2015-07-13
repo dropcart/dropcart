@@ -46,7 +46,7 @@ else {
 <div class="row">
 	<div class="col-md-12">
 		<br />
-		<a href="#" class="btn <?php echo $btn; ?> btn-primary pull-right submit-btn">Toon mijn cartridges</a>
+		<a disabled href="#" class="btn <?php echo $btn; ?> btn-primary pull-right submit-btn">Toon mijn cartridges</a>
 	</div><!-- /col-->
 </div><!-- /row -->
 
@@ -119,6 +119,7 @@ $('#printerSerieSelect').change(function(){
 
 			// Auto select first element
 			$("#printerTypeSelect").val($("#printerTypeSelect option:first").val());
+			$('.submit-btn').removeAttr('disabled');
         },
         'json'
     );
@@ -126,7 +127,7 @@ $('#printerSerieSelect').change(function(){
 });
 
 $('.submit-btn').click(function(){
-	
+
 	var printerTypeId = $('#printerTypeSelect').val();
 	document.location.href = '/printer/' + printerTypeId + '/';
 	
