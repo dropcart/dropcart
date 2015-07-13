@@ -14,8 +14,8 @@ $objDB 	= new DB();
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= $_GET['id'];
-$strAction 	= $_GET['action'];
+$intId 		= (isset($_GET['id'])) ? $_GET['id'] : null;
+$strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
 if ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('admin_users', 'id', $intId);
@@ -26,14 +26,14 @@ $strSQL 	= "SELECT au.name, au.email, au.username, au.password FROM ".DB_PREFIX.
 $result 	= $objDB->sqlExecute($strSQL);
 $objUser  	= $objDB->getObject($result);
 
-if ($_POST) {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-	$strName 		= $_POST['name'];
-	$strEmail 		= $_POST['email'];
-	$strUsername	= $_POST['username'];
-	$strPassword1 	= $_POST['password1'];
-	$strPassword2 	= $_POST['password2'];
-	$strPassword 	= $objUser->password; // gets overwritten if user wants to change
+	$strName 		= (isset($_POST['name'])) ? $_POST['name'] : null;
+	$strEmail 		= (isset($_POST['email'])) ? $_POST['email'] : null;
+	$strUsername	= (isset($_POST['username'])) ? $_POST['username'] : null;
+	$strPassword1 	= (isset($_POST['password1'])) ? $_POST['password1'] : null;
+	$strPassword2 	= (isset($_POST['password2'])) ? $_POST['password2'] : null;
+	$strPassword 	= (isset($objUser->password)) ? $objUser->password : null; // gets overwritten if user wants to change
 
 	if (!empty($strPassword1) AND !empty($strPassword2)) {
 
@@ -98,7 +98,7 @@ if (!empty($_GET['fail'])) {
 
 ?>
 
-<h1>Gebruiker beheren <small><?php echo $objUser->name; ?></small></h1>
+<h1>Gebruiker beheren <small><?php echo (isset($objUser->name)) ? $objUser->name : null; ?></small></h1>
 
 <hr />
 
@@ -107,7 +107,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="name" class="col-sm-2 control-label">Naam</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="name" name="name" value="<?php echo $objUser->name; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
+			<input type="text" class="form-control" id="name" name="name" value="<?php echo (isset($objUser->name)) ? $objUser->name : null; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
 			<p class="help-block">Voor intern gebruik</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -115,7 +115,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">Gebruikersnaam</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="username" name="username" value="<?php echo $objUser->username; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
+			<input type="text" class="form-control" id="username" name="username" value="<?php echo (isset($objUser->username)) ? $objUser->username : null; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
 			<p class="help-block">Wordt gebruikt om mee in te loggen, niet hoofdletterrgevoelig.</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -123,7 +123,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="email" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-10">
-			<input type="email" class="form-control" id="email" name="email" value="<?php echo $objUser->email; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
+			<input type="email" class="form-control" id="email" name="email" value="<?php echo (isset($objUser->email)) ? $objUser->email : null; ?>" autocomplete="off" <?php if (empty($intId)) { echo 'required'; }?>>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
