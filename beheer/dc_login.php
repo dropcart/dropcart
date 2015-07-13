@@ -10,7 +10,15 @@ require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 require_once (__DIR__.'/../_classes/class.password.php'); // Password compatibility library with PHP 5.5
 
-if ($_POST['username'] != "" AND $_POST['password'] != "") {
+$error = NULL;
+
+if (
+		isset($_POST['username']) &&
+		isset($_POST['password']) &&
+		$_POST['username'] != "" &&
+		$_POST['password'] != ""
+	)
+{
 
 	$_POST 		= sanitize($_POST);
 	$strUsername 	= strtolower($_POST['username']);
@@ -35,11 +43,11 @@ if ($_POST['username'] != "" AND $_POST['password'] != "") {
 			}
 		}
 		else {
-			echo 'Gebruikersnaam en/of wachtwoord niet correct';
+			$error = 'Gebruikersnaam en/of wachtwoord niet correct';
 		}
 	}
 	else {
-		echo 'Gebruikersnaam en/of wachtwoord niet correct';
+		$error = 'Gebruikersnaam en/of wachtwoord niet correct';
 	}
 }
 
@@ -101,6 +109,10 @@ body {
 
 <div id="wrap">
 	<div class="container">
+		<?php if( !is_null($error)): ?>
+		<div class="alert alert-danger" role="alert"><?php echo $error; ?></div>
+		<?php endif; ?>
+
 		<form class="form-signin" role="form" method="POST">
 		<h2 class="form-signin-heading">Inloggen vereist</h2>
 		<input name="username" id="username" type="text" class="form-control" placeholder="Gebruikersnaam" autocomplete="off" required autofocus>
