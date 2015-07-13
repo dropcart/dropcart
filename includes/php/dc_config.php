@@ -34,7 +34,7 @@ define('SITE_URL', formOption('SITE_URL')); // ends in a slash
 	http://php.net/manual/en/function.dirname.php
 
  */
-define('SITE_PATH',  dirname( dirname( dirname( __FILE__ ) ) )  );
+define('SITE_PATH',  dirname( dirname( dirname( __FILE__ ) ) )."/"  );
 define('SITE_NAME', formOption('SITE_NAME'));
 define('SITE_SHIPPING', formOption('SITE_SHIPPING'));
 define('SITE_EMAIL_TEMPLATE', SITE_PATH.formOption('SITE_EMAIL_TEMPLATE'));
