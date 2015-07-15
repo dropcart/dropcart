@@ -28,20 +28,35 @@ class Cart {
 	}
 	
 	//getting cart of user
-	function getCart() {
+	function getCart($archived = false, $orderId = 0) {
 
-		//checking if user is logged in, if not, use sessionId	
-		if(!empty($this->intCustomerId)) $strExtraSQL = "AND c.customerId=".$this->intCustomerId;
-		else $strExtraSQL = "AND c.sessionId='".$this->intSessionId."'";
-		
+		//checking if user is logged in, if not, use sessionId
+		if( !$archived) {
+			if (!empty($this->intCustomerId)) $strExtraSQL = "AND c.customerId=" . $this->intCustomerId;
+			else $strExtraSQL = "AND c.sessionId='" . $this->intSessionId . "'";
+		}
+
+		$table = 'cart';
+
+		if( $archived ){
+			$table = 'cart_archived';
+			$strExtraSQL = "AND c.orderId = '{$orderId}'";
+		}
+
+
 		//getting cart of user
 		$strSQL = "SELECT c.* " .
-					"FROM ".DB_PREFIX."cart c " .
+					"FROM ".DB_PREFIX."{$table} c " .
 					"WHERE 1 " . $strExtraSQL;
 		$result = $this->objDB->sqlExecute($strSQL);
 
 		//return
 		return $result;
+	}
+
+
+	function getCartArchive($orderId){
+		return $this->getCart(true, $orderId);
 	}
 	
 	function setCartToOrder() {

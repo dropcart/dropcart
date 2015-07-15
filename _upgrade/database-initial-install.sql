@@ -41,7 +41,7 @@ INSERT INTO `dc_admin_users` (`id`, `name`, `email`, `username`, `password`) VAL
 -- Table structure for table `dc_cart`
 --
 
-CREATE TABLE IF NOT EXISTS `dc_cart` (
+CREATE TABLE IF NOT EXISTS `  dc_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `entryDate` datetime NOT NULL,
   `sessionId` varchar(80) NOT NULL,
@@ -436,6 +436,22 @@ ALTER TABLE `dc_products_tiered`
  ADD PRIMARY KEY (`id`), ADD KEY `productId` (`productId`);
 
 ALTER TABLE  `dc_products_tiered` CHANGE  `id`  `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+--
+-- Table structure for table `dc_cart_archive`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `entryDate` datetime NOT NULL,
+  `orderId` int(11) NOT NULL,
+  `customerId` int(11) DEFAULT NULL,
+  `productId` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

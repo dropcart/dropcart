@@ -82,7 +82,6 @@ if($intCartItems == 0)
 	header("Location: /dc_shoppingcart.php");
 	exit;
 } elseif(!empty($_POST)) {
-
 	$_POST = sanitize($_POST);
 	$_SERVER = sanitize($_SERVER);
 
@@ -90,7 +89,34 @@ if($intCartItems == 0)
 	$result = $objDB->sqlExecute($strSQL);
 	$intOrderId = $objDB->getInsertedId();
 
+
+
+
 	if ($dblNodePriceTotal > 0) {
+
+		/* Get the cart items result */
+		$cartResult = $objCart->getCart();
+
+
+
+		/* Save all the cart items to the cart archive table, which can't be manipulated by the user */
+		while($row = $objDB->getObject($cartResult) ){
+
+
+			$newCartItem = "INSERT INTO ".DB_PREFIX."cart_archive
+			(entryDate, orderId, customerId, productId, quantity)
+			VALUES (
+				'{$row->entryDate}',
+				'{$intOrderId}',
+				'{$row->customerId}',
+				'{$row->productId}',
+				'{$row->quantity}'
+				)";
+
+			$objDB->sqlExecute($newCartItem);
+
+		}
+
 
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
