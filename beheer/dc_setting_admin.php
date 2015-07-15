@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Required includes
 require_once (__DIR__.'/../includes/php/dc_connect.php');
 require_once (__DIR__.'/../_classes/class.database.php');
@@ -53,9 +54,33 @@ require('includes/php/dc_header.php');
 <hr />
 
 <?php
+//die(var_dump($_SESSION['logo_upload_error']));
 
 if (!empty($_GET['succes'])) {
 	echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
+}
+
+if( isset($_SESSION['logo_upload_error']) ){
+	echo '<div class="alert alert-danger alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  			<span aria-hidden="true">&times;</span>
+  			</button>
+  		<strong>Error!</strong> '. $_SESSION["logo_upload_error"].'
+		</div>';
+
+	unset($_SESSION['logo_upload_error']);
+
+}
+else if( isset($_SESSION['logo_upload_success']) ){
+
+	echo '<div class="alert alert-success alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  			<span aria-hidden="true">&times;</span>
+  			</button>
+  		<strong>Error!</strong> '. $_SESSION["logo_upload_success"].'
+		</div>';
+
+	unset($_SESSION['logo_upload_success']);
 }
 
 ?>
