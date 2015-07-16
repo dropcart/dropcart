@@ -1,13 +1,12 @@
 RewriteEngine On
-RewriteBase /
 
 # Set index page
 DirectoryIndex dc_index.php
 
 # Pretty URLs
-RewriteRule ^categorie/([0-9]+)/ /dc_category.php?categoryId=$1	[QSA,L,NC]
-RewriteRule ^printer/([0-9]+)/ /dc_printer_products.php?printerId=$1	[QSA,L,NC]
-RewriteRule ^search/ /dc_search.php					[QSA,L,NC]
+RewriteRule ^categorie/([0-9]+)/ dc_category.php?categoryId=$1	[QSA,L,NC]
+RewriteRule ^printer/([0-9]+)/ dc_printer_products.php?printerId=$1	[QSA,L,NC]
+RewriteRule ^search/ dc_search.php					[QSA,L,NC]
 
-RewriteRule ^([a-z0-9\-,._²]+)/([a-z0-9\-,._²]+)/([0-9]+)/ /dc_product_details.php?productId=$3	[QSA,L,NC]
-RewriteRule ^product/([0-9]+)/ /dc_product_details.php?productId=$1	[QSA,L,NC] # Old method
+RewriteRule ^([a-z0-9\-,._²]+)/([a-z0-9\-,._²]+)/([0-9]+)/ dc_product_details.php?productId=$3	[QSA,L,NC]
+RewriteRule ^product/([0-9]+)/ dc_product_details.php?productId=$1	[QSA,L,NC] # Old method
