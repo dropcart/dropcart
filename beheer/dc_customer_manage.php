@@ -17,7 +17,7 @@ $intId 		= $_GET['id'];
 $strAction 	= strtolower($_GET['action']);
 
 if (empty($intId)) {
-	header('Location: /beheer/dc_customer_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
+	header('Location: '.SITE_URL.'/beheer/dc_customer_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
 	exit();
 }
 

@@ -55,7 +55,7 @@ switch($status) {
 	case 'expired':
 		// Betaling verlopen of gestopt
 	
-		header('Location: /dc_shoppingcart3.php');
+		header('Location: '.SITE_URL.'/dc_shoppingcart3.php');
 		exit;
 	
 		break;

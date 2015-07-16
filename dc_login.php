@@ -16,7 +16,7 @@ require_once ('_classes/class.password.php'); // Password compatibility library 
 require_once('libraries/Api_Inktweb/API.class.php');
 
 if (!empty($_SESSION['customerId'])) {
-	header('Location: /dc_profile.php');
+	header('Location: '.SITE_URL.'/dc_profile.php');
 }
 
 
@@ -37,7 +37,7 @@ if (!empty($strEmail) AND !empty($strPassword)) {
 		if (password_verify($strPassword, $strPassHash)) {
 			// start session and redirect user
 			$_SESSION['customerId'] = $userId;
-			header('Location: /dc_profile.php');
+			header('Location: '.SITE_URL.'/dc_profile.php');
 
 		}
 		else {

@@ -36,10 +36,10 @@ if (
 			$_SESSION['sessionAdminUsername'] = $username;
 
 			if ($username == "admin") {
-				header('Location: /beheer/dc_user_admin.php?firsttime=1');
+				header('Location: '.SITE_URL.'/beheer/dc_user_admin.php?firsttime=1');
 			}
 			else {
-				header('Location: /beheer/dc_index.php');
+				header('Location: '.SITE_URL.'/beheer/dc_index.php');
 			}
 		}
 		else {

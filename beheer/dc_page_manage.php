@@ -18,15 +18,15 @@ $strAction 	= $_GET['action'];
 
 if ($strAction == "online" AND !empty($intId)) {
 	$objDB->sqlExecute("UPDATE ".DB_PREFIX."pages_content SET online = '1' WHERE id = '".$intId."'");
-	header('Location: /beheer/dc_page_admin.php');
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php');
 }
 elseif ($strAction == "offline" AND !empty($intId)) {
 	$objDB->sqlExecute("UPDATE ".DB_PREFIX."pages_content SET online = '0' WHERE id = '".$intId."'");
-	header('Location: /beheer/dc_page_admin.php');
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php');
 }
 elseif ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('pages_content', 'id', $intId);
-	header('Location: /beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
 }
 
 $strSQL 	= "SELECT pc.id, pc.pageTitle, pc.pageDesc, pc.navTitle, pc.txt, pc.online FROM ".DB_PREFIX."pages_content pc WHERE pc.id = '".$intId."' ";

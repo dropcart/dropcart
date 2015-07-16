@@ -22,4 +22,4 @@ if (empty($userId)) {
 
 // Login as user
 $_SESSION['customerId'] = $userId;
-header('Location: /dc_profile.php'); 
+header('Location: '.SITE_URL.'/dc_profile.php');

@@ -16,7 +16,7 @@ $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
 if (!empty($_POST['add_productId'])) {
-	header('Location: /beheer/dc_product_manage.php?id='.$_POST['add_productId']);
+	header('Location: '.SITE_URL.'/beheer/dc_product_manage.php?id='.$_POST['add_productId']);
 	exit();
 }
 

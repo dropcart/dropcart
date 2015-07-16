@@ -19,7 +19,7 @@ $strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
 if ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('admin_users', 'id', $intId);
-	header('Location: /beheer/dc_user_admin.php?succes='.urlencode('De gebruiker is verwijderd.'));
+	header('Location: '.SITE_URL.'/beheer/dc_user_admin.php?succes='.urlencode('De gebruiker is verwijderd.'));
 }
 
 $strSQL 	= "SELECT au.name, au.email, au.username, au.password FROM ".DB_PREFIX."admin_users au WHERE au.id = '".$intId."' ";

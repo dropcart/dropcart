@@ -3,6 +3,6 @@ session_start();
 // log out the user
 
 session_destroy();
-header('Location: /beheer/dc_login.php');
+header('Location: '.SITE_URL.'/beheer/dc_login.php');
 
 ?>

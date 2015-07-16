@@ -18,7 +18,7 @@ $intUuid	= (isset($_GET['uuid'])) ? $_GET['uuid'] : null;
 $strAction 	= (isset($_GET['action'])) ? strtolower($_GET['action']) : null;
 
 if (empty($intId)) {
-	header('Location: /beheer/dc_order_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
+	header('Location: '.SITE_URL.'/beheer/dc_order_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
 	exit();
 }
 

@@ -16,7 +16,7 @@ require_once('includes/php/dc_mail.php'); // Password reset email
 require_once('libraries/Api_Inktweb/API.class.php');
 
 if (!empty($_SESSION['customerId'])) {
-	header('Location: /dc_profile.php');
+	header('Location: '.SITE_URL.'/dc_profile.php');
 }
 
 
@@ -43,7 +43,7 @@ if (!empty($strTokenGet) AND !empty($strEmail)) {
 
 		// login user
 		$_SESSION['customerId'] = $objCustomer->id;
-		header('Location: /dc_profile_edit.php');
+		header('Location: '.SITE_URL.'/dc_profile_edit.php');
 		
 	}
 	else {

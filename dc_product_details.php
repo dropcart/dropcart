@@ -40,12 +40,16 @@ $strMetaDescription	= getContent('product_meta_description', true, $Product);
 if (!is_null($Product->getCategorieTitle()) AND !is_null($Product->getTitle()) AND !empty($intProductId)) {
 	
 	// $canonical gets set to full `link rel` in dc_header.php
-	$canonical 		= '/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $Product->getId() . '/';
-	
+	$canonical 		= SITE_URL.'/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $Product->getId() . '/';
+
+    // TODO: add support for https
+    $request = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+
 	// Redirect to canonical if current url doesnt match (prevent duplicate indexing)
-	if ($_SERVER['REQUEST_URI'] !== $canonical) {
+	if ($request !== $canonical) {
 		header("HTTP/1.1 301 Moved Permanently"); 
-		header("Location: " . $canonical); 
+		header("Location: " .$canonical);
 	}
 }
 

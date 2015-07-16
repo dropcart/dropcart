@@ -183,7 +183,7 @@ if(!empty($_POST)) {
 		
 
 		doLogin($strEmail, $strPassword);
-		header('Location: /dc_shoppingcart3.php');
+		header('Location: '.SITE_URL.'/dc_shoppingcart3.php');
 		exit;
 		
 	}
@@ -193,7 +193,7 @@ if(!empty($_POST)) {
 $intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".intval($customerId)." AND customerId != 0) OR sessionId='".session_id()."'");
 if($intCartItems == 0)
 {
-	header("Location: /dc_shoppingcart.php");
+	header('Location: '.SITE_URL.'/dc_shoppingcart.php');
 	exit;
 }
 

@@ -16,7 +16,7 @@ $strAction 	= $_GET['action'];
 
 if ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('pages_content', 'id', $intId);
-	header('Location: /beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
 }
 
 $strSQL 	= "SELECT ec.emailId, ec.navTitle, ec.navDesc, ec.title, ec.txt, e.fromName, e.fromEmail, e.bcc

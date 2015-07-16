@@ -79,7 +79,7 @@ if(!empty($_SESSION["discountCode"])) {
 $intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".$intCustomerId." AND customerId != 0)");
 if($intCartItems == 0)
 {
-	header("Location: /dc_shoppingcart.php");
+	header('Location: '.SITE_URL.'/dc_shoppingcart.php');
 	exit;
 } elseif(!empty($_POST)) {
 	$_POST = sanitize($_POST);
@@ -156,7 +156,7 @@ if($intCartItems == 0)
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = 'ready' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 
-		header("Location: /dc_shoppingcart3_process.php?orderId=".$intOrderId);
+		header('Location: '.SITE_URL.'/dc_shoppingcart3_process.php?orderId='.$intOrderId);
 
 	}
 

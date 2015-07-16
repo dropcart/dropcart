@@ -16,7 +16,7 @@ require_once('libraries/Api_Inktweb/API.class.php');
 
 if (empty($_SESSION['customerId'])) {
 	// not logged in, redirect
-	header('Location: /dc_login.php');
+	header('Location: '.SITE_URL.'/dc_login.php');
 }
 
 

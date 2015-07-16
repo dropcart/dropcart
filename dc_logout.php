@@ -4,4 +4,4 @@
 session_start();
 session_destroy();
 
-header('Location: /');
+header('Location: '.SITE_URL.'/');
