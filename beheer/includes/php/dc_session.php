@@ -5,10 +5,9 @@ session_start();
 
 // redirect user to login.php if the session is not set
 if (!isset($_SESSION['sessionAdminId'])) {
-    
 
-	$url = 'Location: ./beheer/dc_login.php';
+	$url = SITE_URL.'/beheer/dc_login.php';
 
 	header('HTTP/1.0 403 Forbidden');
-	header($url);
+	header("Location: {$url}");
 }
