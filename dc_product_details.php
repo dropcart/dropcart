@@ -104,7 +104,7 @@ if (@!getimagesize($strProductImg)) {
 	<div class="col-md-5 col-sm-8 col-xs-12">
 		<div class="product-header">
 			<h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId; ?>" data-url="/post" data-title="Verander prijs">
-				<?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '' ;?>
+				<?php /* TODO: priceFrom */ ?>
 				<?php echo $strPrice?> <small>inclusief BTW</small>
 			</h2>
 	
