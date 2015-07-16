@@ -2,16 +2,16 @@
 session_start();
 
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../../../includes/php/dc_connect.php');
+require_once (__DIR__.'/../../../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../../includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../../includes/php/dc_functions.php');
 
 // Start API
-require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
+require_once(__DIR__.'/../../../libraries/Api_Inktweb/API.class.php');
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 
