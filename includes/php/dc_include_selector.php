@@ -58,7 +58,7 @@ $('#printerBrandSelect').change(function(){
 	var printerBrandId = $(this).val();
 	
     $.get(
-        '/includes/json/getPrinterSeries.php',
+        '<?php echo SITE_URL.'/includes/json/getPrinterSeries.php'?>',
         {
 			printerBrandId	: printerBrandId,
 			timestamp		: '<?=$_SERVER["REQUEST_TIME"]?>'
