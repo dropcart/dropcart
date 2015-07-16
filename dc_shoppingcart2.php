@@ -240,9 +240,9 @@ require_once('includes/php/dc_header.php');
 <div class="row">
 	<div class="col-xs-12">
 		<ul class="nav nav-tabs">
-			<li class=""><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+			<li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
 			<li class="active"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo SITE_URL.'/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
 			<li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->

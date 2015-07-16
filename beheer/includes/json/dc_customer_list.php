@@ -61,7 +61,7 @@ while ($objCust = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $name;
 	$arrJson['details'][$i][]	= $objCust->email;
 	$arrJson['details'][$i][]	= $objCust->numOrders;
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_customer_manage.php?id='.$objCust->id.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_customer_manage.php?id='.$objCust->id.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
 }

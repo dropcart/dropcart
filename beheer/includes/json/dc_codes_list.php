@@ -51,8 +51,8 @@ while ($objCode = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $objCode->title;
 	$arrJson['details'][$i][]	= $objCode->validFrom;
 	$arrJson['details'][$i][]	= $objCode->validTill;
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_codes_codes.php?id='.$objCode->id.'&amp;type=notexported"><span class="glyphicon glyphicon-list-alt"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_codes_manage.php?id='.$objCode->id.'&amp;action=view"><span class="glyphicon glyphicon-edit"></span></a>';	
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_codes_codes.php?id='.$objCode->id.'&amp;type=notexported"><span class="glyphicon glyphicon-list-alt"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_codes_manage.php?id='.$objCode->id.'&amp;action=view"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
 }

@@ -42,9 +42,9 @@ $i=0;
 while ($objPage = $objDB->getObject($result)) {
 
 	$arrJson['details'][$i][]	= $objPage->navTitle;
-	$arrJson['details'][$i][]	= ($objPage->online == 0) ? '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=online"><span class="glyphicon glyphicon-eye-close"></span></a>' : '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=offline"><span class="glyphicon glyphicon-eye-open"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=remove" onclick="return confirm(\'Weet je zeker dat je deze pagina wilt verwijderen?\')"><span class="glyphicon glyphicon-remove"></span></a>';
+	$arrJson['details'][$i][]	= ($objPage->online == 0) ? '<a href="'.SITE_URL.'/beheer/dc_page_manage.php?id='.$objPage->id.'&action=online"><span class="glyphicon glyphicon-eye-close"></span></a>' : '<a href="/beheer/dc_page_manage.php?id='.$objPage->id.'&action=offline"><span class="glyphicon glyphicon-eye-open"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_page_manage.php?id='.$objPage->id.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_page_manage.php?id='.$objPage->id.'&action=remove" onclick="return confirm(\'Weet je zeker dat je deze pagina wilt verwijderen?\')"><span class="glyphicon glyphicon-remove"></span></a>';
 	
 	$i++;
 }

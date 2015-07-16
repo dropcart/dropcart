@@ -120,7 +120,7 @@ if (!empty($canonical)) {
 
 <div class="row header-top hidden-print">
 	<div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-		<a href="/">
+		<a href="<?php echo SITE_URL?>">
 			<?php
 				$image = SITE_URL."/images/logo_small.png";
 				$logo = formOption('SITE_LOGO');

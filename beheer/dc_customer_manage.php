@@ -55,7 +55,7 @@ require('includes/php/dc_header.php');
 	<div class="form-group">
 		<label for="loginUser" class="col-sm-2 control-label">Klantaccount</label>
 		<div class="col-sm-8">
-			<a href="/beheer/dc_login_user.php?id=<?php echo $intId; ?>" class="uneditable-input">Inloggen als deze klant</a>
+			<a href="<?php SITE_URL?>/beheer/dc_login_user.php?id=<?php echo $intId; ?>" class="uneditable-input">Inloggen als deze klant</a>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
@@ -117,7 +117,7 @@ require('includes/php/dc_header.php');
 				<td><?php echo $objCustOrders->orderId; ?></td>
 				<td><?php echo $objCustOrders->entryDate; ?></td>
 				<td><?php echo $objCustOrders->totalPrice; ?></td>
-				<td><a href="/beheer/dc_order_manage.php?id=<?php echo $objCustOrders->orderId; ?>&action=view"><span class="glyphicon glyphicon-edit"></span></a></td>
+				<td><a href="<?php SITE_URL?>/beheer/dc_order_manage.php?id=<?php echo $objCustOrders->orderId; ?>&action=view"><span class="glyphicon glyphicon-edit"></span></a></td>
 			</tr>
 		<?php
 		}

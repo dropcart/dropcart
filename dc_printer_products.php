@@ -87,13 +87,13 @@ $arrSortOptions 		= array (
 				
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
+							<a href="<?php echo SITE_URL?>/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 						
-						<h4><a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 				
 				<?php

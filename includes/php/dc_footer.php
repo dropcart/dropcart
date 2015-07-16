@@ -15,7 +15,7 @@
 			$result = $objDB->sqlExecute($strSQL);
 
 			while ($objPages = $objDB->getObject($result)) {
-				echo '<a href="/dc_page.php?id='.$objPages->id.'">'.$objPages->navTitle.'</a> | ';
+				echo '<a href="'.SITE_URL.'/dc_page.php?id='.$objPages->id.'">'.$objPages->navTitle.'</a> | ';
 			}
 
 			?>

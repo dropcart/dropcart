@@ -27,7 +27,7 @@ if (!empty($_GET['succes'])) {
 
 <input type="search" id="search" value="" class="form-control search-json" placeholder="Zoeken" style="margin-bottom:20px" data-json-table="#table">
 
-<span class="pull-right"><a href="/beheer/dc_page_manage.php?action=add"><span class="glyphicon glyphicon-plus"></span> Pagina toevoegen</a></span></span>
+<span class="pull-right"><a href="<?php echo SITE_URL?>/beheer/dc_page_manage.php?action=add"><span class="glyphicon glyphicon-plus"></span> Pagina toevoegen</a></span></span>
 
 <table class="table table-striped table-json" id="table" data-json-file="dc_page_list.json">
 	<thead>
@@ -43,5 +43,5 @@ if (!empty($_GET['succes'])) {
 
 <ul class="pagination pagination-json" data-json-table="#table" data-json-items="25"></ul>
 
-<script src="/beheer/includes/script/jquery.dynamic-table.js"></script>
+<script src="<?php echo SITE_URL?>/beheer/includes/script/jquery.dynamic-table.js"></script>
 <?php require('includes/php/dc_footer.php'); ?>

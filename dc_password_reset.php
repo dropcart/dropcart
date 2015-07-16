@@ -121,7 +121,7 @@ require_once('includes/php/dc_header.php');
 		</div><!-- /row -->
 
 		<span class="button-checkbox">
-			<a href="/dc_login.php" class="btn btn-link pull-right">Wacht, ik weet het weer!</a>
+			<a href="<?php echo SITE_URL ?>/dc_login.php" class="btn btn-link pull-right">Wacht, ik weet het weer!</a>
 		</span><!-- /button-checkbox -->
 
 		</fieldset>

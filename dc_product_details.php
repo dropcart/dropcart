@@ -252,7 +252,7 @@ if (@!getimagesize($strProductImg)) {
 			</div><!-- /modal body -->
 			<div class="modal-footer">
 				<a class="btn btn-default" data-dismiss="modal">Sluiten</a></button>
-				<a href="/dc_shoppingcart.php" class="btn btn-primary">Bekijk winkelwagen</a></button>
+				<a href="<?php echo SITE_URL?>/dc_shoppingcart.php" class="btn btn-primary">Bekijk winkelwagen</a></button>
 			</div><!-- /modal footer -->
 		</div><!-- /modal content -->
 		</div><!-- /modal dialog -->
@@ -310,7 +310,7 @@ if (@!getimagesize($strProductImg)) {
 
 					$Product = $Api->getProduct($objProduct->id, '?fields=title');
 
-					echo '<li><a href="/product/'.$Product->getId().'/">'.$Product->getTitle().'</a></li>';
+					echo '<li><a href="'.SITE_URL.'/product/'.$Product->getId().'/">'.$Product->getTitle().'</a></li>';
 
 				}
 				?>

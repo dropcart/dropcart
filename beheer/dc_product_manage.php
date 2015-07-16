@@ -298,7 +298,7 @@ if (!empty($_GET['succes'])) {
 
 	<p>
 		<a href="https://www.inktweb.nl/products_detail.php?id=<?php echo $intId; ?>" class="btn btn-default">Bekijk op Inktweb.nl</a>
-		<a href="/product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
+		<a href="<?php echo SITE_URL?>/product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
 	</p>
 
 </div><!-- /col -->

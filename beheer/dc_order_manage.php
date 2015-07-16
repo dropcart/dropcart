@@ -233,7 +233,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 	<table class="table">
 		<tr>
-			<th colspan="2">Klant informatie <a href="/beheer/dc_customer_manage.php?id=<?php echo $objOrder->id; ?>&amp;action=view" class="btn btn-primary btn-xs pull-right">Bekijk klantaccount</a></th>
+			<th colspan="2">Klant informatie <a href="<?php echo SITE_URL?>/beheer/dc_customer_manage.php?id=<?php echo $objOrder->id; ?>&amp;action=view" class="btn btn-primary btn-xs pull-right">Bekijk klantaccount</a></th>
 		</tr>
 		<tr>
 			<th>Bedrijfsnaam</th>
@@ -302,7 +302,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 			$Product = $Api->getProduct($objDetails->productId);
 
 			echo '<tr>';
-			echo '<td><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
+			echo '<td><a href="'.SITE_URL.'/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
 			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)).'</td>';
 			echo '<td>'.$objDetails->quantity.'</td>';
 			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity).'</td>';

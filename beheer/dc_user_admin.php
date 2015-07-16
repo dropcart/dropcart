@@ -24,14 +24,14 @@ if (!empty($_GET['succes'])) {
 }
 
 if (!empty($_GET['firsttime'])) {
-	echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Belangrijk!</strong> Maak <a href="/beheer/dc_user_manage.php?action=add">een nieuwe gebruiker aan</a> met een veilig wachtwoord en verwijder daarna het <em>admin</em> account.</div>';
+	echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Belangrijk!</strong> Maak <a href="'.SITE_URL.'/beheer/dc_user_manage.php?action=add">een nieuwe gebruiker aan</a> met een veilig wachtwoord en verwijder daarna het <em>admin</em> account.</div>';
 }
 
 ?>
 
 <input type="search" id="search" value="" class="form-control search-json" placeholder="Zoeken" style="margin-bottom:20px" data-json-table="#table">
 
-<span class="pull-right"><a href="/beheer/dc_user_manage.php?action=add"><span class="glyphicon glyphicon-plus"></span> Gebruiker toevoegen</a></span></span>
+<span class="pull-right"><a href="<?php echo SITE_URL?>/beheer/dc_user_manage.php?action=add"><span class="glyphicon glyphicon-plus"></span> Gebruiker toevoegen</a></span></span>
 
 <table class="table table-striped table-json" id="table" data-json-file="dc_user_list.json">
 	<thead>

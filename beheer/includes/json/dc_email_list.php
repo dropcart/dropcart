@@ -43,7 +43,7 @@ while ($objEmail = $objDB->getObject($result)) {
 
 	$arrJson['details'][$i][]	= $objEmail->navTitle;
 	$arrJson['details'][$i][]	= $objEmail->navDesc;
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_email_manage.php?id='.$objEmail->emailId.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_email_manage.php?id='.$objEmail->emailId.'&action=edit"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
 }

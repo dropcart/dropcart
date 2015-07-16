@@ -65,9 +65,9 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 <div class="row">
 	<div class="col-xs-12">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart2.php'; else '#'; ?>"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo SITE_URL.'/dc_shoppingcart2.php'; else '#'; ?>"><strong>Stap 2)</strong> Gegevens</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo SITE_URL.'/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
 			<li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->
@@ -160,7 +160,7 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 						</div>
 						
 					</td>
-					<td><a href="/dc_shoppingcart2.php" class="btn btn-primary">Bestelling afronden</a></td>
+					<td><a href="'.SITE_URL.'/dc_shoppingcart2.php" class="btn btn-primary">Bestelling afronden</a></td>
 				</tr>
 				</tbody>
 			</table>
@@ -195,7 +195,7 @@ $strNodePriceTotal		= money_format('%(#1n', $dblNodePriceTotal);
 			<td>
 				<p><strong><?php echo $Product->getTitle(); ?></strong></p>
 				<p><?php echo calculateProductPrice($Product->getPrice(), $objProduct->id); ?></p>
-				<p><a href="/product/<?php echo $Product->getId(); ?>/" class="btn btn-primary btn-xs" title="Voeg toe aan winkelmandje"><span class="glyphicon glyphicon-plus"></span> In winkelwagen</a></p>
+				<p><a href="<?php echo SITE_URL ?>/product/<?php echo $Product->getId(); ?>/" class="btn btn-primary btn-xs" title="Voeg toe aan winkelmandje"><span class="glyphicon glyphicon-plus"></span> In winkelwagen</a></p>
 			</td>
 		</tr>
 		<?php

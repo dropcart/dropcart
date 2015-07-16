@@ -54,7 +54,7 @@ while ($objProduct = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $Product->getId();
 	$arrJson['details'][$i][]	= $Product->getTitle();
 	$arrJson['details'][$i][]	= calculateProductPrice($objProduct->price, $objProduct->id);
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_product_manage.php?id='.$objProduct->id.'"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_product_manage.php?id='.$objProduct->id.'"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
 }
