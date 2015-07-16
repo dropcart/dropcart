@@ -44,6 +44,7 @@ if (isset($_POST) && !empty($_POST)) {
 
 	}
 
+
 }
 
 require('includes/php/dc_header.php');
@@ -572,7 +573,7 @@ else if( isset($_SESSION['logo_upload_success']) ){
 </div><!-- /col -->
 
 <!-- Price calculator -->
-<script src="/includes/script/jquery.dcpriceformula.js"></script>
+<script src="<?php echo SITE_URL ?>/includes/script/jquery.dcpriceformula.js"></script>
 <script type="text/template" id="dcPriceFormulaTemplate">
 
 <select  name="price_operators[]" class="operator form-control" style="width:15%; margin-right:5px; float:left;">

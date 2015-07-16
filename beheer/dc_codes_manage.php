@@ -149,5 +149,5 @@ if (isset($_GET['fail']) && !empty($_GET['fail'])) {
 
 <hr />
 
-<script src="/includes/script/bootstrap-datepicker.js"></script>
+<script src="<?php echo SITE_URL ?>/includes/script/bootstrap-datepicker.js"></script>
 <?php require('includes/php/dc_footer.php'); ?>

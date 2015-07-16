@@ -156,7 +156,7 @@ if (!empty($_GET['fail'])) {
 <hr />
 
 
-<script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
+<script type="text/javascript" src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
 <script type="text/javascript">
 (function () {
  

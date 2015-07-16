@@ -78,6 +78,6 @@ if (!empty($_GET['succes'])) {
 
 <ul class="pagination pagination-json" data-json-table="#table" data-json-items="25"></ul>
 
-<script src="/beheer/includes/script/jquery.dynamic-table.js"></script>
+<script src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.dynamic-table.js"></script>
 
 <?php require('includes/php/dc_footer.php'); ?>
