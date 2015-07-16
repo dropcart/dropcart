@@ -96,7 +96,7 @@ $('#printerSerieSelect').change(function(){
 	var printerSerieId = $(this).val();
 	
     $.get(
-        '/includes/json/getPrinterTypes.php',
+          '<?php echo SITE_URL.'/includes/json/getPrinterTypes.php'?>',
         {
 			printerBrandId	: printerBrandId,
 			printerSerieId	: printerSerieId,
@@ -129,7 +129,7 @@ $('#printerSerieSelect').change(function(){
 $('.submit-btn').click(function(){
 
 	var printerTypeId = $('#printerTypeSelect').val();
-	document.location.href = '/printer/' + printerTypeId + '/';
+	document.location.href = '<?php echo SITE_URL?>/printer/' + printerTypeId + '/';
 	
 });
 
