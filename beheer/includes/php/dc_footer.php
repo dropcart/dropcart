@@ -9,18 +9,27 @@
 
         $(document).swipe( {
             //Generic swipe handler for all directions
-            swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            swipeRight:function(event, direction, distance, duration, fingerCount, fingerData) {
 //                alert("You swiped " + direction );
 
-                if( direction == "right" && distance >= swipeDistanceTrigger){
+
+                if( distance >= swipeDistanceTrigger){
                     toggleMenu('show');
                 }
-                else if(direction == "left" && distance >= swipeDistanceTrigger){
+
+            },
+
+            swipeLeft:function(event, direction, distance, duration, fingerCount, fingerData) {
+//                alert("You swiped " + direction );
+
+
+                if (distance >= swipeDistanceTrigger) {
                     toggleMenu('hide');
                 }
-
             }
-        });
+
+          });
+
 
 
         /* Whenever the window width changes, calculate the new min-height */

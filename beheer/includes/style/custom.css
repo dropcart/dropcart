@@ -82,6 +82,14 @@ table.table-json thead tr th[data-json-column] {
 }
 /* END JSON DYNAMIC TABLES */
 
+#top-bar{
+ min-height: 3em;
+}
+#top-bar > div{
+    -webkit-box-shadow: inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+}
 
 #site_logo_setting{
 	max-width:300px;
@@ -119,6 +127,7 @@ table.table-json thead tr th[data-json-column] {
     text-align: center;
     color: #3a3a3a;
     text-decoration: none;
+
 }
 
 .dark-overlay{
@@ -137,10 +146,21 @@ table.table-json thead tr th[data-json-column] {
 
 }
 
+.main-content{
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+}
+
 /* OFF CANVAS MENU */
 
 /* Make the wrapper 100% height, so the main-content div can also expand */
 @media screen and (max-width: 992px) {
+
+    /* Fix scrolling issue on mobile */
+    html, body{
+        height:auto;
+    }
 
     .offcanvas, .dark-overlay{
         left:0;
@@ -165,5 +185,11 @@ table.table-json thead tr th[data-json-column] {
 
     .nav{
         padding-left:1em;
+    }
+
+    .sidebar-wrapper{
+
+        overflow-y: scroll;
+        max-height: 100vh;
     }
 }

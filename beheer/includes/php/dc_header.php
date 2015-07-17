@@ -41,11 +41,11 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 
 <div class="container-fluid">
 <div class="row" id="top-bar">
-<div class="col-xs-12" style="color:#999; margin:15px 0px; padding:0px; text-align:center;">
+<div class="col-xs-12 hidden-md hidden-lg" >
 
 
 
-        <a href="#" data-toggle="offcanvas" class="block-trigger hidden-md hidden-lg">
+        <a href="#" data-toggle="offcanvas" class="block-trigger">
             <i class="fa fa-bars"></i> Swipe of klik hier om het menu te open
         </a>
 
@@ -54,6 +54,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 </div>
 <div class="row offcanvas offcanvas-left">
 <div class="col-xs-6 col-sm-6 col-md-2 main-sidebar">
+    <div class="sidebar-wrapper">
 	<ul class="nav">
         <li class="static text-center faded">
             <p>
@@ -101,6 +102,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
                 <i class="fa fa-envelope"></i> Contact</a>
         </li>
     </ul>
+    </div>
 </div><!-- /col -->
 
 <div class="col-xs-12 col-sm-12 col-md-10 main-content">
