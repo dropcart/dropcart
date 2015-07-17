@@ -64,6 +64,7 @@ require_once('includes/php/dc_header.php');
 $objPrice 		= $Product->getPrice();
 $dblPrice 		= calculateProductPrice($objPrice, $intProductId, '', false);
 $strPrice 		= money_format('%(#1n', $dblPrice);
+$productPriceFrom =   getPriceFrom($intProductId);
 
 $intStock 		= $Product->getStock();
 $objSpecifications 	= $Product->getSpecifications();
@@ -104,7 +105,7 @@ if (@!getimagesize($strProductImg)) {
 	<div class="col-md-5 col-sm-8 col-xs-12">
 		<div class="product-header">
 			<h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId; ?>" data-url="/post" data-title="Verander prijs">
-				<?php /* TODO: priceFrom */ ?>
+                <?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '' ;?>
 				<?php echo $strPrice?> <small>inclusief BTW</small>
 			</h2>
 	

@@ -244,7 +244,25 @@ function calculateProductPrice($objPrice, $productId = null, $quantity = null, $
 
 }
 
+function getPriceFrom($productId){
+	global $objDB;
+	$query = "SELECT price_from FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 
+
+	$result = $objDB->sqlExecute($query);
+
+    $count = $objDB->getNumRows($result);
+//	die(var_dump($count));
+
+    if( $count === 0){
+
+		return null;
+	}
+
+    $row = $objDB->getObject($result);
+
+    return $row->price_from;
+}
 
 function calculateSiteShipping($cartTotal = 0, $deliveryLang = null, $format = true) {
 
