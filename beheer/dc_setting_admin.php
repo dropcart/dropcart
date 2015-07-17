@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 // Required includes
 require_once (__DIR__.'/../includes/php/dc_connect.php');
 require_once (__DIR__.'/../_classes/class.database.php');
