@@ -109,6 +109,15 @@ if (!empty($canonical)) {
 
 <div class="row hidden-print">
 <div class="col-xs-12">
+	<noscript>
+		<div class="alert alert-danger" role="alert">
+			<strong>Let op: </strong> ons systeem heeft gedecteert dat Javascript in uw browser niet is ingeschakeld.
+            U zult Javascript moeten aanzetten om gebruik te maken van onze site.
+            <p>
+				<a href="<?php echo SITE_URL ?>/dc_javascript.php" class="btn btn-primary">Hoe zet ik javascript aan?</a>
+			</p>
+		</div>
+	</noscript>
 	<nav class="navbar navbar-right header-nav" role="navigation">
 		<ul class="nav navbar-nav">
 			<li><a href="<?php echo SITE_URL ?>/dc_login.php">Mijn account</a></li>
@@ -169,7 +178,7 @@ if (!empty($canonical)) {
 		</div><!-- /navbar-header -->
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
-				<li><a href="<?php SITE_URL ?>"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo SITE_URL ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="dropdown">
 					<a href="<?php echo SITE_URL ?>/categorie/1/" id="cat1" role="button" data-toggle="dropdown" data-target="#">Cartridges <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="cat1">
