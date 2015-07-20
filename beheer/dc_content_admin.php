@@ -224,6 +224,15 @@ if (!empty($_GET['succes'])) {
                                     <label for="product_desc_<?php echo $category->id ?>">Product beschrijving</label>
                                     <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"></textarea>
                                 </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Bevat markdown <input type="checkbox" name="categories[<?php echo $category->id?>][parse_markdown]" value="1" /></label>
+                                    <label>Bevat boilerplate <input type="checkbox" name="categories[<?php echo $category->id?>][parse_boilerplate]" value="1" /></label>
+
+                                </div>
                             </div>
 
                         </div>
@@ -243,10 +252,17 @@ if (!empty($_GET['succes'])) {
 </div><!-- /col -->
 
 <script>
-$('.nav-tabs a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
+    $(function(){
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+            $(this).tab('show');
+            var scrollmem = $('body').scrollTop();
+            window.location.hash = this.hash;
+            $('html,body').scrollTop(scrollmem);
+        });
+    });
 </script>
 
 <?php require('includes/php/dc_footer.php'); ?>
