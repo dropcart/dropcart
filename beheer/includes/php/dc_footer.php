@@ -5,7 +5,26 @@
 <script>
     $(function(){
 
+        /* Distance in pixels that the user needs to swipe in order to trigger the menu */
         var swipeDistanceTrigger = 80;
+
+        /*  Max-width in pixels for small screens.
+            If the current window is larger than this, then the
+            sidebar won't get triggerd
+        */
+        var breakPointSmall = 992;
+
+        function init(){
+           resizeContent();
+        }
+
+        function resizeContent(){
+            // Set the minheight of the wrapper, and then execute callback function
+            setMinHeightOffCanvasWrapper(
+                setMinHeightMainContent
+            );
+
+        }
 
         $(document).swipe( {
             //Generic swipe handler for all directions
@@ -34,17 +53,64 @@
 
         /* Whenever the window width changes, calculate the new min-height */
         $(window).resize( function(){
-            setMinHeightMainContent();
+
+            resizeContent();
+            /*
+                If the current windows is too large on resize, the sidebar needs to be
+                forced inactive.
+            */
+            if( !isSmallScreen() ){
+                // 'true' = force the sidebar to close, ignoring screensize
+                toggleMenu('hide', true);
+            }
+
         });
 
-        /* Sets the min height of the main-content div */
-        function setMinHeightMainContent() {
-            var minHeight = $(window).outerHeight() - $('#top-bar').outerHeight() + 'px';
-            $('.main-content').css('min-height', minHeight);
+        /* Makes sure that the content width takes op whole screen height */
+        function setMinHeightMainContent(setHeight) {
+
+            $('.main-content').css('min-height', setHeight);
         }
 
-        /* initiate min height */
-        setMinHeightMainContent();
+        function setMinHeightOffCanvasWrapper(callback){
+            var minheight = $(document).outerHeight(true) - $('#top-bar').outerHeight(true);
+            $('.offcanvas').css('min-height', minheight);
+
+
+            if( typeof callback === "function"){
+                callback(minheight);
+            }
+        }
+
+        /* Get's full width of the window (including scrollbars) */
+        function getWidth() {
+            if (self.innerWidth) {
+                return self.innerWidth;
+            }
+            else if (document.documentElement && document.documentElement.clientHeight){
+                return document.documentElement.clientWidth;
+            }
+            else if (document.body) {
+                return document.body.clientWidth;
+            }
+            return 0;
+        }
+        /* Get's full height of the window (including scrollbars) */
+        function getHeight() {
+            if (self.innerHeight) {
+                return self.innerHeight;
+            }
+
+            if (document.documentElement && document.documentElement.clientHeight) {
+                return document.documentElement.clientHeight;
+            }
+
+            if (document.body) {
+                return document.body.clientHeight;
+            }
+        }
+
+
 
         $('[data-toggle="offcanvas"]').click(function(){
             toggleMenu();
@@ -54,7 +120,29 @@
             toggleMenu('hide');
         });
 
-        function toggleMenu(action){
+        function isSmallScreen(){
+            return getWidth() < breakPointSmall;
+        }
+
+        /**
+         * Show or hide the sidebar menu
+         *
+         * @param {string} action - the action that the sidebar has to perform
+         * There are 2 supported action: 'hide' and 'show'. If no action given,
+         * the sidebar wil default to toggeling.
+         *
+         * @param {boolean} force - force toggleMenu() to ignore current screensize
+         *
+         * @return void
+         */
+        function toggleMenu(action, force){
+
+           if( typeof force == "undefined"){ force = false; }
+
+           if( !isSmallScreen() && !force ){
+                return;
+           }
+
             var nav = $('.offcanvas');
 
             if( typeof action === "undefined") {
@@ -76,7 +164,10 @@
             else{
                 $('.dark-overlay').addClass('hidden');
             }
+
         }
+
+        init();
     });
 </script>
 </body>
