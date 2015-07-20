@@ -96,7 +96,7 @@ INSERT INTO `dc_content` (`id`, `type`, `name`, `label`, `value`, `description`,
 -- Table structure for table `dc_content_boilerplate`
 --
 
-CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+CREATE TABLE IF NOT EXISTS `dc_content_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
   `desc` varchar(255) DEFAULT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
 -- Dumping data for table `dc_content_boilerplate`
 --
 
-INSERT INTO `dc_content_boilerplate` (`id`, `tag`, `desc`) VALUES
+INSERT INTO `dc_content_tags` (`id`, `tag`, `desc`) VALUES
 (1, '[PRODUCT_BRAND]', 'Printermerk van het product'),
 (2, '[SITE_NAME]', 'Naam van de website'),
 (3, '[PRODUCT_ID]', 'Database ID van product'),
@@ -451,6 +451,22 @@ CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `dc_content_boilerplate`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `category_title` text,
+  `category_desc` text,
+  `product_title` text,
+  `product_desc` text,
+  `parse_markdown` tinyint(4) NOT NULL DEFAULT '0',
+  `parse_boilerplate` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

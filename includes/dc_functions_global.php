@@ -349,7 +349,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 		$arrReplace['[PRODUCT_ID]'] 		= $Product->getId();
 		$arrReplace['[PRODUCT_EAN]'] 		= $Product->getEan();
 		$arrReplace['[PRODUCT_OEM]'] 		= $Product->getOem();
-		$arrReplace['[PRODUCT_BRAND]']	= $Product->getBrand();
+		$arrReplace['[PRODUCT_BRAND]']		= $Product->getBrand();
 		$arrReplace['[PRODUCT_TITLE]'] 		= $Product->getTitle();
 
 		$objPrice 					= $Product->getPrice();
@@ -433,7 +433,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 function getProductTitle($objProduct, $productId = null) {
 
 	global $objDB;
-
+	$strTitle = null;
 	// if $productId is entered, check if it has a custom title in DB
 	if (!empty($productId)) {
 
