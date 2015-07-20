@@ -436,7 +436,7 @@ $('.zipcode, .houseNr, .houseNrAdd').focusout(function(){
 	
 	if(input_zipcode != '' && input_houseNr != '') {
 	
-		$.get( "/includes/json/validateZipcode.php", {
+		$.get( "<?php echo SITE_URL?>/includes/json/validateZipcode.php", {
 			
 				zipcode		: input_zipcode,
 				houseNr		: input_houseNr,

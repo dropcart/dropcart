@@ -139,7 +139,7 @@ if($intCartItems == 0)
 			"amount"       => $dblNodePriceTotal,
 			"method"       => $method,
 			"description"  => SITE_NAME . " Ordernr. " . formOption('order_number_prefix') . $intOrderId,
-			"redirectUrl"  => "{$protocol}://{$hostname}{$path}/dc_shoppingcart4.php?order_id={$intOrderId}",
+			"redirectUrl"  => SITE_URL."/dc_shoppingcart4.php?order_id={$intOrderId}",
 			"metadata"     => array(
 				"order_id" => $intOrderId,
 			),
@@ -484,12 +484,12 @@ $('#discountCodeSend').click(function(){
 				$('.discount_input').hide();
 				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
 				$('.discount_message').html(
-					'<div class="italic">Voor deze code is een validatiecode vereist.<br/>Vul uw validatiecode in die u heeft ontvangen.</div>' +
-					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=$_SESSION["validationCode"]?>" />' +
+					'<div class="italic">Voor deze code is een validatiecode vereist.<br/> Vul uw validatiecode in die u heeft ontvangen.</div>' +
+					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?= (isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
 
-				<?php if($_SESSION["validationCode"] != "") { ?>
+				<?php if(isset($_SESSION["validationCode"]) && $_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
 				<?php } ?>
 
@@ -517,7 +517,7 @@ $('#discountCodeSend').click(function(){
 
 });
 
-<?php if($_SESSION["discountCode"] != "") { ?>
+<?php if(isset($_SESSION["validationCode"]) && $_SESSION["discountCode"] != "") { ?>
 	$('#discountCode').click();
 	$('#discountCodeSend').click();
 <?php } ?>
