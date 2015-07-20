@@ -472,7 +472,7 @@ $('#discountCodeSend').click(function(){
 	$.ajax({
 		type:		'POST',
 		dataType:	'json',
-		url:		'/includes/json/calculateDiscount.php',
+		url:		'<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
 		data:		{ code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
 		success: function(data, textStatus) {
 		// Handle success
@@ -530,7 +530,7 @@ $(document).on('click','#validationCodeSend',function(){
 	$.ajax({
 		type:		'POST',
 		dataType:	'json',
-		url:		'/includes/json/calculateDiscount.php',
+		url:		'<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
 		data:		{ code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
 		success: function(data, textStatus) {
 		// Handle success
@@ -565,7 +565,7 @@ $('.cartQuantity').change(function(){
 	var intCartId	= $(this).data('cartid');
 
 	$.get(
-		'/includes/json/updateCartQuantity.php',
+		'<?php echo SITE_URL ?>/includes/json/updateCartQuantity.php',
 		{
 			cartId		: intCartId,
 			quantity	: intQuantity,
@@ -593,7 +593,7 @@ $('.deleteItem').click(function() {
 	var intCartId	= $(this).data('cartid');
 
 	$.get(
-		'/includes/json/deleteCartItem.php',
+		'<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
 		{
 			cartId		: intCartId,
 			timestamp	: '<?=$_SERVER["REQUEST_TIME"]?>'

@@ -81,11 +81,11 @@ if (!empty($canonical)) {
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<?php echo $strMetaDescription; ?>">
-	<meta name="generator" content="DropCart <?php echo DROPCART_VERSION; ?>">
+	<meta name="description" content="<?php echo (isset($strMetaDescription)) ? $strMetaDescription : null ?>">
+	<meta name="generator" content="DropCart <?php echo ( defined('DROPCART_VERSION') ) ? DROPCART_VERSION : null; ?>">
 	<meta name="robots" content="<?php echo formOption('meta_robots'); ?>">
 
-	<title><?php echo $strPageTitle; ?></title>
+	<title><?php echo (isset($strPageTitle)) ? $strPageTitle : null; ?></title>
 
 	<?php if(isset($strCanonical)){ $strCanonical; } ?>
 
@@ -102,6 +102,9 @@ if (!empty($canonical)) {
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="<?php echo SITE_URL ?>/includes/script/bootstrap-magnify.min.js" ></script>
+	<script>
+		var baseUrl = '<?php echo SITE_URL ?>';
+	</script>
 </head>
 <body>
 

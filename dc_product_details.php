@@ -266,7 +266,7 @@ if (@!getimagesize($strProductImg)) {
 		
 		var quantity = $('.quantity').val();
 		$.get(
-			'/includes/json/addProductToCart.php',
+			'<?php echo SITE_URL?>/includes/json/addProductToCart.php',
 			{
 				productId	: <?=$intProductId?>,
 				quantity	: quantity,

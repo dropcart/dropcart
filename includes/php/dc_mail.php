@@ -170,6 +170,7 @@ function sendMail($strMailName, $strToEmail, $strToName, $templateVars = array()
 
 	//reading e-mail template
 	$arrTemplate = file(SITE_EMAIL_TEMPLATE);
+	$strEmailTemplate = null;
 	for($x=0;$x<count($arrTemplate);$x++) {
 		$strEmailTemplate .= $arrTemplate[$x];
 	}
