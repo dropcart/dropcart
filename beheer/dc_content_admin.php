@@ -185,9 +185,21 @@ if (!empty($_GET['succes'])) {
         $categories = array();
         $result = $Api->getProductsByCategory(0);
 
+        $sqlCustomText = "SELECT * FROM ".DB_PREFIX."content_boilerplate";
+        $resultCustomText = $objDB->sqlExecute($sqlCustomText);
+
+
         if( isset($result->categories) && is_array($result->categories)){
             $categories = $result->categories;
         }
+
+        while($row = $objDB->getArray($resultCustomText)){
+
+            foreach( $row as $col => $value){
+                $customTextValues[$row['category_id']][$col] = $value;
+            }
+        }
+
     ?>
 	<div class="tab-pane" id="categories">
 		<div class="panel panel-default">
@@ -207,30 +219,67 @@ if (!empty($_GET['succes'])) {
 
                                 <div class="form-group">
                                     <label for="category_title_<?php echo $category->id ?>">Categorie titel</label>
-                                    <input id="category_title_<?php echo $category->id ?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][category_title]" placeholder="categorie titel" />
+                                    <input id="category_title_<?php echo $category->id ?>"
+                                           type="text" class="form-control"
+                                           name="categories[<?php echo $category->id?>][category_title]"
+                                           placeholder="categorie titel"
+                                            value="<?php echo
+                                                    (isset($customTextValues[$category->id]['category_title']))
+                                                    ? $customTextValues[$category->id]['category_title']
+                                                    : null
+                                                ?>"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="category_desc_<?php echo $category->id ?>">Categorie beschrijving</label>
-                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][category_desc]" id="category_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"></textarea>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][category_desc]" id="category_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php
+                                        echo (isset($customTextValues[$category->id]['category_desc']))
+                                        ? $customTextValues[$category->id]['category_desc'] : null
+                                        ?></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="product_title_<?php echo $category->id ?>">Product titel</label>
-                                    <input id="product_title_<?php echo $category->id ?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][product_title]" placeholder="product titel" />
+                                    <input id="product_title_<?php echo $category->id ?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][product_title]" placeholder="product titel" value="<?php
+                                    echo (isset($customTextValues[$category->id]['product_title']))
+                                        ? $customTextValues[$category->id]['product_title'] : null
+                                    ?>"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="product_desc_<?php echo $category->id ?>">Product beschrijving</label>
-                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"></textarea>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php
+                                        echo (isset($customTextValues[$category->id]['product_desc']))
+                                            ? $customTextValues[$category->id]['product_desc'] : null
+                                        ?></textarea>
                                 </div>
 
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Bevat markdown <input type="checkbox" name="categories[<?php echo $category->id?>][parse_markdown]" value="1" /></label>
-                                    <label>Bevat boilerplate <input type="checkbox" name="categories[<?php echo $category->id?>][parse_boilerplate]" value="1" /></label>
+                                    <label>Bevat markdown <input type="checkbox"
+                                                                 name="categories[<?php echo $category->id?>][parse_markdown]"
+                                                                 value="1"
+
+                                            <?php
+                                        echo (
+                                            isset($customTextValues[$category->id]['parse_markdown'])
+                                            && $customTextValues[$category->id]['parse_markdown'] == 1
+                                        )
+                                            ? 'checked="checked"'  : null
+                                        ?>
+                                            /></label>
+                                    <label>Bevat boilerplate <input type="checkbox"
+                                                                    name="categories[<?php echo $category->id?>][parse_boilerplate]"
+                                                                    value="1"
+                                            <?php
+                                            echo (
+                                                isset($customTextValues[$category->id]['parse_boilerplate'])
+                                                && $customTextValues[$category->id]['parse_boilerplate'] == 1
+                                            )
+                                                ? 'checked="checked"'  : null
+                                            ?>/></label>
 
                                 </div>
                             </div>

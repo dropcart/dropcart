@@ -34,7 +34,6 @@ function redirectBack($success = false){
 /**
  * @author Dmitri Chebotarev <dmitri.chebotarev@gmail.com>
  * @param $objDB
- * @param $allowed
  * @return array
  */
 function getAllowedColumnNames($objDB)
