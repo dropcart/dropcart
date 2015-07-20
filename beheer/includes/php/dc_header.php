@@ -20,7 +20,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
@@ -40,27 +40,46 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 <body>
 
 <div class="container-fluid">
+<div class="row" id="top-bar">
+<div class="col-xs-12 hidden-md hidden-lg" >
 
-<div class="col-xs-12" style="color:#999; margin:15px 0px; padding:0px; text-align:center;">
-	<div class="col-xs-1 main-sidebar">
-		<p>
-		Dropcart <strong><?php echo DROPCART_VERSION; ?></strong>
 
-		<?php
-		// compare versions
-		if (isset($Versions->version_stable->number)) {
-			echo '<a href="dc_update.php" class="label label-info">'.$Versions->version_stable->number.' beschikbaar</a>';
-		}
-		?>
-		</p>
-	</div><!-- /col -->
-	<div class="col-xs-11">
-		<p class="pull-right">Welkom <?php echo $_SESSION['sessionAdminUsername']; ?> (<a href="<?php echo SITE_URL ?>/beheer/dc_logout.php">Uitloggen</a>) | <a href="<?php echo SITE_URL ?>/beheer/dc_faq.php">Veelgestelde vragen</a> | <a href="<?php echo SITE_URL ?>/beheer/dc_contact.php">Contact</a></p>
-	</div><!-- /col -->
+
+        <a href="#" data-toggle="offcanvas" class="block-trigger">
+            <i class="fa fa-bars"></i> Swipe of klik hier om het menu te open
+        </a>
+
+    <!-- /col -->
 </div><!-- /col -->
-
-<div class="col-xs-1 main-sidebar">
+</div>
+<div class="row offcanvas offcanvas-left">
+<div class="col-xs-6 col-sm-6 col-md-2 main-sidebar">
+    <div class="sidebar-wrapper">
 	<ul class="nav">
+        <li class="static text-center faded">
+            <p>
+                Dropcart <strong><?php echo DROPCART_VERSION; ?></strong>
+
+                <?php
+                // compare versions
+                if (isset($Versions->version_stable->number)) {
+                    echo '<a href="dc_update.php" class="label label-info">'.$Versions->version_stable->number.' beschikbaar</a>';
+                }
+                ?>
+            </p>
+        </li>
+        <li class="static title">Menu</li>
+        <li class="static">
+            <p>
+                Welkom <strong>
+
+                <?php echo ( isset($_SESSION['sessionAdminUsername']) )
+                    ? $_SESSION['sessionAdminUsername']
+                    : '[ Gebruikersnaam niet gevonden ]'?>
+                </strong>
+            </p>
+
+        </li>
 		<li <?php if (curPage() == "dc_index.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_index.php"> <span class="glyphicon glyphicon-home"></span> Home</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
 		<li <?php if (curPage() == "dc_order_admin.php" OR curPage() == "dc_order_manage.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_order_admin.php"> <span class="glyphicon glyphicon-euro"></span> Bestellingen <?php if ($numOrders > 0) echo '<span class="label label-success">'.$numOrders.'</span>'; ?></a><div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
 		<li <?php if (curPage() == "dc_customer_admin.php" OR curPage() == "dc_customer_manage.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_customer_admin.php"> <span class="glyphicon glyphicon-user"></span> Klanten</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
@@ -71,7 +90,21 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 		<li <?php if (curPage() == "dc_content_admin.php" OR curPage() == "dc_content_manage.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_content_admin.php"> <span class="glyphicon glyphicon-tags"></span> Content</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
 		<li <?php if (curPage() == "dc_user_admin.php" OR curPage() == "dc_user_manage.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_user_admin.php"> <span class="glyphicon glyphicon-user"></span> Gebruikers</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
 		<li <?php if (curPage() == "dc_setting_admin.php") { echo 'class="active" '; } ?>><a href="<?php echo SITE_URL ?>/beheer/dc_setting_admin.php"> <span class="glyphicon glyphicon-wrench"></span> Instellingen</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+		<li><a href="<?php echo SITE_URL ?>/beheer/dc_logout.php"><i class="fa fa-sign-out"></i> Uitloggen</a></a> </li>
 	</ul>
+
+    <ul class="nav dropcart">
+        <li class="static title">Dropcart</li>
+        <li><a href="<?php echo SITE_URL ?>/beheer/dc_faq.php">
+               <i class="fa fa-question"></i> Veelgestelde vragen
+            </a></li>
+        <li><a href="<?php echo SITE_URL ?>/beheer/dc_contact.php">
+                <i class="fa fa-envelope"></i> Contact</a>
+        </li>
+    </ul>
+    </div>
 </div><!-- /col -->
 
-<div class="col-xs-11 main-content">
+<div class="col-xs-12 col-sm-12 col-md-10 main-content">
+    <!-- Used with side nav to dark the main content -->
+    <div class="dark-overlay hidden"></div>
