@@ -8,7 +8,9 @@ require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
 require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
-
+// Start API
+require_once(__DIR__.'../../libraries/Api_Inktweb/API.class.php');
+$Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 if (isset($_POST)) {
 
 	$_POST 	= sanitize($_POST);
@@ -69,6 +71,7 @@ if (!empty($_GET['succes'])) {
 <ul class="nav nav-tabs" role="tablist">
   <li class="active"><a href="#meta" role="tab" data-toggle="tab">Pagina specifiek</a></li>
   <li><a href="#other" role="tab" data-toggle="tab">Overig</a></li>
+  <li><a href="#categories" role="tab" data-toggle="tab">Categorie&euml;n</a></li>
 </ul>
 
 
@@ -178,6 +181,62 @@ if (!empty($_GET['succes'])) {
 	</div><!-- /panel -->
   
   </div>
+	<?php
+        $categories = array();
+        $result = $Api->getProductsByCategory(0);
+
+        if( isset($result->categories) && is_array($result->categories)){
+            $categories = $result->categories;
+        }
+    ?>
+	<div class="tab-pane" id="categories">
+		<div class="panel panel-default">
+			<div class="panel-heading">Categorie&euml;n</div><!-- /panel-heading -->
+			<div class="panel-body">
+                <form role="form" action="<?php echo SITE_URL ?>/beheer/dc_categories_text.php" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
+                </div>
+                <?php foreach($categories as $category): ?>
+                   
+                    <div class="form-group">
+                        <h2><?php echo $category->title?></h2>
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="category_title_<?php echo $category->id ?>">Categorie titel</label>
+                                    <input id="category_title_<?php echo $category->id ?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][category_title]" placeholder="categorie titel" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="category_desc_<?php echo $category->id ?>">Categorie beschrijving</label>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][category_desc]" id="category_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="product_title_<?php echo $category->id ?>">Product titel</label>
+                                    <input id="product_title_<?php echo $category->id ?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][product_title]" placeholder="product titel" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="product_desc_<?php echo $category->id ?>">Product beschrijving</label>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id ?>" cols="30" rows="10" placeholder="Beschrijving categorie"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        </div>
+
+                <?php endforeach; ?>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
+                </div>
+                    </form>
+			</div>
+		</div>
+	</div>
 </div>
 	
 
