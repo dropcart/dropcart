@@ -10,6 +10,15 @@ require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 require_once (__DIR__.'/../_classes/class.password.php'); // Password compatibility library with PHP 5.5
 
+/*
+	If user is already logged in, and tries to go the login screen,
+	redirect him to the dashboard.
+*/
+if (isset($_SESSION['sessionAdminId'])) {
+	header('Location: '.SITE_URL.'/beheer/dc_index.php');
+    exit();
+}
+
 $error = NULL;
 
 if (
