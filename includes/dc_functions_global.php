@@ -346,6 +346,8 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 	// Product is set so its likely to be PRODUCT_ related
 	if (!empty($Product)) {
 
+
+
 		$arrReplace['[PRODUCT_ID]'] 		= $Product->getId();
 		$arrReplace['[PRODUCT_EAN]'] 		= $Product->getEan();
 		$arrReplace['[PRODUCT_OEM]'] 		= $Product->getOem();
@@ -419,6 +421,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 		array_values($arrReplace),
 		$content
 	);
+
 
 	return $content;
 
@@ -715,3 +718,128 @@ function fullUrl($s = null, $use_forwarded_host=false)
 	return urlOrigin($s, $use_forwarded_host) . $s['REQUEST_URI'];
 }
 
+function getBoilerPlateContent(
+        $category_id,
+        $col,
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = true,          # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product = null,
+        $arrPrinters = null
+    ){
+    global $objDB;
+    $sql = "SELECT
+                  {$col}, /* Either category_title, category_desc, product_title or product_desc */
+                  parse_markdown,
+                  parse_boilerplate
+            FROM ".DB_PREFIX."content_boilerplate
+            WHERE category_id = '{$category_id}'";
+
+	$result = $objDB->sqlExecute($sql);
+
+	$item = $objDB->getObject($result);
+
+
+
+
+    /* Fallback to default content if content is empty */
+    if( $objDB->getNumRows($result) == 0 ){
+
+        switch($col){
+            case 'category_title':  $alt = 'category_title'; break;
+            case 'category_desc':   $alt = 'category_meta_description'; break;
+            case 'product_title':   $alt = 'product_title'; break;
+            case 'product_desc':    $alt = 'product_meta_description'; break;
+            default: return null; break;
+        }
+
+        return getContent($alt, $parse = true, $product, $arrPrinters);
+    }
+
+    if( !isset($item->{$col})) {
+        return NULL;
+    }
+
+    $content = $item->{$col};
+
+    if( !$parse ) {
+        return $content;
+    }
+
+    if( ( $parseWithUserSettings && !empty($item->parse_markdown) ) ||  $forceMarkdown || $stripMarkdown ){
+        $content = parseMarkdown($content);
+
+        if($stripMarkdown){
+            $content = stripHTML($content);
+        }
+    }
+
+    if( ( $parseWithUserSettings && !empty($item->parse_boilerplate) ) || $forceBoilerplate){
+        $content = parseBoilerplate($content, $product, $arrPrinters);
+    }
+    return $content;
+}
+
+/* For use in HTML title tag */
+function getProductPageTitle($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_title',
+        $parse = true,
+        $parseWithUserSettings = false, # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = true,          # $parse must be true for this setting
+        $product,
+        $printers
+    ).parseBoilerplate(' - [SITE_NAME]'); //Append site name to the title
+}
+
+/* For use in meta description tag */
+function getProcutMetaDescription($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_desc',
+        $parse = true,
+        $parseWithUserSettings = false, # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = true,          # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function getCustomProductDesc($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_desc',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function getCustomProductTitle($category_id, $product, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_title',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function stripHTML($content){
+    return strip_tags($content);
+}

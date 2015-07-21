@@ -209,6 +209,12 @@ if (!empty($_GET['succes'])) {
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Opslaan</button>
                 </div>
+
+                    <?php
+
+                        echo getBoilerPlateContent(2, 'category_title');
+                    ?>
+
                 <?php foreach($categories as $category): ?>
                    
                     <div class="form-group">

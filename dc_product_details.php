@@ -31,10 +31,19 @@ if (!empty($Product->errors)) {
 	die();
 	
 }
+$category_id = $Product->getCategorieId();
+
 
 // Generate page title & meta tags
-$strPageTitle		= getContent('product_title', true, $Product);
-$strMetaDescription	= getContent('product_meta_description', true, $Product);
+$strPageTitle		= getProductPageTitle(
+    $category_id,
+    $Product
+);
+
+$strMetaDescription	= getProcutMetaDescription(
+    $category_id,
+    $Product
+);
 
 // Handle pretty urls / canonical / 301 old URLs
 if (!is_null($Product->getCategorieTitle()) AND !is_null($Product->getTitle()) AND !empty($intProductId)) {
@@ -85,7 +94,7 @@ if (@!getimagesize($strProductImg)) {
 ?>
 <div class="row">
 	<div class="col-xs-12">
-		<h1><?php echo getProductTitle($Product, $Product->getId()); ?></h1>
+		<h1><?php echo getCustomProductTitle($category_id, $Product); ?></h1>
 	</div><!-- /col -->
 </div><!-- /row -->
 
@@ -224,8 +233,9 @@ if (@!getimagesize($strProductImg)) {
 	
 			<h3>Omschrijving</h3>
 			<?php
-			$Parsedown = new Parsedown();
-			echo getProductDesc($Product, $Product->getId());
+
+
+			echo getCustomProductDesc($category_id, $Product);
 			?>
 	
 			<?php
