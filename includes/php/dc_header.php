@@ -85,7 +85,7 @@ if (!empty($canonical)) {
 	<meta name="generator" content="DropCart <?php echo ( defined('DROPCART_VERSION') ) ? DROPCART_VERSION : null; ?>">
 	<meta name="robots" content="<?php echo formOption('meta_robots'); ?>">
 
-	<title><?php echo (isset($strPageTitle)) ? $strPageTitle : null; ?></title>
+	<title><?php echo (isset($strPageTitle)) ? $strPageTitle : null; echo ' - '.formOption('SITE_NAME') ?></title>
 
 	<?php if(isset($strCanonical)){ $strCanonical; } ?>
 
