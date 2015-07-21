@@ -210,15 +210,13 @@ if (!empty($_GET['succes'])) {
                     <button type="submit" class="btn btn-primary">Opslaan</button>
                 </div>
 
-                    <?php
-
-                        echo getBoilerPlateContent(2, 'category_title');
-                    ?>
-
                 <?php foreach($categories as $category): ?>
                    
                     <div class="form-group">
                         <h2><?php echo $category->title?></h2>
+                        <div class="form-group">
+                            <a class="btn btn-default" href="<?php echo SITE_URL.'/categorie/'.$category->id.'/' ?>"><i class="fa fa-eye"></i> Bekijk categorie</a>
+                        </div>
                         <div class="row">
 
                             <div class="col-md-6">
