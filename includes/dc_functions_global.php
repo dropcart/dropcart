@@ -795,7 +795,7 @@ function getProductPageTitle($category_id, $product = null, $printers = null){
         $stripMarkdown = true,          # $parse must be true for this setting
         $product,
         $printers
-    ).parseBoilerplate(' - [SITE_NAME]'); //Append site name to the title
+    ); //Append site name to the title
 }
 
 /* For use in meta description tag */

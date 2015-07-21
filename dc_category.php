@@ -122,8 +122,6 @@ $arrBrandOptions 		= array (
 
 					$strProductImg = $arrProduct->details[1]->images->url;
 
-					$Product = $Api->getProduct($arrProduct->id);
-
 
 					// check if valid image (ignore warnings)
 					if (@!getimagesize($strProductImg)) {
@@ -140,7 +138,7 @@ $arrBrandOptions 		= array (
 							</a>
 						</div><!-- /image -->
 
-						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo getCustomProductTitle($arrProducts->categories[0]->id, $Product); ?></a></h4>
+						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 
 				<?php
