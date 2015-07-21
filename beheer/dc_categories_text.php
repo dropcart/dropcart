@@ -124,9 +124,9 @@ function getUpdateQuery($category_id, $data){
     return $sql;
 }
 
-function pushChanges($db, $category_id, $data){
+function pushChanges($db, $category_id, $data, $exists){
     // Check if exists
-    $exists = categoryExists($db, $category_id);
+
     $sql = null;
 
     if( $exists ){
@@ -143,6 +143,14 @@ function pushChanges($db, $category_id, $data){
 /* START Handler */
 $allowed = getAllowedColumnNames($objDB);
 
+if( isset($_GET['reset']) && is_numeric($_GET['reset'])){
+    $category_id = sanitize($_GET['reset']);
+    $deleteQuery = "DELETE FROM ".DB_PREFIX."content_boilerplate WHERE category_id = '{$category_id}'";
+    $objDB->sqlExecute($deleteQuery);
+
+    redirectBack();
+}
+
 if( !isset($_POST['categories'] ) ){
     redirectBack();
 }
@@ -150,12 +158,22 @@ if( !isset($_POST['categories'] ) ){
 foreach( $_POST['categories'] as $category_id => $input ){
 
     $tmpInsertData = array();
+    $exists = categoryExists($objDB, $category_id);
+
 
     $category_id = $objDB->escapeString($category_id);
     foreach($input as $key => $value){
 
-        if( empty($value) )
-            continue;
+        if( empty($value) ){
+
+            if( $exists ){
+                $value = NULL;
+            }
+            else {
+                continue;
+            }
+        }
+
 
         if( !in_array($key, $allowed) )
             continue;
@@ -174,8 +192,7 @@ foreach( $_POST['categories'] as $category_id => $input ){
         continue;
 
     $tmpInsertData = insertCheckboxValues($tmpInsertData);
-
-    pushChanges($objDB, $category_id, $tmpInsertData);
+    pushChanges($objDB, $category_id, $tmpInsertData, $exists);
 }
 
 redirectBack(true);

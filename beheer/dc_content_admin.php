@@ -21,14 +21,18 @@ if (isset($_POST)) {
 			if (!empty($value) AND ($value != "1")) {
 
 				// get $value for markdown checkbox
-				$parse_markdown = $_POST[$key . '_markdown'];
-				if (empty($parse_markdown)) {
-					$parse_markdown = '0';
-				}
+                if( array_key_exists($key.'_markdown', $_POST) ){
+                    $parse_markdown = $_POST[$key.'_markdown'];
+                }
+                else{
+                    $parse_markdown = '0';
+                }
 
 				// get $value for boilerplate checkbox
-				$parse_boilerplate = $_POST[$key . '_boilerplate'];
-				if (empty($parse_boilerplate)) {
+				if(array_key_exists($key.'_boilerplate', $_POST) ){
+                    $parse_boilerplate = $_POST[$key . '_boilerplate'];
+                }
+				else {
 					$parse_boilerplate = '0';
 				}
 
@@ -36,12 +40,12 @@ if (isset($_POST)) {
 					"INSERT INTO " . DB_PREFIX . "content
 				(name, value, parse_markdown, parse_boilerplate) 
 				VALUES 
-				('" . $key . "', '" . $value . "', '" . $_POST[$key . '_markdown'] . "', '" . $_POST[$key . '_boilerplate'] . "')
+				('" . $key . "', '" . $value . "', '" . $parse_markdown . "', '" . $parse_boilerplate . "')
 				ON DUPLICATE KEY UPDATE 
 				name = '" . $key . "',
 				value = '" . $value . "',
-				parse_markdown = '" . $_POST[$key . '_markdown'] . "',
-				parse_boilerplate = '" . $_POST[$key . '_boilerplate'] . "' ";
+				parse_markdown = '" . $parse_markdown . "',
+				parse_boilerplate = '" . $parse_boilerplate . "' ";
 				$objDB->sqlExecute($strSQL);
 			}
 
@@ -85,7 +89,13 @@ if (!empty($_GET['succes'])) {
 		<form class="form-horizontal" role="form" method="POST" autocomplete="off">
 
 			<?php
-			$strSQL 	= "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM ".DB_PREFIX."content WHERE type = 1";
+			$strSQL 	= "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM ".DB_PREFIX."content WHERE type = 1
+			AND name NOT IN (
+			'category_title',
+			'category_meta_description',
+			'product_title',
+			'product_meta_description'
+			)";
 			$result 	=$objDB->sqlExecute($strSQL);
 			while ($objContent = $objDB->getObject($result)) {
 
@@ -188,6 +198,16 @@ if (!empty($_GET['succes'])) {
         $sqlCustomText = "SELECT * FROM ".DB_PREFIX."content_boilerplate";
         $resultCustomText = $objDB->sqlExecute($sqlCustomText);
 
+        $defaultsSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate  FROM ".DB_PREFIX."content WHERE type = '1'
+        AND name IN (
+			'category_title',
+			'category_meta_description',
+			'product_title',
+			'product_meta_description'
+			)";
+
+        $resultDefaults = $objDB->sqlExecute($defaultsSQL);
+
 
         if( isset($result->categories) && is_array($result->categories)){
             $categories = $result->categories;
@@ -202,8 +222,47 @@ if (!empty($_GET['succes'])) {
 
     ?>
 	<div class="tab-pane" id="categories">
+    
+        <div class="panel panel-default">
+          <div class="panel-heading">Standaard instellingen voor categorie&euml;n</div>
+          <div class="panel-body">
+              <form href="<?php echo SITE_URL?>/beheer/dc_content_admin.php#categories" class="form-horizontal" role="form" method="POST" autocomplete="off">
+                  <?php while($objContent = $objDB->getObject($resultDefaults)): ?>
+                      <div class="form-group">
+                          <label for="<?php echo $objContent->name; ?>" class="col-sm-2 control-label"><?php echo $objContent->label; ?></label>
+                          <div class="col-sm-8">
+                              <textarea class="form-control" id="<?php echo $objContent->name; ?>" name="<?php echo $objContent->name; ?>"><?php echo getContent($objContent->name, false); ?></textarea>
+                              <?php
+                              if (!empty($objContent->description)) {
+                                  echo '<p class="help-block">'.$objContent->description.'</p>';
+                              }
+                              ?>
+
+                              <label>
+                                  <input type="checkbox" value="1" name="<?php echo $objContent->name; ?>_markdown" <?php if ($objContent->parse_markdown == 1) { echo 'checked'; } ?> /> Bevat Markdown
+                              </label>
+
+                              <label>
+                                  <input type="checkbox" value="1" name="<?php echo $objContent->name; ?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) { echo 'checked'; } ?> /> Bevat Boilerplate
+                              </label>
+                          </div><!-- /col -->
+                      </div><!-- /form-group -->
+                  <?php endwhile; ?>
+                  
+                  <div class="form-group">
+                      <div class="col-sm-offset-2 col-sm-8 ">
+                      <button type="submit" class="btn btn-default">Opslaan</button>
+
+                      </div>
+                  </div>
+              </form>
+
+          </div>
+        </div>
+
+
 		<div class="panel panel-default">
-			<div class="panel-heading">Categorie&euml;n</div><!-- /panel-heading -->
+			<div class="panel-heading">Unieke instellingen per categorie</div><!-- /panel-heading -->
 			<div class="panel-body">
                 <form role="form" action="<?php echo SITE_URL ?>/beheer/dc_categories_text.php" method="POST" autocomplete="off">
                 <div class="form-group">
@@ -216,6 +275,9 @@ if (!empty($_GET['succes'])) {
                         <h2><?php echo $category->title?></h2>
                         <div class="form-group">
                             <a class="btn btn-default" href="<?php echo SITE_URL.'/categorie/'.$category->id.'/' ?>"><i class="fa fa-eye"></i> Bekijk categorie</a>
+                            <?php if(isset($customTextValues[$category->id])): ?>
+                                <a class="btn btn-danger" href="<?php echo SITE_URL.'/beheer/dc_categories_text.php?reset='.$category->id ?>" onclick="return confirm('Weet u het zeker?')"><i class="fa fa-trash-o "></i> Instellingen verwijderen</a>
+                            <?php endif; ?>
                         </div>
                         <div class="row">
 
