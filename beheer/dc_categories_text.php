@@ -113,9 +113,11 @@ function getCreateQuery($category_id, $data){
 function onlyCheckBoxes($data, $checkboxes){
     $count = 0;
     foreach($data as $key => $value){
-        if( !in_array($value['col'], $checkboxes) )
+        if( !in_array($value['col'], $checkboxes)  && !empty(trim($value['value']))){
             $count++;
+        }
     }
+
 
     return $count === 0;
 }
@@ -151,6 +153,12 @@ function pushChanges($db, $category_id, $data, $exists){
 
     if( !is_null($sql))
         $db->sqlExecute($sql);
+}
+
+function clearCategory($db, $category_id){
+    $category_id = sanitize($category_id);
+    $deleteQuery = "DELETE FROM ".DB_PREFIX."content_boilerplate WHERE category_id = '{$category_id}'";
+    $db->sqlExecute($deleteQuery);
 }
 
 /* START Handler */
@@ -192,8 +200,15 @@ foreach( $_POST['categories'] as $category_id => $input ){
     if( count($tmpInsertData) === 0 )
         continue;
 
-    if( onlyCheckBoxes($tmpInsertData, $checkBoxes) )
+    if( onlyCheckBoxes($tmpInsertData, $checkBoxes) ){
+
+
+        // If all fields are blank, but it exists in the database, delete the row
+        if( $exists ){
+            clearCategory($objDB, $category_id);
+        }
         continue;
+    }
 
     $tmpInsertData = insertCheckboxValues($tmpInsertData, $checkBoxes);
     pushChanges($objDB, $category_id, $tmpInsertData, $exists);
