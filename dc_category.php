@@ -39,8 +39,8 @@ $_POST 	= sanitize($_POST);
 $canonical 			= "/categorie/".(int)$_GET['categoryId']."/";
 
 // Generate page title & meta tags
-$strPageTitle		= getContent('category_title');
-$strMetaDescription	= getContent('category_meta_description');
+$strPageTitle		= getCategoryPageTitle($_GET['categoryId']);
+$strMetaDescription	= getCategoryMetaDescription($_GET['categoryId']);
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
@@ -108,7 +108,7 @@ $arrBrandOptions 		= array (
 
 	<div class="col-md-9 cat">
 
-		<h1><?=$arrProducts->categories[0]->name?></h1>
+		<h1><?= getCustomCategoryTitle($arrProducts->categories[0]->id) ?></h1>
 
 		<div class="row">
 
@@ -121,6 +121,9 @@ $arrBrandOptions 		= array (
 					$strPrice 	= calculateProductPrice($objPrice, $arrProduct->id);
 
 					$strProductImg = $arrProduct->details[1]->images->url;
+
+					$Product = $Api->getProduct($arrProduct->id);
+
 
 					// check if valid image (ignore warnings)
 					if (@!getimagesize($strProductImg)) {
@@ -137,7 +140,7 @@ $arrBrandOptions 		= array (
 							</a>
 						</div><!-- /image -->
 
-						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo getCustomProductTitle($arrProducts->categories[0]->id, $Product); ?></a></h4>
 					</div><!-- /col -->
 
 				<?php

@@ -344,6 +344,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 	$arrReplace = array();
 
 	// Product is set so its likely to be PRODUCT_ related
+
 	if (!empty($Product)) {
 
 
@@ -740,12 +741,16 @@ function getBoilerPlateContent(
 	$result = $objDB->sqlExecute($sql);
 
 	$item = $objDB->getObject($result);
+    $content =  null;
+    if( isset($item->{$col})) {
+        $content = $item->{$col};
+    }
 
 
 
 
     /* Fallback to default content if content is empty */
-    if( $objDB->getNumRows($result) == 0 ){
+    if( empty($content) ){
 
         switch($col){
             case 'category_title':  $alt = 'category_title'; break;
@@ -758,11 +763,7 @@ function getBoilerPlateContent(
         return getContent($alt, $parse = true, $product, $arrPrinters);
     }
 
-    if( !isset($item->{$col})) {
-        return NULL;
-    }
 
-    $content = $item->{$col};
 
     if( !$parse ) {
         return $content;
@@ -840,6 +841,47 @@ function getCustomProductTitle($category_id, $product, $printers = null){
     );
 }
 
+function getCategoryPageTitle($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_title',
+        $parse = true,
+        $parseWithUserSettings = false,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,      # $parse must be true for this setting
+        $stripMarkdown = true,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
+
+function getCategoryMetaDescription($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_desc',
+        $parse = true,
+        $parseWithUserSettings = false,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,      # $parse must be true for this setting
+        $stripMarkdown = true,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
+
+function getCustomCategoryTitle($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_title',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
 function stripHTML($content){
     return strip_tags($content);
 }
