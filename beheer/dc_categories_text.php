@@ -20,6 +20,13 @@ require_once (__DIR__.'/../libraries/Mollie/API/Autoloader.php');
 
 $objDB 		= new DB();
 
+/* Checkbox names */
+$checkBoxes = array(
+    'parse_markdown',
+    'parse_boilerplate'
+);
+
+
 function redirectBack($success = false){
     $url = SITE_URL.'/beheer/dc_content_admin.php';
 
@@ -65,13 +72,8 @@ function extractData($data, $key){
     return $extracted;
 }
 
-function insertCheckboxValues($data){
+function insertCheckboxValues($data, $checkBoxes){
 
-    /* Checkbox names */
-    $checkBoxes = array(
-        'parse_markdown',
-        'parse_boilerplate'
-    );
 
     /* Search checkboxes */
     foreach($data as $key => $value){
@@ -105,6 +107,17 @@ function getCreateQuery($category_id, $data){
     (".implode($colNames, ", ").") VALUES ('".implode($values, "', '")."')";
 
     return $sql;
+}
+
+/* Check if the users didn't fill out the fields, but did check atleast one checkbox */
+function onlyCheckBoxes($data, $checkboxes){
+    $count = 0;
+    foreach($data as $key => $value){
+        if( !in_array($value['col'], $checkboxes) )
+            $count++;
+    }
+
+    return $count === 0;
 }
 
 function getUpdateQuery($category_id, $data){
@@ -188,10 +201,14 @@ foreach( $_POST['categories'] as $category_id => $input ){
 
     }
 
+
     if( count($tmpInsertData) === 0 )
         continue;
 
-    $tmpInsertData = insertCheckboxValues($tmpInsertData);
+    if( onlyCheckBoxes($tmpInsertData, $checkBoxes) )
+        continue;
+
+    $tmpInsertData = insertCheckboxValues($tmpInsertData, $checkBoxes);
     pushChanges($objDB, $category_id, $tmpInsertData, $exists);
 }
 
