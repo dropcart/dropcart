@@ -19,7 +19,7 @@ if (isset($_POST) && !empty($_POST)) {
 
 	$_POST 	= sanitize($_POST);
 
-	if(is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
+	if( isset($_POST['price_values'] ) && is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
 		foreach($_POST['price_values'] as $key=>$value) {
 			$_POST['price_values'][$key] = str_replace(",", ".", $value);
 		}
