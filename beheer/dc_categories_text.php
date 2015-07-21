@@ -156,14 +156,6 @@ function pushChanges($db, $category_id, $data, $exists){
 /* START Handler */
 $allowed = getAllowedColumnNames($objDB);
 
-if( isset($_GET['reset']) && is_numeric($_GET['reset'])){
-    $category_id = sanitize($_GET['reset']);
-    $deleteQuery = "DELETE FROM ".DB_PREFIX."content_boilerplate WHERE category_id = '{$category_id}'";
-    $objDB->sqlExecute($deleteQuery);
-
-    redirectBack();
-}
-
 if( !isset($_POST['categories'] ) ){
     redirectBack();
 }

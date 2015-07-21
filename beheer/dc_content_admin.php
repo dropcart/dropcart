@@ -301,9 +301,7 @@ if (!empty($_GET['succes'])) {
                         <h2><?php echo $category->title?></h2>
                         <div class="form-group">
                             <a class="btn btn-default" href="<?php echo SITE_URL.'/categorie/'.$category->id.'/' ?>"><i class="fa fa-eye"></i> Bekijk categorie</a>
-                            <?php if(isset($customTextValues[$category->id])): ?>
-                                <a class="btn btn-danger" href="<?php echo SITE_URL.'/beheer/dc_categories_text.php?reset='.$category->id ?>" onclick="return confirm('Weet u het zeker?')"><i class="fa fa-trash-o "></i> Instellingen verwijderen</a>
-                            <?php endif; ?>
+
                         </div>
                         <div class="row">
 
