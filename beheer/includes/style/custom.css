@@ -150,6 +150,9 @@ table.table-json thead tr th[data-json-column] {
 
 }
 
+.tab-pane{
+    padding-top:1em;
+}
 /* OFF CANVAS MENU */
 
 /* Make the wrapper 100% height, so the main-content div can also expand */

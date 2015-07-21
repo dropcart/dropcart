@@ -187,12 +187,8 @@ foreach( $_POST['categories'] as $category_id => $input ){
             }
         }
 
-
         if( !in_array($key, $allowed) )
             continue;
-
-
-
 
         $tmpInsertData[] = array(
             'col' => $key,
@@ -200,7 +196,6 @@ foreach( $_POST['categories'] as $category_id => $input ){
         );
 
     }
-
 
     if( count($tmpInsertData) === 0 )
         continue;

@@ -220,9 +220,35 @@ if (!empty($_GET['succes'])) {
             }
         }
 
+        $tagsSQL = "SELECT tag, `desc` FROM ".DB_PREFIX."content_tags ORDER BY tag ASC";
+
+        $resultTags = $objDB->sqlExecute($tagsSQL);
+
     ?>
 	<div class="tab-pane" id="categories">
-    
+         <div class="panel panel-default">
+           <div class="panel-heading">Beschikbare tags</div>
+           <div class="panel-body">
+                <?php if($objDB->getNumRows($resultTags) > 0): ?>
+                    <table class="table table-bordered ">
+                        <tr>
+                            <th>Tag</th>
+                            <th>Beschrijving</th>
+                        </tr>
+
+                        <?php while($row = $objDB->getObject($resultTags)): ?>
+
+                                <tr>
+                                    <td>
+                                        <input class="form-control" type="text" placeholder="Tag" value="<?php echo $row->tag ?>" readonly>
+                                    </td>
+                                    <td><?php echo $row->desc ?></td>
+                                </tr>
+                        <?php endwhile; ?>
+                    </table>
+               <?php endif; ?>
+           </div>
+         </div>
         <div class="panel panel-default">
           <div class="panel-heading">Standaard instellingen voor categorie&euml;n</div>
           <div class="panel-body">

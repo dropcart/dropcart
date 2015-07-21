@@ -25,20 +25,20 @@
             );
 
         }
-
-        $(document).swipe( {
+    if( isSmallScreen() ) {
+        $(document).swipe({
             //Generic swipe handler for all directions
-            swipeRight:function(event, direction, distance, duration, fingerCount, fingerData) {
+            swipeRight: function (event, direction, distance, duration, fingerCount, fingerData) {
 //                alert("You swiped " + direction );
 
 
-                if( distance >= swipeDistanceTrigger){
+                if (distance >= swipeDistanceTrigger) {
                     toggleMenu('show');
                 }
-
+                return true;
             },
 
-            swipeLeft:function(event, direction, distance, duration, fingerCount, fingerData) {
+            swipeLeft: function (event, direction, distance, duration, fingerCount, fingerData) {
 //                alert("You swiped " + direction );
 
 
@@ -47,7 +47,8 @@
                 }
             }
 
-          });
+        });
+    }
 
 
 
