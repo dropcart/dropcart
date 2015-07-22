@@ -10,3 +10,7 @@ RewriteRule ^search/ dc_search.php					[QSA,L,NC]
 
 RewriteRule ^([a-z0-9\-,._²]+)/([a-z0-9\-,._²]+)/([0-9]+)/ dc_product_details.php?productId=$3	[QSA,L,NC]
 RewriteRule ^product/([0-9]+)/ dc_product_details.php?productId=$1	[QSA,L,NC] # Old method
+
+# Catch all
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ 404.php

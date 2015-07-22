@@ -304,7 +304,9 @@ function getContent($strContent, $parse = true, $Product = null, $arrProducts = 
 	$result = $objDB->sqlExecute($strSQL);
 	$objContent = $objDB->getObject($result);
 
-	$strContent = $objContent->value;
+	if( is_null($objContent))
+			return $strContent;
+    $strContent = $objContent->value;
 
 	if (!empty($objContent->parse_boilerplate) AND $parse == true) {
 		$strContent = parseBoilerplate($strContent, $Product, $arrProducts);
@@ -884,4 +886,18 @@ function getCustomCategoryTitle($category_id){
 }
 function stripHTML($content){
     return strip_tags($content);
+}
+
+/**
+ * Redirect a user to the given url relative to the SITE_URL
+ * @author Dmitri Chebotarev <dmitri.chebotarev@gmail.com>
+ * @param string $url - url of the string, do not prefix with a '/'
+ * @return void
+ */
+function redirectTo( $url ){
+    header("Location: ".SITE_URL.'/'.$url);
+}
+
+function notFoundPage(){
+    redirectTo('404.php');
 }

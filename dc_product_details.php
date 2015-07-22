@@ -26,9 +26,7 @@ $Product 	= $Api->getProduct($intProductId);
 
 if (!empty($Product->errors)) {
 	
-	header("HTTP/1.0 404 Not Found");
-	echo "Product niet gevonden";
-	die();
+	notFoundPage();
 	
 }
 $category_id = $Product->getCategorieId();
