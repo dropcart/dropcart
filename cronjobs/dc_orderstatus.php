@@ -25,9 +25,10 @@ while($objOrder = $objDB->getObject($result)) {
 
 	$Order = $Api->getOrderStatus($objOrder->extOrderId);
 
-    $Order = new StdClass(); #TEST
-    $Order->status_code = 4; #TEST
-    $Order->error = null;  #TEST
+    // TEST CODE
+//    $Order = new StdClass(); #TEST
+//    $Order->status_code = 4; #TEST
+//    $Order->error = null;  #TEST
 
 
 	if(empty($Order->error) && $Order->status_code != $objOrder->status) {

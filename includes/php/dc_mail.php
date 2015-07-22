@@ -381,11 +381,11 @@ function loadShipmentDetails(){
     }
 
     $Order = $Api->getOrderStatus($intOrderId);
-
-    $Order = new StdClass(); #TEST
-    $Order->shipment_tracking_code = "3STDVY124237622";
-    $Order->shipment_tracking_url = "https://mijnpakket.postnl.nl/Claim?barcode=3STDVY124237622&postalcode=6524RA&countryISO=NL";
-    $Order->shipment_carrier = "Pakketpost (PostNL)";
+// TEST CODE
+//    $Order = new StdClass(); #TEST
+//    $Order->shipment_tracking_code = "3STDVY124237622";
+//    $Order->shipment_tracking_url = "https://mijnpakket.postnl.nl/Claim?barcode=3STDVY124237622&postalcode=6524RA&countryISO=NL";
+//    $Order->shipment_carrier = "Pakketpost (PostNL)";
 
 
     if( !is_object($Order) ){
