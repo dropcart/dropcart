@@ -145,6 +145,10 @@ if($intCartItems == 0)
 			),
 		));
 
+		if( DEV_MODE === TRUE){
+			$payment->status = 'ready';
+		}
+
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = '".$payment->status."', transactionId = '".$payment->id."' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 

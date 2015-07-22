@@ -62,6 +62,10 @@ switch($status) {
 	
 }
 
+
+if( DEV_MODE == TRUE) {
+    echo '<a href="' . SITE_URL . '/dc_shoppingcart3_process.php">Process</a>';
+}
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
 ?>

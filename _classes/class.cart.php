@@ -39,7 +39,7 @@ class Cart {
 		$table = 'cart';
 
 		if( $archived ){
-			$table = 'cart_archived';
+			$table = 'cart_archive';
 			$strExtraSQL = "AND c.orderId = '{$orderId}'";
 		}
 
