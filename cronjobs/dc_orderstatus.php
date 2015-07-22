@@ -1,17 +1,18 @@
 <?php
-define('SITE_PATH',dirname(dirname(__FILE__)).'/'); // for cronjobs, because $_SERVER is not available
 
-require_once(SITE_PATH.'includes/php/dc_connect.php');
-require_once(SITE_PATH.'_classes/class.database.php');
+//define('SITE_PATH',dirname(dirname(__FILE__)).'/'); // for cronjobs, because $_SERVER is not available
+
+require_once(__DIR__.'/../includes/php/dc_connect.php');
+require_once(__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
 
-require_once(SITE_PATH.'includes/php/dc_config.php');
-require_once(SITE_PATH.'includes/php/dc_functions.php');
-require_once(SITE_PATH.'includes/php/dc_mail.php');
-require_once(SITE_PATH.'_classes/class.cart.php');
-require_once(SITE_PATH.'libraries/Api_Inktweb/API.class.php');	// Inktweb API
-require_once(SITE_PATH.'libraries/mpdf/mpdf.php'); // MPDF Libary
-require_once(SITE_PATH.'libraries/Twig/Autoloader.php'); // Twig template engine
+require_once(__DIR__.'/../includes/php/dc_config.php');
+require_once(__DIR__.'/../includes/php/dc_functions.php');
+require_once(__DIR__.'/../includes/php/dc_mail.php');
+require_once(__DIR__.'/../_classes/class.cart.php');
+require_once(__DIR__.'/../libraries/Api_Inktweb/API.class.php');	// Inktweb API
+require_once(__DIR__.'/../libraries/mpdf/mpdf.php'); // MPDF Libary
+require_once(__DIR__.'/../libraries/Twig/Autoloader.php'); // Twig template engine
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
@@ -24,11 +25,16 @@ while($objOrder = $objDB->getObject($result)) {
 
 	$Order = $Api->getOrderStatus($objOrder->extOrderId);
 
+    $Order = new StdClass(); #TEST
+    $Order->status_code = 4; #TEST
+    $Order->error = null;  #TEST
+
+
 	if(empty($Order->error) && $Order->status_code != $objOrder->status) {
 
-		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET status = " . $Order->status_code . " WHERE orderId = " . $objOrder->orderId;
-		$update = $objDB->sqlExecute($strSQL);
-		
+//		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET status = " . $Order->status_code . " WHERE orderId = " . $objOrder->orderId;
+//		$update = $objDB->sqlExecute($strSQL);
+
 		if($Order->status_code == 4) {
 			
 			// Set twig variable
