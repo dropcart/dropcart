@@ -9,14 +9,13 @@
  */
 
 // required files & vars
-define('SITE_PATH_CRON',dirname(dirname(__FILE__)).'/'); // for cronjobs, because $_SERVER is not available
-require_once(SITE_PATH_CRON.'includes/php/dc_connect.php');
-require_once(SITE_PATH_CRON.'_classes/class.database.php');
+require_once(__DIR__.'/../includes/php/dc_connect.php');
+require_once(__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
 
-require_once(SITE_PATH_CRON.'includes/php/dc_config.php');
-require_once(SITE_PATH_CRON.'includes/php/dc_functions.php');
-require_once(SITE_PATH_CRON.'libraries/Api_Inktweb/API.class.php');	// DropCart API
+require_once(__DIR__.'/../includes/php/dc_config.php');
+require_once(__DIR__.'/../includes/php/dc_functions.php');
+require_once(__DIR__.'/../libraries/Api_Inktweb/API.class.php');	// DropCart API
 
 // New Inktweb Api object
 $Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
@@ -38,6 +37,10 @@ foreach ($arrCategories as $intCategory) {
 	
 	// get all products for category
 	$arrApiProducts = $Api->getProductsByCategory($intCategory, '?limit=999999&offset=0');
+
+    /* Dont go into the loop if there are no products */
+    if( !(isset($arrApiProducts->products)))
+        continue;
 
 	// loop through products and put in array
 	foreach ($arrApiProducts->products as $product) {
