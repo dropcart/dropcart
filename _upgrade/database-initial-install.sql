@@ -391,7 +391,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (40, 'site_kvk', '60680326'),
 (41, 'site_btw', 'NL854012965B01'),
 (42, 'site_iban', 'NL77RABO0148966128'),
-(43, 'site_bic', 'RABONL2U'),
+(43, 'site_bic', 'RABONL2U');
 --
 -- Table structure for table `dc_pages_content`
 --
