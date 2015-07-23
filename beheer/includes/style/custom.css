@@ -139,7 +139,7 @@ table.table-json thead tr th[data-json-column] {
     -moz-opacity:0.5;
     -khtml-opacity: 0.5;
     opacity: 0.5;
-    z-index: 10000;
+    z-index: 2;
 
 }
 
@@ -152,6 +152,31 @@ table.table-json thead tr th[data-json-column] {
 
 .tab-pane{
     padding-top:1em;
+}
+
+.offcanvas .sidebar-wrapper{
+    position: fixed;
+    top:3em;
+    left:0;
+    width: 16.66666667%; /* Size of .col-md-2 */
+    max-height: 100vh;
+    height: 100%;
+    overflow:auto;
+}
+
+.sidebar-wrapper{
+    opacity: 0.5;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+}
+
+.sidebar-wrapper:hover{
+    opacity: 1;
+}
+
+body.active-sidebar{
+    overflow:hidden;
 }
 /* OFF CANVAS MENU */
 
@@ -171,15 +196,35 @@ table.table-json thead tr th[data-json-column] {
     }
 
     .offcanvas-left.active{
-        left:50%;
+
     }
+    .offcanvas-left.active .main-sidebar{
+        left:0;
+    }
+
+
 
     .offcanvas .main-sidebar {
-        position: absolute;
+        position: fixed;
         top: 0;
+        padding-top:1em;
+        left:0;
         width: 50%;
+        max-height:100vh;
+        height:100%;
+        overflow-y:scroll;
+        overflow-x:hidden;
+        z-index:3;
+        background:#F1F1F1;
     }
 
+    .offcanvas .sidebar-wrapper{
+        width:auto;
+        overflow-x:hidden;
+        padding:0;
+        position:static;
+        opacity: 1;
+    }
     .offcanvas-left .main-sidebar{
         left:-50%;
     }

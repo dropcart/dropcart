@@ -25,6 +25,7 @@
             );
 
         }
+
     if( isSmallScreen() ) {
         $(document).swipe({
             //Generic swipe handler for all directions
@@ -47,6 +48,16 @@
                 }
             }
 
+        });
+
+
+    }
+    /* For larger screens */
+    else{
+        $(document).on('mouseenter', '.sidebar-wrapper', function(){
+            $('body').addClass('active-sidebar');
+        }).on('mouseleave', '.sidebar-wrapper', function(){
+            $('body').removeClass('active-sidebar');
         });
     }
 
@@ -145,17 +156,21 @@
            }
 
             var nav = $('.offcanvas');
+            var body = $('body');
 
             if( typeof action === "undefined") {
                 nav.toggleClass('active');
+                body.toggleClass('active-sidebar');
 
             }
 
             else if( action == "show" ){
                 nav.addClass('active');
+                body.addClass('active-sidebar');
             }
             else if( action == "hide"){
                 nav.removeClass('active');
+                body.removeClass('active-sidebar');
             }
 
             /* toggle overlay */
