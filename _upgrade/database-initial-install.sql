@@ -41,7 +41,7 @@ INSERT INTO `dc_admin_users` (`id`, `name`, `email`, `username`, `password`) VAL
 -- Table structure for table `dc_cart`
 --
 
-CREATE TABLE IF NOT EXISTS `  dc_cart` (
+CREATE TABLE IF NOT EXISTS `dc_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `entryDate` datetime NOT NULL,
   `sessionId` varchar(80) NOT NULL,
