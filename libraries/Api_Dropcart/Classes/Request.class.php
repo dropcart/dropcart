@@ -90,7 +90,7 @@
 			$context  = stream_context_create($connection_options); 
 			$socket = stream_socket_client('ssl://' . $this->environments[$this->currentEnv]['url'] . ':' . $this->environments[$this->currentEnv]['port'], $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
 			if (!$socket) {
-				throw new Exception("{$errstr} ({$errno})");
+				throw new \Exception("{$errstr} ({$errno})");
 			}
 
 			fputs($socket, $headers);
@@ -116,7 +116,7 @@
 			}
 	
 			if ($this->debug) {
-				echo '<pre>Debug info<br><br>----<br><br><strong>http request:</strong><br>https://'.self::$this->environments[$this->currentEnv]['url'].$url.$parameters.'<br><br>';
+				echo '<pre>Debug info<br><br>----<br><br><strong>http request:</strong><br>https://'.$this->environments[$this->currentEnv]['url'].$url.$parameters.'<br><br>';
 				echo '<strong>header request:</strong><br>'.print_r($headers, 1).'<br>';
 				if ($content) echo '<strong>content:</strong><br>'.htmlspecialchars($content).'<br><br>';
 				if ($body) echo '<strong>content:</strong><br>'.htmlspecialchars($body).'<br><br>';

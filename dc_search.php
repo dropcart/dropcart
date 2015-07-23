@@ -128,13 +128,13 @@ $arrBrandOptions 		= array (
 
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
+							<a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 
-						<h4><a href="/<?php echo rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProduct->categorie->title ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 
 				<?php
@@ -167,17 +167,17 @@ $arrBrandOptions 		= array (
 				}
 
 				if($intPageNumber > 1) {
-					echo '<li><a href="/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=1">&laquo;</a></li>';
+					echo '<li><a href="'.SITE_URL.'/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=1">&laquo;</a></li>';
 				}
 
 				for($i=$start;$i<=$end;$i++) {
 
 					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
-					echo '<li ' . $active . '><a href="/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
+					echo '<li ' . $active . '><a href="'.SITE_URL.'/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
 				}
 
 				if(($intPages-1) != $intPageNumber && $intPages != 1) {
-					echo '<li><a href="/search/' . $intPages . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
+					echo '<li><a href="'.SITE_URL.'/search/' . $intPages . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
 				}
 				?>
 			</ul>

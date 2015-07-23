@@ -42,7 +42,8 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 		),
 		'ORDER_NR' => $orderNumberPrefix.$intOrderId,
 		'ORDER_ADDRESSES' => loadAddresses(),
-		'ORDER_DETAILS' => loadOrderDetails()
+		'ORDER_DETAILS' => loadOrderDetails(),
+        'SHIPMENT' => loadShipmentDetails()
 		
 	);
 	
@@ -107,7 +108,7 @@ function formatTemplateVars($strTemplate, $templateVars = array()) {
 	
 }
 
-function sendMail($strMailName, $strToEmail, $strToName, $templateVars = array(), $strAttachment = '') {
+function sendMail($strMailName, $strToEmail, $strToName, $templateVars = array(), $strAttachment = '', $Order = null) {
 
 	global $objDB;
 
@@ -170,6 +171,7 @@ function sendMail($strMailName, $strToEmail, $strToName, $templateVars = array()
 
 	//reading e-mail template
 	$arrTemplate = file(SITE_EMAIL_TEMPLATE);
+	$strEmailTemplate = null;
 	for($x=0;$x<count($arrTemplate);$x++) {
 		$strEmailTemplate .= $arrTemplate[$x];
 	}
@@ -269,7 +271,7 @@ function loadOrderDetails(){
 			FROM ".DB_PREFIX."customers_orders_details cod " .
 			"WHERE cod.orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
-
+        $dblPriceTotal = 0;
 		while($objCart = $objDB->getObject($result)) {
 		
 			$Product		= $Api->getProduct($objCart->productId);
@@ -368,4 +370,38 @@ function loadOrderDetails(){
 	}
 
 }
-?>
+
+function loadShipmentDetails(){
+    global $objDB;
+    global $intOrderId;
+    global $Api;
+
+    if( empty($intOrderId)){
+        return null;
+    }
+
+    $Order = $Api->getOrderStatus($intOrderId);
+// TEST CODE
+//    $Order = new StdClass(); #TEST
+//    $Order->shipment_tracking_code = "3STDVY124237622";
+//    $Order->shipment_tracking_url = "https://mijnpakket.postnl.nl/Claim?barcode=3STDVY124237622&postalcode=6524RA&countryISO=NL";
+//    $Order->shipment_carrier = "Pakketpost (PostNL)";
+
+
+    if( !is_object($Order) ){
+        return null;
+    }
+
+    /* If required data is not available or wrong format */
+    if(
+            !isset( $Order->shipment_tracking_code )
+        ||  !isset($Order->shipment_tracking_url )
+        ||  !isset($Order->shipment_carrier )
+        ||  !$Order->shipment_tracking_code
+        ||  !$Order->shipment_tracking_url
+    )
+        return null;
+
+    return '<p>Volg uw pakket: <a href="'.$Order->shipment_tracking_url.'">'.$Order->shipment_tracking_code.'</a></p>
+            <p> U kunt ook uw pakket volgen op de website van <strong>'.$Order->shipment_carrier.'</strong>  met de code: '.$Order->shipment_tracking_code;
+}

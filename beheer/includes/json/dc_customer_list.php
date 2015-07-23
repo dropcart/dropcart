@@ -2,13 +2,16 @@
 session_start();
 
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../../../includes/php/dc_connect.php');
+require_once (__DIR__.'/../../../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../../includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../../includes/php/dc_functions.php');
+
+// Start API
+require_once(__DIR__.'/../../../libraries/Api_Inktweb/API.class.php');
 
 $_GET = sanitize($_GET);
 
@@ -61,7 +64,7 @@ while ($objCust = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $name;
 	$arrJson['details'][$i][]	= $objCust->email;
 	$arrJson['details'][$i][]	= $objCust->numOrders;
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_customer_manage.php?id='.$objCust->id.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_customer_manage.php?id='.$objCust->id.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
 }

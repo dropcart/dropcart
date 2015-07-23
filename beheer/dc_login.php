@@ -1,16 +1,33 @@
 <?php
 session_start();  
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.password.php'); // Password compatibility library with PHP 5.5
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../_classes/class.password.php'); // Password compatibility library with PHP 5.5
 
-if ($_POST['username'] != "" AND $_POST['password'] != "") {
+/*
+	If user is already logged in, and tries to go the login screen,
+	redirect him to the dashboard.
+*/
+if (isset($_SESSION['sessionAdminId'])) {
+	header('Location: '.SITE_URL.'/beheer/dc_index.php');
+    exit();
+}
+
+$error = NULL;
+
+if (
+		isset($_POST['username']) &&
+		isset($_POST['password']) &&
+		$_POST['username'] != "" &&
+		$_POST['password'] != ""
+	)
+{
 
 	$_POST 		= sanitize($_POST);
 	$strUsername 	= strtolower($_POST['username']);
@@ -28,18 +45,18 @@ if ($_POST['username'] != "" AND $_POST['password'] != "") {
 			$_SESSION['sessionAdminUsername'] = $username;
 
 			if ($username == "admin") {
-				header('Location: /beheer/dc_user_admin.php?firsttime=1');
+				header('Location: '.SITE_URL.'/beheer/dc_user_admin.php?firsttime=1');
 			}
 			else {
-				header('Location: /beheer/dc_index.php');
+				header('Location: '.SITE_URL.'/beheer/dc_index.php');
 			}
 		}
 		else {
-			echo 'Gebruikersnaam en/of wachtwoord niet correct';
+			$error = 'Gebruikersnaam en/of wachtwoord niet correct';
 		}
 	}
 	else {
-		echo 'Gebruikersnaam en/of wachtwoord niet correct';
+		$error = 'Gebruikersnaam en/of wachtwoord niet correct';
 	}
 }
 
@@ -101,6 +118,10 @@ body {
 
 <div id="wrap">
 	<div class="container">
+		<?php if( !is_null($error)): ?>
+		<div class="alert alert-danger" role="alert"><?php echo $error; ?></div>
+		<?php endif; ?>
+
 		<form class="form-signin" role="form" method="POST">
 		<h2 class="form-signin-heading">Inloggen vereist</h2>
 		<input name="username" id="username" type="text" class="form-control" placeholder="Gebruikersnaam" autocomplete="off" required autofocus>

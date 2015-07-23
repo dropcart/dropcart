@@ -1,12 +1,12 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $objDB 	= new DB();
 
@@ -17,7 +17,7 @@ $intId 		= $_GET['id'];
 $strAction 	= strtolower($_GET['action']);
 
 if (empty($intId)) {
-	header('Location: /beheer/dc_customer_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
+	header('Location: '.SITE_URL.'/beheer/dc_customer_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
 	exit();
 }
 
@@ -55,7 +55,7 @@ require('includes/php/dc_header.php');
 	<div class="form-group">
 		<label for="loginUser" class="col-sm-2 control-label">Klantaccount</label>
 		<div class="col-sm-8">
-			<a href="/beheer/dc_login_user.php?id=<?php echo $intId; ?>" class="uneditable-input">Inloggen als deze klant</a>
+			<a href="<?php SITE_URL?>/beheer/dc_login_user.php?id=<?php echo $intId; ?>" class="uneditable-input">Inloggen als deze klant</a>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
@@ -117,7 +117,7 @@ require('includes/php/dc_header.php');
 				<td><?php echo $objCustOrders->orderId; ?></td>
 				<td><?php echo $objCustOrders->entryDate; ?></td>
 				<td><?php echo $objCustOrders->totalPrice; ?></td>
-				<td><a href="/beheer/dc_order_manage.php?id=<?php echo $objCustOrders->orderId; ?>&action=view"><span class="glyphicon glyphicon-edit"></span></a></td>
+				<td><a href="<?php SITE_URL?>/beheer/dc_order_manage.php?id=<?php echo $objCustOrders->orderId; ?>&action=view"><span class="glyphicon glyphicon-edit"></span></a></td>
 			</tr>
 		<?php
 		}

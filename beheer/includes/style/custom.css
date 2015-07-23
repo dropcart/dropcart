@@ -3,13 +3,10 @@ body, html, .container-fluid{
 }
 
 body {
-	background-color: #F1F1F1;	
-}
+	background-color: #F1F1F1;
+    overflow-x:hidden;
 
-.container-fluid {
-	padding:0px;
 }
-
 .main-sidebar {
 	padding:0px;
 }
@@ -22,7 +19,7 @@ body {
 	background-color:#FFF;
 	border-top:1px solid #E5E5E5;
 	border-left:1px solid #E5E5E5;
-	padding:5px 25px 0 25px;
+	/*padding:5px 25px 0 25px; */
 	min-height: 100%;
 }
 
@@ -79,3 +76,152 @@ table.table-json thead tr th[data-json-column] {
 	cursor:pointer;
 }
 /* END JSON DYNAMIC TABLES */
+
+#top-bar{
+ min-height: 3em;
+}
+#top-bar > div{
+    -webkit-box-shadow: inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         inset 0px 0px 2px 0px rgba(50, 50, 50, 0.2);
+}
+
+#site_logo_setting{
+	max-width:300px;
+	max-height:300px;
+}
+
+.offcanvas{
+    position:relative;
+    left:0;
+
+}
+
+.nav.dropcart{
+    margin-top:3em;
+}
+
+.nav .static{
+    display: block;
+    padding: 10px 15px;
+}
+
+.nav .faded{
+    color: #676767;
+}
+
+.nav .title{
+    font-weight:bold;
+    font-size:1.3em;
+    background: #e5e5e5;
+}
+
+.block-trigger,
+.block-trigger:active,
+.block-trigger:hover,
+.block-trigger:focus
+{
+    display:block;
+    padding:1em 2em;
+    text-align: center;
+    color: #3a3a3a;
+    text-decoration: none;
+}
+
+.dark-overlay{
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    filter:alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    z-index: 2;
+
+}
+
+.main-content{
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 0px 1px 0px rgba(50, 50, 50, 0.2);
+
+}
+
+.tab-pane{
+    padding-top:1em;
+}
+
+.offcanvas .sidebar-wrapper{
+    position: fixed;
+    top:3em;
+    left:0;
+    width: 16.66666667%; /* Size of .col-md-2 */
+    max-height: 100vh;
+    height: 100%;
+    overflow:auto;
+}
+
+
+body.active-sidebar{
+    overflow:hidden;
+}
+/* OFF CANVAS MENU */
+
+/* Make the wrapper 100% height, so the main-content div can also expand */
+@media screen and (max-width: 992px) {
+
+    /* Fix scrolling issue on mobile */
+    html, body{
+        height:auto;
+    }
+
+    .offcanvas, .dark-overlay{
+        left:0;
+        -webkit-transition: all .25s ease-out;
+        -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+    }
+
+    .offcanvas-left.active{
+
+    }
+    .offcanvas-left.active .main-sidebar{
+        left:0;
+    }
+
+
+
+    .offcanvas .main-sidebar {
+        position: fixed;
+        top: 0;
+        padding-top:1em;
+        left:0;
+        width: 50%;
+        max-height:100vh;
+        height:100%;
+        overflow-y:scroll;
+        overflow-x:hidden;
+        z-index:3;
+        background:#F1F1F1;
+    }
+
+    .offcanvas .sidebar-wrapper{
+        width:auto;
+        overflow-x:hidden;
+        padding:0;
+        position:static;
+    }
+    .offcanvas-left .main-sidebar{
+        left:-50%;
+    }
+
+    .nav{
+        padding-left:1em;
+    }
+
+
+}

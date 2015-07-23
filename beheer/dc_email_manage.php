@@ -1,12 +1,12 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
@@ -16,7 +16,7 @@ $strAction 	= $_GET['action'];
 
 if ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('pages_content', 'id', $intId);
-	header('Location: /beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
 }
 
 $strSQL 	= "SELECT ec.emailId, ec.navTitle, ec.navDesc, ec.title, ec.txt, e.fromName, e.fromEmail, e.bcc
@@ -140,7 +140,7 @@ if (!empty($_GET['fail'])) {
 <hr />
 
 
-<script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
+<script type="text/javascript" src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
 <script type="text/javascript">
 (function () {
  

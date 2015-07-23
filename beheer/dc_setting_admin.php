@@ -1,15 +1,16 @@
 <?php
+
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 // For mollie paymethods
-require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Mollie/API/Autoloader.php');
+require_once (__DIR__.'/../libraries/Mollie/API/Autoloader.php');
 
 $objDB 		= new DB();
 
@@ -18,7 +19,7 @@ if (isset($_POST) && !empty($_POST)) {
 
 	$_POST 	= sanitize($_POST);
 
-	if(is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
+	if( isset($_POST['price_values'] ) && is_array($_POST['price_values']) && is_array($_POST['price_operators'])) {
 		foreach($_POST['price_values'] as $key=>$value) {
 			$_POST['price_values'][$key] = str_replace(",", ".", $value);
 		}
@@ -43,6 +44,7 @@ if (isset($_POST) && !empty($_POST)) {
 
 	}
 
+
 }
 
 require('includes/php/dc_header.php');
@@ -53,14 +55,68 @@ require('includes/php/dc_header.php');
 <hr />
 
 <?php
+//die(var_dump($_SESSION['logo_upload_error']));
 
 if (!empty($_GET['succes'])) {
 	echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
 }
 
+if( isset($_SESSION['logo_upload_error']) ){
+	echo '<div class="alert alert-danger alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  			<span aria-hidden="true">&times;</span>
+  			</button>
+  		<strong>Error!</strong> '. $_SESSION["logo_upload_error"].'
+		</div>';
+
+	unset($_SESSION['logo_upload_error']);
+
+}
+else if( isset($_SESSION['logo_upload_success']) ){
+
+	echo '<div class="alert alert-success alert-dismissible" role="alert">
+  			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  			<span aria-hidden="true">&times;</span>
+  			</button>
+  		<strong>Error!</strong> '. $_SESSION["logo_upload_success"].'
+		</div>';
+
+	unset($_SESSION['logo_upload_success']);
+}
+
 ?>
 
 <div class="col-md-12">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Logo Uploaden</div><!-- /panel-heading -->
+		<div class="panel-body">
+			<div class="col-sm-offset-2 col-sm-10">
+
+				<?php $image = formOption('SITE_LOGO');
+					if( !empty($image)):?>
+					<p><img id="site_logo_setting"class="img-thumbnail image-responsive" alt="logo" src="<?php echo SITE_URL.'/images/logo/'.$image ?>"</p>
+						<?php else: ?>
+						<p>U heeft nog geen logo ingesteld</p>
+						<?php endif; ?>
+			</div>
+			<form class="form-horizontal" action="dc_upload_logo.php" role="form" method="POST" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="logo-upload" class="col-sm-2 control-label" >Logo</label>
+					<div class="col-sm-8">
+
+					<input type="file" id="logo-upload" name="logo" class="form-control">
+					</div>
+					<p class="help-block">Upload een afbeelding van de bestandstype jpg, png of gif. </p>
+			  	</div>
+
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Uploaden</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Website instellingen</div><!-- /panel-heading -->
@@ -85,6 +141,76 @@ if (!empty($_GET['succes'])) {
 				<div class="col-sm-8">
 					<input type="email" class="form-control" id="site_email" name="site_email" value="<?php echo formOption('site_email'); ?>" autocomplete="off">
 					<p class="help-block">Algemene email adres voor de website (hieruit worden orderbevestigingen e.d. verstuurd)</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_phone_number" class="col-sm-2 control-label">site_phone_number</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_phone_number" name="site_phone_number" value="<?php echo formOption('site_phone_number'); ?>" autocomplete="off">
+					<p class="help-block">Algemene text adres voor de website (hieruit worden orderbevestigingen e.d. verstuurd)</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_name" class="col-sm-2 control-label">site_street_name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_name" name="site_street_name" value="<?php echo formOption('site_street_name'); ?>" autocomplete="off">
+					<p class="help-block">Straatnaam van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_number" class="col-sm-2 control-label">site_street_number</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_number" name="site_street_number" value="<?php echo formOption('site_street_number'); ?>" autocomplete="off">
+					<p class="help-block">Straatnummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_street_number_addition" class="col-sm-2 control-label">site_street_number_addition</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_street_number_addition" name="site_street_number_addition" value="<?php echo formOption('site_street_number_addition'); ?>" autocomplete="off">
+					<p class="help-block">Straatnummer toevoeging van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_postal_code" class="col-sm-2 control-label">site_postal_code</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_postal_code" name="site_postal_code" value="<?php echo formOption('site_postal_code'); ?>" autocomplete="off">
+					<p class="help-block">postcode van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_city_name" class="col-sm-2 control-label">site_city_name</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_city_name" name="site_city_name" value="<?php echo formOption('site_city_name'); ?>" autocomplete="off">
+					<p class="help-block">Plaatsnaam toevoeging van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_kvk" class="col-sm-2 control-label">site_kvk</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_kvk" name="site_kvk" value="<?php echo formOption('site_kvk'); ?>" autocomplete="off">
+					<p class="help-block">KVK-nummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_btw" class="col-sm-2 control-label">site_btw</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_btw" name="site_btw" value="<?php echo formOption('site_btw'); ?>" autocomplete="off">
+					<p class="help-block">BTW-nummer van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_iban" class="col-sm-2 control-label">site_iban</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_iban" name="site_iban" value="<?php echo formOption('site_iban'); ?>" autocomplete="off">
+					<p class="help-block">IBAN-code van de winkel</p>
+				</div><!-- /col -->
+			</div><!-- /form-group -->
+			<div class="form-group">
+				<label for="site_bic" class="col-sm-2 control-label">site_bic</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="site_bic" name="site_bic" value="<?php echo formOption('site_bic'); ?>" autocomplete="off">
+					<p class="help-block">BIC-code van de winkel</p>
 				</div><!-- /col -->
 			</div><!-- /form-group -->
 			<div class="form-group">
@@ -447,7 +573,7 @@ if (!empty($_GET['succes'])) {
 </div><!-- /col -->
 
 <!-- Price calculator -->
-<script src="/includes/script/jquery.dcpriceformula.js"></script>
+<script src="<?php echo SITE_URL ?>/includes/script/jquery.dcpriceformula.js"></script>
 <script type="text/template" id="dcPriceFormulaTemplate">
 
 <select  name="price_operators[]" class="operator form-control" style="width:15%; margin-right:5px; float:left;">

@@ -79,10 +79,9 @@ if(!empty($_SESSION["discountCode"])) {
 $intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".$intCustomerId." AND customerId != 0)");
 if($intCartItems == 0)
 {
-	header("Location: /dc_shoppingcart.php");
+	header('Location: '.SITE_URL.'/dc_shoppingcart.php');
 	exit;
 } elseif(!empty($_POST)) {
-
 	$_POST = sanitize($_POST);
 	$_SERVER = sanitize($_SERVER);
 
@@ -90,7 +89,34 @@ if($intCartItems == 0)
 	$result = $objDB->sqlExecute($strSQL);
 	$intOrderId = $objDB->getInsertedId();
 
+
+
+
 	if ($dblNodePriceTotal > 0) {
+
+		/* Get the cart items result */
+		$cartResult = $objCart->getCart();
+
+
+
+		/* Save all the cart items to the cart archive table, which can't be manipulated by the user */
+		while($row = $objDB->getObject($cartResult) ){
+
+
+			$newCartItem = "INSERT INTO ".DB_PREFIX."cart_archive
+			(entryDate, orderId, customerId, productId, quantity)
+			VALUES (
+				'{$row->entryDate}',
+				'{$intOrderId}',
+				'{$row->customerId}',
+				'{$row->productId}',
+				'{$row->quantity}'
+				)";
+
+			$objDB->sqlExecute($newCartItem);
+
+		}
+
 
 		$protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
 		$hostname = $_SERVER['HTTP_HOST'];
@@ -113,11 +139,15 @@ if($intCartItems == 0)
 			"amount"       => $dblNodePriceTotal,
 			"method"       => $method,
 			"description"  => SITE_NAME . " Ordernr. " . formOption('order_number_prefix') . $intOrderId,
-			"redirectUrl"  => "{$protocol}://{$hostname}{$path}/dc_shoppingcart4.php?order_id={$intOrderId}",
+			"redirectUrl"  => SITE_URL."/dc_shoppingcart4.php?order_id={$intOrderId}",
 			"metadata"     => array(
 				"order_id" => $intOrderId,
 			),
 		));
+
+		if( DEV_MODE === TRUE){
+			$payment->status = 'ready';
+		}
 
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = '".$payment->status."', transactionId = '".$payment->id."' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
@@ -130,7 +160,7 @@ if($intCartItems == 0)
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders_id SET discountCode = '".$_SESSION["discountCode"]."', status = 'ready' WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 
-		header("Location: /dc_shoppingcart3_process.php?orderId=".$intOrderId);
+		header('Location: '.SITE_URL.'/dc_shoppingcart3_process.php?orderId='.$intOrderId);
 
 	}
 
@@ -147,10 +177,10 @@ require_once('includes/php/dc_header.php');
 <div class="row">
 	<div class="col-xs-12">
 		<ul class="nav nav-tabs">
-			<li class=""><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-			<li class=""><a href="/dc_shoppingcart2.php"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="active"><a href="/dc_shoppingcart3.php"><strong>Stap 3)</strong> Betaling</a></li>
-			<li class="disabled"><a href="/dc_shoppingcart4.php"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+			<li class=""><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+			<li class=""><a href="<?php SITE_URL?>/dc_shoppingcart2.php"><strong>Stap 2)</strong> Gegevens</a></li>
+			<li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart3.php"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="disabled"><a href="<?php SITE_URL?>/dc_shoppingcart4.php"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->
 </div><!-- /row -->
@@ -446,7 +476,7 @@ $('#discountCodeSend').click(function(){
 	$.ajax({
 		type:		'POST',
 		dataType:	'json',
-		url:		'/includes/json/calculateDiscount.php',
+		url:		'<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
 		data:		{ code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
 		success: function(data, textStatus) {
 		// Handle success
@@ -458,12 +488,12 @@ $('#discountCodeSend').click(function(){
 				$('.discount_input').hide();
 				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
 				$('.discount_message').html(
-					'<div class="italic">Voor deze code is een validatiecode vereist.<br/>Vul uw validatiecode in die u heeft ontvangen.</div>' +
-					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=$_SESSION["validationCode"]?>" />' +
+					'<div class="italic">Voor deze code is een validatiecode vereist.<br/> Vul uw validatiecode in die u heeft ontvangen.</div>' +
+					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?= (isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
 					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
 				);
 
-				<?php if($_SESSION["validationCode"] != "") { ?>
+				<?php if(isset($_SESSION["validationCode"]) && $_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();
 				<?php } ?>
 
@@ -491,7 +521,7 @@ $('#discountCodeSend').click(function(){
 
 });
 
-<?php if($_SESSION["discountCode"] != "") { ?>
+<?php if(isset($_SESSION["validationCode"]) && $_SESSION["discountCode"] != "") { ?>
 	$('#discountCode').click();
 	$('#discountCodeSend').click();
 <?php } ?>
@@ -504,7 +534,7 @@ $(document).on('click','#validationCodeSend',function(){
 	$.ajax({
 		type:		'POST',
 		dataType:	'json',
-		url:		'/includes/json/calculateDiscount.php',
+		url:		'<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
 		data:		{ code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
 		success: function(data, textStatus) {
 		// Handle success
@@ -539,7 +569,7 @@ $('.cartQuantity').change(function(){
 	var intCartId	= $(this).data('cartid');
 
 	$.get(
-		'/includes/json/updateCartQuantity.php',
+		'<?php echo SITE_URL ?>/includes/json/updateCartQuantity.php',
 		{
 			cartId		: intCartId,
 			quantity	: intQuantity,
@@ -567,7 +597,7 @@ $('.deleteItem').click(function() {
 	var intCartId	= $(this).data('cartid');
 
 	$.get(
-		'/includes/json/deleteCartItem.php',
+		'<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
 		{
 			cartId		: intCartId,
 			timestamp	: '<?=$_SERVER["REQUEST_TIME"]?>'

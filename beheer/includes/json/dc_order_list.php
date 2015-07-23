@@ -2,13 +2,16 @@
 session_start();
 
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../../../includes/php/dc_connect.php');
+require_once (__DIR__.'/../../../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../../includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../../includes/php/dc_functions.php');
+
+// Start API
+require_once(__DIR__.'/../../../libraries/Api_Inktweb/API.class.php');
 
 $_GET = sanitize($_GET);
 
@@ -78,8 +81,8 @@ while ($objOrder = $objDB->getObject($result)) {
 	$arrJson['details'][$i][]	= $objOrder->extOrderId;
 	$arrJson['details'][$i][]	= $objOrder->items;
 	$arrJson['details'][$i][]	= money_format('%(#1n', $objOrder->totalPrice);
-	$arrJson['details'][$i][]	= '<a href="/includes/pdf/dc_invoice.php?orderId='.$objOrder->orderId.'"><span class="glyphicon glyphicon-file"></span></a>';
-	$arrJson['details'][$i][]	= '<a href="/beheer/dc_order_manage.php?id='.$objOrder->orderId.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/includes/pdf/dc_invoice.php?orderId='.$objOrder->orderId.'"><span class="glyphicon glyphicon-file"></span></a>';
+	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_order_manage.php?id='.$objOrder->orderId.'&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
 
 	$i++;
 }

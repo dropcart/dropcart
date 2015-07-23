@@ -1,19 +1,19 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= (int) $_GET['id'];
-$intCodeId 	= (int) $_GET['codeId'];
-$strAction 	= $_GET['action'];
+$intId 		= (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
+$intCodeId 	= (isset($_GET['codeId'])) ? (int) $_GET['codeId'] : null;
+$strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
 $strSQL 	= "SELECT dc_c.* FROM ".DB_PREFIX."discountcodes_codes dc_c WHERE dc_c.id = '".$intId."' ";
 $result 	= $objDB->sqlExecute($strSQL);
@@ -21,21 +21,29 @@ $objCode  	= $objDB->getObject($result);
 
 if ($_POST) {
 
-	$strCode 					= $_POST['code'];
-	$intLimit 					= (int) $_POST['limit'];
+	$strCode 					= (isset($_POST['code'])) ? $_POST['code'] : null;
+	$intLimit 					= (isset($_POST['limit'])) ? (int) $_POST['limit'] : null;
+	$strValue 					= (isset($_POST['code_value'])) ? (int) $_POST['code_value'] : null;
+
+	if( strlen( trim($strCode) ) == 0 ){
+		header('Location: ?id='.$intId.'&action='.$strAction.'&fail='.urlencode('Het code veld is verplicht!'));
+		return false;
+	}
 
 	if($intId == 0) {
 		
-		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`) VALUES (".$intCodeId.", '".$strCode."',  ".$intLimit.")";
+		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`, `discountValue`) VALUES ('".$intCodeId."', '".$strCode."',  ".$intLimit.", '".$strValue."')";
+
 		$result = $objDB->sqlExecute($strSQL);
 		$intId = $objDB->getInsertedId();
 		
 	} else {
 	
 		$strSQL = "UPDATE ".DB_PREFIX."discountcodes_codes
-				SET `codeId` = ".$intCodeId.",
+				SET `codeId` = '".$intCodeId."',
 				`code` = '".$strCode."',
-				`limit` = ".$intLimit."
+				`limit` = ".$intLimit.",
+				`discountValue` = '".$strValue."'
 				WHERE id = '".$intId."' ";
 		$result 		= $objDB->sqlExecute($strSQL);
 	
@@ -64,7 +72,7 @@ if (!empty($_GET['fail'])) {
 
 ?>
 
-<h1>Codes beheren <small><?php echo $objCode->title; ?></small></h1>
+<h1>Codes beheren <small><?php echo (isset($objCode->title)) ? $objCode->title : null; ?></small></h1>
 
 <hr />
 
@@ -73,15 +81,23 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="code" class="col-sm-2 control-label">Code</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="code" name="code" placeholder="" value="<?php echo $objCode->code; ?>">
+			<input type="text" class="form-control" id="code" name="code" placeholder="" value="<?php echo (isset($objCode->code)) ? $objCode->code : null; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="limit" class="col-sm-2 control-label">Aantal keer te gebruiken</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="limit" name="limit" value="<?php echo $objCode->limit; ?>">
+			<input type="text" class="form-control" id="limit" name="limit" value="<?php echo (isset($objCode->limit)) ? $objCode->limit : null; ?>">
 			<p class="help-block">0 is oneindig</p>
+		</div><!-- /col -->
+	</div><!-- /form group -->
+
+	<div class="form-group">
+		<label for="limit" class="col-sm-2 control-label">Waarde</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="code_value" name="code_value" value="<?php echo (isset($objCode->discountValue)) ? $objCode->discountValue : null; ?>">
+			<p class="help-block">Bijvoorbeeld: 10.00</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 

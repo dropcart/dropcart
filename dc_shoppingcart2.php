@@ -183,7 +183,7 @@ if(!empty($_POST)) {
 		
 
 		doLogin($strEmail, $strPassword);
-		header('Location: /dc_shoppingcart3.php');
+		header('Location: '.SITE_URL.'/dc_shoppingcart3.php');
 		exit;
 		
 	}
@@ -193,7 +193,7 @@ if(!empty($_POST)) {
 $intCartItems = $objDB->getRecordCount("cart", "id", "WHERE (customerId=".intval($customerId)." AND customerId != 0) OR sessionId='".session_id()."'");
 if($intCartItems == 0)
 {
-	header("Location: /dc_shoppingcart.php");
+	header('Location: '.SITE_URL.'/dc_shoppingcart.php');
 	exit;
 }
 
@@ -240,9 +240,9 @@ require_once('includes/php/dc_header.php');
 <div class="row">
 	<div class="col-xs-12">
 		<ul class="nav nav-tabs">
-			<li class=""><a href="/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+			<li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
 			<li class="active"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
-			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo '/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
+			<li class="<?php if(empty($_SESSION["customerId"])) echo 'disabled'; ?>"><a href="<?php if(!empty($_SESSION["customerId"])) echo SITE_URL.'/dc_shoppingcart3.php'; else '#'; ?>"><strong>Stap 3)</strong> Betaling</a></li>
 			<li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
 		</ul>
 	</div><!-- /col -->
@@ -436,7 +436,7 @@ $('.zipcode, .houseNr, .houseNrAdd').focusout(function(){
 	
 	if(input_zipcode != '' && input_houseNr != '') {
 	
-		$.get( "/includes/json/validateZipcode.php", {
+		$.get( "<?php echo SITE_URL?>/includes/json/validateZipcode.php", {
 			
 				zipcode		: input_zipcode,
 				houseNr		: input_houseNr,

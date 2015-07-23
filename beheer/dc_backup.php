@@ -1,11 +1,11 @@
 <?php
 
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.backup.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
+require_once (__DIR__.'/../_classes/class.backup.php');
 
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_session.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_session.php');
 
 $DB = new DB();
 $backup = new Backup($DB);

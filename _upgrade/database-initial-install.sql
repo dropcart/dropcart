@@ -96,7 +96,7 @@ INSERT INTO `dc_content` (`id`, `type`, `name`, `label`, `value`, `description`,
 -- Table structure for table `dc_content_boilerplate`
 --
 
-CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+CREATE TABLE IF NOT EXISTS `dc_content_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(255) NOT NULL,
   `desc` varchar(255) DEFAULT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
 -- Dumping data for table `dc_content_boilerplate`
 --
 
-INSERT INTO `dc_content_boilerplate` (`id`, `tag`, `desc`) VALUES
+INSERT INTO `dc_content_tags` (`id`, `tag`, `desc`) VALUES
 (1, '[PRODUCT_BRAND]', 'Printermerk van het product'),
 (2, '[SITE_NAME]', 'Naam van de website'),
 (3, '[PRODUCT_ID]', 'Database ID van product'),
@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `dc_emails_content` (
 INSERT INTO `dc_emails_content` (`emailId`, `navTitle`, `navDesc`, `title`, `txt`) VALUES
 (1, 'E-mail template algemeen', 'Algemene template', 'E-mail template algemeen', '![Dropcart][1]\n\n[BODY]\n\nMet vriendelijke groet,\n\n[SITE_NAME]\n\n  [1]: http://www.dropcart.nl/images/logo_small.png "Dropcart"'),
 (2, 'Order bevestiging', 'Wordt direct gestuurd na het plaatsen van de bestelling met o.a. ordernummer en een kopie van de ingevoerde gegevens.', 'Uw bestelling bij [SITE_NAME] met ordernummer [ORDER_NR]', 'Beste [CUSTOMER_NAME],\r\n\r\nHartelijk dank voor uw bestelling op [SITE_NAME].\r\nHierbij ontvangt u de bevestiging van uw bestelling.\r\n\r\n[ORDER_ADDRESSES]\r\n\r\n[ORDER_DETAILS]\r\n\r\n'),
-(3, 'Order verzonden', 'Wordt gestuurd na het uitsturen van de bestelling met o.a. ordernummer en een kopie van de ingevoerde gegevens.', 'Uw bestelling bij [SITE_NAME] met ordernummer [ORDER_NR] is verzonden', 'Beste [CUSTOMER_NAME],\r\n\r\nUw bestelling op [SITE_NAME] met ordernummer [ORDER_NR] is verzonden.\r\n\r\n[ORDER_ADDRESSES]\r\n\r\n[ORDER_DETAILS]\r\n\r\n'),
+(3, 'Order verzonden', 'Wordt gestuurd na het uitsturen van de bestelling met o.a. ordernummer en een kopie van de ingevoerde gegevens.', 'Uw bestelling bij [SITE_NAME] met ordernummer [ORDER_NR] is verzonden', 'Beste [CUSTOMER_NAME],\r\n\r\nUw bestelling op [SITE_NAME] met ordernummer [ORDER_NR] is verzonden.\r\n\r\n[ORDER_ADDRESSES]\r\n\r\n[ORDER_DETAILS]\r\n\r\n[SHIPMENT]\r\n\r\n'),
 (4, 'Wachtwoord vergeten', 'wachtwoord vergeten', 'wachtwoord vergeten', 'Beste [CUSTOMER_NAME],\r\n\r\nKlik op onderstaande link om direct in te loggen op [SITE_NAME] om vervolgens uw wachtwoord te resetten.\r\n\r\n[LOGIN_LINK]\r\n\r\nMet vriendelijke groet,\r\n\r\n[SITE_NAME]');
 
 --
@@ -381,8 +381,17 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (29, 'smtp_password', '- email password here - '),
 (30, 'update_build', 'stable'),
 (31, 'order_number_prefix', ''),
-(32, 'site_shipping_free_from', '0');
-
+(32, 'site_shipping_free_from', '0'),
+(33, 'site_street_name', 'Professor van der Waalstraat'),
+(34, 'site_street_number', '2'),
+(35, 'site_street_number_addition', NULL),
+(36, 'site_postal_code', '1821 BT'),
+(37, 'site_city_name', 'Alkmaar'),
+(38, 'site_phone_number', '072-5675055'),
+(40, 'site_kvk', '60680326'),
+(41, 'site_btw', 'NL854012965B01'),
+(42, 'site_iban', 'NL77RABO0148966128'),
+(43, 'site_bic', 'RABONL2U');
 --
 -- Table structure for table `dc_pages_content`
 --
@@ -427,6 +436,38 @@ ALTER TABLE `dc_products_tiered`
  ADD PRIMARY KEY (`id`), ADD KEY `productId` (`productId`);
 
 ALTER TABLE  `dc_products_tiered` CHANGE  `id`  `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+--
+-- Table structure for table `dc_cart_archive`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `entryDate` datetime NOT NULL,
+  `orderId` int(11) NOT NULL,
+  `customerId` int(11) DEFAULT NULL,
+  `productId` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Table structure for table `dc_content_boilerplate`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `category_title` text,
+  `category_desc` text,
+  `product_title` text,
+  `product_desc` text,
+  `parse_markdown` tinyint(4) NOT NULL DEFAULT '0',
+  `parse_boilerplate` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

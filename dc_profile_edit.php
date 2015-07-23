@@ -17,7 +17,7 @@ require_once('libraries/Api_Inktweb/API.class.php');
 
 if (empty($_SESSION['customerId'])) {
 	// not logged in, redirect
-	header('Location: /dc_login.php');
+	header('Location: '.SITE_URL.'/dc_login.php');
 }
 
 $strSQL 			= "SELECT entryDate, gender, company, firstname, lastname, email, password FROM ".DB_PREFIX."customers WHERE id = '".$_SESSION['customerId']."' ";

@@ -26,26 +26,37 @@ $Product 	= $Api->getProduct($intProductId);
 
 if (!empty($Product->errors)) {
 	
-	header("HTTP/1.0 404 Not Found");
-	echo "Product niet gevonden";
-	die();
+	notFoundPage();
 	
 }
+$category_id = $Product->getCategorieId();
+
 
 // Generate page title & meta tags
-$strPageTitle		= getContent('product_title', true, $Product);
-$strMetaDescription	= getContent('product_meta_description', true, $Product);
+$strPageTitle		= getProductPageTitle(
+    $category_id,
+    $Product
+);
+
+$strMetaDescription	= getProcutMetaDescription(
+    $category_id,
+    $Product
+);
 
 // Handle pretty urls / canonical / 301 old URLs
 if (!is_null($Product->getCategorieTitle()) AND !is_null($Product->getTitle()) AND !empty($intProductId)) {
 	
 	// $canonical gets set to full `link rel` in dc_header.php
-	$canonical 		= '/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $Product->getId() . '/';
-	
+	$canonical 		= SITE_URL.'/' . rewriteUrl( $Product->getCategorieTitle() ) .  '/' . rewriteUrl( $Product->getTitle() ) . '/' . $Product->getId() . '/';
+
+    // TODO: add support for https
+    $request = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+
 	// Redirect to canonical if current url doesnt match (prevent duplicate indexing)
-	if ($_SERVER['REQUEST_URI'] !== $canonical) {
+	if ($request !== $canonical) {
 		header("HTTP/1.1 301 Moved Permanently"); 
-		header("Location: " . $canonical); 
+		header("Location: " .$canonical);
 	}
 }
 
@@ -60,6 +71,7 @@ require_once('includes/php/dc_header.php');
 $objPrice 		= $Product->getPrice();
 $dblPrice 		= calculateProductPrice($objPrice, $intProductId, '', false);
 $strPrice 		= money_format('%(#1n', $dblPrice);
+$productPriceFrom =   getPriceFrom($intProductId);
 
 $intStock 		= $Product->getStock();
 $objSpecifications 	= $Product->getSpecifications();
@@ -80,7 +92,7 @@ if (@!getimagesize($strProductImg)) {
 ?>
 <div class="row">
 	<div class="col-xs-12">
-		<h1><?php echo getProductTitle($Product, $Product->getId()); ?></h1>
+		<h1><?php echo getCustomProductTitle($category_id, $Product); ?></h1>
 	</div><!-- /col -->
 </div><!-- /row -->
 
@@ -100,7 +112,7 @@ if (@!getimagesize($strProductImg)) {
 	<div class="col-md-5 col-sm-8 col-xs-12">
 		<div class="product-header">
 			<h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId; ?>" data-url="/post" data-title="Verander prijs">
-				<?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '' ;?>
+                <?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '' ;?>
 				<?php echo $strPrice?> <small>inclusief BTW</small>
 			</h2>
 	
@@ -219,8 +231,9 @@ if (@!getimagesize($strProductImg)) {
 	
 			<h3>Omschrijving</h3>
 			<?php
-			$Parsedown = new Parsedown();
-			echo getProductDesc($Product, $Product->getId());
+
+
+			echo getCustomProductDesc($category_id, $Product);
 			?>
 	
 			<?php
@@ -248,7 +261,7 @@ if (@!getimagesize($strProductImg)) {
 			</div><!-- /modal body -->
 			<div class="modal-footer">
 				<a class="btn btn-default" data-dismiss="modal">Sluiten</a></button>
-				<a href="/dc_shoppingcart.php" class="btn btn-primary">Bekijk winkelwagen</a></button>
+				<a href="<?php echo SITE_URL?>/dc_shoppingcart.php" class="btn btn-primary">Bekijk winkelwagen</a></button>
 			</div><!-- /modal footer -->
 		</div><!-- /modal content -->
 		</div><!-- /modal dialog -->
@@ -261,7 +274,7 @@ if (@!getimagesize($strProductImg)) {
 		
 		var quantity = $('.quantity').val();
 		$.get(
-			'/includes/json/addProductToCart.php',
+			'<?php echo SITE_URL?>/includes/json/addProductToCart.php',
 			{
 				productId	: <?=$intProductId?>,
 				quantity	: quantity,
@@ -306,7 +319,7 @@ if (@!getimagesize($strProductImg)) {
 
 					$Product = $Api->getProduct($objProduct->id, '?fields=title');
 
-					echo '<li><a href="/product/'.$Product->getId().'/">'.$Product->getTitle().'</a></li>';
+					echo '<li><a href="'.SITE_URL.'/product/'.$Product->getId().'/">'.$Product->getTitle().'</a></li>';
 
 				}
 				?>

@@ -39,8 +39,8 @@ $_POST 	= sanitize($_POST);
 $canonical 			= "/categorie/".(int)$_GET['categoryId']."/";
 
 // Generate page title & meta tags
-$strPageTitle		= getContent('category_title');
-$strMetaDescription	= getContent('category_meta_description');
+$strPageTitle		= getCategoryPageTitle($_GET['categoryId']);
+$strMetaDescription	= getCategoryMetaDescription($_GET['categoryId']);
 
 // Start displaying HTML
 require_once('includes/php/dc_header.php');
@@ -108,7 +108,7 @@ $arrBrandOptions 		= array (
 
 	<div class="col-md-9 cat">
 
-		<h1><?=$arrProducts->categories[0]->name?></h1>
+		<h1><?= getCustomCategoryTitle($arrProducts->categories[0]->id) ?></h1>
 
 		<div class="row">
 
@@ -120,7 +120,10 @@ $arrBrandOptions 		= array (
 					$objPrice	= $arrProduct->details[0];
 					$strPrice 	= calculateProductPrice($objPrice, $arrProduct->id);
 
-					$strProductImg = $arrProduct->details[1]->images->url;
+					$strProductImg = null;
+					if( isset($arrProduct->details[1]->images->url))
+						$strProductImg = $arrProduct->details[1]->images->url;
+
 
 					// check if valid image (ignore warnings)
 					if (@!getimagesize($strProductImg)) {
@@ -131,13 +134,13 @@ $arrBrandOptions 		= array (
 
 					<div class="col-md-3 col-xs-4">
 						<div class="image">
-							<a href="/<?php echo rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
+							<a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/">
 								<img src="<?php echo $strProductImg; ?>" class="img-responsive" alt="<?php echo $arrProduct->title; ?>" style="height:195px;margin:0px auto;" />
 								<span class="label label-primary"><?php echo $strPrice; ?></span>
 							</a>
 						</div><!-- /image -->
 
-						<h4><a href="/<?php echo rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
+						<h4><a href="<?php echo SITE_URL.'/'.rewriteUrl( $arrProducts->categories[0]->name ) ?>/<?php echo rewriteUrl( $arrProduct->title ); ?>/<?php echo $arrProduct->id; ?>/" class="truncate"><?php echo $arrProduct->title; ?></a></h4>
 					</div><!-- /col -->
 
 				<?php
@@ -168,17 +171,17 @@ $arrBrandOptions 		= array (
 				}
 
 				if($intPageNumber > 1) {
-					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
+					echo '<li><a href="'.SITE_URL.'/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
 				}
 
 				for($i=$start;$i<=$end;$i++) {
 
 					$active = ($intPageNumber == $i) ? 'class="active" ' : '';
-					echo '<li ' . $active . '><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
+					echo '<li ' . $active . '><a href="'.SITE_URL.'/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
 				}
 
 				if(($intPages-1) != $intPageNumber && $intPages != 1) {
-					echo '<li><a href="/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
+					echo '<li><a href="'.SITE_URL.'/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
 				}
 				?>
 			</ul>

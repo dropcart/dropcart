@@ -1,12 +1,12 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $objDB 	= new DB();
 
@@ -18,7 +18,7 @@ $intUuid	= (isset($_GET['uuid'])) ? $_GET['uuid'] : null;
 $strAction 	= (isset($_GET['action'])) ? strtolower($_GET['action']) : null;
 
 if (empty($intId)) {
-	header('Location: /beheer/dc_order_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
+	header('Location: '.SITE_URL.'/beheer/dc_order_admin.php?fail='.urlencode('Geen ?id= opgegeven.'));
 	exit();
 }
 
@@ -233,7 +233,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 	<table class="table">
 		<tr>
-			<th colspan="2">Klant informatie <a href="/beheer/dc_customer_manage.php?id=<?php echo $objOrder->id; ?>&amp;action=view" class="btn btn-primary btn-xs pull-right">Bekijk klantaccount</a></th>
+			<th colspan="2">Klant informatie <a href="<?php echo SITE_URL?>/beheer/dc_customer_manage.php?id=<?php echo $objOrder->id; ?>&amp;action=view" class="btn btn-primary btn-xs pull-right">Bekijk klantaccount</a></th>
 		</tr>
 		<tr>
 			<th>Bedrijfsnaam</th>
@@ -302,7 +302,7 @@ $Api 					= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 			$Product = $Api->getProduct($objDetails->productId);
 
 			echo '<tr>';
-			echo '<td><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
+			echo '<td><a href="'.SITE_URL.'/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
 			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)).'</td>';
 			echo '<td>'.$objDetails->quantity.'</td>';
 			echo '<td>'.money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity).'</td>';

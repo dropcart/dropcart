@@ -1,12 +1,12 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
@@ -18,16 +18,16 @@ $strSQL 	= "SELECT dc.* FROM ".DB_PREFIX."discountcodes dc WHERE dc.id = '".$int
 $result 	= $objDB->sqlExecute($strSQL);
 $objCode  	= $objDB->getObject($result);
 
-if ($_POST) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-	$strTitle 				= $_POST['title'];
-	$strValidFrom 			= $_POST['validFrom'];
-	$strValidTill				= $_POST['validTill'];
-	$strDiscountType			= $_POST['discountType'];
-	$strDiscountValue			= $_POST['discountValue'];
-	$intValidationCodeRequired 		= (int) $_POST['validationCodeRequired'];
-	$intFixedShipping	 		= (int) $_POST['fixedShipping'];
-	$intOnline				= (int) $_POST['online'];
+	$strTitle 					= (isset($_POST['title'])) ? $_POST['title'] : null;
+	$strValidFrom 				= (isset($_POST['validFrom'])) ? $_POST['validFrom'] : null;
+	$strValidTill				= (isset($_POST['validTill'])) ? $_POST['validTill'] : null;
+	$strDiscountType			= (isset($_POST['discountType'])) ? $_POST['discountType'] : null;
+	$strDiscountValue			= (isset($_POST['discountValue'])) ? $_POST['discountValue'] : null;
+	$intValidationCodeRequired 	= (isset($_POST['validationCodeRequired'])) ? (int) $_POST['validationCodeRequired'] : 0;
+	$intFixedShipping	 		= (isset($_POST['fixedShipping'])) ? (int) $_POST['fixedShipping'] : 0;
+	$intOnline					= (isset($_POST['online'])) ? (int) $_POST['online'] : 0;
 
 	if(empty($intId)) {
 		
@@ -64,17 +64,17 @@ if ($_POST) {
 require('includes/php/dc_header.php');
 
 
-if (!empty($_GET['succes'])) {
+if (isset($_GET['success']) && !empty($_GET['succes'])) {
 	echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
 }
 
-if (!empty($_GET['fail'])) {
+if (isset($_GET['fail']) && !empty($_GET['fail'])) {
 	echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> '.$_GET['fail'].'</div>';
 }
 
 ?>
 
-<h1>Codes beheren <small><?php echo $objCode->title; ?></small></h1>
+<h1>Codes beheren <small><?php echo (isset($objCode->title)) ? $objCode->title : null; ?></small></h1>
 
 <hr />
 
@@ -83,7 +83,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="navTitle" class="col-sm-2 control-label">Naam</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="title" name="title" placeholder="" value="<?php echo $objCode->title; ?>">
+			<input type="text" class="form-control" id="title" name="title" placeholder="" value="<?php echo (isset($objCode->title)) ? $objCode->title : null; ?>">
 			<p class="help-block">Alleen voor intern gebruik</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -91,14 +91,14 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="navDesc" class="col-sm-2 control-label">Geldig vanaf</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control datepicker" id="validFrom" name="validFrom" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo $objCode->validFrom; ?>">
+			<input type="text" class="form-control datepicker" id="validFrom" name="validFrom" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo (isset($objCode->validFrom)) ? $objCode->validFrom : null ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="navDesc" class="col-sm-2 control-label">Geldig tot</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control datepicker" id="validTill" name="validTill" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo $objCode->validTill; ?>">
+			<input type="text" class="form-control datepicker" id="validTill" name="validTill" placeholder="yyyy-mm-dd" data-provide="datepicker" data-date-format="yyyy-mm-dd" value="<?php echo (isset($objCode->validTill)) ? $objCode->validTill: null ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 	
@@ -106,9 +106,9 @@ if (!empty($_GET['fail'])) {
 		<label for="discountType" class="col-sm-2 control-label">Kortingstype</label>
 		<div class="col-sm-10">
 			<select class="form-control" id="discountType" name="discountType">
-				<option value="price" <?php if($objCode->discountType == 'price') echo 'selected="selected"'; ?>>Bedrag</option>
-				<option value="percentage" <?php if($objCode->discountType == 'percentage') echo 'selected="selected"'; ?>>Percentage</option>
-				<option value="dynamic" <?php if($objCode->discountType == 'dynamic') echo 'selected="selected"'; ?>>Verschillend per code</option>
+				<option value="price" <?php if(isset($objCode->discountType) && $objCode->discountType == 'price') echo 'selected="selected"'; ?>>Bedrag</option>
+				<option value="percentage" <?php if(isset($objCode->discountType) && $objCode->discountType == 'percentage') echo 'selected="selected"'; ?>>Percentage</option>
+				<option value="dynamic" <?php if(isset($objCode->discountType) && $objCode->discountType == 'dynamic') echo 'selected="selected"'; ?>>Verschillend per code</option>
 			</select>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -116,28 +116,28 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="discountValue" class="col-sm-2 control-label">Kortingswaarde</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="discountValue" name="discountValue" value="<?php echo $objCode->discountValue; ?>">
+			<input type="text" class="form-control" id="discountValue" name="discountValue" value="<?php echo (isset($objCode->discountValue)) ? $objCode->discountValue : null; ?>">
 		</div><!-- /col -->
 	</div><!-- /form group -->
 	
 	<div class="form-group">
 		<label for="validationCodeRequired" class="col-sm-2 control-label">Validatiecode benodigd</label>
 		<div class="col-sm-10">
-			<input type="checkbox" name="validationCodeRequired" id="validationCodeRequired" value="1" <?=($objCode->validationCodeRequired == 1) ? 'checked="checked"' : '' ?> />
+			<input type="checkbox" name="validationCodeRequired" id="validationCodeRequired" value="1" <?=( isset($objCode->validationCodeRequired) && $objCode->validationCodeRequired == 1) ? 'checked="checked"' : '' ?> />
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="fixedShipping" class="col-sm-2 control-label">Vaste verzendkosten</label>
 		<div class="col-sm-10">
-			<input type="checkbox" name="fixedShipping" id="fixedShipping" value="1" <?=($objCode->fixedShipping == 1) ? 'checked="checked"' : '' ?> />
+			<input type="checkbox" name="fixedShipping" id="fixedShipping" value="1" <?=(isset($objCode->fixedShipping) && $objCode->fixedShipping == 1) ? 'checked="checked"' : '' ?> />
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="online" class="col-sm-2 control-label">Code actief</label>
 		<div class="col-sm-10">
-			<input type="checkbox" name="online" id="online" value="1" <?=($objCode->online == 1) ? 'checked="checked"' : '' ?> />
+			<input type="checkbox" name="online" id="online" value="1" <?=(isset($objCode->online) && $objCode->online == 1) ? 'checked="checked"' : '' ?> />
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
@@ -149,5 +149,5 @@ if (!empty($_GET['fail'])) {
 
 <hr />
 
-<script src="/includes/script/bootstrap-datepicker.js"></script>
+<script src="<?php echo SITE_URL ?>/includes/script/bootstrap-datepicker.js"></script>
 <?php require('includes/php/dc_footer.php'); ?>

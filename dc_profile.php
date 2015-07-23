@@ -16,7 +16,7 @@ require_once('libraries/Api_Inktweb/API.class.php');
 
 if (empty($_SESSION['customerId'])) {
 	// not logged in, redirect
-	header('Location: /dc_login.php');
+	header('Location: '.SITE_URL.'/dc_login.php');
 }
 
 
@@ -58,7 +58,7 @@ require_once('includes/php/dc_header.php');
 <div class="row" style="margin-top:40px">
 	<div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
 
-		<h2>Mijn account <small><a href="/dc_logout.php">(uitloggen?)</a></small></h2>
+		<h2>Mijn account <small><a href="<?php echo SITE_URL?>/dc_logout.php">(uitloggen?)</a></small></h2>
 		<hr class="colorgraph">
 
 		<h3>Persoonlijke gegevens</h3>
@@ -85,10 +85,10 @@ require_once('includes/php/dc_header.php');
 			</tr>
 			<tr>
 				<td>Wachtwoord:</td>
-				<td><a href="/dc_profile_edit.php">Wachtwoord resetten?</a></td>
+				<td><a href="<?php SITE_URL ?>/dc_profile_edit.php">Wachtwoord resetten?</a></td>
 			</tr>
 			<tr>
-				<td><a href="/dc_profile_edit.php" class="btn btn-success">Wijzigen?</a></td>
+				<td><a href="<?php SITE_URL ?>/dc_profile_edit.php" class="btn btn-success">Wijzigen?</a></td>
 				<td>&nbsp;</td>
 			</tr>
 		</table>
@@ -116,7 +116,7 @@ require_once('includes/php/dc_header.php');
 				<td><?php echo $objCust->add_city; ?></td>
 			</tr>
 			<tr>
-				<td><a href="/dc_profile_addresses.php" class="btn btn-success">Wijzigen?</a></td>
+				<td><a href="<?php echo SITE_URL?>/dc_profile_addresses.php" class="btn btn-success">Wijzigen?</a></td>
 				<td>&nbsp;</td>
 			</tr>
 		</table>
@@ -170,7 +170,7 @@ require_once('includes/php/dc_header.php');
 					$Product = $Api->getProduct($objDetails->productId);
 
 					echo '<tr class="order_details active">';
-						echo '<td colspan="2"><a href="/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
+						echo '<td colspan="2"><a href="'.SITE_URL.'/dc_product_details.php?productId='.$objDetails->productId.'">'.$Product->getTitle().'</a></td>';
 						echo '<td>'.money_format('%(#1n', $objDetails->price).'</td>';
 						echo '<td>'.$objDetails->quantity.'</td>';
 						echo '<td>'.money_format('%(#1n', $objDetails->price * $objDetails->quantity).'</td>';

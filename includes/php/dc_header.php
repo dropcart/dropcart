@@ -81,17 +81,17 @@ if (!empty($canonical)) {
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="<?php echo $strMetaDescription; ?>">
-	<meta name="generator" content="DropCart <?php echo DROPCART_VERSION; ?>">
+	<meta name="description" content="<?php echo (isset($strMetaDescription)) ? $strMetaDescription : null ?>">
+	<meta name="generator" content="DropCart <?php echo ( defined('DROPCART_VERSION') ) ? DROPCART_VERSION : null; ?>">
 	<meta name="robots" content="<?php echo formOption('meta_robots'); ?>">
 
-	<title><?php echo $strPageTitle; ?></title>
+	<title><?php echo (isset($strPageTitle)) ? $strPageTitle : null; echo ' - '.formOption('SITE_NAME') ?></title>
 
 	<?php if(isset($strCanonical)){ $strCanonical; } ?>
 
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/includes/css/custom.css" rel="stylesheet">
-	<link href="/includes/css/magnify.min.css" rel="stylesheet">
+	<link href="<?php echo SITE_URL ?>/includes/css/custom.css" rel="stylesheet">
+	<link href="<?php echo SITE_URL ?>/includes/css/magnify.min.css" rel="stylesheet">
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -101,7 +101,10 @@ if (!empty($canonical)) {
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<script src="/includes/script/bootstrap-magnify.min.js" ></script>
+	<script src="<?php echo SITE_URL ?>/includes/script/bootstrap-magnify.min.js" ></script>
+	<script>
+		var baseUrl = '<?php echo SITE_URL ?>';
+	</script>
 </head>
 <body>
 
@@ -109,10 +112,19 @@ if (!empty($canonical)) {
 
 <div class="row hidden-print">
 <div class="col-xs-12">
+	<noscript>
+		<div class="alert alert-danger" role="alert">
+			<strong>Let op: </strong> ons systeem heeft gedecteert dat Javascript in uw browser niet is ingeschakeld.
+            U zult Javascript moeten aanzetten om gebruik te maken van onze site.
+            <p>
+				<a href="<?php echo SITE_URL ?>/dc_javascript.php" class="btn btn-primary">Hoe zet ik javascript aan?</a>
+			</p>
+		</div>
+	</noscript>
 	<nav class="navbar navbar-right header-nav" role="navigation">
 		<ul class="nav navbar-nav">
-			<li><a href="/dc_login.php">Mijn account</a></li>
-			<li><a href="/dc_shoppingcart.php">Winkelwagen</a></li>
+			<li><a href="<?php echo SITE_URL ?>/dc_login.php">Mijn account</a></li>
+			<li><a href="<?php echo SITE_URL ?>/dc_shoppingcart.php">Winkelwagen</a></li>
 		</ul><!-- /navbar -->
 	</nav><!-- /nav -->
 </div><!-- /col -->
@@ -120,14 +132,23 @@ if (!empty($canonical)) {
 
 <div class="row header-top hidden-print">
 	<div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
-		<a href="/"><img src="/images/logo_small.png" alt="Website logo" class="img-responsive"></a>
+		<a href="<?php echo SITE_URL?>">
+			<?php
+				$image = SITE_URL."/images/logo_small.png";
+				$logo = formOption('SITE_LOGO');
+
+				if( !empty( $logo ) ){
+					$image = SITE_URL.'/images/logo/'.$logo;
+				}
+			?>
+			<img src="<?php echo $image ?>" alt="Website logo" class="img-responsive"></a>
 	</div><!-- /col logo -->
 
 	<div class="col-lg-5 col-md-6 col-sm-8 col-xs-12">
 		<div class="row hidden-print">
 			<div class="col-xs-12">
 				<div class="input-group form-search header-search">
-					<form method="get" action="/search/" class="navbar-form">
+					<form method="get" action="<?php echo SITE_URL ?>/search/" class="navbar-form">
 						<input class="form-control search-query" type="text" name="q" placeholder="Zoek op artikelnummer...">
 						<span class="input-group-btn pull-left" >
 							<button class="btn btn-default" type="submit">Zoeken</button>
@@ -141,9 +162,9 @@ if (!empty($canonical)) {
 	<div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
 		<div id="cart">
 			<h3><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h3>
-			<a href="/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> artikelen - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
+			<a href="<?php echo SITE_URL ?>/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> artikelen - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
 		</div><!-- /cart -->
-			
+
 	</div><!-- /col -->
 </div><!-- /row -->
 
@@ -160,34 +181,34 @@ if (!empty($canonical)) {
 		</div><!-- /navbar-header -->
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
-				<li><a href="/"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo SITE_URL ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="dropdown">
-					<a href="/categorie/1/" id="cat1" role="button" data-toggle="dropdown" data-target="#">Cartridges <span class="caret"></span></a>
+					<a href="<?php echo SITE_URL ?>/categorie/1/" id="cat1" role="button" data-toggle="dropdown" data-target="#">Cartridges <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="cat1">
-						<li><a href="/categorie/1/">-- toon alles -- </a></li>
-						<li><a href="/categorie/1/?&amp;brands=,2">HP Cartridges</a></li>
-						<li><a href="/categorie/1/?&amp;brands=,3">Canon Cartridges</a></li>
-						<li><a href="/categorie/1/?&amp;brands=,4">Epson Cartridges</a></li>
-						<li><a href="/categorie/1/?&amp;brands=,5">Lexmark Cartridges</a></li>
-						<li><a href="/categorie/1/?&amp;brands=,6">Brother Cartridges</a></li>
-						<li><a href="/categorie/1/?&amp;brands=,29">Dell Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/">-- toon alles -- </a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,2">HP Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,3">Canon Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,4">Epson Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,5">Lexmark Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,6">Brother Cartridges</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/1/?&amp;brands=,29">Dell Cartridges</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a href="/categorie/2/" id="cat2" role="button" data-toggle="dropdown" data-target="#">Toners <span class="caret"></span></a>
+					<a href="<?php echo SITE_URL ?>/categorie/2/" id="cat2" role="button" data-toggle="dropdown" data-target="#">Toners <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="cat2">
-						<li><a href="/categorie/2/">-- toon alles -- </a></li>
-						<li><a href="/categorie/2/?&amp;brands=,2">HP Toners</a></li>
-						<li><a href="/categorie/2/?&amp;brands=,3">Canon Toners</a></li>
-						<li><a href="/categorie/2/?&amp;brands=,4">Epson Toners</a></li>
-						<li><a href="/categorie/2/?&amp;brands=,5">Lexmark Toners</a></li>
-						<li><a href="/categorie/2/?&amp;brands=,6">Brother Toners</a></li>
-						<li><a href="/categorie/2/?&amp;brands=,29">Dell Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/">-- toon alles -- </a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,2">HP Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,3">Canon Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,4">Epson Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,5">Lexmark Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,6">Brother Toners</a></li>
+						<li><a href="<?php echo SITE_URL ?>/categorie/2/?&amp;brands=,29">Dell Toners</a></li>
 					</ul>
 				</li>
- 				<li><a href="/categorie/5/">Papier</a></li>
-				<li><a href="/categorie/25/">Labels</a></li>
-				<li><a href="/categorie/6/">Toebehoren</a></li>
+ 				<li><a href="<?php echo SITE_URL ?>/categorie/5/">Papier</a></li>
+				<li><a href="<?php echo SITE_URL ?>/categorie/25/">Labels</a></li>
+				<li><a href="<?php echo SITE_URL ?>/categorie/6/">Toebehoren</a></li>
 			</ul><!-- /navbar-left -->
 		</div><!-- /navbar -collapse -->
 	</nav><!-- /nav -->

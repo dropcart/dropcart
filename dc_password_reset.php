@@ -16,16 +16,24 @@ require_once('includes/php/dc_mail.php'); // Password reset email
 require_once('libraries/Api_Inktweb/API.class.php');
 
 if (!empty($_SESSION['customerId'])) {
-	header('Location: /dc_profile.php');
+	header('Location: '.SITE_URL.'/dc_profile.php');
 }
 
 
 $_POST 		= sanitize($_POST);
 $_GET 		= sanitize($_GET);
 
-$strEmail 		= strtolower($_POST['email_forgot']);
-if (empty($strEmail)) { $strEmail = $_GET['email']; }
-$strTokenGet 	= $_GET['token'];
+$strEmail 		= (isset($_POST['email_forgot']))
+					? strtolower($_POST['email_forgot'])
+					: null;
+if (empty($strEmail)) {
+	$strEmail = (isset($_GET['email']))
+		? $_GET['email']
+		: null;
+}
+$strTokenGet 	= (isset($_GET['token']))
+	? $_GET['token']
+	: null;
 
 // If token is set; user is trying to login and reset password
 if (!empty($strTokenGet) AND !empty($strEmail)) {
@@ -43,7 +51,7 @@ if (!empty($strTokenGet) AND !empty($strEmail)) {
 
 		// login user
 		$_SESSION['customerId'] = $objCustomer->id;
-		header('Location: /dc_profile_edit.php');
+		header('Location: '.SITE_URL.'/dc_profile_edit.php');
 		
 	}
 	else {
@@ -93,11 +101,11 @@ require_once('includes/php/dc_header.php');
 
 	<?php
 
-	if (!empty($_GET['success'])) {
-		echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['succes'].'</div>';
+	if (isset($_GET['success'])) {
+		echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> '.$_GET['success'].'</div>';
 	}
 
-	if (!empty($_GET['fail'])) {
+	if (isset($_GET['fail'])) {
 		echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> '.$_GET['fail'].'</div>';
 	}
 	?>
@@ -121,7 +129,7 @@ require_once('includes/php/dc_header.php');
 		</div><!-- /row -->
 
 		<span class="button-checkbox">
-			<a href="/dc_login.php" class="btn btn-link pull-right">Wacht, ik weet het weer!</a>
+			<a href="<?php echo SITE_URL ?>/dc_login.php" class="btn btn-link pull-right">Wacht, ik weet het weer!</a>
 		</span><!-- /button-checkbox -->
 
 		</fieldset>

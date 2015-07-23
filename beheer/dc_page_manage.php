@@ -1,32 +1,32 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $objDB 	= new DB();
 
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$intId 		= $_GET['id'];
-$strAction 	= $_GET['action'];
+$intId 		= (isset($_GET['id'])) ? $_GET['id'] : null;
+$strAction 	= (isset($_GET['action'])) ? $_GET['action'] : null;
 
 if ($strAction == "online" AND !empty($intId)) {
 	$objDB->sqlExecute("UPDATE ".DB_PREFIX."pages_content SET online = '1' WHERE id = '".$intId."'");
-	header('Location: /beheer/dc_page_admin.php');
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php');
 }
 elseif ($strAction == "offline" AND !empty($intId)) {
 	$objDB->sqlExecute("UPDATE ".DB_PREFIX."pages_content SET online = '0' WHERE id = '".$intId."'");
-	header('Location: /beheer/dc_page_admin.php');
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php');
 }
 elseif ($strAction == "remove" AND !empty($intId)) {
 	$objDB->sqlDelete('pages_content', 'id', $intId);
-	header('Location: /beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
+	header('Location: '.SITE_URL.'/beheer/dc_page_admin.php?succes='.urlencode('De pagina is verwijderd.'));
 }
 
 $strSQL 	= "SELECT pc.id, pc.pageTitle, pc.pageDesc, pc.navTitle, pc.txt, pc.online FROM ".DB_PREFIX."pages_content pc WHERE pc.id = '".$intId."' ";
@@ -89,7 +89,7 @@ if (!empty($_GET['fail'])) {
 
 ?>
 
-<h1>Pagina beheren <small><?php echo $objPage->navTitle; ?></small></h1>
+<h1>Pagina beheren <small><?php echo (isset($objPage->navTitle)) ? $objDB->navTitle : null; ?></small></h1>
 
 <hr />
 
@@ -98,7 +98,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="pageTitle" class="col-sm-2 control-label">Google titel</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="pageTitle" name="pageTitle" placeholder="" value="<?php echo $objPage->pageTitle; ?>">
+			<input type="text" class="form-control" id="pageTitle" name="pageTitle" placeholder="" value="<?php echo (isset($objPage->pageTitle)) ? $objPage->pageTitle : null; ?>">
 			<p class="help-block">De pagina &lt;title&gt; welke Google gebruikt in de zoekresultaten</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -106,7 +106,7 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="pageDesc" class="col-sm-2 control-label">Pagina Omschrijving</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="pageDesc" name="pageDesc"><?php echo $objPage->pageDesc; ?></textarea>
+			<textarea class="form-control" id="pageDesc" name="pageDesc"><?php echo (isset($objPage->pageDesc)) ? $objPage->pageDesc : null; ?></textarea>
 			<p class="help-block">De &lt;meta name="description" /&gt; welke Google gebruikt in de zoekresultaten</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
@@ -114,14 +114,14 @@ if (!empty($_GET['fail'])) {
 	<div class="form-group">
 		<label for="navTitle" class="col-sm-2 control-label">Navigatie titel</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" id="navTitle" name="navTitle" placeholder="" value="<?php echo $objPage->navTitle; ?>" required>
+			<input type="text" class="form-control" id="navTitle" name="navTitle" placeholder="" value="<?php echo (isset($objPage->navTitle)) ? $objPage->navTitle : null; ?>" required>
 		</div><!-- /col -->
 	</div><!-- /form group -->
 
 	<div class="form-group">
 		<label for="txt" class="col-sm-2 control-label">Pagina content</label>
 		<div class="col-sm-10">
-			<textarea class="form-control" id="pagedownMe" name="txt" rows="7" required><?php echo $objPage->txt; ?></textarea>
+			<textarea class="form-control" id="pagedownMe" name="txt" rows="7" required><?php echo (isset($objPage->txt)) ? $objPage->txt : null; ?></textarea>
 		</div><!-- /col -->
 	</div><!-- /form group -->	
 
@@ -134,7 +134,7 @@ if (!empty($_GET['fail'])) {
 <hr />
 
 
-<script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
+<script type="text/javascript" src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
 <script type="text/javascript">
 (function () {
  

@@ -244,7 +244,25 @@ function calculateProductPrice($objPrice, $productId = null, $quantity = null, $
 
 }
 
+function getPriceFrom($productId){
+	global $objDB;
+	$query = "SELECT price_from FROM ".DB_PREFIX."products WHERE id = '".$productId."' ";
 
+
+	$result = $objDB->sqlExecute($query);
+
+    $count = $objDB->getNumRows($result);
+//	die(var_dump($count));
+
+    if( $count === 0){
+
+		return null;
+	}
+
+    $row = $objDB->getObject($result);
+
+    return $row->price_from;
+}
 
 function calculateSiteShipping($cartTotal = 0, $deliveryLang = null, $format = true) {
 
@@ -286,7 +304,9 @@ function getContent($strContent, $parse = true, $Product = null, $arrProducts = 
 	$result = $objDB->sqlExecute($strSQL);
 	$objContent = $objDB->getObject($result);
 
-	$strContent = $objContent->value;
+	if( is_null($objContent))
+			return $strContent;
+    $strContent = $objContent->value;
 
 	if (!empty($objContent->parse_boilerplate) AND $parse == true) {
 		$strContent = parseBoilerplate($strContent, $Product, $arrProducts);
@@ -304,7 +324,7 @@ function getContent($strContent, $parse = true, $Product = null, $arrProducts = 
  */
 function parseMarkdown($content) {
 
-	require_once ($_SERVER['DOCUMENT_ROOT'].'/libraries/Parsedown/Parsedown.php');
+	require_once (__DIR__.'/../libraries/Parsedown/Parsedown.php');
 
 	$Parsedown = new Parsedown();
 	$content = $Parsedown->text($content);
@@ -326,12 +346,15 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 	$arrReplace = array();
 
 	// Product is set so its likely to be PRODUCT_ related
+
 	if (!empty($Product)) {
+
+
 
 		$arrReplace['[PRODUCT_ID]'] 		= $Product->getId();
 		$arrReplace['[PRODUCT_EAN]'] 		= $Product->getEan();
 		$arrReplace['[PRODUCT_OEM]'] 		= $Product->getOem();
-		$arrReplace['[PRODUCT_BRAND]']	= $Product->getBrand();
+		$arrReplace['[PRODUCT_BRAND]']		= $Product->getBrand();
 		$arrReplace['[PRODUCT_TITLE]'] 		= $Product->getTitle();
 
 		$objPrice 					= $Product->getPrice();
@@ -402,6 +425,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 		$content
 	);
 
+
 	return $content;
 
 }
@@ -415,7 +439,7 @@ function parseBoilerplate($content, $Product = null, $arrProducts = null) {
 function getProductTitle($objProduct, $productId = null) {
 
 	global $objDB;
-
+	$strTitle = null;
 	// if $productId is entered, check if it has a custom title in DB
 	if (!empty($productId)) {
 
@@ -555,6 +579,16 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 
 	$tpl = $twig->loadTemplate( "dc_invoice_template.tpl" );
 
+	$settings = array();
+
+	/* get site settings */
+	$siteSettingsSQL = "SELECT * FROM dc_options";
+	$resultSettings = $objDB->sqlExecute($siteSettingsSQL);
+	while($row = $objDB->getObject($resultSettings) ){
+		$settings['_'.$row->optionName] = $row->optionValue;
+	}
+
+
 	// order information
 	$strSQL =
 		"SELECT co.firstname,
@@ -576,6 +610,9 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		";
 	$result = $objDB->sqlExecute($strSQL);
 	$objOrder = $objDB->getObject($result);
+
+
+
 
 	$dblTotalEx = $objOrder->totalPrice / 1.21;
 	$arrTax[21] = number_format($objOrder->totalPrice - $dblTotalEx, 2, ',', ' ');
@@ -606,26 +643,28 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		$details[] = $objDetails;
 	}
 
-	$strTemplate = $tpl->render(
-		array(
-			'name' => $objOrder->firstname.' '.$objOrder->lastname,
-			'address' => $objOrder->address.' '.$objOrder->houseNr,
-			'zipcode' => $objOrder->zipcode,
-			'city' => $objOrder->city,
-			'country' => $arrLanguages[$objOrder->lang],
-			'customer_nr' => str_pad($objOrder->custId,9,'0',STR_PAD_LEFT),
-			'invoice_nr' => str_pad($objOrder->orderId,9,'0',STR_PAD_LEFT),
-			'invoice_date' => $objOrder->entryDate,
-			'order_details' => $details,
-			'discount_code' => $objOrder->kortingscode,
-			'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),
-			'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),
-			'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
-			'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
-			'tax' => $arrTax,
-			'site_path' => dirname(__DIR__),
-		)
+	$strTemplateVars = array(
+		'name' => $objOrder->firstname.' '.$objOrder->lastname,
+		'address' => $objOrder->address.' '.$objOrder->houseNr,
+		'zipcode' => $objOrder->zipcode,
+		'city' => $objOrder->city,
+		'country' => $arrLanguages[$objOrder->lang],
+		'customer_nr' => str_pad($objOrder->custId,9,'0',STR_PAD_LEFT),
+		'invoice_nr' => str_pad($objOrder->orderId,9,'0',STR_PAD_LEFT),
+		'invoice_date' => $objOrder->entryDate,
+		'order_details' => $details,
+		'discount_code' => $objOrder->kortingscode,
+		'discount_amount' => number_format($objOrder->kortingsbedrag, 2, ',', ' '),
+		'shipping_costs' => number_format($objOrder->shippingCosts, 2, ',', ' '),
+		'total_ex' => number_format($dblTotalEx, 2, ',', ' '),
+		'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
+		'tax' => $arrTax,
+		'site_path' => dirname(__DIR__),
 	);
+
+	$strTemplateVars = array_merge($strTemplateVars, $settings);
+
+	$strTemplate = $tpl->render($strTemplateVars);
 
 	$mpdf->setAutoTopMargin = 'pad';
 	$mpdf->setAutoBottomMargin = 'pad';
@@ -662,4 +701,203 @@ function rewriteUrl($strString) {
 	
 }
 
-?>
+function urlOrigin($s = null, $use_forwarded_host=false)
+{
+	if( is_null($s)){
+		$s = $_SERVER;
+	}
+
+	$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
+	$sp = strtolower($s['SERVER_PROTOCOL']);
+	$protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+	$port = $s['SERVER_PORT'];
+	$port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
+	$host = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+	$host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+	return $protocol . '://' . $host;
+}
+function fullUrl($s = null, $use_forwarded_host=false)
+{
+	return urlOrigin($s, $use_forwarded_host) . $s['REQUEST_URI'];
+}
+
+function getBoilerPlateContent(
+        $category_id,
+        $col,
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = true,          # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product = null,
+        $arrPrinters = null
+    ){
+    global $objDB;
+    $sql = "SELECT
+                  {$col}, /* Either category_title, category_desc, product_title or product_desc */
+                  parse_markdown,
+                  parse_boilerplate
+            FROM ".DB_PREFIX."content_boilerplate
+            WHERE category_id = '{$category_id}'";
+
+	$result = $objDB->sqlExecute($sql);
+
+	$item = $objDB->getObject($result);
+    $content =  null;
+    if( isset($item->{$col})) {
+        $content = $item->{$col};
+    }
+
+
+
+
+    /* Fallback to default content if content is empty */
+    if( empty($content) ){
+
+        switch($col){
+            case 'category_title':  $alt = 'category_title'; break;
+            case 'category_desc':   $alt = 'category_meta_description'; break;
+            case 'product_title':   $alt = 'product_title'; break;
+            case 'product_desc':    $alt = 'product_meta_description'; break;
+            default: return null; break;
+        }
+
+        return getContent($alt, $parse = true, $product, $arrPrinters);
+    }
+
+
+
+    if( !$parse ) {
+        return $content;
+    }
+
+    if( ( $parseWithUserSettings && !empty($item->parse_markdown) ) ||  $forceMarkdown || $stripMarkdown ){
+        $content = parseMarkdown($content);
+
+        if($stripMarkdown){
+            $content = stripHTML($content);
+        }
+    }
+
+    if( ( $parseWithUserSettings && !empty($item->parse_boilerplate) ) || $forceBoilerplate){
+        $content = parseBoilerplate($content, $product, $arrPrinters);
+    }
+    return $content;
+}
+
+/* For use in HTML title tag */
+function getProductPageTitle($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_title',
+        $parse = true,
+        $parseWithUserSettings = false, # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = true,          # $parse must be true for this setting
+        $product,
+        $printers
+    ); //Append site name to the title
+}
+
+/* For use in meta description tag */
+function getProcutMetaDescription($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_desc',
+        $parse = true,
+        $parseWithUserSettings = false, # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,       # $parse must be true for this setting
+        $stripMarkdown = true,          # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function getCustomProductDesc($category_id, $product = null, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_desc',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function getCustomProductTitle($category_id, $product, $printers = null){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'product_title',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product,
+        $printers
+    );
+}
+
+function getCategoryPageTitle($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_title',
+        $parse = true,
+        $parseWithUserSettings = false,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,      # $parse must be true for this setting
+        $stripMarkdown = true,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
+
+function getCategoryMetaDescription($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_desc',
+        $parse = true,
+        $parseWithUserSettings = false,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = true,      # $parse must be true for this setting
+        $stripMarkdown = true,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
+
+function getCustomCategoryTitle($category_id){
+    return getBoilerPlateContent(
+        $category_id,
+        $col = 'category_title',
+        $parse = true,
+        $parseWithUserSettings = true,  # $parse must be true for this setting
+        $forceMarkdown = false,         # $parse must be true for this setting
+        $forceBoilerplate = false,      # $parse must be true for this setting
+        $stripMarkdown = false,         # $parse must be true for this setting
+        $product = null,
+        $printers = null
+    );
+}
+function stripHTML($content){
+    return strip_tags($content);
+}
+
+/**
+ * Redirect a user to the given url relative to the SITE_URL
+ * @author Dmitri Chebotarev <dmitri.chebotarev@gmail.com>
+ * @param string $url - url of the string, do not prefix with a '/'
+ * @return void
+ */
+function redirectTo( $url ){
+    header("Location: ".SITE_URL.'/'.$url);
+}
+
+function notFoundPage(){
+    redirectTo('dc_404.php');
+}

@@ -1,18 +1,18 @@
 <?php
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
 
 $_POST 	= sanitize($_POST);
 $_GET 	= sanitize($_GET);
 
-$strAction		= $_GET["action"];
-$intCodeId		= (int) $_GET["id"];
+$strAction		= (isset($_GET['action'])) ? $_GET["action"] : null;
+$intCodeId		= (isset($_GET['id'])) ? (int) $_GET["id"]: null;
 
 switch($strAction){
 	case 'export':
@@ -33,7 +33,7 @@ switch($strAction){
 		
 		
 		$strSQL = "
-			SELECT code, validationCode
+			SELECT code, validationCode, discountValue
 			FROM ".DB_PREFIX."discountcodes_codes dc_c
 			WHERE dc_c.codeId = " . $intCodeId . " " .
 			$strWhere;
@@ -92,7 +92,7 @@ switch($strAction){
 	break;	
 }
 
-$strShow 	= strtolower($_GET['show']);
+$strShow 	= (isset($_GET['show'])) ? strtolower($_GET['show']) : null;
 
 if (empty($strShow) OR $strShow == "all") {
 	$sqlWhere = " ";
@@ -157,6 +157,7 @@ if (!empty($_GET['succes'])) {
 		<th width="10%" data-json-column="validationCode">Validatiecode</th>
 		<th width="10%" data-json-column="orderId">Gebruikt</th>
 		<th width="5%" data-json-column="export">Verzilverd</th>
+		<th width="10%" data-json-column="export">Bewerken</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -165,6 +166,6 @@ if (!empty($_GET['succes'])) {
 
 <ul class="pagination pagination-json" data-json-table="#table" data-json-items="25"></ul>
 
-<script src="/beheer/includes/script/jquery.dynamic-table.js"></script>
+<script src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.dynamic-table.js"></script>
 
 <?php require('includes/php/dc_footer.php'); ?>

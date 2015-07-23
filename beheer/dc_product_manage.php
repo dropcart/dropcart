@@ -1,14 +1,14 @@
 <?php
 
 // Required includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/php/dc_connect.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/_classes/class.database.php');
+require_once (__DIR__.'/../includes/php/dc_connect.php');
+require_once (__DIR__.'/../_classes/class.database.php');
 $objDB = new DB();
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_config.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_config.php');
 
 // Page specific includes
-require_once ($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_functions.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/libraries/Api_Inktweb/API.class.php');
+require_once (__DIR__.'/../beheer/includes/php/dc_functions.php');
+require_once(__DIR__.'/../libraries/Api_Inktweb/API.class.php');
 
 
 $objDB 		= new DB();
@@ -138,7 +138,7 @@ $Product 		= $Api->getProduct($intId);
 
 
 
-require($_SERVER['DOCUMENT_ROOT'].'/beheer/includes/php/dc_header.php');
+require(__DIR__.'/../beheer/includes/php/dc_header.php');
 
 ?>
 
@@ -298,7 +298,7 @@ if (!empty($_GET['succes'])) {
 
 	<p>
 		<a href="https://www.inktweb.nl/products_detail.php?id=<?php echo $intId; ?>" class="btn btn-default">Bekijk op Inktweb.nl</a>
-		<a href="/product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
+		<a href="<?php echo SITE_URL?>/product/<?php echo $intId; ?>/" class="btn btn-primary">Bekijk op website</a>
 	</p>
 
 </div><!-- /col -->
@@ -355,7 +355,7 @@ if (!empty($_GET['succes'])) {
 	<?php endif; ?>
 </div>
 
-<script type="text/javascript" src="/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
+<script type="text/javascript" src="<?php echo SITE_URL ?>/beheer/includes/script/jquery.pagedown-bootstrap.combined.min.js"></script>
 <script type="text/javascript">
 (function () {
  

@@ -115,14 +115,14 @@
 			}
 	
 			if($this->debug) {
-				echo '<pre>Debug info<br><br>----<br><br><strong>http request:</strong><br>https://'.self::$this->environments[$this->currentEnv]['url'].$url.$parameters.'<br><br>';
+				echo '<pre>Debug info<br><br>----<br><br><strong>http request:</strong><br>https://'.$this->environments[$this->currentEnv]['url'].$url.$parameters.'<br><br>';
 				echo '<strong>header request:</strong><br>'.print_r($headers, 1).'<br>';
 				if ($content) echo '<strong>content:</strong><br>'.htmlspecialchars($content).'<br><br>';
 				if ($body) echo '<strong>content:</strong><br>'.htmlspecialchars($body).'<br><br>';
 				echo '<strong>header response:</strong><br>'.self::getFullHeader();
 				echo '----</pre>';
 			}
-			
+
 			return $body_return;
 		}
 		
