@@ -54,11 +54,7 @@
     }
     /* For larger screens */
     else{
-        $(document).on('mouseenter', '.sidebar-wrapper', function(){
-            $('body').addClass('active-sidebar');
-        }).on('mouseleave', '.sidebar-wrapper', function(){
-            $('body').removeClass('active-sidebar');
-        });
+
     }
 
 

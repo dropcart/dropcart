@@ -5,6 +5,7 @@ body, html, .container-fluid{
 body {
 	background-color: #F1F1F1;
     overflow-x:hidden;
+
 }
 .main-sidebar {
 	padding:0px;
@@ -164,16 +165,6 @@ table.table-json thead tr th[data-json-column] {
     overflow:auto;
 }
 
-.sidebar-wrapper{
-    opacity: 0.5;
-    -webkit-transition: all .25s ease-out;
-    -o-transition: all .25s ease-out;
-    transition: all .25s ease-out;
-}
-
-.sidebar-wrapper:hover{
-    opacity: 1;
-}
 
 body.active-sidebar{
     overflow:hidden;
@@ -223,7 +214,6 @@ body.active-sidebar{
         overflow-x:hidden;
         padding:0;
         position:static;
-        opacity: 1;
     }
     .offcanvas-left .main-sidebar{
         left:-50%;
