@@ -14,4 +14,4 @@ RewriteRule ^product/([0-9]+)/ dc_product_details.php?productId=$1	[QSA,L,NC] # 
 # Catch all
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ 404.php
+RewriteRule ^(.*)$ dc_404.php

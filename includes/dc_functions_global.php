@@ -899,5 +899,5 @@ function redirectTo( $url ){
 }
 
 function notFoundPage(){
-    redirectTo('404.php');
+    redirectTo('dc_404.php');
 }
