@@ -381,7 +381,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (29, 'smtp_password', '- email password here - '),
 (30, 'update_build', 'stable'),
 (31, 'order_number_prefix', ''),
-(32, 'site_shipping_free_from', '0');
+(32, 'site_shipping_free_from', '0'),
 (33, 'site_street_name', 'Professor van der Waalstraat'),
 (34, 'site_street_number', '2'),
 (35, 'site_street_number_addition', NULL),
