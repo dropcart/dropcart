@@ -120,7 +120,9 @@ $arrBrandOptions 		= array (
 					$objPrice	= $arrProduct->details[0];
 					$strPrice 	= calculateProductPrice($objPrice, $arrProduct->id);
 
-					$strProductImg = $arrProduct->details[1]->images->url;
+					$strProductImg = null;
+					if( isset($arrProduct->details[1]->images->url))
+						$strProductImg = $arrProduct->details[1]->images->url;
 
 
 					// check if valid image (ignore warnings)
