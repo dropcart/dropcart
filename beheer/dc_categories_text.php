@@ -65,9 +65,9 @@ function categoryExists($db, $category_id){
 function extractData($data, $key){
     $extracted = array();
     foreach($data as $item => $values) {
-       if( array_key_exists($key, $values) ){
-        $extracted[] = $values[$key];
-       }
+        if( array_key_exists($key, $values) ){
+            $extracted[] = $values[$key];
+        }
     }
     return $extracted;
 }
@@ -113,7 +113,8 @@ function getCreateQuery($category_id, $data){
 function onlyCheckBoxes($data, $checkboxes){
     $count = 0;
     foreach($data as $key => $value){
-        if( !in_array($value['col'], $checkboxes)  && !empty(trim($value['value']))){
+        $trimmed_value = trim($value['value']);
+        if( !in_array($value['col'], $checkboxes)  && !empty($trimmed_value)){
             $count++;
         }
     }
