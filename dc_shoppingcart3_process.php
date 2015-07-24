@@ -152,9 +152,11 @@ while($objStatus = $objDB->getObject($result2)) {
 		
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET extOrderId = ".$intExtOrderId." WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
-		
+
+		// Empty the carts
 		$objDB->sqlDelete("cart","customerId",$objCustomer->customerId,'');
-		
+		$objDB->sqlDelete("cart_archive","orderId",$intOrderId,'');
+
 		// send order mail
 		sendMail('ordermail', $objCustomer->email, $objCustomer->firstname . ' ' . $objCustomer->lastname);
 					
