@@ -129,13 +129,7 @@ else if( isset($_SESSION['logo_upload_success']) ){
 					<input type="text" class="form-control" id="site_name" name="site_name" value="<?php echo formOption('site_name'); ?>" autocomplete="off">
 				</div><!-- /col -->
 			</div><!-- /form-group -->
-			<div class="form-group">
-			<label for="site_url" class="col-sm-2 control-label">site_url</label>
-				<div class="col-sm-8">
-					<input type="text" class="form-control" id="site_url" name="site_url" value="<?php echo formOption('site_url'); ?>" autocomplete="off">
-					<p class="help-block">URL van deze website. Moet eindigen op een slash / (b.v. <code>http://www.webshop.nl/</code>)</p>
-				</div><!-- /col -->
-			</div><!-- /form-group -->
+
 			<div class="form-group">
 			<label for="site_email" class="col-sm-2 control-label">site_email</label>
 				<div class="col-sm-8">
