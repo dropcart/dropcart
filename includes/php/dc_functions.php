@@ -123,7 +123,7 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 	
 	return array(
 		'dblDiscountAmount' => $dblDiscountAmount,
-		'strDiscountAmount' => $strDiscountAmount,
+		'strDiscountAmount' => '-'.$strDiscountAmount,
 		'dblDiscountOver' => $dblDiscountOver,
 		'dblPriceTotal' => $dblPriceTotal);
 	

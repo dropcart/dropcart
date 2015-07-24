@@ -19,11 +19,12 @@ $strSQL 	= "SELECT dc_c.* FROM ".DB_PREFIX."discountcodes_codes dc_c WHERE dc_c.
 $result 	= $objDB->sqlExecute($strSQL);
 $objCode  	= $objDB->getObject($result);
 
-if ($_POST) {
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 	$strCode 					= (isset($_POST['code'])) ? $_POST['code'] : null;
 	$intLimit 					= (isset($_POST['limit'])) ? (int) $_POST['limit'] : null;
 	$strValue 					= (isset($_POST['code_value'])) ? (int) $_POST['code_value'] : null;
+	$strDiscountType 					= (isset($_POST['discount_type'])) ? $_POST['discount_type'] : null;
 
 	if( strlen( trim($strCode) ) == 0 ){
 		header('Location: ?id='.$intId.'&action='.$strAction.'&fail='.urlencode('Het code veld is verplicht!'));
@@ -32,7 +33,19 @@ if ($_POST) {
 
 	if($intId == 0) {
 		
-		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes (`codeId`, `code`, `limit`, `discountValue`) VALUES ('".$intCodeId."', '".$strCode."',  ".$intLimit.", '".$strValue."')";
+		$strSQL = "INSERT INTO ".DB_PREFIX."discountcodes_codes
+		(
+		    `codeId`,
+		    `code`,
+		    `limit`,
+		    `discountValue`,
+		    `discountType`
+		    ) VALUES (
+		    '".$intCodeId."',
+		    '".$strCode."',
+		    ".$intLimit.",
+		    '".$strValue."',
+		    '".$strDiscountType."')";
 
 		$result = $objDB->sqlExecute($strSQL);
 		$intId = $objDB->getInsertedId();
@@ -43,7 +56,8 @@ if ($_POST) {
 				SET `codeId` = '".$intCodeId."',
 				`code` = '".$strCode."',
 				`limit` = ".$intLimit.",
-				`discountValue` = '".$strValue."'
+				`discountValue` = '".$strValue."',
+				`discountType` = '".$strDiscountType."'
 				WHERE id = '".$intId."' ";
 		$result 		= $objDB->sqlExecute($strSQL);
 	
@@ -92,6 +106,26 @@ if (!empty($_GET['fail'])) {
 			<p class="help-block">0 is oneindig</p>
 		</div><!-- /col -->
 	</div><!-- /form group -->
+
+	<div class="form-group">
+		<label for="discount_type" class="col-sm-2 control-label">Type</label>
+		<div class="col-sm-10">
+
+            <?php
+                $selectedDiscountType = null;
+                $selected = 'selected="selected"';
+                if(isset($objCode->discountType) && !empty($objCode->discountType) ){
+                    $selectedDiscountType = $objCode->discountType;
+                }
+            ?>
+
+			<select class="form-control" name="discount_type" id="discount_type">
+				<option <?php echo ($selectedDiscountType == 'price') ? $selected : null ?> value="price">Prijs</option>
+				<option <?php echo ($selectedDiscountType == 'percentage') ? $selected : null ?> value="percentage">Percentage</option>
+			</select>
+		</div><!-- /col -->
+	</div><!-- /form group -->
+
 
 	<div class="form-group">
 		<label for="limit" class="col-sm-2 control-label">Waarde</label>
