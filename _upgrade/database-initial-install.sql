@@ -93,7 +93,7 @@ INSERT INTO `dc_content` (`id`, `type`, `name`, `label`, `value`, `description`,
 (52, 1, 'printer_meta_description', 'Meta description voor printerpaginas', 'Producten geschikt voor de [PRINTER_BRAND] [PRINTER_TYPE]', '', 0, 1);
 
 --
--- Table structure for table `dc_content_boilerplate`
+-- Table structure for table `dc_content_tags`
 --
 
 CREATE TABLE IF NOT EXISTS `dc_content_tags` (
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `dc_content_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dc_content_boilerplate`
+-- Dumping data for table `dc_content_tags`
 --
 
 INSERT INTO `dc_content_tags` (`id`, `tag`, `desc`) VALUES
@@ -351,9 +351,8 @@ CREATE TABLE IF NOT EXISTS `dc_options` (
 
 INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (1, 'site_name', 'Dropcart Demo'),
-(2, 'site_url', 'http://www.dropcart.nl/'),
 (3, 'site_email', 'info@dropcart.nl'),
-(4, 'default_product_image', 'http://dropcart.nl/images/thumbnail.png'),
+(4, 'default_product_image', 'https://dropcart.nl/images/thumbnail.png'),
 (5, 'api_key', '- inktweb api key here -'),
 (6, 'zipcode_api_key', '- postcode.nl api key here -'),
 (7, 'zipcode_api_secret', '- postcode.nl secret key here -'),
@@ -366,7 +365,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (14, 'price_values', '["1.21"]'),
 (15, 'price_base', 'price'),
 (16, 'site_shipping', '5.95'),
-(17, 'dropcart_version', 'v1.6.2'),
+(17, 'dropcart_version', 'v1.7.0'),
 (18, 'email_bcc', 'bcc@dropcart.nl'),
 (19, 'site_email_template', 'includes/templates/dc_mail_template.html'),
 (20, 'tmp_path', 'tmp/'),
@@ -382,15 +381,15 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (30, 'update_build', 'stable'),
 (31, 'order_number_prefix', ''),
 (32, 'site_shipping_free_from', '0'),
-(33, 'site_street_name', 'Professor van der Waalstraat'),
+(33, 'site_street_name', 'Straatnaam'),
 (34, 'site_street_number', '2'),
 (35, 'site_street_number_addition', NULL),
-(36, 'site_postal_code', '1821 BT'),
-(37, 'site_city_name', 'Alkmaar'),
-(38, 'site_phone_number', '072-5675055'),
-(40, 'site_kvk', '60680326'),
-(41, 'site_btw', 'NL854012965B01'),
-(42, 'site_iban', 'NL77RABO0148966128'),
+(36, 'site_postal_code', '1000 AA'),
+(37, 'site_city_name', 'Duckstad'),
+(38, 'site_phone_number', '0123456789'),
+(40, 'site_kvk', '123456'),
+(41, 'site_btw', 'NLBTW'),
+(42, 'site_iban', 'NLIBAN'),
 (43, 'site_bic', 'RABONL2U');
 --
 -- Table structure for table `dc_pages_content`
@@ -453,10 +452,10 @@ CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Table structure for table `dc_content_boilerplate`
+-- Table structure for table `dc_content_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+CREATE TABLE IF NOT EXISTS `dc_content_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `category_title` text,
