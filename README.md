@@ -23,7 +23,8 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 - Create a new database and save the credentials
 - Insert the database found in the folder */_upgrade/* is a *v{versionnumber}-initial-install.sql* file
 - Enter your database credentials in the file *includes/php/dc_connect.php*
-- Upload everything to your root (or sub-)domain
+- Upload everything to FTP server
+    - You might need to set the folder `/images/logo` to file permission `777` so image uploading works properly
 - Navigate to *yourwebsite.com/beheer* and login with *admin*/*inktweb*
 - In the *Settings* menu add the required information (including your *api_key*)
 - Navigate to *yourwebsite.com* and test if everything works
@@ -32,6 +33,5 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 - In the CMS delete the default `admin` account and add your own
 - In the CMS customize your emails / add logos
 - Change the default images in the `/images` folder
-- Change/customize the email template in `includes/templates/dc_invoice_template.tpl`
 - Setup a cronjob for `/cronjobs/dc_orderstatus.php`. This checks the order status from the supplier and updates the customer (e.g. if the order is shipped). Min: daily. Recommended: hourly.
 
