@@ -59,6 +59,7 @@ while($objStatus = $objDB->getObject($result2)) {
 
 	if ((isset($payment) && $payment->isPaid() == TRUE) || $objStatus->status == 'ready')
 	{
+
 	
 		$intPayMethodId = 1;
 		
@@ -85,7 +86,7 @@ while($objStatus = $objDB->getObject($result2)) {
 		$objCart = new Cart();
 		$objCart->setDatabaseObject($objDB);
 		$objCart->setCustomerId($objCustomer->customerId);
-		$resultCart = $objCart->getCart();
+		$resultCart = $objCart->getCartArchive($intOrderId);
 		$dblPriceTotal = 0;
 		
 		while($objCart = $objDB->getObject($resultCart)) {
@@ -143,17 +144,19 @@ while($objStatus = $objDB->getObject($result2)) {
 			WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
 		
-		// import order
-		$strJsonUrl = SITE_URL . 'beheer/dc_order_manage.php?action=export&uuid='.$intUuid.'&id='.$intOrderId;
+		// import order sent to supplier
+		$strJsonUrl = SITE_URL . '/beheer/dc_order_manage.php?action=export&uuid='.$intUuid.'&id='.$intOrderId;
 		$Order	= $Api->importOrder($strJsonUrl);
 		
 		$intExtOrderId = ($Order->orderId != '') ? $Order->orderId : 0;
 		
 		$strSQL = "UPDATE ".DB_PREFIX."customers_orders SET extOrderId = ".$intExtOrderId." WHERE orderId = ".$intOrderId;
 		$result = $objDB->sqlExecute($strSQL);
-		
+
+		// Empty the carts
 		$objDB->sqlDelete("cart","customerId",$objCustomer->customerId,'');
-		
+		$objDB->sqlDelete("cart_archive","orderId",$intOrderId,'');
+
 		// send order mail
 		sendMail('ordermail', $objCustomer->email, $objCustomer->firstname . ' ' . $objCustomer->lastname);
 					
@@ -163,7 +166,7 @@ while($objStatus = $objDB->getObject($result2)) {
 
 if(isset($_SESSION["customerId"])) {
 	// Only redirect if this page visited by customer
-	header("Location: dc_shoppingcart4.php?order_id=".$_GET["orderId"]);
+	header("Location: ".SITE_URL."/dc_shoppingcart4.php?order_id=".$_GET["orderId"]);
 }
 
 ?>

@@ -32,7 +32,7 @@ tfoot td {
 
 <!-- START INVOICE HEADER -->
 <htmlpageheader name="header">
-	<img src="{{ site_path }}/images/invoice-header.png" width="200" class="invoice-header" />
+	<img src="{{ logo }}" style="max-width:200px; max-height:80px;" class="invoice-header" />
 </htmlpageheader>
 <sethtmlpageheader name="header" value="on" show-this-page="1" />
 <!-- END INVOICE HEADER -->

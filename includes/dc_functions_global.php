@@ -209,7 +209,12 @@ function calculateProductPrice($objPrice, $productId = null, $quantity = null, $
 			$apiPrice = $objPrice->priceMSRP;
 		}
 		else {
-			$apiPrice = $objPrice->price;
+			if( is_object($objPrice)){
+				$apiPrice = $objPrice->price;
+
+			}else{
+				$apiPrice = $objPrice;
+			}
 		}
 
 		$priceOperators = json_decode(formOption('price_operators'));
@@ -648,6 +653,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
 		'address' => $objOrder->address.' '.$objOrder->houseNr,
 		'zipcode' => $objOrder->zipcode,
 		'city' => $objOrder->city,
+		'logo' => SITE_URL.'/images/logo/'.formOption('SITE_LOGO'),
 		'country' => $arrLanguages[$objOrder->lang],
 		'customer_nr' => str_pad($objOrder->custId,9,'0',STR_PAD_LEFT),
 		'invoice_nr' => str_pad($objOrder->orderId,9,'0',STR_PAD_LEFT),

@@ -232,7 +232,7 @@ $('#discountCodeSend').click(function(){
 			if(data.validationRequired == 1) {
 				
 				$('.discount_input').hide();
-				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');				
+				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
 				$('.discount_message').html(
 					'<div class="italic">Voor deze code is een controlecode vereist.<br/>Vul uw controlecode in die u heeft ontvangen.</div>' +
 					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?=$validationCode?>" />' +

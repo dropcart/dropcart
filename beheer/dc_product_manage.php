@@ -334,21 +334,25 @@ if (!empty($_GET['succes'])) {
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price (Purchase ex)</h4>
+		<small>Excl. BTW.</small>
 		<p class="list-group-item-text"><?php echo (isset($objPrice->pricePurchase) ) ? $objPrice->pricePurchase : '<i> niet beschikbaar</i>';?></p>
 	</a>
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price (Inktweb.nl)</h4>
+		<small>Incl. BTW.</small>
 		<p class="list-group-item-text"><?php echo $objPrice->price; ?></p>
 	</a>
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price (MSRP)</h4>
+		<small>Incl. BTW.</small>
 		<p class="list-group-item-text"><?php echo (isset($objPrice->priceMSRP)) ? $objPrice->priceMSRP : '<i> niet beschikbaar</i>'; ?></p>
 	</a>
 
 	<a class="list-group-item">
 		<h4 class="list-group-item-heading">Price <span class="label label-primary" title="De prijs die momenteel op de website staat.">LIVE</span></h4>
+		<small>Incl. BTW.</small>
 		<p class="list-group-item-text"><?php echo $strPrice; ?></p>
 	</a>
 </div><!-- /list-group -->

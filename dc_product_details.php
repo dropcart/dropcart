@@ -319,7 +319,7 @@ if (@!getimagesize($strProductImg)) {
 
 					$Product = $Api->getProduct($objProduct->id, '?fields=title');
 
-					echo '<li><a href="'.SITE_URL.'/product/'.$Product->getId().'/">'.$Product->getTitle().'</a></li>';
+					echo '<li><a href="'.SITE_URL.'/'.rewriteUrl( $Product->getCategorieTitle() ).'/'. rewriteUrl($Product->getTitle()) . '/'. $Product->getId().'/">'.$Product->getTitle().'</a></li>';
 
 				}
 				?>

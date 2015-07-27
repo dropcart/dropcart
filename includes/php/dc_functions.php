@@ -90,7 +90,11 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 	}
 	
 	$dblPriceTotalOld = $dblPriceTotal;
-	
+	$dblDiscountAmount = null;
+	$strDiscountAmount = null;
+	$dblDiscountOver = null;
+	$dblShippingcosts = null;
+
 	if($objCode->discountType == "price") {
 		
 		$dblPriceTotal = $dblPriceTotal - $objCode->discountValue;
@@ -119,7 +123,7 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 	
 	return array(
 		'dblDiscountAmount' => $dblDiscountAmount,
-		'strDiscountAmount' => $strDiscountAmount,
+		'strDiscountAmount' => '-'.$strDiscountAmount,
 		'dblDiscountOver' => $dblDiscountOver,
 		'dblPriceTotal' => $dblPriceTotal);
 	

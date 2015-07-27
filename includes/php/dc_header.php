@@ -141,7 +141,7 @@ if (!empty($canonical)) {
 					$image = SITE_URL.'/images/logo/'.$logo;
 				}
 			?>
-			<img src="<?php echo $image ?>" alt="Website logo" class="img-responsive"></a>
+			<img src="<?php echo $image ?>" alt="<?php echo formOption('SITE_NAME') ?>" class="img-responsive"></a>
 	</div><!-- /col logo -->
 
 	<div class="col-lg-5 col-md-6 col-sm-8 col-xs-12">
