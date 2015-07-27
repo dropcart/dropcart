@@ -22,21 +22,24 @@ $Api 			= new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 // GET vars
 $_GET 		= sanitize($_GET);
-$arrCategories 	= explode(',', $_GET['categories']);
-
-// if not set; check all categories from 0 to 100
-if (empty($_GET['categories'])) {
-	$arrCategories = range(0,100);
-}
+//$arrCategories 	= explode(',', $_GET['categories']);
+//
+//// if not set; check all categories from 0 to 100
+//if (empty($_GET['categories'])) {
+//	$arrCategories = range(0,100);
+//}
 
 // start product array
 $arrProducts 		= array();
+$resultCategories = $Api->getProductsByCategory(0);
 
+if( !isset($resultCategories->categories))
+	exit();
 // loop all categories
-foreach ($arrCategories as $intCategory) {
+foreach ($resultCategories->categories as $category) {
 	
 	// get all products for category
-	$arrApiProducts = $Api->getProductsByCategory($intCategory, '?limit=999999&offset=0');
+	$arrApiProducts = $Api->getProductsByCategory($category->id, '?limit=999999&offset=0');
 
     /* Dont go into the loop if there are no products */
     if( !(isset($arrApiProducts->products)))
@@ -53,7 +56,7 @@ foreach ($arrCategories as $intCategory) {
 			'Titel'			=> $product->title,
 			'Verzendkosten'	=> SITE_SHIPPING,
 			'Prijs'			=> calculateProductPrice($product->details[0], $product->id, '', false),
-			'URL'			=> SITE_URL.'product/'.$product->id.'/'
+			'URL'			=> SITE_URL.'/'.rewriteUrl($category->title).'/'.rewriteUrl($product->title).'/'.$product->id.'/'
 		);
 
 		$arrProducts[] = $arrProduct;
