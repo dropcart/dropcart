@@ -196,7 +196,7 @@ if (!empty($objContent->description)) {
 $categories = array();
 $result = $Api->getProductsByCategory(0);
 
-$sqlCustomText = "SELECT * FROM " . DB_PREFIX . "content_boilerplate";
+$sqlCustomText = "SELECT * FROM " . DB_PREFIX . "content_tags";
 $resultCustomText = $objDB->sqlExecute($sqlCustomText);
 
 $defaultsSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate  FROM " . DB_PREFIX . "content WHERE type = '1'
