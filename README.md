@@ -16,8 +16,6 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 (this list is incomplete)
 
 - PHP Version: **5.3.+**
-- PHP's [money_format()](http://php.net/manual/en/function.money-format.php)
-- PHP short_tags 
 - PHP [cURL](http://php.net/manual/en/book.curl.php) 
 
 ## Instructions
