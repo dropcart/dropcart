@@ -209,7 +209,12 @@ function calculateProductPrice($objPrice, $productId = null, $quantity = null, $
 			$apiPrice = $objPrice->priceMSRP;
 		}
 		else {
-			$apiPrice = $objPrice->price;
+			if( is_object($objPrice)){
+				$apiPrice = $objPrice->price;
+
+			}else{
+				$apiPrice = $objPrice;
+			}
 		}
 
 		$priceOperators = json_decode(formOption('price_operators'));

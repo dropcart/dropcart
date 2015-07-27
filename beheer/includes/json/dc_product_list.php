@@ -49,11 +49,12 @@ $i=0;
 
 while ($objProduct = $objDB->getObject($result)) {
 	
-	$Product = $Api->getProduct($objProduct->id, '?fields=title');
-
+	$Product = $Api->getProduct($objProduct->id, '?fields=title,price');
+	if( !is_object($Product) || ( isset($Product->errors) && !empty($Product->errors) ) )
+		continue;
 	$arrJson['details'][$i][]	= $Product->getId();
 	$arrJson['details'][$i][]	= $Product->getTitle();
-	$arrJson['details'][$i][]	= calculateProductPrice($objProduct->price, $objProduct->id);
+	$arrJson['details'][$i][]	= calculateProductPrice($Product->getPrice(), $objProduct->id);
 	$arrJson['details'][$i][]	= '<a href="'.SITE_URL.'/beheer/dc_product_manage.php?id='.$objProduct->id.'"><span class="glyphicon glyphicon-edit"></span></a>';
 	
 	$i++;
