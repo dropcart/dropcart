@@ -26,22 +26,22 @@
 			
 			if(!empty($product)) {
 				
-				$this->id			= (int)$product->id;
-				$this->ean			= (int)$product->ean;
-				$this->oem			= (string)$product->oem;
-				$this->brand			= (string)$product->brand;
-				$this->title			= (string)$product->title;
-				$this->price			= $product->price;
-				$this->priceEx			= $product->price->priceEx;
-				$this->taxRate			= $product->price->taxRate;
-				$this->shortDesc		= (string)$product->shortDesc;
-				$this->longDesc		= (string)$product->longDesc;
-				$this->specifications	= (object)$product->specifications;
-				$this->stock			= (string)$product->stock->value;
-				$this->url			= (string)$product->urls->product;
-				$this->images		= (object)$product->images;
-				$this->compatible		= (object)$product->compatible;
-				$this->categorie		= (object)$product->categorie;
+				$this->id				= (isset($product->id)) ? (int)$product->id : null;
+				$this->ean				= (isset($product->ean)) ? (int)$product->ean : null;
+				$this->oem				= (isset($product->oem)) ? (string)$product->oem : null;
+				$this->brand			= (isset($product->brand)) ? (string)$product->brand : null;
+				$this->title			= (isset($product->title)) ? (string)$product->title : null;
+				$this->price			= (isset($product->price)) ? $product->price : null;
+				$this->priceEx			= (isset($product->price->priceEx)) ? $product->price->priceEx : null;
+				$this->taxRate			= (isset($product->price->taxRate)) ? $product->price->taxRate : null;
+				$this->shortDesc		= (isset($product->shortDesc)) ? (string)$product->shortDesc : null;
+				$this->longDesc			= (isset($product->longDesc)) ? (string)$product->longDesc : null;
+				$this->specifications	= (isset($product->specifications)) ? (object)$product->specifications : null;
+				$this->stock			= (isset($product->stock->value)) ? (string)$product->stock->value : null;
+				$this->url				= (isset($product->urls->product)) ? (string)$product->urls->product :null;
+				$this->images			= (isset($product->images)) ? (object)$product->images : null;
+				$this->compatible		= (isset($product->compatible)) ? (object)$product->compatible : null;
+				$this->categorie		= (isset($product->categorie)) ? (object)$product->categorie : null;
 				
 			}
 			
