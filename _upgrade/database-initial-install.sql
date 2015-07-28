@@ -80,20 +80,20 @@ INSERT INTO `dc_content` (`id`, `type`, `name`, `label`, `value`, `description`,
 (27, 2, 'html_header_delivery', 'Delivery header tekst', 'Milieuvriendelijke manier van printen', '', 0, 0),
 (28, 2, 'page_delivery_info', 'Delivery popup tekst', '#### Snelle levering! ####\r\n\r\nWij streven ernaar uw bestelling zo snel mogelijk te laten bezorgen. Is het langer dan 4 werkdagen geleden dat uw bestelling is doorgegeven en heeft u de bestelling nog niet ontvangen, neemt u dan contact met ons op. Als deze periode korter is dan 4 werkdagen, verzoeken wij u vriendelijk om geduld. Het is namelijk mogelijk dat uw pakket binnen deze termijn alsnog bezorgd wordt. Ook is het mogelijk dat de bezorger uw bestelling heeft afgeleverd op het adres van buren. Hierom verzoeken wij u om bij uw buren of medebewoners navraag te doen.\r\n\r\nBij alle artikelen op onze webshop staat een indicatieve voorraad aangegeven. De meeste artikelen hebben wij ruim op voorraad. Voor de artikelen die niet direct op voorraad zijn, gelden andere levertijden. Deze levertijden kunt u bij ons informeren.', '', 1, 0),
 (41, 1, 'homepage_title', 'Homepage titel', 'Bestel cartridges en toner direct op [SITE_NAME].', '', 0, 1),
-(42, 1, 'homepage_meta_description', 'Homepage meta description', 'Cartiges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
+(42, 1, 'homepage_meta_description', 'Homepage meta description', 'Cartridges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
 (43, 1, 'category_title', 'Categorie titel', 'Bestel cartridges en toner direct op [SITE_NAME].', '', 0, 1),
-(44, 1, 'category_meta_description', 'Categorie meta description', 'Cartiges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
+(44, 1, 'category_meta_description', 'Categorie meta description', 'Cartridges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
 (45, 1, 'search_title', 'Zoeken titel', 'Bestel cartridges en toner direct op [SITE_NAME].', '', 0, 1),
-(46, 1, 'search_meta_description', 'Zoeken meta description', 'Cartiges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
+(46, 1, 'search_meta_description', 'Zoeken meta description', 'Cartridges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
 (47, 1, 'product_title', 'Product titel', '[PRODUCT_BRAND] [PRODUCT_OEM] [PRODUCT_SPEC_COLOR] ([PRODUCT_SPEC_TYPE]) - [SITE_NAME]', '', 0, 1),
 (48, 1, 'product_meta_description', 'Product meta description', 'Bestel de [PRODUCT_BRAND] [PRODUCT_OEM] [PRODUCT_SPEC_COLOR] ([PRODUCT_SPEC_TYPE]) bij [SITE_NAME]. Op voorraad is binnen 24 uur geleverd.', '', 0, 1),
 (49, 1, 'page_title', 'Content pagina titel', 'Bestel cartridges en toner direct op [SITE_NAME].', '', 0, 1),
-(50, 1, 'page_meta_description', 'Content pagina meta description', 'Cartiges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
+(50, 1, 'page_meta_description', 'Content pagina meta description', 'Cartridges of toners kopen? Bestel direct op [SITE_NAME]! Voor cartridges, inktpatronen, toners en printpapier.', '', 0, 1),
 (51, 1, 'printer_title', 'Printer titel', 'Cartridges voor de [PRINTER_TYPE]', '', 0, 1),
 (52, 1, 'printer_meta_description', 'Meta description voor printerpaginas', 'Producten geschikt voor de [PRINTER_BRAND] [PRINTER_TYPE]', '', 0, 1);
 
 --
--- Table structure for table `dc_content_boilerplate`
+-- Table structure for table `dc_content_tags`
 --
 
 CREATE TABLE IF NOT EXISTS `dc_content_tags` (
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `dc_content_tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `dc_content_boilerplate`
+-- Dumping data for table `dc_content_tags`
 --
 
 INSERT INTO `dc_content_tags` (`id`, `tag`, `desc`) VALUES
@@ -123,6 +123,22 @@ INSERT INTO `dc_content_tags` (`id`, `tag`, `desc`) VALUES
 (13, '[PRODUCT_SPEC_ML]', 'Specificatie: inhoud millimeters'),
 (14, '[PRODUCT_SPEC_PAGES]', 'Specificatie: inhoud aantal pagina''s'),
 (15, '[PRODUCT_SPEC_TYPE]', 'Specificatie: type product (e.g. Inkjet Cartridge)');
+
+--
+-- Table structure for table `dc_content_boilerplate`
+--
+
+CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `category_id` int(11) NOT NULL,
+  `category_title` text,
+  `category_desc` text,
+  `product_title` text,
+  `product_desc` text,
+  `parse_markdown` tinyint(4) NOT NULL DEFAULT '0',
+  `parse_boilerplate` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Table structure for table `dc_customers`
@@ -351,9 +367,8 @@ CREATE TABLE IF NOT EXISTS `dc_options` (
 
 INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (1, 'site_name', 'Dropcart Demo'),
-(2, 'site_url', 'http://www.dropcart.nl/'),
 (3, 'site_email', 'info@dropcart.nl'),
-(4, 'default_product_image', 'http://dropcart.nl/images/thumbnail.png'),
+(4, 'default_product_image', 'https://dropcart.nl/images/thumbnail.png'),
 (5, 'api_key', '- inktweb api key here -'),
 (6, 'zipcode_api_key', '- postcode.nl api key here -'),
 (7, 'zipcode_api_secret', '- postcode.nl secret key here -'),
@@ -366,7 +381,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (14, 'price_values', '["1.21"]'),
 (15, 'price_base', 'price'),
 (16, 'site_shipping', '5.95'),
-(17, 'dropcart_version', 'v1.6.2'),
+(17, 'dropcart_version', 'v1.7.0'),
 (18, 'email_bcc', 'bcc@dropcart.nl'),
 (19, 'site_email_template', 'includes/templates/dc_mail_template.html'),
 (20, 'tmp_path', 'tmp/'),
@@ -382,15 +397,15 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (30, 'update_build', 'stable'),
 (31, 'order_number_prefix', ''),
 (32, 'site_shipping_free_from', '0'),
-(33, 'site_street_name', 'Professor van der Waalstraat'),
+(33, 'site_street_name', 'Straatnaam'),
 (34, 'site_street_number', '2'),
 (35, 'site_street_number_addition', NULL),
-(36, 'site_postal_code', '1821 BT'),
-(37, 'site_city_name', 'Alkmaar'),
-(38, 'site_phone_number', '072-5675055'),
-(40, 'site_kvk', '60680326'),
-(41, 'site_btw', 'NL854012965B01'),
-(42, 'site_iban', 'NL77RABO0148966128'),
+(36, 'site_postal_code', '1000 AA'),
+(37, 'site_city_name', 'Duckstad'),
+(38, 'site_phone_number', '0123456789'),
+(40, 'site_kvk', '123456'),
+(41, 'site_btw', 'NLBTW'),
+(42, 'site_iban', 'NLIBAN'),
 (43, 'site_bic', 'RABONL2U');
 --
 -- Table structure for table `dc_pages_content`
@@ -453,10 +468,10 @@ CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Table structure for table `dc_content_boilerplate`
+-- Table structure for table `dc_content_tags`
 --
 
-CREATE TABLE IF NOT EXISTS `dc_content_boilerplate` (
+CREATE TABLE IF NOT EXISTS `dc_content_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `category_title` text,

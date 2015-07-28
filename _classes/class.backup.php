@@ -17,12 +17,10 @@ class Backup {
     private function getTablesArray() {
         //get all of the tables
         $tables = array();
-        if($this->tables == '*')
-        {
+        if ($this->tables == '*') {
             $result = $this->db->sqlExecute('SHOW TABLES');
 
-            while($row = $this->db->getArray($result))
-            {
+            while ($row = $this->db->getArray($result)) {
                 $tables[] = $row[0];
             }
         } else {
@@ -37,32 +35,28 @@ class Backup {
         $return = '';
         $tables = $this->getTablesArray();
         //cycle through
-        foreach($tables as $table)
-        {
-            $result = $this->db->sqlExecute('SELECT * FROM '.$table);
+        foreach ($tables as $table) {
+            $result = $this->db->sqlExecute('SELECT * FROM ' . $table);
             $num_fields = $result->field_count;
 
-            $return.= 'DROP TABLE '.$table.';';
-            $row2 = $this->db->getArray($this->db->sqlExecute('SHOW CREATE TABLE '.$table));
-            $return.= "\n\n".$row2[1].";\n\n";
+            $return .= 'DROP TABLE ' . $table . ';';
+            $row2 = $this->db->getArray($this->db->sqlExecute('SHOW CREATE TABLE ' . $table));
+            $return .= "\n\n" . $row2[1] . ";\n\n";
 
-            for ($i = 0; $i < $num_fields; $i++)
-            {
-                while($row = $this->db->getArray($result))
-                {
-                    $return.= 'INSERT INTO '.$table.' VALUES(';
-                    for($j=0; $j<$num_fields; $j++)
-                    {
+            for ($i = 0; $i < $num_fields; $i++) {
+                while ($row = $this->db->getArray($result)) {
+                    $return .= 'INSERT INTO ' . $table . ' VALUES(';
+                    for ($j = 0; $j < $num_fields; $j++) {
                         $row[$j] = addslashes($row[$j]);
-                        if (isset($row[$j])) { $return.= '"'.$row[$j].'"' ; } else { $return.= '""'; }
-                        if ($j<($num_fields-1)) { $return.= ','; }
+                        if (isset($row[$j])) {$return .= '"' . $row[$j] . '"';} else { $return .= '""';}
+                        if ($j < ($num_fields - 1)) {$return .= ',';}
                     }
-                    $return.= ");\n";
+                    $return .= ");\n";
                 }
             }
-            $return.="\n\n\n";
+            $return .= "\n\n\n";
         }
 
-        return  $return;
+        return $return;
     }
 }

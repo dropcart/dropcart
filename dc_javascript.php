@@ -2,25 +2,24 @@
 session_start();
 
 // Required includes
-require_once('includes/php/dc_connect.php');
-require_once('_classes/class.database.php');
+require_once 'includes/php/dc_connect.php';
+require_once '_classes/class.database.php';
 $objDB = new DB();
-require_once('includes/php/dc_config.php');
+require_once 'includes/php/dc_config.php';
 
 // Page specific includes
-require_once('_classes/class.cart.php');
-require_once('includes/php/dc_functions.php');
+require_once '_classes/class.cart.php';
+require_once 'includes/php/dc_functions.php';
 
 // Start API
-require_once('libraries/Api_Inktweb/API.class.php');
+require_once 'libraries/Api_Inktweb/API.class.php';
 
 // Set page title, meta
-$strPageTitle		= "Javscript aanzetten";
-$strMetaDescription	= "Hier vind je een korte uitleg over hoe javascript kan aanzetten in de browser.";
+$strPageTitle = "Javscript aanzetten";
+$strMetaDescription = "Hier vind je een korte uitleg over hoe javascript kan aanzetten in de browser.";
 
 // Start displaying HTML
-require_once('includes/php/dc_header.php');
-
+require_once 'includes/php/dc_header.php';
 
 ?>
 
