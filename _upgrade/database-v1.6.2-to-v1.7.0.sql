@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `dc_cart_archive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
+-- Rename current table
 RENAME TABLE `dc_content_boilerplate` TO `dc_content_tags` ;
 
 --
