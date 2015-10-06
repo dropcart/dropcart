@@ -32,10 +32,9 @@ function getSiteUrl() {
 
 
     /* Replace slaches for cross_platform */
-    //$path = str_replace('\\', '/', dirname(__FILE__));
+    $path = str_replace('\\', '/', dirname(__FILE__));
     /* Substract document root from absolute path */
-    //$path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', $path);
-    $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', dirname(__FILE__));
+    $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', $path);
 
     /* Remove the config dir from the path */
     $path = str_replace('/includes/php', '', $path);
