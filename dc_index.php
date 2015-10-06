@@ -5,8 +5,8 @@ session_start();
 require_once 'includes/php/dc_connect.php';
 require_once '_classes/class.database.php';
 $objDB = new DB();
-require_once 'includes/php/dc_config.php';
 echo 'blah';
+require_once 'includes/php/dc_config.php';
 
 // Page specific includes
 require_once '_classes/class.cart.php';
