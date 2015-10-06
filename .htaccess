@@ -1,7 +1,7 @@
 RewriteEngine On
 
 # Set index page
-# DirectoryIndex dc_index.php
+DirectoryIndex dc_index.php
 
 # Pretty URLs
 RewriteRule ^categorie/([0-9]+)/ dc_category.php?categoryId=$1	[QSA,L,NC]
