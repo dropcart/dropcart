@@ -22,9 +22,11 @@ function getSiteUrl() {
     $url = 'http';
 
     // Check if connection is secure
+    /*
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
         $url .= 's'; # so it becomes https
     }
+    */
 
     $url .= '://' . $_SERVER['SERVER_NAME'];
 
