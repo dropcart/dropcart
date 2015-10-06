@@ -79,7 +79,7 @@ while ($objOrder = $objDB->getObject($result)) {
     $arrJson['details'][$i][] = $name;
     $arrJson['details'][$i][] = $objOrder->extOrderId;
     $arrJson['details'][$i][] = $objOrder->items;
-    $arrJson['details'][$i][] = '€ ' . $objOrder->totalPrice;//money_format('%(#1n', $objOrder->totalPrice);
+    $arrJson['details'][$i][] = money_format('%(#1n', $objOrder->totalPrice);
     $arrJson['details'][$i][] = '<a href="' . SITE_URL . '/includes/pdf/dc_invoice.php?orderId=' . $objOrder->orderId . '"><span class="glyphicon glyphicon-file"></span></a>';
     $arrJson['details'][$i][] = '<a href="' . SITE_URL . '/beheer/dc_order_manage.php?id=' . $objOrder->orderId . '&action=view"><span class="glyphicon glyphicon-edit"></span></a>';
 
