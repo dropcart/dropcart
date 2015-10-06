@@ -49,7 +49,7 @@ Turn on or off developer mode:
 Enables all errors
  */
 
-define('DEV_MODE', false); # NEVER change this value in production environment
+define('DEV_MODE', true); # NEVER change this value in production environment
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 define('SITE_URL', getSiteUrl()); // ends in a slash
 
