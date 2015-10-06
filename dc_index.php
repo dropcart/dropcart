@@ -3,8 +3,9 @@ session_start();
 
 // Required includes
 require_once 'includes/php/dc_connect.php';
-echo 'blah';
+
 require_once '_classes/class.database.php';
+echo 'blah';
 $objDB = new DB();
 require_once 'includes/php/dc_config.php';
 
