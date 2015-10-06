@@ -10,7 +10,7 @@ function formOption($optionName) {
 
     $optionName = strtolower($optionName);
 
-    $strSQL = "SELECT optionValue FROM dc_options WHERE optionName = '" . $optionName . "' ";
+    $strSQL = "SELECT optionValue FROM " . DB_PREFIX . "options WHERE optionName = '" . $optionName . "' ";
     $result = $objDB->sqlExecute($strSQL);
     list($optionValue) = $objDB->getRow($result);
 
@@ -77,10 +77,11 @@ define('MOLLIE_API_KEY', formOption('MOLLIE_API_KEY'));
 define('ZIPCODE_API_KEY', formOption('ZIPCODE_API_KEY'));
 define('ZIPCODE_API_SECRET', formOption('ZIPCODE_API_SECRET'));
 
-//setlocale(LC_MONETARY, formOption('LC_MONETARY'));
+setlocale(LC_MONETARY, formOption('LC_MONETARY'));
 
 if (DEV_MODE == true) {
     error_reporting(-1);
+    ini_set('display_errors', "on");
 } else {
     // Turn off all error reporting
     error_reporting(0);
