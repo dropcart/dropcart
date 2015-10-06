@@ -85,6 +85,7 @@ if (DEV_MODE == true) {
 } else {
     // Turn off all error reporting
     error_reporting(0);
+    ini_set('display_errors', "off");
 }
 
 ?>
