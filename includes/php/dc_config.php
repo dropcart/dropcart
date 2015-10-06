@@ -77,7 +77,7 @@ define('MOLLIE_API_KEY', formOption('MOLLIE_API_KEY'));
 define('ZIPCODE_API_KEY', formOption('ZIPCODE_API_KEY'));
 define('ZIPCODE_API_SECRET', formOption('ZIPCODE_API_SECRET'));
 
-setlocale(LC_MONETARY, formOption('LC_MONETARY'));
+//setlocale(LC_MONETARY, formOption('LC_MONETARY'));
 
 if (DEV_MODE == true) {
     error_reporting(-1);
