@@ -17,7 +17,7 @@ require_once 'libraries/Api_Inktweb/API.class.php';
 
 // Mollie Payment API
 $mollie = new Mollie_API_Client;
-$mollie->setApiKey(MOLLIE_API_KEY);
+//$mollie->setApiKey(MOLLIE_API_KEY);
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
@@ -26,7 +26,7 @@ $intSessionId = session_id();
 $intCustomerId = (isset($_SESSION["customerId"])) ? $_SESSION["customerId"] : 0;
 
 //opening database
-$objDB = new DB();
+//$objDB = new DB();
 
 $objCart = new Cart();
 $objCart->setDatabaseObject($objDB);
@@ -166,10 +166,10 @@ require_once 'includes/php/dc_header.php';
 <div class="row">
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
-            <li class=""><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-            <li class=""><a href="<?php SITE_URL?>/dc_shoppingcart2.php"><strong>Stap 2)</strong> Gegevens</a></li>
-            <li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart3.php"><strong>Stap 3)</strong> Betaling</a></li>
-            <li class="disabled"><a href="<?php SITE_URL?>/dc_shoppingcart4.php"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart2.php"><strong>Stap 2)</strong> Gegevens</a></li>
+            <li class="active"><a href="<?php echo SITE_URL?>/dc_shoppingcart3.php"><strong>Stap 3)</strong> Betaling</a></li>
+            <li class="disabled"><a href="<?php echo SITE_URL?>/dc_shoppingcart4.php"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
         </ul>
     </div><!-- /col -->
 </div><!-- /row -->
@@ -182,7 +182,7 @@ require_once 'includes/php/dc_header.php';
     <legend>Klopt alles?</legend>
 
     <?php
-$strSQL = "SELECT ca_invoice.*, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, c.email, c.id as customerId FROM " . DB_PREFIX . "customers c " .
+$strSQL = "SELECT ca_invoice.*, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.company as delCompany, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, c.email, c.id as customerId FROM " . DB_PREFIX . "customers c " .
 "INNER JOIN " . DB_PREFIX . "customers_addresses ca_invoice ON ca_invoice.custId = c.id AND ca_invoice.defaultInv = 1 " .
 "INNER JOIN " . DB_PREFIX . "customers_addresses ca_delivery ON ca_delivery.custId = c.id AND ca_delivery.defaultDel = 1 " .
 "WHERE c.id = " . $intCustomerId;
