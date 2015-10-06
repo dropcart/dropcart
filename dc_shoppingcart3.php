@@ -17,7 +17,7 @@ require_once 'libraries/Api_Inktweb/API.class.php';
 
 // Mollie Payment API
 $mollie = new Mollie_API_Client;
-//$mollie->setApiKey(MOLLIE_API_KEY);
+$mollie->setApiKey(MOLLIE_API_KEY);
 
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);

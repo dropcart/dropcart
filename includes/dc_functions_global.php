@@ -623,7 +623,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
         $objDetails->price = number_format(round($objDetails->price * $objDetails->tax, 2), 2, ',', ' ');
         $objDetails->priceEx = number_format($objDetails->price, 2, ',', ' ');
 
-        $dblTotalEx += $objDetails->price * $objDetails->quantity;
+        //$dblTotalEx += $objDetails->price * $objDetails->quantity;
         $details[] = $objDetails;
     }
 
