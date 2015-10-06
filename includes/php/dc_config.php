@@ -27,7 +27,7 @@ function getSiteUrl() {
         $url .= 's'; # so it becomes https
     }
     */
-    echo $_SERVER['SERVER_NAME'];
+    return $_SERVER['SERVER_NAME'];
 
     $url .= '://' . $_SERVER['SERVER_NAME'];
 
