@@ -47,6 +47,7 @@ if (!empty($_POST)) {
     // Invoice address details
     $strFirstname = $_POST["firstname"];
     $strLastname = $_POST["lastname"];
+    $strCompany = $_POST["company"];
     $strAddress = $_POST["address"];
     $strHouseNr = $_POST["houseNr"];
     $strHouseNrAdd = $_POST["houseNrAdd"];
@@ -61,6 +62,7 @@ if (!empty($_POST)) {
         $intInvoiceDelivery = 0; // Invoice != Delivery address
         $strDelFirstname = $_POST["delFirstname"];
         $strDelLastname = $_POST["delLastname"];
+        $strDelCompany = $_POST["delCompany"];
         $strDelAddress = $_POST["delAddress"];
         $strDelHouseNr = $_POST["delHouseNr"];
         $strDelHouseNrAdd = $_POST["delHouseNrAdd"];
@@ -91,7 +93,7 @@ if (!empty($_POST)) {
 
             list($intCustomerId) = $objDB->getRow($result);
 
-            $strSQL = "UPDATE " . DB_PREFIX . "customers SET firstname = '" . $strFirstname . "', lastname = '" . $strLastname . "', password = '" . $hashAndSalt . "' WHERE id = " . $intCustomerId;
+            $strSQL = "UPDATE " . DB_PREFIX . "customers SET firstname = '" . $strFirstname . "', lastname = '" . $strLastname . "', company = '" . $strCompany . "', password = '" . $hashAndSalt . "' WHERE id = " . $intCustomerId;
             $result = $objDB->sqlExecute($strSQL);
 
             // Check if address exists in database
@@ -109,7 +111,7 @@ if (!empty($_POST)) {
         } else {
             // Create new customer
 
-            $strSQL = "INSERT INTO " . DB_PREFIX . "customers (`entryDate`, `firstname`, `lastname`, `email`, `password`) VALUES (NOW(), '" . $strFirstname . "', '" . $strLastname . "', '" . $strEmail . "', '" . $hashAndSalt . "')";
+            $strSQL = "INSERT INTO " . DB_PREFIX . "customers (`entryDate`, `firstname`, `lastname`, `company`, `email`, `password`) VALUES (NOW(), '" . $strFirstname . "', '" . $strLastname . "', '" . $strCompany . "', '" . $strEmail . "', '" . $hashAndSalt . "')";
             $result = $objDB->sqlExecute($strSQL);
             $intCustomerId = $objDB->getInsertedId();
 
@@ -130,8 +132,8 @@ if (!empty($_POST)) {
 
             }
 
-            $strSQL = "INSERT INTO " . DB_PREFIX . "customers_addresses (`custId`, `entryDate`, `defaultInv`, `defaultDel`, `firstname`, `lastname`, `address`, `houseNr`, `houseNrAdd`, `zipcode`, `city`, `lang`, `online`) VALUES " .
-            "(" . $intCustomerId . ", NOW(), 1, " . $intInvoiceDelivery . ", '" . $strFirstname . "', '" . $strLastname . "', '" . $strAddress . "', '" . $strHouseNr . "', '" . $strHouseNrAdd . "', '" . $strZipcode . "', '" . $strCity . "', '" . $strLang . "', 1)";
+            $strSQL = "INSERT INTO " . DB_PREFIX . "customers_addresses (`custId`, `entryDate`, `defaultInv`, `defaultDel`, `firstname`, `lastname`, `company`, `address`, `houseNr`, `houseNrAdd`, `zipcode`, `city`, `lang`, `online`) VALUES " .
+            "(" . $intCustomerId . ", NOW(), 1, " . $intInvoiceDelivery . ", '" . $strFirstname . "', '" . $strLastname . "', '" . $strCompany . "', '" . $strAddress . "', '" . $strHouseNr . "', '" . $strHouseNrAdd . "', '" . $strZipcode . "', '" . $strCity . "', '" . $strLang . "', 1)";
             $result = $objDB->sqlExecute($strSQL);
             $intAddressId = $objDB->getInsertedId();
 
@@ -163,8 +165,8 @@ if (!empty($_POST)) {
             $strSQL = "UPDATE " . DB_PREFIX . "customers_addresses SET `defaultDel` = 0 WHERE `defaultDel` = 1 AND custId = " . $intCustomerId;
             $result = $objDB->sqlExecute($strSQL);
 
-            $strSQL = "INSERT INTO " . DB_PREFIX . "customers_addresses (`custId`, `entryDate`, `defaultInv`, `defaultDel`, `firstname`, `lastname`, `address`, `houseNr`, `houseNrAdd`, `zipcode`, `city`, `lang`, `online`) VALUES " .
-            "(" . $intCustomerId . ", NOW(), 0, 1, '" . $strDelFirstname . "', '" . $strDelLastname . "', '" . $strDelAddress . "', '" . $strDelHouseNr . "', '" . $strDelHouseNrAdd . "', '" . $strDelZipcode . "', '" . $strDelCity . "', '" . $strDelLang . "', 1)";
+            $strSQL = "INSERT INTO " . DB_PREFIX . "customers_addresses (`custId`, `entryDate`, `defaultInv`, `defaultDel`, `firstname`, `lastname`, `company`,  `address`, `houseNr`, `houseNrAdd`, `zipcode`, `city`, `lang`, `online`) VALUES " .
+            "(" . $intCustomerId . ", NOW(), 0, 1, '" . $strDelFirstname . "', '" . $strDelLastname . "', '" . $strDelCompany . "', '" . $strDelAddress . "', '" . $strDelHouseNr . "', '" . $strDelHouseNrAdd . "', '" . $strDelZipcode . "', '" . $strDelCity . "', '" . $strDelLang . "', 1)";
             $result = $objDB->sqlExecute($strSQL);
             $intAddressId = $objDB->getInsertedId();
 
@@ -196,7 +198,7 @@ if ($intCartItems == 0) {
 
 if (!empty($_SESSION["customerId"])) {
 
-    $strSQL = "SELECT ca_invoice.*, ca_invoice.id as invoiceAddressId, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, ca_delivery.id as deliveryAddressId, c.email FROM " . DB_PREFIX . "customers c " .
+    $strSQL = "SELECT ca_invoice.*, ca_invoice.id as invoiceAddressId, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.company as delCompany, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, ca_delivery.id as deliveryAddressId, c.email FROM " . DB_PREFIX . "customers c " .
     "INNER JOIN " . DB_PREFIX . "customers_addresses ca_invoice ON ca_invoice.custId = c.id AND ca_invoice.defaultInv = 1 " .
     "INNER JOIN " . DB_PREFIX . "customers_addresses ca_delivery ON ca_delivery.custId = c.id AND ca_delivery.defaultDel = 1 " .
     "WHERE c.id = " . $_SESSION["customerId"];
@@ -205,6 +207,7 @@ if (!empty($_SESSION["customerId"])) {
 
     $strFirstname = $objCustomer->firstname;
     $strLastname = $objCustomer->lastname;
+    $strCompany = $objCustomer->company;
     $strAddress = $objCustomer->address;
     $strHouseNr = $objCustomer->houseNr;
     $strHouseNrAdd = $objCustomer->houseNrAdd;
@@ -219,6 +222,7 @@ if (!empty($_SESSION["customerId"])) {
         $intDelivery = 1;
         $strDelFirstname = $objCustomer->delFirstname;
         $strDelLastname = $objCustomer->delLastname;
+        $strDelCompany = $objCustomer->delCompany;
         $strDelAddress = $objCustomer->delAddress;
         $strDelHouseNr = $objCustomer->delHouseNr;
         $strDelHouseNrAdd = $objCustomer->delHouseNrAdd;
@@ -299,6 +303,13 @@ require_once 'includes/php/dc_header.php';
             <p class="help-block">Vul hier een veilig wachtwoord in zodat u achteraf de status van uw bestelling kunt volgen.</p>
         </div><!-- /col -->
     </div><!-- /form-group -->
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for"textinput">Bedrijfsnaam</label>
+        <div class="col-sm-10">
+            <input type="text" placeholder="" class="form-control" name="company" value="<?php echo $strCompany; ?>" data-bv-notempty="false">
+        </div><!-- /col -->
+    </div><!-- /from-group -->
 
     <hr />
 
@@ -392,6 +403,13 @@ require_once 'includes/php/dc_header.php';
                         <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
+
+                 <div class="form-group">
+                    <label class="col-sm-2 control-label" for"textinput">Bedrijfsnaam</label>
+                    <div class="col-sm-10">
+                        <input type="text" placeholder="" class="form-control" name="delCompany" value="<?php echo $strDelCompany; ?>" data-bv-notempty="false">
+                    </div><!-- /col -->
+                </div><!-- /from-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Postcode</label>
