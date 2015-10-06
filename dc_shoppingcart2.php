@@ -23,6 +23,7 @@ $customerId = (isset($_SESSION["customerId"])) ? $_SESSION["customerId"] : null;
 
 $strFirstname = null;
 $strLastname = null;
+$strCompany = null;
 $strAddress = null;
 $strHouseNr = null;
 $strHouseNrAdd = null;
@@ -32,6 +33,7 @@ $strLang = null;
 $strEmail = null;
 $strDelFirstname = null;
 $strDelLastname = null;
+$strDelCompany = null;
 $strDelZipcode = null;
 $strDelLang = null;
 $strDelHouseNr = null;
