@@ -10,7 +10,7 @@ function formOption($optionName) {
 
     $optionName = strtolower($optionName);
 
-    $strSQL = "SELECT optionValue FROM " . DB_PREFIX . "options WHERE optionName = '" . $optionName . "' ";
+    $strSQL = "SELECT optionValue FROM dc_options WHERE optionName = '" . $optionName . "' ";
     $result = $objDB->sqlExecute($strSQL);
     list($optionValue) = $objDB->getRow($result);
 
@@ -50,7 +50,7 @@ Enables all errors
  */
 
 define('DEV_MODE', true); # NEVER change this value in production environment
-//define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
+define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 define('SITE_URL', getSiteUrl()); // ends in a slash
 
 /*
@@ -62,22 +62,22 @@ http://php.net/manual/en/function.dirname.php
 
  */
 define('SITE_PATH', dirname(dirname(dirname(__FILE__))) . "/");
-//define('SITE_NAME', formOption('SITE_NAME'));
-//define('SITE_SHIPPING', formOption('SITE_SHIPPING'));
-//define('SITE_EMAIL_TEMPLATE', SITE_PATH . formOption('SITE_EMAIL_TEMPLATE'));
-//define('TMP_PATH', SITE_PATH . formOption('TMP_PATH'));
+define('SITE_NAME', formOption('SITE_NAME'));
+define('SITE_SHIPPING', formOption('SITE_SHIPPING'));
+define('SITE_EMAIL_TEMPLATE', SITE_PATH . formOption('SITE_EMAIL_TEMPLATE'));
+define('TMP_PATH', SITE_PATH . formOption('TMP_PATH'));
 
-//define('API_KEY', formOption('API_KEY'));
-//define('API_TEST', filter_var(formOption('API_TEST'), FILTER_VALIDATE_BOOLEAN));
-//define('API_DEBUG', filter_var(formOption('API_DEBUG'), FILTER_VALIDATE_BOOLEAN));
-//define('API_RESTRICT', formOption('API_RESTRICT'));
-//define('MAXIMUM_PAGE_PRODUCTS', formOption('MAXIMUM_PAGE_PRODUCTS')); // increment of 4 works best
-//define('DEFAULT_PRODUCT_IMAGE', formOption('DEFAULT_PRODUCT_IMAGE'));
-//define('MOLLIE_API_KEY', formOption('MOLLIE_API_KEY'));
-//define('ZIPCODE_API_KEY', formOption('ZIPCODE_API_KEY'));
-//define('ZIPCODE_API_SECRET', formOption('ZIPCODE_API_SECRET'));
+define('API_KEY', formOption('API_KEY'));
+define('API_TEST', filter_var(formOption('API_TEST'), FILTER_VALIDATE_BOOLEAN));
+define('API_DEBUG', filter_var(formOption('API_DEBUG'), FILTER_VALIDATE_BOOLEAN));
+define('API_RESTRICT', formOption('API_RESTRICT'));
+define('MAXIMUM_PAGE_PRODUCTS', formOption('MAXIMUM_PAGE_PRODUCTS')); // increment of 4 works best
+define('DEFAULT_PRODUCT_IMAGE', formOption('DEFAULT_PRODUCT_IMAGE'));
+define('MOLLIE_API_KEY', formOption('MOLLIE_API_KEY'));
+define('ZIPCODE_API_KEY', formOption('ZIPCODE_API_KEY'));
+define('ZIPCODE_API_SECRET', formOption('ZIPCODE_API_SECRET'));
 
-//setlocale(LC_MONETARY, formOption('LC_MONETARY'));
+setlocale(LC_MONETARY, formOption('LC_MONETARY'));
 
 if (DEV_MODE == true) {
     error_reporting(-1);
