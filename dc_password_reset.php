@@ -47,7 +47,7 @@ if (!empty($strTokenGet) AND !empty($strEmail)) {
         header('Location: ' . SITE_URL . '/dc_profile_edit.php');
 
     } else {
-        header('Location: ?fail=' . urlencode('De link is niet geldig.'));
+        header('Location: ?fail=' . urlencode($text['LINK_EXPIRED']));
     }
 
     // user should have been redirected by now
@@ -74,10 +74,10 @@ if (!empty($strEmail)) {
             'LOGIN_LINK' => $strLoginLink,
         ));
 
-        header('Location: ?success=' . urlencode('Een email met een link om het wachtwoord te resetten is onderweg.'));
+        header('Location: ?success=' . urlencode($text['LINK_SEND']));
     } else {
         // email not found
-        header('Location: ?fail=' . urlencode('Onder dit emailadres is geen account aanwezig.'));
+        header('Location: ?fail=' . urlencode($text['NO_ACCOUNT']));
     }
 
 }
@@ -92,34 +92,34 @@ require_once 'includes/php/dc_header.php';
     <?php
 
 if (isset($_GET['success'])) {
-    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> ' . $_GET['success'] . '</div>';
+    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' . $text['SUCCESS'] . '</strong> ' . $_GET['success'] . '</div>';
 }
 
 if (isset($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>'. $text['ERROR'] . '</strong> ' . $_GET['fail'] . '</div>';
 }
 ?>
 
     <form role="form" method="post">
         <fieldset>
-        <h2>Wachtwoord vergeten?</h2>
+        <h2><?php echo $text['FORGOT_PASSWORD']; ?></h2>
 
-        <p>Vul hieronder uw emailadres in en wij zullen u een link toesturen om uw wachtwoord te resetten.</p>
+        <p><?php echo $text['PASS_RESET_CONTENT']; ?></p>
 
         <hr class="colorgraph">
 
         <div class="form-group">
-            <input type="email" name="email_forgot" id="email_forgot" class="form-control input-lg" placeholder="Email">
+            <input type="email" name="email_forgot" id="email_forgot" class="form-control input-lg" placeholder="<?php echo $text['INPUT_EMAIL']; ?>">
         </div><!-- /form-group -->
 
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
-                <input type="submit" class="btn btn-lg btn-success btn-block" value="Wachtwoord resetten">
+                <input type="submit" class="btn btn-lg btn-success btn-block" value="<?php echo $text['PASS_RESET_BUTTON']; ?>">
             </div><!-- /col -->
         </div><!-- /row -->
 
         <span class="button-checkbox">
-            <a href="<?php echo SITE_URL?>/dc_login.php" class="btn btn-link pull-right">Wacht, ik weet het weer!</a>
+            <a href="<?php echo SITE_URL?>/dc_login.php" class="btn btn-link pull-right"><?php echo $text['PASS_RESET_BACK']; ?></a>
         </span><!-- /button-checkbox -->
 
         </fieldset>

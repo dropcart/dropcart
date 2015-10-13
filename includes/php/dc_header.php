@@ -124,7 +124,7 @@ echo ' - ' . formOption('SITE_NAME')?></title>
     <nav class="navbar navbar-right header-nav" role="navigation">
         <ul class="nav navbar-nav">
             <li><a href="<?php echo SITE_URL?>/dc_login.php"><?php echo $text['ACCOUNT']; ?></a></li>
-            <li><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><?php echo $text['BASKET']; ?></a></li>
+            <li><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><?php echo $text['SHOPPING_CART']; ?></a></li>
         </ul><!-- /navbar -->
     </nav><!-- /nav -->
 </div><!-- /col -->
@@ -161,7 +161,7 @@ echo ' - ' . formOption('SITE_NAME')?></title>
 
     <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
         <div id="cart">
-            <h3><span class="glyphicon glyphicon-shopping-cart"></span> <?php echo $text['BASKET']; ?></h3>
+            <h3><span class="glyphicon glyphicon-shopping-cart"></span> <?php echo $text['SHOPPING_CART']; ?></h3>
             <a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> <?php echo $text['ARTICLES']; ?> - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
         </div><!-- /cart -->
 

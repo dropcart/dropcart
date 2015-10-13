@@ -14,7 +14,7 @@ if (!empty($smallSelector)) {
 ?>
 <div class="row">
     <div class="col-md-4">
-        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['BRAND'] . " <small>" . $text['STEP'] . " 1</small></" . $h . ">"; ?>
+        <?php echo "<" . $h . ">" . ucfirst($text['SELECT']) . " " . $text['BRAND'] . " <small>" . $text['STEP'] . " 1</small></" . $h . ">"; ?>
 
         <select id="printerBrandSelect" name="printerBrand" <?php echo 'size="' . $size . '"';?> class="form-control stap1">
             <?php
@@ -28,13 +28,13 @@ if (!empty($smallSelector)) {
     </div><!-- /col -->
 
     <div class="col-md-4">
-        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['TYPE'] . " <small>" . $text['STEP'] . " 2</small></" . $h . ">"; ?>
+        <?php echo "<" . $h . ">" . ucfirst($text['SELECT']) . " " . $text['TYPE'] . " <small>" . $text['STEP'] . " 2</small></" . $h . ">"; ?>
         <select id="printerSerieSelect" name="printerSerie" <?php echo 'size="' . $size . '"';?> class="form-control stap2" disabled>
         </select>
     </div><!-- /col -->
 
     <div class="col-md-4">
-        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['MODEL'] . " <small>" . $text['STEP'] . " 3</small></" . $h . ">"; ?>
+        <?php echo "<" . $h . ">" . ucfirst($text['SELECT']) . " " . $text['MODEL'] . " <small>" . $text['STEP'] . " 3</small></" . $h . ">"; ?>
         <select id="printerTypeSelect" name="printerType" <?php echo 'size="' . $size . '"';?> class="form-control stap3" disabled>
         </select>
     </div><!-- /col -->

@@ -57,10 +57,10 @@ $intTotalProducts = (isset($arrProducts->itemsTotal)) ? $arrProducts->itemsTotal
 $intPages = ($intTotalProducts != 0) ? ceil($intTotalProducts / MAXIMUM_PAGE_PRODUCTS) : 0;
 
 $arrSortOptions = array(
-    'salesDesc' => 'Populair',
-    'priceAsc' => 'Laagste prijs',
-    'priceDesc' => 'Hoogste prijs',
-    'titleAsc' => 'Titel A-Z',
+    'salesDesc' => $text['SORT_SALES_DESC'],
+    'priceAsc' => $text['SORT_PRICE_ASC'],
+    'priceDesc' => $text['SORT_PRICE_DESC'],
+    'titleAsc' => $text['SORT_TITLE_ASC'],
 );
 
 $arrBrandOptions = array(
@@ -82,7 +82,7 @@ $arrBrandOptions = array(
         <div class="well well-small">
             <ul class="nav nav-list">
             <form method="post" id="form-brand">
-                <li class="nav-header">Geschikt voor</li>
+                <li class="nav-header"><?php echo $text['SUITABLE']; ?></li>
                 <label class="sr-only"><input type="hidden" name="brands[]" value="" checked /></label>
                 <?php
 foreach ($arrBrandOptions AS $brandKey => $brandValue) {
@@ -104,7 +104,7 @@ foreach ($arrBrandOptions AS $brandKey => $brandValue) {
     </div><!-- /col -->
 
     <div class="col-md-9 cat">
-        <h1>Resultaten voor: <em>&#8220;<?=$strQuery?>&#8221;</em></h1>
+        <h1><?php echo $text['SEARCH_RESULTS']; ?>: <em>&#8220;<?=$strQuery?>&#8221;</em></h1>
 
         <div class="row">
 
@@ -140,7 +140,7 @@ if (isset($arrProducts->products) && count($arrProducts->products) > 0) {
 }
 
 } else {
-    echo "<p>Geen resultaten gevonden. Probeer uw zoekterm te verfijnen,</p>";
+    echo "<p>" . $text['NO_SEARCH_RESULTS'] . "</p>";
 }
 ?>
 
