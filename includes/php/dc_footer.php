@@ -19,7 +19,7 @@
             }
 
             ?>
-            <a href="#">Omhoog</a>
+            <a href="#"><?php echo $text['BACK_TO_TOP']; ?></a>
         </p>
         </div><!-- /col -->
         <div class="col-xs-12 powered-by">

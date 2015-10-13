@@ -14,7 +14,7 @@ if (!empty($smallSelector)) {
 ?>
 <div class="row">
     <div class="col-md-4">
-        <<?php echo $h;?>>Selecteer merk <small>Stap 1</small></<?php echo $h;?>>
+        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['BRAND'] . " <small>" . $text['STEP'] . " 1</small></" . $h . ">"; ?>
 
         <select id="printerBrandSelect" name="printerBrand" <?php echo 'size="' . $size . '"';?> class="form-control stap1">
             <?php
@@ -28,13 +28,13 @@ if (!empty($smallSelector)) {
     </div><!-- /col -->
 
     <div class="col-md-4">
-        <<?php echo $h;?>>Selecteer type <small>Stap 2</small></<?php echo $h;?>>
+        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['TYPE'] . " <small>" . $text['STEP'] . " 2</small></" . $h . ">"; ?>
         <select id="printerSerieSelect" name="printerSerie" <?php echo 'size="' . $size . '"';?> class="form-control stap2" disabled>
         </select>
     </div><!-- /col -->
 
     <div class="col-md-4">
-        <<?php echo $h;?>>Selecteer model <small>Stap 3</small></<?php echo $h;?>>
+        <?php echo "<" . $h . ">" . $text['SELECT'] . " " . $text['MODEL'] . " <small>" . $text['STEP'] . " 3</small></" . $h . ">"; ?>
         <select id="printerTypeSelect" name="printerType" <?php echo 'size="' . $size . '"';?> class="form-control stap3" disabled>
         </select>
     </div><!-- /col -->
@@ -45,7 +45,7 @@ if (!empty($smallSelector)) {
 <div class="row">
     <div class="col-md-12">
         <br />
-        <a disabled href="#" class="btn <?php echo $btn;?> btn-primary pull-right submit-btn">Toon mijn cartridges</a>
+        <a disabled href="#" class="btn <?php echo $btn;?> btn-primary pull-right submit-btn"><?php echo $text['SHOW_CARTRIDGES']; ?></a>
     </div><!-- /col-->
 </div><!-- /row -->
 

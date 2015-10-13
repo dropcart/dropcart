@@ -44,6 +44,22 @@ function getSiteUrl() {
     return $url;
 }
 
+/**
+* Function to check the client language versus supported languages
+* @param string clientLangHeader
+* @return string clientLang
+*/
+function checkClientLang($clientLangHeader) {
+    $langSupport = array('nl', 'en', 'de', 'fr');
+    $clientLang = substr($clientLangHeader, 0, 2);
+
+    if(in_array($clientLang, $langSupport)) {
+        return $clientLang;
+    } else {
+        return 'en';
+    }
+}
+
 /*
 Turn on or off developer mode:
 Enables all errors
@@ -52,6 +68,9 @@ Enables all errors
 define('DEV_MODE', true); # NEVER change this value in production environment
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 define('SITE_URL', getSiteUrl()); // ends in a slash
+
+// Get language from client
+define('LANG', checkClientLang($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 
 /*
 Get the absolute path of the dropcart installation.
