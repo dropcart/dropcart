@@ -242,8 +242,8 @@ require_once 'includes/php/dc_header.php';
 <div class="row">
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
-            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-            <li class="active"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
+            <li class=""><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong><?php echo $text['STEP']; ?> 1)</strong> <?php echo $text['SHOPPING_BASKET']; ?></a></li>
+            <li class="active"><a href="#"><strong><?php echo $text['STEP']; ?> 2)</strong> <?php echo $text['SHOPPING_DATA']; ?></a></li>
             <li class="<?php if (empty($_SESSION["customerId"])) {
     echo 'disabled';
 }
@@ -252,8 +252,8 @@ require_once 'includes/php/dc_header.php';
 } else {
     '#';
 }
-?>"><strong>Stap 3)</strong> Betaling</a></li>
-            <li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+?>"><strong><?php echo $text['STEP']; ?> 3)</strong> <?php echo $text['SHOPPING_PAYMENT']; ?></a></li>
+            <li class="disabled"><a href="#"><strong><?php echo $text['STEP']; ?> 4)</strong> <?php echo $text['ORDER_PLACED']; ?></a></li>
         </ul>
     </div><!-- /col -->
 </div><!-- /row -->
@@ -262,52 +262,52 @@ require_once 'includes/php/dc_header.php';
 <div class="col-md-8 col-md-offset-2">
 <form class="form-horizontal registerForm" role="form" method="post">
     <fieldset>
-    <legend>Waar mogen wij uw bestelling naar toezenden?</legend>
+    <legend><?php echo $text['WHER_TO_SEND']; ?></legend>
 
     <?php if (isset($intError) && $intError == 1) {
-    echo '<p>U heeft niet alle verplichte velden ingevuld.</p>';
+    echo '<p>' . $text['REQUIREMENTS_NOT_MET'] . '</p>';
 }
 ?>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Voornaam</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['FIRST_NAME']; ?></label>
         <div class="col-sm-10">
             <input type="text" placeholder="" class="form-control" name="firstname" value="<?php echo $strFirstname;?>" data-bv-notempty="true">
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Achternaam</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['LAST_NAME']; ?></label>
         <div class="col-sm-10">
             <input type="text" placeholder="" class="form-control" name="lastname" value="<?php echo $strLastname;?>" data-bv-notempty="true">
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">E-mailadres</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['EMAIL']; ?></label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" value="<?php echo $strEmail;?>" data-bv-notempty="true" data-bv-emailaddress="true" data-bv-message="Ongeldig e-mailadres">
+            <input type="email" class="form-control" name="email" value="<?php echo $strEmail;?>" data-bv-notempty="true" data-bv-emailaddress="true" data-bv-message="<?php echo $text['INVLAID'] . ' ' . $text['EMAIL']; ?>">
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Wachtwoord</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['INPUT_PASSWORD']; ?></label>
         <div class="col-sm-10">
             <div class="input-group">
                 <input type="password" class="form-control pwd" value="" name="password" <?php if (!isset($strEmail)) {
-    echo 'data-bv-notempty="true" data-bv-message="Dit veld is verplicht"';
+    echo 'data-bv-notempty="true" data-bv-message="' . $text['REQUIRED_FIELD'] . '"';
 }
 ?>>
                 <span class="input-group-btn">
                     <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                 </span>
             </div><!-- /input-group -->
-            <p class="help-block">Vul hier een veilig wachtwoord in zodat u achteraf de status van uw bestelling kunt volgen.</p>
+            <p class="help-block"><?php echo $text['PASSWORD_HELP']; ?></p>
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for"textinput">Bedrijfsnaam</label>
+        <label class="col-sm-2 control-label" for"textinput"><?php echo $text['COMPANY']; ?></label>
         <div class="col-sm-10">
             <input type="text" placeholder="" class="form-control" name="company" value="<?php echo $strCompany; ?>" data-bv-notempty="false">
         </div><!-- /col -->
@@ -316,28 +316,28 @@ require_once 'includes/php/dc_header.php';
     <hr />
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Land</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['COUNTRY']; ?></label>
         <div class="col-sm-10">
             <select class="form-control" name="lang" data-bv-notempty="true">
                 <option value="nl" <?php if ($strLang == "nl") {
     echo "selected";
 }
-?>>Nederland</option>
+?>><?php echo $text['NETHERLANDS']; ?></option>
                 <option value="be" <?php if ($strLang == "be") {
     echo "selected";
 }
-?>>België</option>
+?>><?php echo $text['BELGIUM']; ?></option>
             </select>
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Postcode</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['ZIP_CODE']; ?></label>
         <div class="col-sm-4">
             <input type="text" placeholder="1234AB" class="form-control zipcode" name="zipcode" value="<?php echo $strZipcode;?>" data-bv-notempty="true">
         </div><!-- /col -->
 
-        <label class="col-sm-2 control-label" for="textinput">Huisnummer</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['STREET_NUMBER']; ?></label>
         <div class="col-sm-2">
             <input type="text" placeholder="21" class="form-control houseNr" name="houseNr" value="<?php echo $strHouseNr;?>" data-bv-notempty="true">
         </div><!-- /col -->
@@ -348,14 +348,14 @@ require_once 'includes/php/dc_header.php';
 
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Straatnaam</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['STREET_NAME']; ?></label>
         <div class="col-sm-10">
             <input type="text" class="form-control address" name="address" value="<?php echo $strAddress;?>" data-bv-notempty="true" autocomplete="off">
         </div><!-- /col -->
     </div><!-- /form-group -->
 
     <div class="form-group">
-        <label class="col-sm-2 control-label" for="textinput">Plaats</label>
+        <label class="col-sm-2 control-label" for="textinput"><?php echo $text['CITY']; ?></label>
         <div class="col-sm-10">
             <input type="text" class="form-control city" name="city" value="<?php echo $strCity;?>" data-bv-notempty="true">
         </div><!-- /col -->
@@ -366,7 +366,7 @@ require_once 'includes/php/dc_header.php';
             <label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if (!isset($intDelivery) || $intDelivery == 1) {
     echo 'checked="checked"';
 }
-?>> Mijn bestelling afleveren op een ander adres</label>
+?>> <?php echo $text['DELIVER_AT_OTHER_ADRESS']; ?></label>
         </div><!-- /col -->
     </div><!-- /form-group -->
 
@@ -374,52 +374,52 @@ require_once 'includes/php/dc_header.php';
     echo 'style="display:none"';
 }
 ?>>
-            <legend>Bezorgadres</legend>
+            <legend><?php echo $text['DELIVER_ADRESS']; ?></legend>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Land</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['COUNTRY']; ?></label>
                     <div class="col-sm-10">
                         <select class="form-control" name="delLang">
                             <option value="nl" <?php if ($strDelLang == "nl") {
     echo "selected";
 }
-?>>Nederland</option>
+?>><?php echo $text['NETHERLANDS']; ?></option>
                             <option value="be" <?php if ($strDelLang == "be") {
     echo "selected";
 }
-?>>België</option>
+?>><?php echo $text['BELGIUM']; ?></option>
                         </select>
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Voornaam</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['FIRST_NAME']; ?></label>
                     <div class="col-sm-10">
                         <input type="text" placeholder="" class="form-control" name="delFirstname" value="<?php echo $strDelFirstname;?>">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Achternaam</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['LAST_NAME']; ?></label>
                     <div class="col-sm-10">
                         <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for"textinput">Bedrijfsnaam</label>
+                    <label class="col-sm-2 control-label" for"textinput"><?php echo $text['COMPANY']; ?></label>
                     <div class="col-sm-10">
                         <input type="text" placeholder="" class="form-control" name="delCompany" value="<?php echo $strDelCompany; ?>" data-bv-notempty="false">
                     </div><!-- /col -->
                 </div><!-- /from-group -->
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Postcode</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['ZIP_CODE']; ?></label>
                     <div class="col-sm-4">
                         <input type="text" placeholder="1234AB" class="form-control zipcode" name="delZipcode" value="<?php echo $strDelZipcode;?>">
                     </div><!-- /col -->
 
-                    <label class="col-sm-2 control-label" for="textinput">Huisnummer</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['STREET_NUMBER']; ?></label>
                     <div class="col-sm-2">
                         <input type="text" placeholder="21" class="form-control houseNr" name="delHouseNr" value="<?php echo $strDelHouseNr;?>">
                     </div><!-- /col -->
@@ -430,14 +430,14 @@ require_once 'includes/php/dc_header.php';
 
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Straatnaam</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['STREET_NAME']; ?></label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control address" name="delAddress" value="<?php echo $strDelAddress;?>">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" for="textinput">Plaats</label>
+                    <label class="col-sm-2 control-label" for="textinput"><?php echo $text['CITY']; ?></label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control city" name="delCity" value="<?php echo $strDelCity;?>">
                     </div><!-- /col -->
@@ -447,7 +447,7 @@ require_once 'includes/php/dc_header.php';
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
         <div class="pull-right">
-            <button type="submit" class="btn btn-primary btn-lg">Naar afrekenen</button>
+            <button type="submit" class="btn btn-primary btn-lg"><?php echo $text['TO_PAYMENT']; ?></button>
         </div>
         </div><!-- /col -->
     </div><!-- /form-group -->
@@ -509,7 +509,7 @@ $('.zipcode, .houseNr, .houseNrAdd').focusout(function(){
 
 $(document).ready(function() {
     $('.registerForm').bootstrapValidator({
-        message: 'Dit veld is verplicht',
+        message: <?php echo $text['REQUIRED_FIELD']; ?>,
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',

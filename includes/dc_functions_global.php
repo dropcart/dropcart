@@ -645,6 +645,22 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
         'total' => number_format($objOrder->totalPrice, 2, ',', ' '),
         'tax' => $arrTax,
         'site_path' => dirname(__DIR__),
+        'invoice_label' => $text['BILLING'],
+        'customer_nr_label' => $text['CUSTOMER_NUMBER'],
+        'invoice_nr_label' => $text['BILLING_NUMBER'],
+        'invoice_date_label' => $text['BILLING_DATE'],
+        'quantity_label' => $text['QUANTITY'],
+        'title_label' => $text['DESCRIPTION'],
+        'price_label' => $text['PRICE_A_PIECE'],
+        'priceTotal_label' => $text['PRICE'],
+        'shipping_label' => $text['SHIPPING_FEE'],
+        'discount_label' => $text['DISCOUNT_CODE'],
+        'total_ex_label' => $text['TOTAL_EX'],
+        '_site_phone_number_label' => $text['PHONE'],
+        '_site_email_label' => $text['INPUT_EMAIL'],
+        '_site_url_label' => $text['SITE'],
+        'total_label' => $text['TOTAL'],
+        '_site_terms' => $text['TERMS'],
     );
 
     $strTemplateVars = array_merge($strTemplateVars, $settings);

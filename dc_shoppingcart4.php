@@ -34,17 +34,17 @@ switch ($status) {
     case 'paid':
     case 'paidout':
         // Betaling voltooid
-        $strMessageTitle = 'Bedankt voor uw bestelling';
-        $strMessage = '<p>Uw bestelling is in goede orde ontvangen en wij gaan direct aan de slag om uw bestelling te verwerken. Wij hebben ter bevestiging een email gestuurd naar uw email adres.</p>' .
-        '<p>Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.</p>';
+        $strMessageTitle = $text['THANKS_ORDER_TITLE'];
+        $strMessage = '<p>' . $text['THANKS_ORDER_MESSAGE_1'] . '</p>' .
+        '<p>' . $text['THANKS_ORDER_MESSAGE_2'] . '</p>';
 
         break;
     case 'open':
     case 'pending':
         // Betaling nog niet voltooid
-        $strMessageTitle = 'Wachten op betaling';
-        $strMessage = '<p>Uw bestelling wacht op een bevestiging van betaling. Zodra uw betaling is geverifieerd ontvangt u van ons een e-mail met de bevestiging van uw bestelling.</p>' .
-        '<p>Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.</p>';
+        $strMessageTitle = $text['WAIT_ORDER_TITLE'];
+        $strMessage = '<p>' . $text['WAIT_ORDER_MESSAGE_1'] . '</p>' .
+        '<p>' . $text['WAIT_ORDER_MESSAGE_2'] . '</p>';
 
         break;
     case 'cancelled':
@@ -64,10 +64,10 @@ require_once 'includes/php/dc_header.php';
 <div class="row">
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
-            <li class="disabled"><a href="#"><strong>Stap 1)</strong> Winkelmand</a></li>
-            <li class="disabled"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
-            <li class="disabled"><a href="#"><strong>Stap 3)</strong> Betaling</a></li>
-            <li class="active"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+            <li class="disabled"><a href="#"><strong><?php echo $text['STEP']; ?> 1)</strong> <?php echo $text['SHOPPING_BASKET']; ?></a></li>
+            <li class="disabled"><a href="#"><strong><?php echo $text['STEP']; ?> 2)</strong> <?php echo $text['SHOPPING_DATA']; ?></a></li>
+            <li class="disabled"><a href="#"><strong><?php echo $text['STEP']; ?> 3)</strong> <?php echo $text['SHOPPING_PAYMENT']; ?></a></li>
+            <li class="active"><a href="#"><strong><?php echo $text['STEP']; ?> 4)</strong> <?php echo $text['ORDER_PLACED']; ?></a></li>
         </ul>
     </div><!-- /col -->
 </div><!-- /row -->
@@ -94,7 +94,7 @@ $(".reveal").mousedown(function() {
 
 $(document).ready(function() {
     $('.mailAFriendForm').bootstrapValidator({
-        message: 'Dit veld is verplicht',
+        message: <?php echo $text['REQUIRED_FIELD']; ?>,
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',

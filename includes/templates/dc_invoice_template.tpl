@@ -40,7 +40,7 @@ tfoot td {
 <table width="100%" style="margin-top:20px">
     <tr>
         <td colspan="3">
-            <h1>Factuur</h1>
+            <h1>{{ invoice_label }}</h1>
         </td>
     </tr>
     <tr>
@@ -54,9 +54,9 @@ tfoot td {
             {{ country }}
         </td>
         <td width="20%">
-            Klantnummer:<br/>
-            Factuurnummer:<br/>
-            Factuurdatum:<br/>
+            {{ customer_nr_label }}:<br/>
+            {{ invoice_nr_label }}:<br/>
+            {{ invoice_date_label }}:<br/>
         </td>
         <td width="20%">
             {{ customer_nr }}<br/>
@@ -69,10 +69,10 @@ tfoot td {
 <table width="100%" cellspacing="0" cellpadding="3" style="margin-top:30px">
     <thead>
         <tr>
-            <th width="10%">Aantal</td>
-            <th width="60%">Omschrijving</td>
-            <th width="15%" style="text-align:right">Prijs per stuk</td>
-            <th width="15%" style="text-align:right">Prijs</td>
+            <th width="10%">{{ quantity_label }}</td>
+            <th width="60%">{{ title_label }}</td>
+            <th width="15%" style="text-align:right">{{ price_label }}</td>
+            <th width="15%" style="text-align:right">{{ priceTotal_label }}</td>
         </tr>
     </thead>
 
@@ -92,7 +92,7 @@ tfoot td {
 
             <tr>
                 <td>1</td>
-                <td>Verzendkosten</td>
+                <td>{{ shipping_label }}</td>
                 <td style="text-align:right">&euro; {{ shipping_costs }}</td>
                 <td style="text-align:right">&euro; {{ shipping_costs }}</td>
             </tr>
@@ -100,7 +100,7 @@ tfoot td {
         {% if discount_amount < 0 %}
             <tr>
                 <td>1</td>
-                <td>Kortingscode {{ discount_code }}</td>
+                <td>{{ discount_label }} {{ discount_code }}</td>
                 <td style="text-align:right">&euro; {{ discount_amount }}</td>
                 <td style="text-align:right">&euro; {{ discount_amount }}</td>
             </tr>
@@ -113,7 +113,7 @@ tfoot td {
             <td colspan="4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="3">Totaal exclusief BTW</td>
+            <td colspan="3">{{ total_ex_label }}</td>
             <td>&euro; {{ total_ex }}</td>
         </tr>
 
@@ -131,7 +131,7 @@ tfoot td {
 
         <tr>
             <td colspan="2"></td>
-            <td style="font-size:18px;border-top:1px solid #000">Totaal</td>
+            <td style="font-size:18px;border-top:1px solid #000">{{ total_label }}</td>
             <td style="font-size:18px;border-top:1px solid #000">&euro; {{ total }}</td>
         </tr>
 
@@ -150,9 +150,9 @@ tfoot td {
                 {{ _site_postal_code }} {{ _site_city_name }}
             </td>
             <td valign="top" width="10%" style="font-weight:bold">
-                Telefoon:<br/>
-                E-mail:<br/>
-                Website:
+                {{ _site_phone_number_label }}:<br/>
+                {{ _site_email_label }}:<br/>
+                {{ _site_url_label }}:
             </td>
             <td valign="top" width="20%">
                 {{ _site_phone_number }}<br/>
@@ -178,7 +178,7 @@ tfoot td {
         </tr>
         <tr>
             <td colspan="7" style="padding-top:10px;text-align:center">
-                Op al onze transacties zijn onze algemene voorwaarden van toepassing. Deze zijn te vinden op: {{ _site_url }}
+                {{ _site_terms }}: {{ _site_url }}
             </td>
         </tr>
     </table>

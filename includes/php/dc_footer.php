@@ -36,7 +36,7 @@
             <?php echo getContent('page_delivery_info'); ?>
         </div><!-- /modal body -->
         <div class="modal-footer">
-            <a data-dismiss="modal" class="btn btn-primary">Oké, dat begrijp ik</a></button>
+            <a data-dismiss="modal" class="btn btn-primary"><?php echo $text['I_UNDERSTAND']; ?></a></button>
         </div><!-- /modal footer -->
     </div><!-- /modal content -->
     </div><!-- /modal dialog -->

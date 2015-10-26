@@ -67,11 +67,11 @@ if (!empty($_GET['fail'])) {
         <hr class="colorgraph">
 
         <div class="form-group">
-            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="<?php echo $text['LOGIN_INPUT_EMAIL']; ?>">
+            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="<?php echo $text['INPUT_EMAIL']; ?>">
         </div><!-- /form-group -->
 
         <div class="form-group">
-            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="<?php echo $text['LOGIN_INPUT_PASSWORD']; ?>">
+            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="<?php echo $text['INPUT_PASSWORD']; ?>">
         </div><!-- /form-group -->
 
         <div class="row">

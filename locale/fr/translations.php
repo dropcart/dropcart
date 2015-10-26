@@ -85,6 +85,7 @@ $text['BACK_TO_TOP'] = "Omhoog";
 $text['ABOUT_BOLD'] = "Goedkoop printen met";
 $text['ABOUT_TEXT_1'] = "Wij leveren printer inkt cartridges voor alle grote merken zoals HP, Brother, Epson en Canon. Gebruik onze <em>cartridge zoeker</em> hierboven om de juiste producten voor uw printer te vinden en browse door ons uitgebreid assortiment laag geprijsde en hoogwaardige printer verbruiksartikelen.";
 $text['ABOUT_TEXT_2'] = "Producten die op voorraad zijn worden nog dezelfde dag verzonden!";
+$text['I_UNDERSTAND'] = "Oké, dat begrijp ik";
 
 // 404
 $text['PAGE_TITLE_404'] = "Deze pagina bestaat niet";
@@ -155,6 +156,11 @@ $text['ADDED_TO_CART_CONTENT'] = "Wij hebben dit product aan uw winkelwagen toeg
 $text['CLOSE'] = "Sluiten";
 $text['SHOW_CART'] = "Bekijk winkelwagen";
 $text['TOP_5'] = "Top 5 Meepakkers";
+$text['COLOR'] = "Kleur";
+$text['WEIGHT'] = "Gewicht";
+$text['VOLUME'] = "Inhoud";
+$text['AMOUNT_MILILITRE'] = "Aantal mililiter";
+$text['AMOUNT_PAGES'] = "aantal pagina's";
 
 // PROFILE
 $text['LOGOUT'] = "(uitloggen?)";
@@ -233,5 +239,78 @@ $text['IN_SHOPPING_CART'] = "In winkelwagen";
 $text['VERIFICATION_CODE_CONTENT'] = "Voor deze code is een controlecode vereist.<br/>Vul uw controlecode in die u heeft ontvangen.";
 $text['YOUR_VERIFICATION_CODE'] = "Uw controlecode..";
 $text['REMOVE'] = "Verwijder";
+
+// SHOPPINGCART 2
+$text['WHERE_TO_SEND'] = "Waar mogen wij uw Bestelling naar toezenden?";
+$text['REQUIREMENTS_NOT_MET'] = "U heeft niet alle verplichte velden ingevuld.";
+$text['REQUIRED_FIELD'] = "Dit veld is verplicht";
+$text['INVALID'] = "Ongeldig";
+$text['PASSWORD_HELP'] = "Vul hier een veilig wachtwoord in zodat u achteraf de status van uw bestelling kunt volgen.";
+$text['NETHERLANDS'] = "Nederland";
+$text['BELGIUM'] = "België";
+$text['DELIVER_AT_OTHER_ADRESS'] = "Mijn bestellingen afleveren op een ander adres";
+$text['DELIVER_ADRESS'] = "Bezorgadres";
+$text['TO_PAYMENT'] = "Naar afrekenen";
+
+// SHOPPINGCART 3
+$text['EVERYTHING_ALRIGHT'] = "Klopt alles?";
+$text['DELIVERY_ADRESS'] = "Afleveradres";
+$text['BILLING_ADRESS'] = "Factuuradres";
+$text['YOUR_ORDER'] = "Uw bestelling";
+$text['TRANSACTION_FEE'] = "Transactiekosten";
+$text['PAYMENT_METHOD'] = "Kies uw betaal methode:";
+$text['NONE'] = "geen";
+$text['AND'] = "en";
+$text['TRANSACTION_NOTICE_1'] = "Wanneer u via";
+$text['TRANSACTION_NOTICE_2'] = "betaalt, worden er";
+$text['TRANSACTION_NOTICE_3'] = "extra transactiekosten bovenop de totaalprijs in rekening gebracht.";
+$text['PAYMENT_NO_IDEAL'] = "Bij betalingen anders dan via iDeal wordt er 3% transactiekosten bovenop de totaalprijs gerekend.";
+$text['AGREE_TERMS'] = "Ik ga akkoord met de algemene voorwaarden";
+$text['PAYMENT_AGREE'] = "Bestellen met betaalplicht";
+$text['DISAGREE_TERMS'] = "U bent niet akkoord gegaan met de voorwaarden";
+
+// SHOPPINGCART 4
+$text['THANKS_ORDER_TITLE'] = "Bedankt voor uw bestelling";
+$text['THANKS_ORDER_MESSAGE_1'] = "Uw bestelling is in goede orde ontvangen en wij gaan direct aan de slag om uw bestelling te verwerken. Wij hebben ter bevestiging een email gestuurd naar uw email adres.";
+$text['THANKS_ORDER_MESSAGE_2'] = "Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.";
+$text['WAIT_ORDER_TITLE'] = "Wachten op bestelling";
+$text['WAIT_ORDER_MESSAGE_1'] = "Uw bestelling wacht op een bevestiging van betaling. Zodra uw betaling is geverifieerd ontvangt u van ons een e-mail met de bevestiging van uw bestelling.";
+$text['WAIT_ORDER_MESSAGE_2'] = "Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.";
+
+// INCLUDE LOGO
+$text['MOLLIE_DESCRIPTION'] = "Veilig en groen betalen met Mollie (o.a. iDEAL, Creditcard, Mister Cash, PayPal).";
+$text['POSTNL_DESCRIPTION_1'] = "Op werkdagen voor 20:00 besteld,";
+$text['POSTNL_DESCRIPTION_2'] = "morgen bezorgd";
+$text['POSTNL_DESCRIPTION_3'] = "door PostNL.";
+
+// MAIL
+$text['DISCOUNT'] = "Korting";
+$text['TRACKING_1'] = "Volg uw pakket";
+$text['TRACKING_2'] = "U kunt ook uw pakket volgen op de website van";
+$text['TRACKING_3'] = "met de code";
+
+// INVOICE
+$text['BILLING'] = "Factuur";
+$text['CUSTOMER_NUMBER'] = "Klantnummer";
+$text['BILLING_NUMBER'] = "Factuurnummer";
+$text['BILLING_DATE'] = "Factuurdatum";
+$text['PRICE_A_PIECE'] = "Prijs per stuk";
+$text['TOTAL_EX'] = "Totaal exclusief BTW";
+$text['PHONE'] = "Telefoon";
+$text['SITE'] = "Website";
+$text['TERMS'] = "Op al onze transacties zijn onze algemene voorwaarden van toepassing. Deze zijn te vinden op";
+
+// STATES
+$text['NEW'] = "Nieuw";
+$text['REMOVED'] = "Verwijderd";
+$text['RESERVED'] = "Gereserveerd";
+$text['PICKED_UP'] = "Afgehaald";
+$text['IN_DISCUSSION'] = "In behandeling genomen";
+$text['SEND_TODAY'] = "Vandaag versuren";
+$text['WAIT_PAYMENT'] = "Wachten op betaling";
+$text['PRODUCTS_OUT_STOCK'] = "Producten niet op voorraad";
+$text['SENDED'] = "Verstuurd";
+$text['CAN_BE_PICKED_UP'] = "Kan worden afgehaald";
+$text['SEND_WAITINGLIST'] = "Wachtlijst versturen";
 
 ?>

@@ -166,10 +166,10 @@ require_once 'includes/php/dc_header.php';
 <div class="row">
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
-            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart2.php"><strong>Stap 2)</strong> Gegevens</a></li>
-            <li class="active"><a href="<?php echo SITE_URL?>/dc_shoppingcart3.php"><strong>Stap 3)</strong> Betaling</a></li>
-            <li class="disabled"><a href="<?php echo SITE_URL?>/dc_shoppingcart4.php"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong><?php echo $text['STEP']; ?> 1)</strong> <?php echo $text['SHOPPING_BASKET']; ?></a></li>
+            <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart2.php"><strong><?php echo $text['STEP']; ?> 2)</strong> <?php echo $text['SHOPPING_DATA']; ?></a></li>
+            <li class="active"><a href="<?php echo SITE_URL?>/dc_shoppingcart3.php"><strong><?php echo $text['STEP']; ?> 3)</strong> <?php echo $text['SHOPPING_PAYMENT']; ?></a></li>
+            <li class="disabled"><a href="<?php echo SITE_URL?>/dc_shoppingcart4.php"><strong><?php echo $text['STEP']; ?> 4)</strong> <?php echo $text['ORDER_PLACED']; ?></a></li>
         </ul>
     </div><!-- /col -->
 </div><!-- /row -->
@@ -179,7 +179,7 @@ require_once 'includes/php/dc_header.php';
 <form class="form-horizontal checkoutForm" role="form" action="dc_shoppingcart3.php" method="post">
     <fieldset>
 
-    <legend>Klopt alles?</legend>
+    <legend><?php echo $text['EVERYTHING_ALRIGHT']; ?></legend>
 
     <?php
 $strSQL = "SELECT ca_invoice.*, ca_delivery.firstname as delFirstname, ca_delivery.lastname as delLastname, ca_delivery.company as delCompany, ca_delivery.address as delAddress, ca_delivery.houseNr as delHouseNr, ca_delivery.houseNrAdd as delHouseNrAdd, ca_delivery.zipcode as delZipcode, ca_delivery.city as delCity, ca_delivery.lang as delLang, c.email, c.id as customerId FROM " . DB_PREFIX . "customers c " .
@@ -193,31 +193,31 @@ $objCustomer = $objDB->getObject($result);
 
     <div class="row" style="margin-bottom:20px">
         <div class="col-md-4">
-        <strong>Factuuradres</strong><br/>
+        <strong><?php echo $text['BILLING_ADRESS']; ?></strong><br/>
         <?=($objCustomer->company != '') ? $objCustomer->company . '<br/>' : ''?>
         <?=$objCustomer->firstname?> <?=$objCustomer->lastname?><br/>
         <?=$objCustomer->address?> <?=$objCustomer->houseNr?><?=$objCustomer->houseNrAdd?><br/>
         <?=$objCustomer->zipcode?> <?=$objCustomer->city?><br/>
         <?php
 if ($objCustomer->lang == 'be') {
-    echo 'België';
+    echo $text['BELGIUM'];
 } else {
-    echo 'Nederland';
+    echo $text['NETHERLANDS'];
 }
 ?>
         </div>
 
         <div class="col-md-4">
-        <strong>Afleveradres</strong><br/>
+        <strong><?php echo $text['DELIVERY_ADRESS']; ?></strong><br/>
         <?=(isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
         <?=$objCustomer->delFirstname?> <?=$objCustomer->delLastname?><br/>
         <?=$objCustomer->delAddress?> <?=$objCustomer->delHouseNr?><?=$objCustomer->delHouseNrAdd?><br/>
         <?=$objCustomer->delZipcode?> <?=$objCustomer->delCity?><br/>
         <?php
 if ($objCustomer->delLang == 'be') {
-    echo 'België';
+    echo $text['BELGIUM'];
 } else {
-    echo 'Nederland';
+    echo $text['NETHERLANDS'];
 }
 ?>
         </div>
@@ -225,7 +225,7 @@ if ($objCustomer->delLang == 'be') {
 
     <div class="row">
         <div class="col-md-12">
-            <strong>Uw bestelling</strong>
+            <strong><?php echo $text['YOUR_ORDER']; ?></strong>
         <?php
 $intCartRows = count($arrCartItems);
 
@@ -235,10 +235,10 @@ if ($intCartRows > 0) {
             <table class="table shoppingcart">
                 <thead>
                     <tr>
-                        <th style="width:60%">Product</th>
-                        <th style="width:10%">Aantal</th>
-                        <th style="width:15%">Prijs</th>
-                        <th style="width:15%" class="text-right">Totaal</th>
+                        <th style="width:60%"><?php echo $text['PRODUCT']; ?></th>
+                        <th style="width:10%"><?php echo $text['QUANTITY']; ?></th>
+                        <th style="width:15%"><?php echo $text['PRICE']; ?></th>
+                        <th style="width:15%" class="text-right"><?php echo $text['TOTAL']; ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -246,7 +246,7 @@ if ($intCartRows > 0) {
             <?php
 foreach ($arrCartItems as $arrCartItem) {
 
-        $strStock = ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
+        $strStock = ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) ? $text['IN_STOCK'] : $text['OUT_STOCK'];
 
         echo '
                         <tr>
@@ -266,7 +266,7 @@ foreach ($arrCartItems as $arrCartItem) {
         echo '
                     <tr class="table-footer">
                         <td>&nbsp;</td>
-                        <td style="text-align:right;" colspan="2">Kortingscode ' . $discountCode . '</td>
+                        <td style="text-align:right;" colspan="2">' . $text['DISCOUNT_CODE'] . ' ' . $discountCode . '</td>
                         <td class="discountAmount">' . $dblDiscountAmount . '</td>
                     </tr>';
 
@@ -274,22 +274,22 @@ foreach ($arrCartItems as $arrCartItem) {
     echo '
                 <tr class="table-footer">
                     <td>&nbsp;</td>
-                    <td style="text-align:right;" colspan="2">Subtotaal</td>
+                    <td style="text-align:right;" colspan="2">' . $text['SUBTOTAL'] . '</td>
                     <td class="subtotal">' . $strNodePriceSubtotal . '</td>
                 </tr>
                 <tr class="table-footer">
                     <td>&nbsp;</td>
-                    <td style="text-align:right;" colspan="2">Verzendkosten</td>
+                    <td style="text-align:right;" colspan="2">' . $text['SHIPPING_FEE'] . '</td>
                     <td class="shippingCosts">' . $strShippingCosts . '</td>
                 </tr>
                 <tr class="table-footer transactionFeeRow" style="display:none;"">
                     <td>&nbsp;</td>
-                    <td style="text-align:right;" colspan="2">Transactiekosten</td>
+                    <td style="text-align:right;" colspan="2">' . $text['TRANSACTION_FEE'] . '</td>
                     <td class="transactionFee">0</td>
                 </tr>
                 <tr class="table-footer">
                     <td>&nbsp;</td>
-                    <td style="text-align:right;" colspan="2">Totaal</td>
+                    <td style="text-align:right;" colspan="2">' . $text['TOTAL'] . '</td>
                     <td><h3 class="total" data-total="' . $dblNodePriceTotal . '">' . $strNodePriceTotal . '</h3></td>
                 </tr>
                 </tbody>
@@ -298,7 +298,7 @@ foreach ($arrCartItems as $arrCartItem) {
 
 } else {
 
-    echo '<p>Geen producten in winkelwagen.</p>';
+    echo '<p>' . $text['NO_ARTICLES_IN_BASKET'] . '</p>';
 
 }
 
@@ -308,7 +308,7 @@ foreach ($arrCartItems as $arrCartItem) {
 
     <div class="form-group">
         <div class="col-md-12">
-            <strong>Kies uw betaal methode:</strong>
+            <strong><?php echo $text['PAYMENT_METHOD']; ?></strong>
             <?php
 $methods = $mollie->methods->all();
 foreach ($methods as $method):
@@ -316,16 +316,16 @@ foreach ($methods as $method):
     $percentage = formOption($method->id . '_fee_percent');
 
     if ($percentage > 0 && $addition > 0) {
-        $transactionCost = sprintf('%s%% en %s euro', $percentage, $addition);
+        $transactionCost = sprintf('%s%% %s %s euro', $percentage, $text['AND'], $addition);
     } elseif ($percentage > 0 && empty($addition)) {
     $transactionCost = sprintf('%s%%', $percentage);
 } elseif ($addition > 0 && empty($percentage)) {
     $transactionCost = sprintf('%s euro', $addition);
 } else {
-    $transactionCost = 'geen';
+    $transactionCost = $text['NONE'];
 }
 
-$transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra transactiekosten bovenop de totaalprijs in rekening gebracht.', $method->description, $transactionCost);
+$transactionNotice = sprintf('%s %s %s %s %s', $text['TRANSACTION_NOTICE_1'], $method->description, $text['TRANSACTION_NOTICE_2'], $transactionCost, $text['TRANSACTION_NOTICE_3']);
 ?>
             <div class="radio paymentMethod" style="line-height:40px; vertical-align:top">
                 <label>
@@ -338,7 +338,7 @@ $transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra trans
                 </div>
             </div>
             <?php endforeach;?>
-            <p id="paymentMethodNotice" style="display:none;">Bij betalingen anders dan via iDeal wordt er 3% transactiekosten bovenop de totaalprijs gerekend.</p>
+            <p id="paymentMethodNotice" style="display:none;"><?php echo $text['PAYMENT_NO_IDEAL']; ?></p>
             <script>
                 $(function() {
                     $('.transactionNotice').hide();
@@ -378,7 +378,7 @@ $transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra trans
 
     <div class="form-group checkbox">
         <div class="col-sm-12">
-            <label><input type="checkbox" name="conditions"> Ik ga akoord met de algemene voorwaarden</label> </a>
+            <label><input type="checkbox" name="conditions"> <?php echo $text['AGREE_TERMS']; ?></label> </a>
         </div><!-- /col -->
     </div><!-- /form-group -->
 
@@ -386,11 +386,11 @@ $transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra trans
 
     <div class="form-group">
         <div class="col-sm-8">
-            <strong>Heeft u een kortings of vouchercode?</strong>
-            <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> Code invoeren</a></p>
+            <strong><?php echo $text['VOUCHER_CONTENT']; ?></strong>
+            <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> <?php echo $text['ADD_VOUCHER_CODE']; ?></a></p>
             <div class="discount_container" style="display:none">
                 <div class="discount_input">
-                    <input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="<?php echo $_SESSION["discountCode"];?>" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
+                    <input type="text" name="discountcode" id="discountCodeValue" placeholder="<?php echo $text['YOUR_VOUCHER_CODE']; ?>" class="discountValue" value="<?php echo $_SESSION["discountCode"];?>" /><a class="btn btn-primary btn-xs" id="discountCodeSend"><?php echo $text['SEND']; ?></a>
                 </div>
                 <div class="discount_code"></div>
                 <div class="discount_message"></div>
@@ -400,7 +400,7 @@ $transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra trans
 
         <div class="col-sm-4">
             <div class="pull-right">
-                <button type="submit" class="btn btn-primary btn-lg">Bestellen met betaalplicht</button>
+                <button type="submit" class="btn btn-primary btn-lg"><?php echo $text['PAYMENT_AGREE']; ?></button>
             </div>
         </div><!-- /col -->
     </div><!-- /form-group -->
@@ -425,7 +425,7 @@ $(".reveal").mousedown(function() {
 
 $(document).ready(function() {
     $('.checkoutForm').bootstrapValidator({
-        message: 'Dit veld is verplicht',
+        message: <?php echo $text['REQUIRED_FIELD']; ?>
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
@@ -435,7 +435,7 @@ $(document).ready(function() {
             conditions: {
                 validators: {
                     notEmpty: {
-                        message: 'U bent niet akkoord gegaan met de voorwaarden'
+                        message: <?php echo $text['DISAGREE_TERMS']; ?>
                     }
                 }
             }
@@ -455,6 +455,9 @@ $('#discountCode').click(function(){
 $('#discountCodeSend').click(function(){
 
     var discountCode = $('#discountCodeValue').val();
+    var verificationCodeContent = "<?php echo $text['VERIFICATION_CODE_CONTENT']; ?>";
+    var clientInputContent = "<?php echo $text['YOUR_VERIFICATION_CODE']; ?>";
+    var sendValue = "<?php echo $text['SEND']; ?>";
 
     $.ajax({
         type:       'POST',
@@ -471,9 +474,9 @@ $('#discountCodeSend').click(function(){
                 $('.discount_input').hide();
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
-                    '<div class="italic">Voor deze code is een validatiecode vereist.<br/> Vul uw validatiecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=(isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
-                    '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
+                    '<div class="italic">'+ verificationCodeContent + '</div>' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="'+ clientInputContent + '" class="discountValue" value="<?=$validationCode?>" />' +
+                    '<a class="btn btn-primary btn-xs" id="validationCodeSend">'+ sendValue +'</a>'
                 );
 
                 <?php if (isset($_SESSION["validationCode"]) && $_SESSION["validationCode"] != "") {?>
