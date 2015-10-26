@@ -26,7 +26,7 @@ function getSiteUrl() {
         $url .= 's'; # so it becomes https
     }
 
-    $url .= '://' . $_SERVER['SERVER_NAME'];
+    $url .= '://' . $_SERVER['SERVER_NAME'] . '/';
 
     /* Determine if we have a subdirectory */
 
@@ -35,6 +35,7 @@ function getSiteUrl() {
     $path = str_replace('\\', '/', dirname(__FILE__));
     /* Substract document root from absolute path */
     $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', $path);
+    // $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', dirname(__FILE__));
 
     /* Remove the config dir from the path */
     $path = str_replace('/includes/php', '', $path);
