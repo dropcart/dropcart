@@ -288,6 +288,8 @@ $text['DISCOUNT'] = "Korting";
 $text['TRACKING_1'] = "Volg uw pakket";
 $text['TRACKING_2'] = "U kunt ook uw pakket volgen op de website van";
 $text['TRACKING_3'] = "met de code";
+$text['MAIL_HEADER'] = "Beste";
+$text['MAIL_BODY'] = "Hartelijk dank voor uw bestelling bij";
 
 // INVOICE
 $text['BILLING'] = "Factuur";
@@ -312,5 +314,14 @@ $text['PRODUCTS_OUT_STOCK'] = "Producten niet op voorraad";
 $text['SENDED'] = "Verstuurd";
 $text['CAN_BE_PICKED_UP'] = "Kan worden afgehaald";
 $text['SEND_WAITINGLIST'] = "Wachtlijst versturen";
+
+// JSON
+$text['NO_DISCOUNT_CODE'] = "Geen code ingevoerd";
+$text['UNKOWN_DISCOUNT_CODE'] = "Onbekende code ingevoerd";
+$text['EXPIRED_DISCOUNT_CODE'] = "Deze code is niet meer geldig";
+$text['USED_DISCOUNT_CODE'] = "Deze code is al gebruikt";
+$text['INVALID_VALIDATION_CODE'] = "Onjuiste controlecode ingevoerd";
+$text['VALIDATION_CODE_LENGTH'] = "Deze code moet exact 10 cijfers zijn (ingevoerd";
+$text['VALIDATION_CODE_DISCOUNT_CODE'] = "Deze code mag niet overeen komen met uw Grouponcode";
 
 ?>

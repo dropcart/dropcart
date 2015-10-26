@@ -40,7 +40,7 @@ if ($intError == 0) {
     if (empty($strDiscountCode)) {
 
         $arrOutput['error_code'] = 400;
-        $arrOutput['error'] = 'Geen code ingevoerd.';
+        $arrOutput['error'] = $text['NO_DISCOUNT_CODE'];
         $intError = 1;
 
     }
@@ -52,7 +52,7 @@ if ($intError == 0) {
     if ($intCodeExists == 0) {
 
         $arrOutput['error_code'] = 400;
-        $arrOutput['error'] = 'Onbekende code ingevoerd.';
+        $arrOutput['error'] = $text['UNKOWN_DISCOUNT_CODE'];
         $intError = 1;
 
     }
@@ -68,7 +68,7 @@ if ($intError == 0) {
     if ($objCurDate > $objExpDate) {
 
         $arrOutput['error_code'] = 400;
-        $arrOutput['error'] = 'Deze code is niet meer geldig.';
+        $arrOutput['error'] = $text['EXPIRED_DISCOUNT_CODE'];
         $intError = 1;
 
     }
@@ -81,7 +81,7 @@ if ($intError == 0) {
     if ($objCode->orderId != 0) {
 
         $arrOutput['error_code'] = 400;
-        $arrOutput['error'] = 'Deze code is al gebruikt.';
+        $arrOutput['error'] = $text['USED_DISCOUNT_CODE'];
         $intError = 1;
 
     }
@@ -101,14 +101,14 @@ if ($intError == 0) {
 
             if (strlen($strValidationCode) != 10 || $strValidationCode == $strDiscountCode) {
 
-                $arrOutput['error'] = 'Onjuiste controlecode ingevoerd.';
+                $arrOutput['error'] = $text['INVALID_VALIDATION_CODE'];
 
                 if (strlen($strValidationCode) != 10) {
-                    $arrOutput['error'] .= ' Deze code moet exact 10 cijfers zijn (ingevoerd: ' . strlen($strValidationCode) . '). ';
+                    $arrOutput['error'] .= ' ' . $text['VALIDATION_CODE_LENGTH'] . ': ' . strlen($strValidationCode) . '). ';
                 }
 
                 if ($strValidationCode == $strDiscountCode) {
-                    $arrOutput['error'] .= ' Deze code mag niet overeen komen met uw Grouponcode';
+                    $arrOutput['error'] .= ' ' . $text['VALIDATION_CODE_DISCOUNT_CODE'] . '';
                 }
 
                 $arrOutput['error_code'] = 400;
