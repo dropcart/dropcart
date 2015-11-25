@@ -38,6 +38,7 @@ $strDelHouseNr = null;
 $strDelHouseNrAdd = null;
 $strDelAddress = null;
 $strDelCity = null;
+$intDelivery = 0;
 
 if (!empty($_POST)) {
     // Form submitted
@@ -212,7 +213,6 @@ if (!empty($_SESSION["customerId"])) {
     $strCity = $objCustomer->city;
 
     $strEmail = $objCustomer->email;
-    $intDelivery = 0;
 
     if ($objCustomer->invoiceAddressId != $objCustomer->deliveryAddressId) {
 
