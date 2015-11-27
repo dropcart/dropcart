@@ -598,8 +598,7 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
     $result = $objDB->sqlExecute($strSQL);
     $objOrder = $objDB->getObject($result);
 
-    $dblTotalEx = $objOrder->totalPrice / 1.21;
-    $arrTax[21] = number_format($objOrder->totalPrice - $dblTotalEx, 2, ',', ' ');
+    $dblTotalEx = 0;
     $arrLanguages = array('nl' => 'Nederland', 'be' => 'België', 'pl' => 'Polen', 'de' => 'Duitsland', 'uk' => 'Engeland', '' => 'Nederland');
 
     // order details (products)
@@ -619,12 +618,28 @@ function generateInvoicePDF($intOrderId, $blnDownload = false) {
         $objDetails->title = $Product->getTitle();
         $objDetails->taxRate = $objDetails->tax;
         $objDetails->taxPerc = $objDetails->tax * 100 - 100;
-        $objDetails->priceTotal = number_format(round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity, 2, ',', ' ');
-        $objDetails->price = number_format(round($objDetails->price * $objDetails->tax, 2), 2, ',', ' ');
-        $objDetails->priceEx = number_format($objDetails->price, 2, ',', ' ');
+        $objDetails->priceEx = $objDetails->price;
+        $objDetails->price = round($objDetails->priceEx * $objDetails->tax, 2);
+        $objDetails->priceTotal = $objDetails->price * $objDetails->quantity;
 
-        //$dblTotalEx += $objDetails->price * $objDetails->quantity;
+        $arrTax[$objDetails->taxPerc] += $objDetails->price - $objDetails->priceEx;
+        $dblTotalEx += $objDetails->priceEx * $objDetails->quantity;
+        
+        // format price
+        $objDetails->priceTotal = number_format($objDetails->priceTotal, 2, ',', ' ');
+        $objDetails->price = number_format($objDetails->price, 2, ',', ' ');
+        $objDetails->priceEx = number_format($objDetails->priceEx, 2, ',', ' ');
+
         $details[] = $objDetails;
+
+    }
+    
+    // Add shipping costs tax
+    $arrTax[21] += $objOrder->shippingCosts - $objOrder->shippingCosts / 1.21;
+    $dblTotalEx += $objOrder->shippingCosts / 1.21;
+    
+    foreach ($arrTax as $taxPerc => $dblPrice) {
+        $arrTax[$taxPerc] = number_format($dblPrice, 2, ',', ' ');
     }
 
     $strTemplateVars = array(

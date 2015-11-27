@@ -3,10 +3,10 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 11, 2014 at 01:39 PM
+-- Generation Time: Nov 25, 2015
 -- Server version: 5.5.9-log
 -- PHP Version: 5.5.18
--- Dropcart Version: v1.6.0
+-- Dropcart Version: v1.7.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -381,7 +381,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (14, 'price_values', '["1.21"]'),
 (15, 'price_base', 'price'),
 (16, 'site_shipping', '5.95'),
-(17, 'dropcart_version', 'v1.7.0'),
+(17, 'dropcart_version', 'v1.7.2'),
 (18, 'email_bcc', 'bcc@dropcart.nl'),
 (19, 'site_email_template', 'includes/templates/dc_mail_template.html'),
 (20, 'tmp_path', 'tmp/'),
@@ -406,7 +406,8 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (40, 'site_kvk', '123456'),
 (41, 'site_btw', 'NLBTW'),
 (42, 'site_iban', 'NLIBAN'),
-(43, 'site_bic', 'RABONL2U');
+(43, 'site_bic', 'RABONL2U'),
+(44, 'site_logo', 'logo.png');
 --
 -- Table structure for table `dc_pages_content`
 --
