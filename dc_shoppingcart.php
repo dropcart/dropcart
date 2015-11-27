@@ -64,7 +64,7 @@ $strNodePriceTotal = money_format('%(#1n', $dblNodePriceTotal);
 <div class="row">
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
+            <li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong><?php echo $text['STEP']; ?> 1)</strong> <?php echo $text['SHOPPING_BASKET']; ?></a></li>
             <li class="<?php if (empty($_SESSION["customerId"])) {
     echo 'disabled';
 }
@@ -73,7 +73,7 @@ $strNodePriceTotal = money_format('%(#1n', $dblNodePriceTotal);
 } else {
     '#';
 }
-?>"><strong>Stap 2)</strong> Gegevens</a></li>
+?>"><strong><?php echo $text['STEP']; ?> 2)</strong> <?php echo $text['SHOPPING_DATA']; ?></a></li>
             <li class="<?php if (empty($_SESSION["customerId"])) {
     echo 'disabled';
 }
@@ -82,8 +82,8 @@ $strNodePriceTotal = money_format('%(#1n', $dblNodePriceTotal);
 } else {
     '#';
 }
-?>"><strong>Stap 3)</strong> Betaling</a></li>
-            <li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
+?>"><strong><?php echo $text['STEP']; ?> 3)</strong> <?php echo $text['SHOPPING_PAYMENT']; ?></a></li>
+            <li class="disabled"><a href="#"><strong><?php echo $text['STEP']; ?> 4)</strong> <?php echo $text['ORDER_PLACED']; ?></a></li>
         </ul>
     </div><!-- /col -->
     <div class="col-xs-9">
@@ -97,10 +97,10 @@ if ($intCartRows > 0) {
             <table class="table table-striped shoppingcart">
                 <thead>
                     <tr>
-                        <th style="width:55%">Product</th>
-                        <th style="width:5%">Aantal</th>
-                        <th style="width:15%">Prijs</th>
-                        <th style="width:15%">Totaal</th>
+                        <th style="width:55%"><?php echo $text['PRODUCT']; ?></th>
+                        <th style="width:5%"><?php echo $text['QUANTITY']; ?></th>
+                        <th style="width:15%"><?php echo $text['PRICE']; ?></th>
+                        <th style="width:15%"><?php echo $text['TOTAL']; ?></th>
                         <th style="width:10%">&nbsp;</th>
                     </tr>
                 </thead>
@@ -114,11 +114,11 @@ foreach ($arrCartItems as $arrCartItem) {
                     </script>
                 <?php
 if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
-            $strStock = 'Op voorraad';
+            $strStock = $text['IN_STOCK'];
         } elseif ($arrCartItem['intStock'] > 0) {
-            $strStock = 'Niet voldoende op voorraad';
+            $strStock = $text['STOCK_LOW'];
         } else {
-            $strStock = 'Niet op voorraad (circa 3 werkdagen levertijd)';
+            $strStock = $text['OUT_STOCK'];
         }
 
         echo '
@@ -126,12 +126,12 @@ if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['int
                             <td class="text-left">
                                 <img class="img-responsive pull-left" alt="' . $arrCartItem['strProductTitle'] . '" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
                                 <h4>' . $arrCartItem['strProductTitle'] . '</h4>
-                                <p><strong>Voorraad: </strong><span class="stock_message">' . $strStock . '</span></p>
+                                <p><strong>' . $text['STOCK'] . ': </strong><span class="stock_message">' . $strStock . '</span></p>
                             </td>
                             <td><input type="number" value="' . $arrCartItem['intQuantity'] . '" min="1" class="cartQuantity" data-cartid="' . $arrCartItem['cartId'] . '" data-productid="' . $arrCartItem['intProductId'] . '" /></td>
                             <td class="text-left">' . $arrCartItem['strPrice'] . '</td>
                             <td class="text-left productTotal">' . $arrCartItem['strPriceTotal'] . '</td>
-                            <td><a class="btn btn-danger btn-sm deleteItem" title="Verwijder artikel uit winkelmandje" data-cartid="' . $arrCartItem['cartId'] . '"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
+                            <td><a class="btn btn-danger btn-sm deleteItem" title="' . $text['DELETE_FROM_BASKET'] . '" data-cartid="' . $arrCartItem['cartId'] . '"><span class="glyphicon glyphicon-remove"></span> ' . $text['REMOVE'] . '</a></td>
                         </tr>';
     }
 
@@ -140,33 +140,33 @@ if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['int
                 <tr class="table-footer discountAmount_container" style="display:none">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td style="text-align:right" colspan="2">Kortingscode <span class="discountAmount_code"></span></td>
+                    <td style="text-align:right" colspan="2">' . $text['DISCOUNT_CODE'] . ' <span class="discountAmount_code"></span></td>
                     <td class="discountAmount"></td>
                 <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td style="text-align:right" colspan="2">Subtotaal</td>
+                    <td style="text-align:right" colspan="2">' . $text['SUBTOTAL'] . '</td>
                     <td class="subtotal">' . $strNodePriceSubtotal . '</td>
                 </tr>
                 <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td style="text-align:right" colspan="2">Verzendkosten</td>
+                    <td style="text-align:right" colspan="2">' . $text['SHIPPING_FEE'] . '</td>
                     <td class="shippingCosts">' . $strShippingCosts . '</td>
                 </tr>
                 <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td style="text-align:right" colspan="2">Totaal</td>
+                    <td style="text-align:right" colspan="2">' . $text['Total'] . '</td>
                     <td><h3 class="total">' . $strNodePriceTotal . '</h3></td>
                 </tr>
                 <tr class="table-footer table-checkout">
                     <td class="text-left" colspan="4">
-                        <strong>Heeft u een kortings of vouchercode?</strong>
-                        <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> Code invoeren</a></p>
+                        <strong>' . $text['VOUCHER_CONTENT'] . '</strong>
+                        <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> ' . $text['ADD_VOUCHER_CODE'] . '</a></p>
                         <div class="discount_container" style="display:none">
                             <div class="discount_input">
-                                <input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="' . $discountCode . '" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
+                                <input type="text" name="discountcode" id="discountCodeValue" placeholder="' . $text['YOUR_VOUCHER_CODE'] . '" class="discountValue" value="' . $discountCode . '" /><a class="btn btn-primary btn-xs" id="discountCodeSend">' . $text['SEND'] . '</a>
                             </div>
                             <div class="discount_code"></div>
                             <div class="discount_message"></div>
@@ -174,7 +174,7 @@ if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['int
                         </div>
 
                     </td>
-                    <td><a href="' . SITE_URL . '/dc_shoppingcart2.php" class="btn btn-primary">Bestelling afronden</a></td>
+                    <td><a href="' . SITE_URL . '/dc_shoppingcart2.php" class="btn btn-primary">' . $text['SEND_ORDER'] . '</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -182,7 +182,7 @@ if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['int
 
 } else {
 
-    echo '<p>Geen producten in winkelwagen.</p>';
+    echo '<p>' . $text['NO_ARTICLES_IN_BASKET'] . '</p>';
 
 }
 
@@ -209,7 +209,7 @@ while ($objProduct = $objDB->getObject($result)) {
             <td>
                 <p><strong><?php echo $Product->getTitle();?></strong></p>
                 <p><?php echo calculateProductPrice($Product->getPrice(), $objProduct->id);?></p>
-                <p><a href="<?php echo SITE_URL?>/product/<?php echo $Product->getId();?>/" class="btn btn-primary btn-xs" title="Voeg toe aan winkelmandje"><span class="glyphicon glyphicon-plus"></span> In winkelwagen</a></p>
+                <p><a href="<?php echo SITE_URL?>/product/<?php echo $Product->getId();?>/" class="btn btn-primary btn-xs" title="<?php echo $text['ADD_TO_CART']; ?>"><span class="glyphicon glyphicon-plus"></span> <?php echo $text['IN_SHOPPING_CART']; ?></a></p>
             </td>
         </tr>
         <?php
@@ -232,6 +232,9 @@ $('#discountCode').click(function(){
 $('#discountCodeSend').click(function(){
 
     var discountCode = $('#discountCodeValue').val();
+    var verificationCodeContent = "<?php echo $text['VERIFICATION_CODE_CONTENT']; ?>";
+    var clientInputContent = "<?php echo $text['YOUR_VERIFICATION_CODE']; ?>";
+    var sendValue = "<?php echo $text['SEND']; ?>";
 
     $.ajax({
         type:       'POST',
@@ -248,9 +251,9 @@ $('#discountCodeSend').click(function(){
                 $('.discount_input').hide();
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
-                    '<div class="italic">Voor deze code is een controlecode vereist.<br/>Vul uw controlecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?=$validationCode?>" />' +
-                    '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
+                    '<div class="italic">'+ verificationCodeContent + '</div>' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="'+ clientInputContent + '" class="discountValue" value="<?=$validationCode?>" />' +
+                    '<a class="btn btn-primary btn-xs" id="validationCodeSend">'+ sendValue +'</a>'
                 );
 
                 <?php if (!empty($validationCode)) {?>
@@ -331,15 +334,18 @@ $('.cartQuantity').change(function(){
     var intCartId       = $(this).data('cartid');
     var intProductId    = $(this).data('productid');
     var stockQty        = parseInt(window['stock_'+intProductId]);
+    var inStock = "<?php echo $text['IN_STOCK']; ?>"
+    var stockLow = "<?php echo $text['STOCK_LOW']; ?>"
+    var outStock = "<?php echo $text['OUT_STOCK']; ?>"
 
     if (stockQty >= intQuantity) {
-        $('.stock_message').html('Op voorraad.');
+        $('.stock_message').html(inStock);
     }
     else if (stockQty < intQuantity) {
-        $('.stock_message').html('Niet voldoende op voorraad.');
+        $('.stock_message').html(stockLow);
     }
     else {
-        $('.stock_message').html('Niet op voorraad (circa 3 werkdagen levertijd).');
+        $('.stock_message').html(outStock);
     }
 
     $.get(

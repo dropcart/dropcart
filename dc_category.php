@@ -58,10 +58,10 @@ $intTotalProducts = $arrProducts->itemsTotal;
 $intPages = ceil($arrProducts->itemsTotal / MAXIMUM_PAGE_PRODUCTS);
 
 $arrSortOptions = array(
-    'salesDesc' => 'Populair',
-    'priceAsc' => 'Laagste prijs',
-    'priceDesc' => 'Hoogste prijs',
-    'titleAsc' => 'Titel A-Z',
+    'salesDesc' => $text['SORT_SALES_DESC'],
+    'priceAsc' => $text['SORT_PRICE_ASC'],
+    'priceDesc' => $text['SORT_PRICE_DESC'],
+    'titleAsc' => $text['SORT_TITLE_ASC'],
 );
 
 $arrBrandOptions = array(
@@ -82,7 +82,7 @@ $arrBrandOptions = array(
         <div class="well well-small">
             <ul class="nav nav-list">
             <form method="post" id="form-brand">
-                <li class="nav-header">Geschikt voor</li>
+                <li class="nav-header"><?php echo $text['SUITABLE']; ?></li>
                 <label class="sr-only"><input type="hidden" name="brands[]" value="" checked /></label>
                 <?php
 foreach ($arrBrandOptions AS $brandKey => $brandValue) {
@@ -143,7 +143,7 @@ if (count($arrProducts->products) > 0) {
 }
 
 } else {
-    echo "<p>Geen resultaten gevonden.</p>";
+    echo "<p>" . $text['NO_RESULTS_1'] . "</p>";
 }
 ?>
         </div><!-- /row -->

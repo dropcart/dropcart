@@ -2,6 +2,8 @@
 
 require_once SITE_PATH . 'includes/dc_functions_global.php';
 
+require_once SITE_PATH . 'locale/' . LANG . '/translations.php';
+
 function doLogin($strEmail, $strPassword) {
 
     global $objDB;

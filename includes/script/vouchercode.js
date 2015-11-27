@@ -9,6 +9,9 @@ $('#discountCode').click(function(){
 $('#discountCodeSend').click(function(){
 
 	var discountCode = $('#discountCodeValue').val();
+	var verificationCodeContent = "<?php echo $text['VERIFICATION_CODE_CONTENT']; ?>";
+    var clientInputContent = "<?php echo $text['YOUR_VERIFICATION_CODE']; ?>";
+    var sendValue = "<?php echo $text['SEND']; ?>";
 
 	$.ajax({
 		type:		'POST',
@@ -25,10 +28,10 @@ $('#discountCodeSend').click(function(){
 				$('.discount_input').hide();
 				$('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');				
 				$('.discount_message').html(
-					'<div class="italic">Voor deze code is een validatiecode vereist.<br/>Vul uw validatiecode in die u heeft ontvangen.</div>' +
-					'<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=$_SESSION["validationCode"]?>" />' +
-					'<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
-				);
+                    '<div class="italic">'+ verificationCodeContent + '</div>' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="'+ clientInputContent + '" class="discountValue" value="<?=$validationCode?>" />' +
+                    '<a class="btn btn-primary btn-xs" id="validationCodeSend">'+ sendValue +'</a>'
+                );
 				
 				<?php if($_SESSION["validationCode"] != "") { ?>
 					$('#validationCodeSend').click();

@@ -30,8 +30,11 @@ function getSiteUrl() {
 
     /* Determine if we have a subdirectory */
 
+
+    /* Replace slaches for cross_platform */
+    $path = str_replace('\\', '/', dirname(__FILE__));
     /* Substract document root from absolute path */
-    $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', dirname(__FILE__));
+    $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', $path);
 
     /* Remove the config dir from the path */
     $path = str_replace('/includes/php', '', $path);
@@ -41,14 +44,33 @@ function getSiteUrl() {
     return $url;
 }
 
+/**
+* Function to check the client language versus supported languages
+* @param string clientLangHeader
+* @return string clientLang
+*/
+function checkClientLang($clientLangHeader) {
+    $langSupport = array('nl', 'en', 'de', 'fr');
+    $clientLang = substr($clientLangHeader, 0, 2);
+
+    if(in_array($clientLang, $langSupport)) {
+        return $clientLang;
+    } else {
+        return 'en';
+    }
+}
+
 /*
 Turn on or off developer mode:
 Enables all errors
  */
 
-define('DEV_MODE', false); # NEVER change this value in production environment
+define('DEV_MODE', true); # NEVER change this value in production environment
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 define('SITE_URL', getSiteUrl()); // ends in a slash
+
+// Get language from client
+define('LANG', checkClientLang($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 
 /*
 Get the absolute path of the dropcart installation.
@@ -78,9 +100,11 @@ setlocale(LC_MONETARY, formOption('LC_MONETARY'));
 
 if (DEV_MODE == true) {
     error_reporting(-1);
+    ini_set('display_errors', "on");
 } else {
     // Turn off all error reporting
     error_reporting(0);
+    ini_set('display_errors', "off");
 }
 
 ?>

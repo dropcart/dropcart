@@ -45,7 +45,7 @@ if ($_POST) {
             $strPassword = password_hash($strPassword1, PASSWORD_BCRYPT);
 
         } else {
-            header('Location: ?fail=' . urlencode('Wachtwoorden komen niet overeen.'));
+            header('Location: ?fail=' . urlencode($text['DIFFERENT_PASSWORDS']));
         }
 
     }
@@ -61,9 +61,9 @@ if ($_POST) {
     $result = $objDB->sqlExecute($strSQL);
 
     if ($result === true) {
-        header('Location: ?succes=' . urlencode('Gebruiker is aangepast.'));
+        header('Location: ?succes=' . urlencode($text['USER_CHANGED']));
     } else {
-        header('Location: ?fail=' . urlencode('Er is iets fout gegaan.'));
+        header('Location: ?fail=' . urlencode($text['SOMETHING_WENT_WRONG']));
     }
 
 }
@@ -77,68 +77,68 @@ require_once 'includes/php/dc_header.php';
 
     <?php
 if (!empty($_GET['succes'])) {
-    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> ' . $_GET['succes'] . '</div>';
+    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' . $text['SUCCESS'] . '</strong> ' . $_GET['succes'] . '</div>';
 }
 
 if (!empty($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' . $text['ERROR'] . '</strong> ' . $_GET['fail'] . '</div>';
 }
 ?>
 
-        <h2>Mijn account</h2>
+        <h2><?php echo $text['ACCOUNT']; ?></h2>
         <hr class="colorgraph">
 
         <form class="form-horizontal" role="form" method="POST">
             <div class="form-group">
-                <label for="entryDate" class="col-sm-2 control-label">Klant sinds</label>
+                <label for="entryDate" class="col-sm-2 control-label"><?php echo $text['CUSTOMER_SINCE']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $objUser->entryDate;?>" disabled>
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="gender" class="col-sm-2 control-label">Geslacht</label>
+                <label for="gender" class="col-sm-2 control-label"><?php echo $text['GENDER']; ?></label>
                 <div class="col-sm-10">
                     <select class="form-control" name="gender">
                         <option value="0" <?php if ($objUser->gender == 0) {
     echo 'selected';
 }
-?>>Onbekend</option>
+?>><?php echo $text['UNKOWN']; ?></option>
                         <option value="1" <?php if ($objUser->gender == 1) {
     echo 'selected';
 }
-?>>Mannelijk</option>
+?>><?php echo $text['MALE']; ?></option>
                         <option value="2" <?php if ($objUser->gender == 2) {
     echo 'selected';
 }
-?>>Vrouwelijk</option>
+?>><?php echo $text['FEMALE']; ?></option>
                     </select>
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="company" class="col-sm-2 control-label">Bedrijfsnaam</label>
+                <label for="company" class="col-sm-2 control-label"><?php echo $text['COMPANY']; ?></label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="company" name="company" placeholder="Bedrijfsnaam" value="<?php echo $objUser->company;?>">
+                    <input type="text" class="form-control" id="company" name="company" placeholder="<?php echo $text['COMPANY']; ?>" value="<?php echo $objUser->company;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="firstname" class="col-sm-2 control-label">Voornaam</label>
+                <label for="firstname" class="col-sm-2 control-label"><?php echo $text['FIRST_NAME']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $objUser->firstname;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="lastname" class="col-sm-2 control-label">Achternaam</label>
+                <label for="lastname" class="col-sm-2 control-label"><?php echo $text['LAST_NAME']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $objUser->lastname;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">Email</label>
+                <label for="email" class="col-sm-2 control-label"><?php echo $text['EMAIL']; ?></label>
                 <div class="col-sm-10">
                     <input type="email" class="form-control" id="email" name="email" value="<?php echo $objUser->email;?>">
                 </div><!-- /col -->
@@ -146,25 +146,25 @@ if (!empty($_GET['fail'])) {
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-default" value="Aanpassen" />
+                    <input type="submit" class="btn btn-default" value="<?php echo $text['ADJUST']; ?>" />
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <hr />
 
             <div class="form-group">
-                <label for="password1" class="col-sm-2 control-label">Wachtwoord resetten</label>
+                <label for="password1" class="col-sm-2 control-label"><?php echo $text['PASS_RESET_BUTTON']; ?></label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" id="password1" name="password1" placeholder="Wachtwoord.." autocomplete="off">
+                    <input type="password" class="form-control" id="password1" name="password1" placeholder="<?php echo $text['INPUT_PASSWORD']; ?>.." autocomplete="off">
                     <br>
-                    <input type="password" class="form-control" id="password2" name="password2" placeholder="Wachtwoord herhalen..." autocomplete="off">
-                    <p class="help-block">Laat deze velden leeg als u het wachtwoord niet wenst te resetten</p>
+                    <input type="password" class="form-control" id="password2" name="password2" placeholder="<?php echo $text['REPEAT_PASSWORD']; ?>" autocomplete="off">
+                    <p class="help-block"><?php echo $text['EMPTY_PASSWORD_FIELDS']; ?></p>
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-default" value="Aanpassen" />
+                    <input type="submit" class="btn btn-default" value="<?php echo $text['ADJUST']; ?>" />
                 </div><!-- /col -->
             </div><!-- /form-group -->
         </form>

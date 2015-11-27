@@ -39,11 +39,11 @@ if (!empty($strEmail) AND !empty($strPassword)) {
             header('Location: ' . SITE_URL . '/dc_profile.php');
 
         } else {
-            header('Location: ?fail=' . urlencode('Wachtwoord is niet juist.'));
+            header('Location: ?fail=' . urlencode($text['WRONG_PASSWORD']));
         }
     } else {
         // email not found
-        header('Location: ?fail=' . urlencode('Email is niet bekend.'));
+        header('Location: ?fail=' . urlencode($text['UNKOWN_MAIL']));
     }
 }
 
@@ -56,32 +56,32 @@ require_once 'includes/php/dc_header.php';
 
     <?php
 if (!empty($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>'. $text['ERROR'] . '</strong> ' . $_GET['fail'] . '</div>';
 }
 ?>
 
     <form role="form" method="post">
         <fieldset>
-        <h2>Heeft u al een account?</h2>
+        <h2><?php echo $text['LOGIN_SUBTITLE']; ?></h2>
 
         <hr class="colorgraph">
 
         <div class="form-group">
-            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email">
+            <input type="email" name="email" id="email" class="form-control input-lg" placeholder="<?php echo $text['INPUT_EMAIL']; ?>">
         </div><!-- /form-group -->
 
         <div class="form-group">
-            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Wachtwoord">
+            <input type="password" name="password" id="password" class="form-control input-lg" placeholder="<?php echo $text['INPUT_PASSWORD']; ?>">
         </div><!-- /form-group -->
 
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
-                <input type="submit" class="btn btn-lg btn-success btn-block" value="Inloggen">
+                <input type="submit" class="btn btn-lg btn-success btn-block" value="<?php echo $text['LOGIN_BUTTON']; ?>">
             </div><!-- /col -->
         </div><!-- /row -->
 
         <span class="button-checkbox">
-            <a href="<?php echo SITE_URL?>/dc_password_reset.php" class="btn btn-link pull-right">Wachtwoord vergeten?</a>
+            <a href="<?php echo SITE_URL?>/dc_password_reset.php" class="btn btn-link pull-right"><?php echo $text['FORGOT_PASSWORD']; ?></a>
         </span><!-- /button-checkbox -->
 
         </fieldset>

@@ -209,7 +209,7 @@ function loadAddresses() {
                 <tr>
                     <td width="40%"><table cellpadding="0" valign="top" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="text-align: left; font-family: Arial, sans-serif; color: #000000; font-size: 16px; font-weight: normal; line-height: 30px; margin: 0;border-bottom: 1px solid #e1e1e1;">Factuuradres</td>
+                                <td style="text-align: left; font-family: Arial, sans-serif; color: #000000; font-size: 16px; font-weight: normal; line-height: 30px; margin: 0;border-bottom: 1px solid #e1e1e1;">' . $text['BILLING_ADRESS'] . '</td>
                             </tr>
                             <tr>
                                 <td style="color: #969696; font-family: Arial, sans-serif;text-align: left; font-size: 13px; font-weight: normal; line-height: 30px; border-bottom: 1px solid #e1e1e1;">' . $objOrder->firstname . ' ' . $objOrder->lastname . '</td>
@@ -224,7 +224,7 @@ function loadAddresses() {
                     <td width="20%"></td>
                     <td width="40%"><table cellpadding="0" valign="top" cellspacing="0" border="0" width="100%">
                             <tr>
-                                <td style="text-align: left; font-family: Arial, sans-serif; color: #000000; font-size: 16px; font-weight: normal; line-height: 30px; margin: 0;border-bottom: 1px solid #e1e1e1;">Afleveradres</td>
+                                <td style="text-align: left; font-family: Arial, sans-serif; color: #000000; font-size: 16px; font-weight: normal; line-height: 30px; margin: 0;border-bottom: 1px solid #e1e1e1;">' . $text['DELIVERY_ADRESS'] . '</td>
                             </tr>
                             <tr>
                                 <td style="color: #969696; font-family: Arial, sans-serif;text-align: left; font-size: 13px; font-weight: normal; line-height: 30px; border-bottom: 1px solid #e1e1e1;">' . $objOrder->delFirstname . ' ' . $objOrder->delLastname . '</td>
@@ -308,7 +308,7 @@ function loadOrderDetails() {
                     &nbsp;
                 </td>
                 <td valign="top" align="left" width="50%" style="font-family: Arial, sans-serif; border-bottom: 1px solid #e1e1e1;">
-                    Subtotaal
+                    ' . $text['SUBTOTAL'] . '
                 </td>
                 <td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
                     <span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($dblPriceTotal, 2, ',', ' ') . '</span>
@@ -319,7 +319,7 @@ function loadOrderDetails() {
                     &nbsp;
                 </td>
                 <td valign="top" align="left" width="50%" style="font-family: Arial, sans-serif; border-bottom: 1px solid #e1e1e1;">
-                    Verzendkosten
+                    ' . $text['SHIPPING_FEE'] . '
                 </td>
                 <td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
                     <span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->shippingCosts, 2, ',', ' ') . '</span>
@@ -334,7 +334,7 @@ function loadOrderDetails() {
                         &nbsp;
                     </td>
                     <td valign="top" align="left" width="50%" style="font-family: Arial, sans-serif; border-bottom: 1px solid #e1e1e1;">
-                        Korting
+                        ' . $text['DISCOUNT'] . '
                     </td>
                     <td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
                         <span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->kortingsbedrag, 2, ',', ' ') . '</span>
@@ -349,7 +349,7 @@ function loadOrderDetails() {
                     &nbsp;
                 </td>
                 <td valign="top" align="left" width="50%" style="font-family: Arial, sans-serif; border-bottom: 1px solid #e1e1e1;">
-                    Totaal
+                    ' . $text['TOTAL'] . '
                 </td>
                 <td valign="top" width="40%" align="right" style="border-bottom: 1px solid #e1e1e1;">
                     <span style="font-weight: bold;font-family: Arial, sans-serif; color: #000000; font-size: 13px;">&euro; ' . number_format($objOrder->totalPrice, 2, ',', ' ') . '</span>
@@ -400,6 +400,6 @@ function loadShipmentDetails() {
         return null;
     }
 
-    return '<p>Volg uw pakket: <a href="' . $Order->shipment_tracking_url . '">' . $Order->shipment_tracking_code . '</a></p>
-            <p> U kunt ook uw pakket volgen op de website van <strong>' . $Order->shipment_carrier . '</strong>  met de code: ' . $Order->shipment_tracking_code;
+    return '<p>' . $text['TRACKING_1'] . ': <a href="' . $Order->shipment_tracking_url . '">' . $Order->shipment_tracking_code . '</a></p>
+            <p> ' . $text['TRACKING_2'] . ' <strong>' . $Order->shipment_carrier . '</strong>  ' . $text['TRACKING_3'] . ': ' . $Order->shipment_tracking_code;
 }

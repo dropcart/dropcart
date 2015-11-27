@@ -57,87 +57,87 @@ require_once 'includes/php/dc_header.php';
 <div class="row" style="margin-top:40px">
     <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
 
-        <h2>Mijn account <small><a href="<?php echo SITE_URL?>/dc_logout.php">(uitloggen?)</a></small></h2>
+        <h2><?php echo $text['ACCOUNT']; ?> <small><a href="<?php echo SITE_URL?>/dc_logout.php"><?php echo $text['LOGOUT']; ?></a></small></h2>
         <hr class="colorgraph">
 
-        <h3>Persoonlijke gegevens</h3>
+        <h3><?php echo $text['PERSONAL_DATA']; ?></h3>
         <table class="table">
             <tr>
-                <td style="width:35%">Bedrijfsnaam:</td>
+                <td style="width:35%"><?php echo $text['COMPANY']; ?></td>
                 <td><?php echo $objCust->company;?></td>
             </tr>
             <tr>
-                <td>Naam:</td>
+                <td><?php echo $text['NAME']; ?>:</td>
                 <td><?php echo $objCust->firstname . " " . $objCust->lastname;?></td>
             </tr>
             <tr>
-                <td>Geslacht:</td>
+                <td><?php echo $text['GENDER']; ?>:</td>
                 <td>
                     <?php if ($objCust->gender == 0) {
-    echo 'Onbekend';
+    echo $text['UNKOWN'];
 }
 ?>
                     <?php if ($objCust->gender == 1) {
-    echo 'Mannelijk';
+    echo $text['MALE'];
 }
 ?>
                     <?php if ($objCust->gender == 2) {
-    echo 'Vrouwelijk';
+    echo $text['FEMALE'];
 }
 ?>
                 </td>
             </tr>
             <tr>
-                <td>E-mailadres:</td>
+                <td><?php echo $text['EMAIL']; ?>:</td>
                 <td><?php echo $objCust->email;?></td>
             </tr>
             <tr>
-                <td>Wachtwoord:</td>
-                <td><a href="<?php SITE_URL?>/dc_profile_edit.php">Wachtwoord resetten?</a></td>
+                <td><?php echo $text['PASSWORD']; ?>:</td>
+                <td><a href="<?php SITE_URL?>/dc_profile_edit.php"><?php echo $text['PASS_RESET_BUTTON']; ?>?</a></td>
             </tr>
             <tr>
-                <td><a href="<?php SITE_URL?>/dc_profile_edit.php" class="btn btn-success">Wijzigen?</a></td>
+                <td><a href="<?php SITE_URL?>/dc_profile_edit.php" class="btn btn-success"><?php echo $text['CHANGE']; ?>?</a></td>
                 <td>&nbsp;</td>
             </tr>
         </table>
 
-        <h3>Mijn adressen</h3>
+        <h3><?php echo $text['ADRESSES']; ?></h3>
         <table class="table">
             <tr>
                 <td style="width:35%">#:</td>
                 <td><?php echo $objCust->addressName;?></td>
             </tr>
             <tr>
-                <td>Naam:</td>
+                <td><?php echo $text['NAME']; ?>:</td>
                 <td><?php echo $objCust->add_firstname . " " . $objCust->add_lastname;?></td>
             </tr>
             <tr>
-                <td>Adres:</td>
+                <td><?php echo $text['ADRES']; ?>:</td>
                 <td><?php echo $objCust->add_address . " " . $objCust->add_houseNr . $objCust->add_houseNrAdd;?></td>
             </tr>
             <tr>
-                <td>Postcode:</td>
+                <td><?php echo $text['ZIP_CODE']; ?>:</td>
                 <td><?php echo $objCust->add_zipcode;?></td>
             </tr>
             <tr>
-                <td>Woonplaats:</td>
+                <td><?php echo $text['CITY']; ?>:</td>
                 <td><?php echo $objCust->add_city;?></td>
             </tr>
             <tr>
-                <td><a href="<?php echo SITE_URL?>/dc_profile_addresses.php" class="btn btn-success">Wijzigen?</a></td>
+                <td><a href="<?php echo SITE_URL?>/dc_profile_addresses.php" class="btn btn-success"><?php echo $text['CHANGE']; ?>?</a></td>
                 <td>&nbsp;</td>
             </tr>
         </table>
 
-        <h2>Bestellingen</h2>
+        <h2><?php echo $text['ORDERS']; ?></h2>
         <hr class="colorgraph">
         <table class="table">
             <tr>
-                <th>Ordernummer</th>
-                <th>Besteldatum</th>
-                <th>Items</th>
-                <th>Betaalmethode</th>
-                <th>Status</th>
+                <th><?php echo $text['ORDER_ID']; ?></th>
+                <th><?php echo $text['ORDER_DATE']; ?></th>
+                <th><?php echo $text['ORDER_ITEMS']; ?></th>
+                <th><?php echo $text['ORDER_PAYMENT']; ?></th>
+                <th><?php echo $text['ORDER_STATE']; ?></th>
             </tr>
 
             <?php
@@ -153,7 +153,7 @@ $strSQL =
 $result = $objDB->sqlExecute($strSQL);
 
 if (empty($result->num_rows)) {
-    echo '<tr><td colspan="5">Wij hebben (nog?) geen bestellingen van u gevonden.</td></tr>';
+    echo '<tr><td colspan="5">'. $text['NO_ORDERS'] . '</td></tr>';
 }
 
 while ($objOrder = $objDB->getObject($result)) {
@@ -165,7 +165,7 @@ while ($objOrder = $objDB->getObject($result)) {
     $strSQL = "SELECT productId, price, discount, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
     $result = $objDB->sqlExecute($strSQL);
 
-    echo '<tr class="order" title="Klik om order details te bekijken">';
+    echo '<tr class="order" title="'. $text['DETAILS'] . '">';
     echo '<td><a>' . formOption('order_number_prefix') . $objOrder->orderId . '</a></td>';
     echo '<td>' . $objOrder->entryDate . '</td>';
     echo '<td>' . $items . '</td>';

@@ -37,9 +37,9 @@ $strMetaDescription = getContent('printer_meta_description', true, '', $arrProdu
 require_once 'includes/php/dc_header.php';
 
 $arrSortOptions = array(
-    'priceAsc' => 'Laagste prijs',
-    'priceDesc' => 'Hoogste prijs',
-    'titleAsc' => 'Titel A-Z',
+    'priceAsc' => $text['SORT_PRICE_ASC'],
+    'priceDesc' => $text['SORT_PRICE_DESC'],
+    'titleAsc' => $text['SORT_TITLE_ASC'],
 );
 
 ?>
@@ -49,7 +49,7 @@ $arrSortOptions = array(
         <div class="well well-small">
             <ul class="nav nav-list">
 
-                <li class="nav-header">Sorteer op</li>
+                <li class="nav-header"><?php echo $text['SORT']; ?></li>
                 <?php
 foreach ($arrSortOptions as $sortIndex => $sortTitle) {
 
@@ -64,7 +64,7 @@ foreach ($arrSortOptions as $sortIndex => $sortTitle) {
     </div><!-- /col -->
 
     <div class="col-md-9 col-xs-12 cat">
-        <h1>Producten geschikt voor de <?php echo $arrProducts->printers->brand . " " . $arrProducts->printers->serie . " " . $arrProducts->printers->printer;?></h1>
+        <h1><?php echo $text['PRINTER_TITLE'] . " " . $arrProducts->printers->brand . " " . $arrProducts->printers->serie . " " . $arrProducts->printers->printer;?></h1>
 
 
         <div class="row">
@@ -102,7 +102,7 @@ if (count($arrProducts->products) > 0) {
 }
 
 } else {
-    echo "<p>Geen geschikte inkt cartridges, toners papier of andere toebehoren gevonden voor deze printer. Misschien dat u met onderstaande links verder komt?</p>";
+    echo "<p>" . $text['NO_RESULTS_2'] . "</p>";
 }
 ?>
 

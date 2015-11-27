@@ -71,9 +71,9 @@ if ($_POST) {
     }
 
     if ($result === true) {
-        header('Location: ?id=' . $intAddress . '&succes=' . urlencode('Adres is aangepast.'));
+        header('Location: ?id=' . $intAddress . '&succes=' . urlencode($text['CHANGED']));
     } else {
-        header('Location: ?id=' . $intAddress . '&fail=' . urlencode('Er is iets fout gegaan.'));
+        header('Location: ?id=' . $intAddress . '&fail=' . urlencode($text['SOMETHING_WENT_WRONG']));
     }
 
 }
@@ -109,24 +109,24 @@ require_once 'includes/php/dc_header.php';
 
     <?php
 if (!empty($_GET['succes'])) {
-    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> ' . $_GET['succes'] . '</div>';
+    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' . $text['SUCCESS'] . '</strong> ' . $_GET['succes'] . '</div>';
 }
 
 if (!empty($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' . $text['ERROR'] . '</strong> ' . $_GET['fail'] . '</div>';
 }
 ?>
 
         <form class="form-horizontal" role="form" method="GET">
             <div class="form-group">
 
-                <h3>Mijn adressen</h3>
-                <p>Selecteer een adres om deze aan te bewerken.</p>
+                <h3><?php echo $text['MY_STREETS']; ?></h3>
+                <p><?php echo $text['SELECT_STREET']; ?></p>
 
-                <label for="addresses" class="col-sm-2 control-label">Adressen</label>
+                <label for="addresses" class="col-sm-2 control-label"><?php echo $text['STREETS']; ?></label>
                 <div class="col-sm-10">
                     <select class="form-control" name="id" onchange="this.form.submit()">
-                        <option value="0">-- selecteer --</option>
+                        <option value="0">-- <?php echo $text['SELECT']; ?> --</option>
                         <?php
 while ($objAd = $objDB->getObject($result)) {
     $line = "";
@@ -170,7 +170,7 @@ if (!empty($_GET['id'])) {
 
     ?>
 
-            <h3>Adres bewerken</h3>
+            <h3><?php echo $text['MODIFY_ADRESS']; ?></h3>
             <hr class="colorgraph">
 
             <form class="form-horizontal" role="form" method="POST">
@@ -179,70 +179,70 @@ if (!empty($_GET['id'])) {
             <input type="hidden" name="custId" value="<?php echo $objAd->custId;?>"; />
 
             <div class="form-group">
-                <label for="addressName" class="col-sm-2 control-label">Omschrijving</label>
+                <label for="addressName" class="col-sm-2 control-label"><?php echo $text['DESCRIPTION']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="addressName" name="addressName" value="<?php echo $objAd->addressName;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="company" class="col-sm-2 control-label">Bedrijfsnaam</label>
+                <label for="company" class="col-sm-2 control-label"><?php echo $text['COMPANY']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="company" name="company" value="<?php echo $objAd->company;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="firstname" class="col-sm-2 control-label">Voornaam</label>
+                <label for="firstname" class="col-sm-2 control-label"><?php echo $text['FIRST_NAME']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $objAd->firstname;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="lastname" class="col-sm-2 control-label">Achternaam</label>
+                <label for="lastname" class="col-sm-2 control-label"><?php echo $text['LAST_NAME']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $objAd->lastname;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="address" class="col-sm-2 control-label">Straatnaam</label>
+                <label for="address" class="col-sm-2 control-label"><?php echo $text['STREET_NAME']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="address" name="address" value="<?php echo $objAd->address;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="houseNr" class="col-sm-2 control-label">Huisnummer</label>
+                <label for="houseNr" class="col-sm-2 control-label"><?php echo $text['STREET_NUMBER']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="houseNr" name="houseNr" value="<?php echo $objAd->houseNr;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="houseNrAdd" class="col-sm-2 control-label">Huisnummer toevoeging</label>
+                <label for="houseNrAdd" class="col-sm-2 control-label"><?php echo $text['STREET_NUMBER_AFFIX']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="houseNrAdd" name="houseNrAdd" value="<?php echo $objAd->houseNrAdd;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="zipcode" class="col-sm-2 control-label">Postcode</label>
+                <label for="zipcode" class="col-sm-2 control-label"><?php echo $text['ZIP_CODE']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="zipcode" name="zipcode" value="<?php echo $objAd->zipcode;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="city" class="col-sm-2 control-label">Stad</label>
+                <label for="city" class="col-sm-2 control-label"><?php echo $text['CITY']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="city" name="city" value="<?php echo $objAd->city;?>">
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
             <div class="form-group">
-                <label for="lang" class="col-sm-2 control-label">Land</label>
+                <label for="lang" class="col-sm-2 control-label"><?php echo $text['COUNTRY']; ?></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="lang" name="lang" value="<?php echo $objAd->lang;?>">
                 </div><!-- /col -->
@@ -253,7 +253,7 @@ if (!empty($_GET['id'])) {
                     <div class="checkbox">
                     <label>
                         <input type="checkbox" name="defaultInv" value="1" <?php if ($objAd->defaultInv == 1) {echo 'checked';}
-    ?>> Dit adres is mijn standaard factuuradres
+    ?>> <?php echo ">" . $text['DEFAULT_BILLING_ADRESS']; ?>
                     </label>
                     </div><!-- /checkbox -->
                 </div><!-- /col -->
@@ -264,7 +264,7 @@ if (!empty($_GET['id'])) {
                     <div class="checkbox">
                     <label>
                         <input type="checkbox" name="defaultDel" value="1" <?php if ($objAd->defaultDel == 1) {echo 'checked';}
-    ?>> Dit adres is mijn standaard afleveradres
+    ?>> <?php echo $text['DEFAULT_DELIVERY_ADRESS']; ?>
                     </label>
                     </div><!-- /checkbox -->
                 </div><!-- /col -->
@@ -272,7 +272,7 @@ if (!empty($_GET['id'])) {
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" class="btn btn-default" value="Aanpassen" />
+                    <input type="submit" class="btn btn-default" value="<?php echo $text['ADJUST']; ?>" />
                 </div><!-- /col -->
             </div><!-- /form-group -->
         </form>

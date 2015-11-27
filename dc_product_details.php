@@ -91,9 +91,9 @@ if (@!getimagesize($strProductImg)) {
 
         <div class="col-md-10 col-md-offset-1 hidden-xs">
         <ul class="list-unstyled ">
-            <li><span class="glyphicon glyphicon-ok"></span> 1 jaar garantie</li>
-            <li><span class="glyphicon glyphicon-ok"></span> 14 dagen bedenktermijn</li>
-            <li><span class="glyphicon glyphicon-ok"></span> Uitstekende prijs-kwaliteitsverhouiding</li>
+            <li><span class="glyphicon glyphicon-ok"></span> <?php echo $text['GARANTY']; ?></li>
+            <li><span class="glyphicon glyphicon-ok"></span> <?php echo $text['TIME_TO_CONSIDER']; ?></li>
+            <li><span class="glyphicon glyphicon-ok"></span> <?php echo $text['SELLING_POINT']; ?></li>
         </ul>
         </div>
     </div><!-- /col -->
@@ -102,7 +102,7 @@ if (@!getimagesize($strProductImg)) {
         <div class="product-header">
             <h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId;?>" data-url="/post" data-title="Verander prijs">
                 <?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '';?>
-                <?php echo $strPrice?> <small>inclusief BTW</small>
+                <?php echo $strPrice?> <small><?php echo $text['TAX']; ?></small>
             </h2>
 
             <?php
@@ -115,7 +115,7 @@ if ($numTiers > 0) {
 while ($objTier = $objDB->getObject($result)) {
     $dblSaving = ($dblPrice / 100) * $objTier->percentage;
     $dblPiecePrice = $dblPrice - $dblSaving;
-    echo '<p>Koop ' . $objTier->quantity . ' stuks voor <strong>' . money_format('%(#1n', $dblPiecePrice) . '</strong> per stuk en <strong>bespaar ' . $objTier->percentage . '%</strong>.</p>';
+    echo '<p>' . $text['SAVINGS_1'] . ' ' . $objTier->quantity . ' ' . $text['SAVINGS_2'] . '' . money_format('%(#1n', $dblPiecePrice) . '</strong> ' . $text['SAVINGS_3'] . ' ' . $objTier->percentage . '%</strong>.</p>';
 }
 if ($numTiers > 0) {
     echo '</div>';
@@ -123,29 +123,29 @@ if ($numTiers > 0) {
 ?>
 
             <div class="product-stock">
-                <p><strong>Voorraad</strong>:
+                <p><strong><?php echo $text['STOCK']; ?></strong>:
                 <?php
 // Display stock
 if ($intStock > 10) {
-    echo 'Ruimschoots op voorraad';
+    echo $text['STOCK_SURPLACE'];
 } elseif ($intStock > 0) {
-    echo 'Op voorraad';
+    echo $text['IN_STOCK'];
 } else {
-    echo 'Niet op voorraad (circa 3 werkdagen levertijd)';
+    echo $text['OUT_STOCK'];
 }
 
 // Display delivery
 if ($intStock > 0) {
-    echo '<p><strong>Levertijd</strong>: Besteld voor 20:00, <a data-toggle="modal" data-target="#disclaimerDelivery">morgen in huis *</a> </p>';
+    echo '<p>' . $text['DELIVER_TIME_IN_STOCK_PREFIX'] . ' <a data-toggle="modal" data-target="#disclaimerDelivery">' . $text['DELIVER_TIME_IN_STOCK_AFFIX'] . ' *</a></p>';
 } else {
-    echo '<p><strong>Levertijd</strong>: Circa 3 werkdagen</p>';
+    echo '<p>' . $text['DELIVER_TIME_OUT_STOCK'] . '</p>';
 }
 ?>
             </div>
 
             <div class="product-header-footer well">
                 <div class="pull-left">
-                    Aantal:
+                    <?php echo $text['QUANTITY']; ?>
                     <select name="quantity" class="quantity" id="quantitySelect">
                         <?php
 $maxStock = 10;
@@ -173,9 +173,9 @@ for ($i = 1; $i <= $maxStock; $i++) {
                 <div class="pull-right">
                     <?php
 if ($dblPrice <= 0) {
-    echo '(Niet leverbaar)';
+    echo $text['NO_SUPPLY'];
 } else {
-    echo '<a class="btn btn-primary" data-toggle="modal" data-target="#cartConfirm">Toevoegen aan winkelmand</a>';
+    echo '<a class="btn btn-primary" data-toggle="modal" data-target="#cartConfirm">' . $text['ADD_TO_CART'] . '</a>';
 }
 ?>
                 </div><!-- /pull-right -->
@@ -213,7 +213,7 @@ if (!empty($objSpecifications)) {
 
 ?>
 
-            <h3>Omschrijving</h3>
+            <h3><?php echo $text['DESCRIPTION']; ?></h3>
             <?php
 
 echo getCustomProductDesc($category_id, $Product);
@@ -221,8 +221,8 @@ echo getCustomProductDesc($category_id, $Product);
 
             <?php
 if (count($objPrinters->printers) > 0) {
-    echo '<h3>Geschikte printers</h3>';
-    echo '<p>Dit product is gegarandeerd geschikt voor de volgende printers: </p>';
+    echo '<h3>'. $text['SUITABLE_PRINTERS_TITLE'] . '</h3>';
+    echo '<p>' . $text['SUITABLE_PRINTERS_CONTENT'] . ': </p>';
     foreach ($objPrinters->printers as $printer) {
         print_r($printer->title);
         echo ", ";
@@ -238,13 +238,13 @@ if (count($objPrinters->printers) > 0) {
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Toegevoegd aan winkelwagen</h4>
-                <p>Wij hebben dit product aan uw winkelwagen toegevoegd.</p>
+                <h4 class="modal-title" id="myModalLabel"><?php echo $text['ADDED_TO_CART_TITLE']; ?></h4>
+                <p><?php echo $text['ADDED_TO_CART_CONTENT']; ?></p>
 
             </div><!-- /modal body -->
             <div class="modal-footer">
-                <a class="btn btn-default" data-dismiss="modal">Sluiten</a></button>
-                <a href="<?php echo SITE_URL?>/dc_shoppingcart.php" class="btn btn-primary">Bekijk winkelwagen</a></button>
+                <a class="btn btn-default" data-dismiss="modal"><?php echo $text['CLOSE']; ?></a></button>
+                <a href="<?php echo SITE_URL?>/dc_shoppingcart.php" class="btn btn-primary"><?php echo $text['SHOW_CART']; ?></a></button>
             </div><!-- /modal footer -->
         </div><!-- /modal content -->
         </div><!-- /modal dialog -->
@@ -292,7 +292,7 @@ if (count($objPrinters->printers) > 0) {
     <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="well well-small">
             <ul class="nav nav-list">
-                <li class="nav-header">Top 5 Meepakkers</li>
+                <li class="nav-header"><?php echo $text['TOP_5']; ?></li>
 
                 <?php
 $strSQL = "SELECT id FROM " . DB_PREFIX . "products WHERE opt_top5 = 1 ";

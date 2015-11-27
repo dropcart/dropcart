@@ -34,12 +34,12 @@ include 'includes/php/dc_include_selector.php';
 
 <div class="row">
 <div class="col-xs-12">
-	<h2>Goedkoop printen met <?php echo formOption('site_name');?></h2>
+	<h2><?php echo $text['ABOUT_BOLD'] . " " . formOption('site_name');?></h2>
 
 	<div class="col-xs-6">
-		<p>Wij leveren printer inkt cartridges voor alle grote merken zoals HP, Brother, Epson en Canon. Gebruik onze <em>cartridge zoeker</em> hierboven om de juiste producten voor uw printer te vinden en browse door ons uitgebreid assortiment laag geprijsde en hoogwaardige printer verbruiksartikelen.</p>
+		<p> <?php echo $text['ABOUT_TEXT_1']; ?></p>
 
-		<p>Producten die op voorraad zijn worden nog dezelfde dag verzonden!</p>
+		<p><?php echo $text['ABOUT_TEXT_2']; ?></p>
 	</div><!-- /col -->
 
 	<div class="col-xs-6">

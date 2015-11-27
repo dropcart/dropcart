@@ -15,7 +15,7 @@ require_once __DIR__ . '/../../../libraries/Api_Inktweb/API.class.php';
 
 $_GET = sanitize($_GET);
 
-$strShow = strtolower($_GET['show']);
+//$strShow = strtolower($_GET['show']);
 $strWhere = NULL;
 
 $strSortColumn = (isset($_GET["sort_column"])) ? $_GET["sort_column"] : null;

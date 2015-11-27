@@ -115,17 +115,16 @@ echo ' - ' . formOption('SITE_NAME')?></title>
 <div class="col-xs-12">
     <noscript>
         <div class="alert alert-danger" role="alert">
-            <strong>Let op: </strong> ons systeem heeft gedecteert dat Javascript in uw browser niet is ingeschakeld.
-            U zult Javascript moeten aanzetten om gebruik te maken van onze site.
+            <strong><?php echo $text['JAVASCRIPT_ALERT_BOLD']; ?> </strong> <?php echo $text['JAVASCRIPT_ALERT_TEXT']; ?>
             <p>
-                <a href="<?php echo SITE_URL?>/dc_javascript.php" class="btn btn-primary">Hoe zet ik javascript aan?</a>
+                <a href="<?php echo SITE_URL?>/dc_javascript.php" class="btn btn-primary"><?php echo $text['JAVASCRIPT_ALERT_TEXT']; ?></a>
             </p>
         </div>
     </noscript>
     <nav class="navbar navbar-right header-nav" role="navigation">
         <ul class="nav navbar-nav">
-            <li><a href="<?php echo SITE_URL?>/dc_login.php">Mijn account</a></li>
-            <li><a href="<?php echo SITE_URL?>/dc_shoppingcart.php">Winkelwagen</a></li>
+            <li><a href="<?php echo SITE_URL?>/dc_login.php"><?php echo $text['ACCOUNT']; ?></a></li>
+            <li><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><?php echo $text['SHOPPING_CART']; ?></a></li>
         </ul><!-- /navbar -->
     </nav><!-- /nav -->
 </div><!-- /col -->
@@ -150,9 +149,9 @@ echo ' - ' . formOption('SITE_NAME')?></title>
             <div class="col-xs-12">
                 <div class="input-group form-search header-search">
                     <form method="get" action="<?php echo SITE_URL?>/search/" class="navbar-form">
-                        <input class="form-control search-query" type="text" name="q" placeholder="Zoek op artikelnummer...">
+                        <input class="form-control search-query" type="text" name="q" placeholder="<?php echo $text['SEARCH_BAR']; ?>">
                         <span class="input-group-btn pull-left" >
-                            <button class="btn btn-default" type="submit">Zoeken</button>
+                            <button class="btn btn-default" type="submit"><?php echo $text['SEARCH']; ?></button>
                         </span>
                     </form>
                 </div><!-- /search -->
@@ -162,8 +161,8 @@ echo ' - ' . formOption('SITE_NAME')?></title>
 
     <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
         <div id="cart">
-            <h3><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h3>
-            <a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> artikelen - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
+            <h3><span class="glyphicon glyphicon-shopping-cart"></span> <?php echo $text['SHOPPING_CART']; ?></h3>
+            <a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> <?php echo $text['ARTICLES']; ?> - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
         </div><!-- /cart -->
 
     </div><!-- /col -->
@@ -184,32 +183,32 @@ echo ' - ' . formOption('SITE_NAME')?></title>
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="<?php echo SITE_URL?>"><span class="glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown">
-                    <a href="<?php echo SITE_URL?>/categorie/1/" id="cat1" role="button" data-toggle="dropdown" data-target="#">Cartridges <span class="caret"></span></a>
+                    <a href="<?php echo SITE_URL?>/categorie/1/" id="cat1" role="button" data-toggle="dropdown" data-target="#"><?php echo $text['CATEGORY_CARTRIDGES']; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="cat1">
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/">-- toon alles -- </a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,2">HP Cartridges</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,3">Canon Cartridges</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,4">Epson Cartridges</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,5">Lexmark Cartridges</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,6">Brother Cartridges</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,29">Dell Cartridges</a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/">-- <?php echo $text['CATEGORY_SHOW']; ?> -- </a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,2">HP <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,3">Canon <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,4">Epson <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,5">Lexmark <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,6">Brother <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/1/?&amp;brands=,29">Dell <?php echo $text['CATEGORY_CARTRIDGES']; ?></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="<?php echo SITE_URL?>/categorie/2/" id="cat2" role="button" data-toggle="dropdown" data-target="#">Toners <span class="caret"></span></a>
+                    <a href="<?php echo SITE_URL?>/categorie/2/" id="cat2" role="button" data-toggle="dropdown" data-target="#"><?php echo $text['CATEGORY_TONERS']; ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="cat2">
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/">-- toon alles -- </a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,2">HP Toners</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,3">Canon Toners</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,4">Epson Toners</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,5">Lexmark Toners</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,6">Brother Toners</a></li>
-                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,29">Dell Toners</a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/">-- <?php echo $text['CATEGORY_SHOW']; ?> -- </a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,2">HP <?php echo $text['CATEGORY_TONERS']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,3">Canon <?php echo $text['CATEGORY_TONERS']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,4">Epson <?php echo $text['CATEGORY_TONERS']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,5">Lexmark <?php echo $text['CATEGORY_TONERS']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,6">Brother <?php echo $text['CATEGORY_TONERS']; ?></a></li>
+                        <li><a href="<?php echo SITE_URL?>/categorie/2/?&amp;brands=,29">Dell <?php echo $text['CATEGORY_TONERS']; ?></a></li>
                     </ul>
                 </li>
-                <li><a href="<?php echo SITE_URL?>/categorie/5/">Papier</a></li>
-                <li><a href="<?php echo SITE_URL?>/categorie/25/">Labels</a></li>
-                <li><a href="<?php echo SITE_URL?>/categorie/6/">Toebehoren</a></li>
+                <li><a href="<?php echo SITE_URL?>/categorie/5/"><?php echo $text['CATEGORY_PAPER']; ?></a></li>
+                <li><a href="<?php echo SITE_URL?>/categorie/25/"><?php echo $text['CATEGORY_LABELS']; ?></a></li>
+                <li><a href="<?php echo SITE_URL?>/categorie/6/"><?php echo $text['CATEGORY_ACCESSORIES']; ?></a></li>
             </ul><!-- /navbar-left -->
         </div><!-- /navbar -collapse -->
     </nav><!-- /nav -->
@@ -217,7 +216,7 @@ echo ' - ' . formOption('SITE_NAME')?></title>
     <?php
 if (filter_var(formOption('api_test'), FILTER_VALIDATE_BOOLEAN) === true) {
     echo '<div class="alert alert-info" role="alert">';
-    echo '<strong>Let op!</strong> Deze website staat momenteel in <code>api_test</code> = <code>true</code> modes. ';
+    echo '<strong>'. $text['JAVASCRIPT_ALERT_BOLD'] . '</strong> ' . $text['TEST_ALERT'];
     echo '</div>';
 }
 ?>

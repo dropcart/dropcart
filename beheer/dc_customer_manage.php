@@ -55,7 +55,7 @@ require 'includes/php/dc_header.php';
     <div class="form-group">
         <label for="loginUser" class="col-sm-2 control-label">Klantaccount</label>
         <div class="col-sm-8">
-            <a href="<?php SITE_URL?>/beheer/dc_login_user.php?id=<?php echo $intId;?>" class="uneditable-input">Inloggen als deze klant</a>
+            <a href="<?php echo SITE_URL?>/beheer/dc_login_user.php?id=<?php echo $intId;?>" class="uneditable-input">Inloggen als deze klant</a>
         </div><!-- /col -->
     </div><!-- /form group -->
 
