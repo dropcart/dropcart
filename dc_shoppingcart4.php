@@ -37,6 +37,55 @@ switch ($status) {
         $strMessageTitle = $text['THANKS_ORDER_TITLE'];
         $strMessage = '<p>' . $text['THANKS_ORDER_MESSAGE_1'] . '</p>' .
         '<p>' . $text['THANKS_ORDER_MESSAGE_2'] . '</p>';
+        
+        // Share remaining discount if code was generated        
+		$strSQL = "SELECT * FROM ".DB_PREFIX."discountcodes_codes dc_c WHERE dc_c.parentOrderId = ".$intOrderId;
+		$result = $objDB->sqlExecute($strSQL);
+		$intCodeExists = $objDB->getNumRows($result);
+
+		if($intCodeExists == 1) {
+	
+			$objCode = $objDB->getObject($result);
+			
+			$strMessage .= '
+				<p>&nbsp;</p>
+				<h4>' . $text['SHARE_DISCOUNT_TITLE'] . '</h4>
+				<p>' . $text['SHARE_DISCOUNT_MESSAGE_1'] . '</p>
+				<div class="well text-center">
+					<h3>' . $text['SHARE_DISCOUNT_MESSAGE_2'] . ': ' . money_format('%(#1n', $objCode->discountValue) . '</h3>
+					<span class="btn btn-lg btn-success" style="margin:10px 0 20px" id="btn_maf">' . $text['SHARE_DISCOUNT_MESSAGE_3'] . '</span>
+				
+					<div style="display:none" id="div_maf">
+		
+						<p class="text-left">' . $text['SHARE_DISCOUNT_MESSAGE_4'] . '</p>
+					
+						<form class="form-horizontal mailAFriendForm" role="form" method="post" action="dc_shoppingcart4_share.php">
+							<input type="hidden" name="orderId" value="'.$intOrderId.'" />
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="textinput">' . $text['NAME'] . '</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="mafName" data-bv-notempty="true">
+								</div><!-- /col -->
+							</div><!-- /form-group -->
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="textinput">' . $text['EMAIL'] . '</label>
+								<div class="col-sm-4">
+									<input type="email" class="form-control" name="mafEmail" data-bv-notempty="true" data-bv-emailaddress="true" data-bv-message="' . $text['INVALID'] . ' ' . $text['EMAIL'] . '">
+								</div><!-- /col -->
+								<div class="col-sm-4">
+									<button type="submit" class="btn btn-primary btn-default">' . $text['SEND'] . '</button>
+								</div><!-- /col -->
+							</div><!-- /form-group -->
+						</form>
+					
+					</div>
+				
+				</div>
+				
+				';
+			
+			
+		}
 
         break;
     case 'open':

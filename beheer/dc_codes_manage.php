@@ -27,11 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $strDiscountValue = (isset($_POST['discountValue'])) ? $_POST['discountValue'] : null;
     $intValidationCodeRequired = (isset($_POST['validationCodeRequired'])) ? (int) $_POST['validationCodeRequired'] : 0;
     $intFixedShipping = (isset($_POST['fixedShipping'])) ? (int) $_POST['fixedShipping'] : 0;
+    $intShareRemainingDiscount = (isset($_POST['shareRemainingDiscount'])) ? (int) $_POST['shareRemainingDiscount'] : 0;
     $intOnline = (isset($_POST['online'])) ? (int) $_POST['online'] : 0;
 
     if (empty($intId)) {
 
-        $strSQL = "INSERT INTO " . DB_PREFIX . "discountcodes (title, validFrom, validTill, discountType, discountValue, validationCodeRequired, fixedShipping, online) VALUES ('" . $strTitle . "', '" . $strValidFrom . "',  '" . $strValidTill . "', '" . $strDiscountType . "', " . $strDiscountValue . ", " . $intValidationCodeRequired . ", " . $intFixedShipping . ", " . $intOnline . ")";
+        $strSQL = "INSERT INTO " . DB_PREFIX . "discountcodes (title, validFrom, validTill, discountType, discountValue, validationCodeRequired, fixedShipping, shareRemainingDiscount, online) VALUES ('" . $strTitle . "', '" . $strValidFrom . "',  '" . $strValidTill . "', '" . $strDiscountType . "', " . $strDiscountValue . ", " . $intValidationCodeRequired . ", " . $intFixedShipping . ", " . $intShareRemainingDiscount . ", " . $intOnline . ")";
         $result = $objDB->sqlExecute($strSQL);
         $intId = $objDB->getInsertedId();
 
@@ -45,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 discountValue = '" . $strDiscountValue . "',
                 validationCodeRequired = " . $intValidationCodeRequired . ",
                 fixedShipping = " . $intFixedShipping . ",
+                shareRemainingDiscount = " . $intShareRemainingDiscount . ",
                 online = " . $intOnline . "
                 WHERE id = '" . $intId . "' ";
         $result = $objDB->sqlExecute($strSQL);
@@ -137,6 +139,13 @@ if (isset($_GET['fail']) && !empty($_GET['fail'])) {
         <label for="fixedShipping" class="col-sm-2 control-label">Vaste verzendkosten</label>
         <div class="col-sm-10">
             <input type="checkbox" name="fixedShipping" id="fixedShipping" value="1" <?=(isset($objCode->fixedShipping) && $objCode->fixedShipping == 1) ? 'checked="checked"' : ''?> />
+        </div><!-- /col -->
+    </div><!-- /form group -->
+    
+    <div class="form-group">
+        <label for="shareRemainingDiscount" class="col-sm-2 control-label">Resterend tegoed delen met vrienden</label>
+        <div class="col-sm-10">
+            <input type="checkbox" name="shareRemainingDiscount" id="shareRemainingDiscount" value="1" <?=(isset($objCode->shareRemainingDiscount) && $objCode->shareRemainingDiscount == 1) ? 'checked="checked"' : ''?> />
         </div><!-- /col -->
     </div><!-- /form group -->
 

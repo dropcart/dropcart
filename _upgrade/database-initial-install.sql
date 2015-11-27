@@ -295,6 +295,8 @@ CREATE TABLE IF NOT EXISTS `dc_discountcodes_codes` (
   `validationCode` varchar(150) NOT NULL,
   `discountValue` double(7,2) DEFAULT NULL,
   `discountType` enum('price','percentage') DEFAULT NULL,
+  `validFrom` datetime DEFAULT NULL,
+  `validTill` datetime DEFAULT NULL,
   `export` tinyint(1) NOT NULL DEFAULT '0',
   `limit` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -323,7 +325,8 @@ INSERT INTO `dc_emails` (`id`, `emailName`, `fromEmail`, `fromName`, `cc`, `bcc`
 (1, 'template', '', '', '', ''),
 (2, 'ordermail', 'info@dropcart.nl', 'Dropcart', '', 'bcc@dropcart.nl'),
 (3, 'sentmail', 'info@dropcart.nl', 'Dropcart', '', 'bcc@dropcart.nl'),
-(4, 'password_reset', 'info@dropcart.nl', 'Dropcart', '', '');
+(4, 'password_reset', 'info@dropcart.nl', 'Dropcart', '', ''),
+(5, 'discountCodeMail', 'info@dropcart.nl', 'Dropcart', '', 'bcc@dropcart.nl');
 
 --
 -- Table structure for table `dc_emails_content`
@@ -347,7 +350,8 @@ INSERT INTO `dc_emails_content` (`emailId`, `navTitle`, `navDesc`, `title`, `txt
 (1, 'E-mail template algemeen', 'Algemene template', 'E-mail template algemeen', '![Dropcart][1]\n\n[BODY]\n\nMet vriendelijke groet,\n\n[SITE_NAME]\n\n  [1]: http://www.dropcart.nl/images/logo_small.png "Dropcart"'),
 (2, 'Order bevestiging', 'Wordt direct gestuurd na het plaatsen van de bestelling met o.a. ordernummer en een kopie van de ingevoerde gegevens.', 'Uw bestelling bij [SITE_NAME] met ordernummer [ORDER_NR]', 'Beste [CUSTOMER_NAME],\r\n\r\nHartelijk dank voor uw bestelling op [SITE_NAME].\r\nHierbij ontvangt u de bevestiging van uw bestelling.\r\n\r\n[ORDER_ADDRESSES]\r\n\r\n[ORDER_DETAILS]\r\n\r\n'),
 (3, 'Order verzonden', 'Wordt gestuurd na het uitsturen van de bestelling met o.a. ordernummer en een kopie van de ingevoerde gegevens.', 'Uw bestelling bij [SITE_NAME] met ordernummer [ORDER_NR] is verzonden', 'Beste [CUSTOMER_NAME],\r\n\r\nUw bestelling op [SITE_NAME] met ordernummer [ORDER_NR] is verzonden.\r\n\r\n[ORDER_ADDRESSES]\r\n\r\n[ORDER_DETAILS]\r\n\r\n[SHIPMENT]\r\n\r\n'),
-(4, 'Wachtwoord vergeten', 'wachtwoord vergeten', 'wachtwoord vergeten', 'Beste [CUSTOMER_NAME],\r\n\r\nKlik op onderstaande link om direct in te loggen op [SITE_NAME] om vervolgens uw wachtwoord te resetten.\r\n\r\n[LOGIN_LINK]\r\n\r\nMet vriendelijke groet,\r\n\r\n[SITE_NAME]');
+(4, 'Wachtwoord vergeten', 'wachtwoord vergeten', 'wachtwoord vergeten', 'Beste [CUSTOMER_NAME],\r\n\r\nKlik op onderstaande link om direct in te loggen op [SITE_NAME] om vervolgens uw wachtwoord te resetten.\r\n\r\n[LOGIN_LINK]\r\n\r\nMet vriendelijke groet,\r\n\r\n[SITE_NAME]'),
+(5, 'Mail a friend met kortingscode', 'Wordt verzonden indien de klant een resterend tegoed over heeft en dit wilt schenken aan iemand.', '[CUSTOMER_NAME] heeft een cadeaubon voor [FRIEND_NAME]', 'Beste [FRIEND_NAME],\r\n\r\nU heeft van [CUSTOMER_NAME] een cadeaubon ontvangen t.v.w. **EUR [DISCOUNT_AMOUNT]** om te besteden op [SITE_NAME].\r\n\r\nOm uw cadeaubon te gebruiken kunt de volgende vouchercode bij het afrekenen invullen:\r\n\r\n**[DISCOUNT_CODE]**\r\n\r\nLet op! Dit tegoed is 3 maanden geldig, hierna vervalt het tegoed.\r\n\r\nMet vriendelijke groet,\r\n\r\n[SITE_NAME] namens [CUSTOMER_NAME]');
 
 --
 -- Table structure for table `dc_options`

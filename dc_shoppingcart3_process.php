@@ -124,7 +124,7 @@ while ($objStatus = $objDB->getObject($result2)) {
 
                 $dblDiscountAmount = $dblDiscountAmount - (SITE_SHIPPING - $dblShippingcosts);
 
-                generateCodeRemaingValue($objCustomer->discountCode, $dblDiscountAmount, $intOrderId);
+                generateCodeRemaingValue($objCustomer->discountCode, $dblDiscountOver, $intOrderId);
             }
 
         }

@@ -171,7 +171,7 @@ $text['GENDER'] = "Geslacht";
 $text['UNKOWN'] = "Onbekend";
 $text['MALE'] = "Mannelijk";
 $text['FEMALE'] = "Vrouwelijk";
-$text['EMAIL'] = "Emailadres";
+$text['EMAIL'] = "E-mailadres";
 $text['CHANGE'] = "Wijzigen";
 $text['MY_STREETS'] = "Mijn adressen";
 $text['STREET'] = "Adres";
@@ -276,6 +276,13 @@ $text['THANKS_ORDER_MESSAGE_2'] = "Wanneer uw bestelling wordt verzonden sturen 
 $text['WAIT_ORDER_TITLE'] = "Wachten op bestelling";
 $text['WAIT_ORDER_MESSAGE_1'] = "Uw bestelling wacht op een bevestiging van betaling. Zodra uw betaling is geverifieerd ontvangt u van ons een e-mail met de bevestiging van uw bestelling.";
 $text['WAIT_ORDER_MESSAGE_2'] = "Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.";
+$text['SHARE_DISCOUNT_TITLE'] = "Geef uw resterende tegoed aan iemand cadeau!";
+$text['SHARE_DISCOUNT_MESSAGE_1'] = "U heeft met uw gebruikte vouchercode nog een tegoed over. Wij bieden u de mogelijkheid om dit resterende tegoed cadeau te geven aan een vriend of familielid.";
+$text['SHARE_DISCOUNT_MESSAGE_2'] = "Uw resterende tegoed";
+$text['SHARE_DISCOUNT_MESSAGE_3'] = "Geef uw tegoed cadeau per e-mail";
+$text['SHARE_DISCOUNT_MESSAGE_4'] = "Vul hieronder de naam en het e-mailadres in van degene aan wie u dit cadeau wilt schenken en hij/zij ontvangt het tegoed per e-mail.";
+$text['SHARE_DISCOUNT_SEND_TITLE'] = "Cadeaubon verzonden";
+$text['SHARE_DISCOUNT_SEND_MESSAGE_1'] = "De cadeaubon met het resterende tegoed is naar het door u opgegeven e-mailadres verzonden.";
 
 // INCLUDE LOGO
 $text['MOLLIE_DESCRIPTION'] = "Veilig en groen betalen met Mollie (o.a. iDEAL, Creditcard, Mister Cash, PayPal).";

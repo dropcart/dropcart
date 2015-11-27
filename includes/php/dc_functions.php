@@ -1,7 +1,5 @@
 <?php
-
 require_once SITE_PATH . 'includes/dc_functions_global.php';
-
 require_once SITE_PATH . 'locale/' . LANG . '/translations.php';
 
 function doLogin($strEmail, $strPassword) {
@@ -122,6 +120,10 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
         $dblDiscountOver = 0;
 
     }
+    
+    if ($objCode->shareRemainingDiscount == 0) {
+        $dblDiscountOver = 0;
+    }
 
     return array(
         'dblDiscountAmount' => $dblDiscountAmount,
@@ -131,7 +133,7 @@ function calculateDiscount($strDiscountCode, $intCustId = '') {
 
 }
 
-function generateCodeRemaingValue($strDiscountCode, $dblDiscountAmount, $intOrderId) {
+function generateCodeRemaingValue($strDiscountCode, $dblDiscountAmount, $intOrderId, $strValidTill = NULL) {
 
     global $objDB;
 
@@ -174,8 +176,14 @@ function generateCodeRemaingValue($strDiscountCode, $dblDiscountAmount, $intOrde
             }
 
         }
+        
+        if (empty($strValidTill)) {
+            // set default expire date to 3 months
+            $strValidTill = date("Y-m-d", strtotime("+3 months"));
+        }
 
-        $strSQL = "INSERT INTO " . DB_PREFIX . "discountcodes_codes (codeId, parentOrderId, code, discountValue, discountType) VALUES ('" . $objCode->codeId . "', " . $intOrderId . ", '" . $strCode . "', " . $dblDiscountOver . ", 'price')";
+        
+		$strSQL = "INSERT INTO " . DB_PREFIX . "discountcodes_codes (codeId, parentOrderId, code, discountValue, discountType, validFrom, validTill) VALUES ('" . $objCode->codeId . "', ".$intOrderId.", '".$strCode."', ".$dblDiscountOver.", 'price', NOW(), '".$strValidTill."')";
         $result = $objDB->sqlExecute($strSQL);
 
         return $strCode;
