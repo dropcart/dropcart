@@ -21,7 +21,7 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 ## Instructions
 - Unzip the .zip file
 - Create a new database and save the credentials
-- Insert the database found in the folder */_upgrade/* is a *v{versionnumber}-initial-install.sql* file
+- Insert the database found in */_upgrade/database-initial-install.sql*
 - Enter your database credentials in the file *includes/php/dc_connect.php*
 - Upload everything to FTP server
     - You might need to set the folder `/images/logo` to file permission `777` so image uploading works properly

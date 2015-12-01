@@ -41,8 +41,11 @@ if (!is_null($Product->getCategorieTitle()) AND !is_null($Product->getTitle()) A
     // $canonical gets set to full `link rel` in dc_header.php
     $canonical = SITE_URL . '/' . rewriteUrl($Product->getCategorieTitle()) . '/' . rewriteUrl($Product->getTitle()) . '/' . $Product->getId() . '/';
 
-    // TODO: add support for https
-    $request = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $scheme = "http";
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+        $scheme = "https";
+    }
+    $request = $scheme . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
     // Redirect to canonical if current url doesnt match (prevent duplicate indexing)
     if ($request !== $canonical) {
