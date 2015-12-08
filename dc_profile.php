@@ -150,20 +150,20 @@ $strSQL =
                     INNER JOIN " . DB_PREFIX . "customers_orders_details cod ON (cod.orderId = co.orderId)
                     WHERE co.custId = '" . $_SESSION['customerId'] . "'
                     GROUP BY co.orderId";
-$result = $objDB->sqlExecute($strSQL);
+$result_orders = $objDB->sqlExecute($strSQL);
 
-if (empty($result->num_rows)) {
+if (empty($result_orders->num_rows)) {
     echo '<tr><td colspan="5">Wij hebben (nog?) geen bestellingen van u gevonden.</td></tr>';
 }
 
-while ($objOrder = $objDB->getObject($result)) {
+while ($objOrder = $objDB->getObject($result_orders)) {
 
     $strSQL = "SELECT COUNT(productId) * quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
-    $result = $objDB->sqlExecute($strSQL);
-    list($items) = $objDB->getRow($result);
+    $result_items = $objDB->sqlExecute($strSQL);
+    list($items) = $objDB->getRow($result_items);
 
     $strSQL = "SELECT productId, price, discount, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
-    $result = $objDB->sqlExecute($strSQL);
+    $result_products = $objDB->sqlExecute($strSQL);
 
     echo '<tr class="order" title="Klik om order details te bekijken">';
     echo '<td><a>' . formOption('order_number_prefix') . $objOrder->orderId . '</a></td>';
@@ -173,7 +173,7 @@ while ($objOrder = $objDB->getObject($result)) {
     echo '<td>' . getStatusDesc($objOrder->status) . '</td>';
     echo '</tr>';
 
-    while ($objDetails = $objDB->getObject($result)) {
+    while ($objDetails = $objDB->getObject($result_products)) {
 
         $Product = $Api->getProduct($objDetails->productId);
 
