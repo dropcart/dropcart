@@ -16,20 +16,29 @@ Download the latest *stable* release from [Github](https://github.com/dropcart/d
 (this list is incomplete)
 
 - PHP Version: **5.3.+**
-- PHP [cURL](http://php.net/manual/en/book.curl.php) 
+- PHP [cURL](http://php.net/manual/en/book.curl.php)
+- MySQL (+ a way to import an SQL file)
 
-## Instructions
-- Unzip the .zip file
+## Integrations
+
+Dropcart integrates with some third parties:
+
+- Mollie Payment Provider (iDeal, Credit card etc)
+- Postcode.nl postcode checker (will also complete address information)
+
+## Installation
+- Unzip the .zip file (or git pull)
 - Create a new database and save the credentials
 - Insert the database found in */_upgrade/database-initial-install.sql*
 - Enter your database credentials in the file *includes/php/dc_connect.php*
 - Upload everything to FTP server
     - You might need to set the folder `/images/logo` to file permission `777` so image uploading works properly
-- Navigate to *yourwebsite.com/beheer* and login with *admin*/*inktweb*
+    - Check if the .htaccess is copied correctly, otherwise the website will not work
+- Navigate to *yourwebsite.com/beheer* and login with username: *admin*, password: *inktweb*
 - In the *Settings* menu add the required information (including your *api_key*)
 - Navigate to *yourwebsite.com* and test if everything works
 
-### Files that still need customization
+### Customization after installation
 - In the CMS delete the default `admin` account and add your own
 - In the CMS customize your emails / add logos
 - Change the default images in the `/images` folder
