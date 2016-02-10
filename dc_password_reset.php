@@ -67,7 +67,7 @@ if (!empty($strEmail)) {
 
         // random token based on api_key (unique, not known to public) and customers entryDate (unique to customer, doesn't change)
         $strToken = sha1(formOption('api_key') . $objCustomer->entryDate);
-        $strLoginLink = formOption('site_url') . "dc_password_reset.php?token=" . $strToken . "&amp;email=" . $objCustomer->email;
+        $strLoginLink = SITE_URL . "dc_password_reset.php?token=" . $strToken . "&amp;email=" . $objCustomer->email;
 
         // send email to user with password reset link
         sendMail('password_reset', $objCustomer->email, $objCustomer->firstname . ' ' . $objCustomer->lastname, array(
