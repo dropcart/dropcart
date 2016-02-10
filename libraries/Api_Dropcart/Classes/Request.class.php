@@ -1,14 +1,14 @@
 <?php
 
 	namespace Dropcart\API;
-	
+
 	class Request {
-		
+
 		/**
 		 * API key as provided by Dropcart.nl
 		 */
 		private $apiKey;
-				
+
 		/**
 		 * Array of possible environments
 		 */
@@ -28,37 +28,37 @@
 		 * Format of the content in the request. Only JSON is supported for now.
 		 */
 		private $contentFormat = 'json';
-		
+
 		private $sessionId;
 
 		/**
 		 * @param debug {Boolean} Whether or not to print debug information.
 		 */
 		private $debug = true;
-		
+
 		public function __construct($apiKey, $debug) {
 			try {
-				
+
 				$this->apiKey = $apiKey;
 				$this->debug = $debug;
-				
+
 			}
 			catch(Exception $e) {
 				echo "Exception: " . $e->getMessage() . "\n";
 			}
 		}
-		
+
 		public function fetch($url, $httpMethod, $parameters='', $content='') {
 
-			$parameters .= ($parameters == '' ? '?' : '&');  
+			$parameters .= ($parameters == '' ? '?' : '&');
 			$parameters .= 'format='.$this->contentFormat;
 
 			if (!empty($this->apiKey)) {
 				$parameters .= '&apiKey='.$this->apiKey;
 			}
-	
+
 			$today = gmdate('D, d F Y H:i:s \G\M\T');
-			
+
 			switch($httpMethod) {
 				default:
 				case 'GET':
@@ -76,18 +76,15 @@
 			$headers .= "Host: " . $this->environments[$this->currentEnv]['url'] . "\r\n";
 			$headers .= "Content-length: " . strlen($content) . "\r\n";
 			$headers .= "Connection: close\r\n";
-			if (!is_null($this->sessionId)) {
-				$headers .= "X-OpenAPI-Session-ID: " . $this->sessionId . "\r\n";
-			}
 			$headers .= "\r\n";
-			
-			$connection_options = array( 
-				'ssl'         => array( 
+
+			$connection_options = array(
+				'ssl'         => array(
 				 'verify_peer'  => false
 			   )
-			); 
+			);
 
-			$context  = stream_context_create($connection_options); 
+			$context  = stream_context_create($connection_options);
 			$socket = stream_socket_client('ssl://' . $this->environments[$this->currentEnv]['url'] . ':' . $this->environments[$this->currentEnv]['port'], $errno, $errstr, 30, STREAM_CLIENT_CONNECT, $context);
 			if (!$socket) {
 				throw new \Exception("{$errstr} ({$errno})");
@@ -95,26 +92,26 @@
 
 			fputs($socket, $headers);
 			fputs($socket, $content);
-			
+
 			$result = '';
-	
+
 			while (!feof($socket)) {
 				$result .= fgets($socket);
 			}
 			fclose($socket);
 
 			$this->httpResponseCode = intval(substr($result, 9, 3));
-			
+
 			list($header, $body) = explode("\r\n\r\n", $result, 2);
-	
+
 			$this->httpFullHeader = $header;
 
 			$json_request = (json_decode($body) != NULL) ? true : false;
-	
+
 			if ($json_request) {
 				$body_return = json_decode($body);
 			}
-	
+
 			if ($this->debug) {
 				echo '<pre>Debug info<br><br>----<br><br><strong>http request:</strong><br>https://'.$this->environments[$this->currentEnv]['url'].$url.$parameters.'<br><br>';
 				echo '<strong>header request:</strong><br>'.print_r($headers, 1).'<br>';
@@ -123,22 +120,22 @@
 				echo '<strong>header response:</strong><br>'.self::getFullHeader();
 				echo '----</pre>';
 			}
-			
+
 			return $body_return;
 		}
-		
+
 		public function getHttpResponseCode() {
 			return $this->httpResponseCode;
 		}
-	
+
 		public function getFullHeader() {
 			return $this->httpFullHeader;
 		}
-		
+
 		public function getSessionId() {
 			return $this->sessionId;
 		}
-		
+
 		public function setSessionId($sessionId) {
 			$this->sessionId = '' . $sessionId;
 		}
