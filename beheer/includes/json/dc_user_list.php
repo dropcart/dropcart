@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../../../beheer/includes/php/dc_session.php';
+
 // Required includes
 require_once __DIR__ . '/../../../includes/php/dc_connect.php';
 require_once __DIR__ . '/../../../_classes/class.database.php';

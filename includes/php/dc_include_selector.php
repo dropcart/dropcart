@@ -17,7 +17,7 @@ if (!empty($smallSelector)) {
         <<?php echo $h;?>>Selecteer merk <small>Stap 1</small></<?php echo $h;?>>
 
         <select id="printerBrandSelect" name="printerBrand" <?php echo 'size="' . $size . '"';?> class="form-control stap1">
-            <?
+            <?php
             foreach($arrPrinters->brand as $printer) {
 
                 echo '<option value="' . $printer->id . '">' . $printer->title . '</option>' . "\n";

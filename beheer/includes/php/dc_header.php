@@ -23,7 +23,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 <link href="<?php echo SITE_URL?>/beheer/includes/style/jquery.pagedown-bootstrap.css" rel="stylesheet">
 <link href="<?php echo SITE_URL?>/beheer/includes/style/custom.css" rel="stylesheet">
 
@@ -35,7 +35,7 @@ list($numOrders) = $objDB->getRow($result_numOrders);
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="//code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
 

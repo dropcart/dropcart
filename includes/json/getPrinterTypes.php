@@ -18,11 +18,4 @@ $intPrinterBrand = (int) $_GET["printerBrandId"];
 $intPrinterSerie = (int) $_GET["printerSerieId"];
 $arrPrinters = $Api->getPrinterTypes($intPrinterBrand, $intPrinterSerie);
 
-function sortByTitle($a, $b) {
-    return strcmp($a->title, $b->title);
-}
-
-usort($arrPrinters->printer, 'sortByTitle');
-
 echo json_encode($arrPrinters->printer);
-?>
