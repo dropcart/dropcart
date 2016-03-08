@@ -103,16 +103,15 @@ require 'includes/php/dc_header.php';
             <th style="width:5%;">Bekijk</th>
         </tr>
         <?php
-$strSQL =
-"SELECT co.orderId,
+        $strSQL =
+        "SELECT co.orderId,
             co.entryDate,
             co.totalPrice
             FROM " . DB_PREFIX . "customers_orders co
             WHERE co.custId = '" . $intId . "' ";
-$result = $objDB->sqlExecute($strSQL);
+        $result = $objDB->sqlExecute($strSQL);
 
-while ($objCustOrders = $objDB->getObject($result)) {
-    ?>
+        while ($objCustOrders = $objDB->getObject($result)) { ?>
             <tr>
                 <td><?php echo $objCustOrders->orderId;?></td>
                 <td><?php echo $objCustOrders->entryDate;?></td>
@@ -120,18 +119,18 @@ while ($objCustOrders = $objDB->getObject($result)) {
                 <td><a href="<?php SITE_URL?>/beheer/dc_order_manage.php?id=<?php echo $objCustOrders->orderId;?>&action=view"><span class="glyphicon glyphicon-edit"></span></a></td>
             </tr>
         <?php
-}
-?>
+        }
+        ?>
     </table>
     </div><!-- /form group -->
 
     <div class="clearfix"></div>
 
     <?php
-/**
- * @todo: Select w/ dropdown customer addresses and specifc page to edit these. Much like the user can do himself
- */
-?>
+    /**
+     * @todo: Select w/ dropdown customer addresses and specifc page to edit these. Much like the user can do himself
+     */
+    ?>
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-8">

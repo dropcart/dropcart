@@ -90,7 +90,7 @@ if (isset($_SESSION['logo_upload_error'])) {
             <div class="col-sm-offset-2 col-sm-10">
 
                 <?php $image = formOption('SITE_LOGO');
-if (!empty($image)): ?>
+                    if (!empty($image)): ?>
                     <p><img id="site_logo_setting"class="img-thumbnail image-responsive" alt="logo" src="<?php echo SITE_URL . '/images/logo/' . $image?>"</p>
                         <?php else: ?>
                         <p>U heeft nog geen logo ingesteld</p>
@@ -255,23 +255,14 @@ if (!empty($image)): ?>
                             document.getElementById('smtp-settings').style.display = 'none';
                         }
                     ">
-                        <option value="mail" <?php if (formOption('mail_server') == 'mail') {
-    echo 'selected="selected"';
-}
-?>>Mail van server gebruiken</option>
-                        <option value="smtp" <?php if (formOption('mail_server') == 'smtp') {
-    echo 'selected="selected"';
-}
-?>>Eigen smtp server opgeven</option>
+                        <option value="mail" <?php if (formOption('mail_server') == 'mail') { echo 'selected="selected"'; }?>>Mail van server gebruiken</option>
+                        <option value="smtp" <?php if (formOption('mail_server') == 'smtp') { echo 'selected="selected"'; }?>>Eigen smtp server opgeven</option>
                     </select>
                     <p class="help-block">Hier kunt u een eventueel eigen SMTP server opgeven</p>
                 </div><!-- /col -->
             </div><!-- /form-group -->
 
-            <div id="smtp-settings" style=" <?php if (formOption('mail_server') != 'smtp') {
-    echo 'display:none';
-}
-?>">
+            <div id="smtp-settings" style=" <?php if (formOption('mail_server') != 'smtp') { echo 'display:none'; }?>">
 
                 <div class="form-group">
                 <label for="site_email" class="col-sm-2 control-label">smtp_server</label>
@@ -294,14 +285,8 @@ if (!empty($image)): ?>
                     <div class="col-sm-8">
                         <select class="form-control" id="smtp_secure" name="smtp_secure">
                             <option value="">Onbeveiligd</option>
-                            <option value="ssl" <?php if (formOption('smtp_secure') == 'ssl') {
-    echo 'selected="selected"';
-}
-?>>SSL</option>
-                            <option value="tls" <?php if (formOption('smtp_secure') == 'tls') {
-    echo 'selected="selected"';
-}
-?>>TLS</option>
+                            <option value="ssl" <?php if (formOption('smtp_secure') == 'ssl') { echo 'selected="selected"'; }?>>SSL</option>
+                            <option value="tls" <?php if (formOption('smtp_secure') == 'tls') { echo 'selected="selected"'; }?>>TLS</option>
                         </select>
                         <p class="help-block">Maak een keuze uit een beveiligde of onbeveiligde verbinding</p>
                     </div><!-- /col -->
@@ -317,23 +302,14 @@ if (!empty($image)): ?>
                             document.getElementById('smtp-auth').style.display = 'none';
                         }
                     ">
-                            <option value="false" <?php if (formOption('smtp_auth') == 'false') {
-    echo 'selected="selected"';
-}
-?>>nee</option>
-                            <option value="true" <?php if (formOption('smtp_auth') == 'true') {
-    echo 'selected="selected"';
-}
-?>>ja</option>
+                            <option value="false" <?php if (formOption('smtp_auth') == 'false') { echo 'selected="selected"'; } ?>>nee</option>
+                            <option value="true" <?php if (formOption('smtp_auth') == 'true') { echo 'selected="selected"'; }?>>ja</option>
                         </select>
                         <p class="help-block">Inloggen met gebruikersnaam en wachtwoord voor de SMTP server</p>
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
-                <div id="smtp-auth" style=" <?php if (formOption('smtp_auth') != 'true') {
-    echo 'display:none';
-}
-?>">
+                <div id="smtp-auth" style=" <?php if (formOption('smtp_auth') != 'true') { echo 'display:none'; }?>">
 
                     <div class="form-group">
                     <label for="smtp_username" class="col-sm-2 control-label">smtp_username</label>
@@ -410,36 +386,34 @@ if (!empty($image)): ?>
             </div>
 
             <?php
-try {
-    $mollie = new Mollie_API_Client;
-    $mollie->setApiKey(MOLLIE_API_KEY);
-    ?>
-                <?php
-$methods = $mollie->methods->all();
-    foreach ($methods as $method):
-        $optionId = $method->id . '_fee';
-        ?>
-                    <div class="form-group">
-                    <label for="<?php echo $optionId;?>" class="col-sm-2 control-label"><?php echo $method->description;?> fee</label>
-                        <div class="col-sm-1">
-                            <div class="input-group">
-                            <span class="input-group-addon">%</span>
-                            <input type="text" class="form-control" id="<?php echo $optionId;?>" name="<?php echo $optionId;?>_percent" value="<?php echo formOption($optionId . '_percent');?>" autocomplete="off">
-                            </div>
-                        </div><!-- /col -->
-                        <div class="col-sm-1">
-                            <div class="input-group">
-                            <span class="input-group-addon">+</span>
-                            <input type="text" class="form-control" id="<?php echo $optionId;?>" name="<?php echo $optionId;?>_addition" value="<?php echo formOption($optionId . '_addition');?>" autocomplete="off">
-                            </div>
-                        </div><!-- /col -->
-                    </div><!-- /form-group -->
-                    <?php
-endforeach;
-} catch (Exception $e) {
-    echo '<div class="col-sm-offset-2 col-sm-10"><p class="help-block"><strong>Foutmelding</strong>: ' . $e->getMessage() . '</p></div>';
-}
-?>
+            try {
+                $mollie = new Mollie_API_Client;
+                $mollie->setApiKey(MOLLIE_API_KEY);
+                $methods = $mollie->methods->all();
+                foreach ($methods as $method):
+                    $optionId = $method->id . '_fee';
+                    ?>
+                        <div class="form-group">
+                        <label for="<?php echo $optionId;?>" class="col-sm-2 control-label"><?php echo $method->description;?> fee</label>
+                            <div class="col-sm-1">
+                                <div class="input-group">
+                                <span class="input-group-addon">%</span>
+                                <input type="text" class="form-control" id="<?php echo $optionId;?>" name="<?php echo $optionId;?>_percent" value="<?php echo formOption($optionId . '_percent');?>" autocomplete="off">
+                                </div>
+                            </div><!-- /col -->
+                            <div class="col-sm-1">
+                                <div class="input-group">
+                                <span class="input-group-addon">+</span>
+                                <input type="text" class="form-control" id="<?php echo $optionId;?>" name="<?php echo $optionId;?>_addition" value="<?php echo formOption($optionId . '_addition');?>" autocomplete="off">
+                                </div>
+                            </div><!-- /col -->
+                        </div><!-- /form-group -->
+                        <?php
+                endforeach;
+            } catch (Exception $e) {
+                echo '<div class="col-sm-offset-2 col-sm-10"><p class="help-block"><strong>Foutmelding</strong>: ' . $e->getMessage() . '</p></div>';
+            }
+            ?>
 
 
             <div class="form-group">
@@ -530,12 +504,12 @@ endforeach;
     </div><!-- /panel -->
 
     <?php
-// GET ALL TABLES
-$result = $objDB->sqlExecute("SHOW TABLES LIKE '" . DB_PREFIX . "%' ");
-while ($row = $objDB->getArray($result)) {
-    $tables[] = $row[0];
-}
-?>
+    // GET ALL TABLES
+    $result = $objDB->sqlExecute("SHOW TABLES LIKE '" . DB_PREFIX . "%' ");
+    while ($row = $objDB->getArray($result)) {
+        $tables[] = $row[0];
+    }
+    ?>
 
     <div class="panel panel-default">
         <div class="panel-heading">Database backup</div><!-- /panel-heading -->

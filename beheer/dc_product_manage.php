@@ -162,30 +162,26 @@ if (!empty($_GET['succes'])) {
             <div class="form-group">
             <label for="product_title" class="col-sm-2 control-label">Title</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="product_title" name="product_title" value="<?php if (isset($objProduct->title)) {echo $objProduct->title;}
-?>" autocomplete="off">
+                    <input type="text" class="form-control" id="product_title" name="product_title" value="<?php if (isset($objProduct->title)) {echo $objProduct->title;}?>" autocomplete="off">
                     <p class="help-block">Wordt (momenteel) enkel gebruikt op de products_details pagina</p>
                 </div><!-- /col -->
             </div><!-- /form-group -->
             <div class="form-group">
             <label for="product_description" class="col-sm-2 control-label">Description</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" id="product_description" name="product_description" rows="7"><?php if (isset($objProduct->description)) {echo $objProduct->description;}
-?></textarea>
+                    <textarea class="form-control" id="product_description" name="product_description" rows="7"><?php if (isset($objProduct->description)) {echo $objProduct->description;}?></textarea>
                 </div><!-- /col -->
             </div><!-- /form-group -->
             <div class="form-group">
             <label for="product_price" class="col-sm-2 control-label">Price from</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="product_price_from" name="product_price_from" value="<?php if (isset($objProduct->price_from)) {$objProduct->price_from;}
-?>" autocomplete="off">
+                    <input type="text" class="form-control" id="product_price_from" name="product_price_from" value="<?php if (isset($objProduct->price_from)) {$objProduct->price_from;}?>" autocomplete="off">
                 </div><!-- /col -->
             </div><!-- /form-group -->
             <div class="form-group">
             <label for="product_price" class="col-sm-2 control-label">Price</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="product_price" name="product_price" value="<?php if (isset($objProduct->price)) {echo $objProduct->price;}
-?>" autocomplete="off">
+                    <input type="text" class="form-control" id="product_price" name="product_price" value="<?php if (isset($objProduct->price)) {echo $objProduct->price;}?>" autocomplete="off">
                     <p class="help-block">Overschrijf standaard prijsformule. Verplicht voor het invullen van volume prijzen.</p>
                     <p class="help-block">Geldige values: <code>price</code> = Inktweb.nl prijs, inclusief BTW, <code>purchase</code> = Inkoopprijs exclusief BTW, <code>msrp</code> = Adviesprijs exclusief BTW.</p>
                 </div><!-- /col -->
@@ -196,28 +192,27 @@ if (!empty($_GET['succes'])) {
             <div class="col-sm-6 col-sm-offset-4"><p class="help-block">Volume prijzen. Vul in het eerste veld vanaf welk aantal (bijvoorbeeld  &ldquo;3&rdquo;) en in het tweede veld het percentage korting wat gegeven wordt (bijvoorbeeld &ldquo;5&rdquo;).</p></div><!-- /col -->
 
                 <?php
-$strSQL = "SELECT quantity, percentage FROM " . DB_PREFIX . "products_tiered WHERE productId = '" . $intId . "' ORDER BY quantity ASC ";
-$result = $objDB->sqlExecute($strSQL);
-$numTiers = $objDB->getNumRows($result);
-if ($numTiers > 0) {
-    while ($objTier = $objDB->getObject($result)) {
-        ?>
-                    <div class="form-group">
-                    <div class="col-sm-8 col-sm-offset-2">
-                        <label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
-                        <div class="col-sm-3">
-                            <input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  value="<?=$objTier->quantity;?>" autocomplete="off">
+                $strSQL = "SELECT quantity, percentage FROM " . DB_PREFIX . "products_tiered WHERE productId = '" . $intId . "' ORDER BY quantity ASC ";
+                $result = $objDB->sqlExecute($strSQL);
+                $numTiers = $objDB->getNumRows($result);
+                if ($numTiers > 0) {
+                    while ($objTier = $objDB->getObject($result)) { ?>
+                        <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
+                            <div class="col-sm-3">
+                                <input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  value="<?=$objTier->quantity;?>" autocomplete="off">
+                            </div><!-- /col -->
+                            <label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>
+                            <div class="col-sm-3">
+                                <input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  value="<?=$objTier->percentage;?>" autocomplete="off">
+                            </div><!-- /col -->
                         </div><!-- /col -->
-                        <label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>
-                        <div class="col-sm-3">
-                            <input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  value="<?=$objTier->percentage;?>" autocomplete="off">
-                        </div><!-- /col -->
-                    </div><!-- /col -->
-                    </div><!-- /form-group -->
-                <?php
-}
-} else {
-    ?>
+                        </div><!-- /form-group -->
+                    <?php
+                    }
+                } else {
+                ?>
                 <div class="form-group">
                 <div class="col-sm-8 col-sm-offset-2">
                     <label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
@@ -231,8 +226,8 @@ if ($numTiers > 0) {
                 </div><!-- /col -->
                 </div><!-- /form-group -->
             <?php
-}
-?>
+            }
+            ?>
             </div><!-- / #productTiers -->
 
             <div class="form-group">
@@ -264,8 +259,7 @@ if ($numTiers > 0) {
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
-                        <label for="check_cart"><input type="checkbox" name="check_cart" id="check_cart" value="1" <?php if (isset($objProduct->opt_cart) && $objProduct->opt_cart == "1") {echo 'checked';}
-?>> Tonen in winkelmand</label>
+                        <label for="check_cart"><input type="checkbox" name="check_cart" id="check_cart" value="1" <?php if (isset($objProduct->opt_cart) && $objProduct->opt_cart == "1") {echo 'checked';}?>> Tonen in winkelmand</label>
                     </div>
                 </div><!-- /col -->
             </div><!-- /form-group -->
@@ -273,8 +267,7 @@ if ($numTiers > 0) {
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
-                        <label for="check_top5"><input type="checkbox" name="check_top5" id="check_top5" value="1" <?php if (isset($objProduct) && $objProduct->opt_top5 == "1") {echo 'checked';}
-?>> Tonen in Top 5</label>
+                        <label for="check_top5"><input type="checkbox" name="check_top5" id="check_top5" value="1" <?php if (isset($objProduct) && $objProduct->opt_top5 == "1") {echo 'checked';}?>> Tonen in Top 5</label>
                     </div>
                 </div><!-- /col -->
             </div><!-- /form-group -->
@@ -322,9 +315,9 @@ if ($numTiers > 0) {
 
     <br />
     <?php
-$objPrice = $Product->getPrice();
-$strPrice = calculateProductPrice($objPrice, $Product->getId());
-?>
+    $objPrice = $Product->getPrice();
+    $strPrice = calculateProductPrice($objPrice, $Product->getId());
+    ?>
 
     <a class="list-group-item">
         <h4 class="list-group-item-heading">Price (Purchase ex)</h4>

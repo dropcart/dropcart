@@ -106,41 +106,41 @@ if (@!getimagesize($strProductImg)) {
             </h2>
 
             <?php
-$strSQL = "SELECT quantity, percentage FROM " . DB_PREFIX . "products_tiered WHERE productId = '" . $intProductId . "' ORDER BY quantity ASC ";
-$result = $objDB->sqlExecute($strSQL);
-$numTiers = $objDB->getNumRows($result);
-if ($numTiers > 0) {
-    echo '<div class="productTiered well">';
-}
-while ($objTier = $objDB->getObject($result)) {
-    $dblSaving = ($dblPrice / 100) * $objTier->percentage;
-    $dblPiecePrice = $dblPrice - $dblSaving;
-    echo '<p>Koop ' . $objTier->quantity . ' stuks voor <strong>' . money_format('%(#1n', $dblPiecePrice) . '</strong> per stuk en <strong>bespaar ' . $objTier->percentage . '%</strong>.</p>';
-}
-if ($numTiers > 0) {
-    echo '</div>';
-}
-?>
+            $strSQL = "SELECT quantity, percentage FROM " . DB_PREFIX . "products_tiered WHERE productId = '" . $intProductId . "' ORDER BY quantity ASC ";
+            $result = $objDB->sqlExecute($strSQL);
+            $numTiers = $objDB->getNumRows($result);
+            if ($numTiers > 0) {
+                echo '<div class="productTiered well">';
+            }
+            while ($objTier = $objDB->getObject($result)) {
+                $dblSaving = ($dblPrice / 100) * $objTier->percentage;
+                $dblPiecePrice = $dblPrice - $dblSaving;
+                echo '<p>Koop ' . $objTier->quantity . ' stuks voor <strong>' . money_format('%(#1n', $dblPiecePrice) . '</strong> per stuk en <strong>bespaar ' . $objTier->percentage . '%</strong>.</p>';
+            }
+            if ($numTiers > 0) {
+                echo '</div>';
+            }
+            ?>
 
             <div class="product-stock">
                 <p><strong>Voorraad</strong>:
                 <?php
-// Display stock
-if ($intStock > 10) {
-    echo 'Ruimschoots op voorraad';
-} elseif ($intStock > 0) {
-    echo 'Op voorraad';
-} else {
-    echo 'Niet op voorraad (circa 3 werkdagen levertijd)';
-}
+                // Display stock
+                if ($intStock > 10) {
+                    echo 'Ruimschoots op voorraad';
+                } elseif ($intStock > 0) {
+                    echo 'Op voorraad';
+                } else {
+                    echo 'Niet op voorraad (circa 3 werkdagen levertijd)';
+                }
 
-// Display delivery
-if ($intStock > 0) {
-    echo '<p><strong>Levertijd</strong>: Besteld voor 20:00, <a data-toggle="modal" data-target="#disclaimerDelivery">morgen in huis *</a> </p>';
-} else {
-    echo '<p><strong>Levertijd</strong>: Circa 3 werkdagen</p>';
-}
-?>
+                // Display delivery
+                if ($intStock > 0) {
+                    echo '<p><strong>Levertijd</strong>: Besteld voor 20:00, <a data-toggle="modal" data-target="#disclaimerDelivery">morgen in huis *</a> </p>';
+                } else {
+                    echo '<p><strong>Levertijd</strong>: Circa 3 werkdagen</p>';
+                }
+                ?>
             </div>
 
             <div class="product-header-footer well">
@@ -148,23 +148,23 @@ if ($intStock > 0) {
                     Aantal:
                     <select name="quantity" class="quantity" id="quantitySelect">
                         <?php
-$maxStock = 10;
-for ($i = 1; $i <= $maxStock; $i++) {
+                        $maxStock = 10;
+                        for ($i = 1; $i <= $maxStock; $i++) {
 
-    if ($i == 10) {
+                            if ($i == 10) {
 
-        $plus = '+';
+                                $plus = '+';
 
-    } else {
+                            } else {
 
-        $plus = '';
+                                $plus = '';
 
-    }
+                            }
 
-    echo '<option value="' . $i . '">' . $i . $plus . '</option>';
+                            echo '<option value="' . $i . '">' . $i . $plus . '</option>';
 
-}
-?>
+                        }
+                        ?>
 
                     </select>
 
@@ -172,12 +172,12 @@ for ($i = 1; $i <= $maxStock; $i++) {
                 </div><!-- /pull-left -->
                 <div class="pull-right">
                     <?php
-if ($dblPrice <= 0) {
-    echo '(Niet leverbaar)';
-} else {
-    echo '<a class="btn btn-primary" data-toggle="modal" data-target="#cartConfirm">Toevoegen aan winkelmand</a>';
-}
-?>
+                    if ($dblPrice <= 0) {
+                        echo '(Niet leverbaar)';
+                    } else {
+                        echo '<a class="btn btn-primary" data-toggle="modal" data-target="#cartConfirm">Toevoegen aan winkelmand</a>';
+                    }
+                    ?>
                 </div><!-- /pull-right -->
 
                 <div class="clearfix"></div>
@@ -187,48 +187,47 @@ if ($dblPrice <= 0) {
         <div class="product-body">
             <?php
 
-if (!empty($objSpecifications)) {
+            if (!empty($objSpecifications)) {
 
-    echo '<table class="table product-table">';
+                echo '<table class="table product-table">';
 
-    foreach ($objSpecifications as $objSpecification) {
+                foreach ($objSpecifications as $objSpecification) {
 
-        // extra check for NULL results
-        if (empty($objSpecification->label) OR empty($objSpecification->value)) {
-            continue;
-        }
+                    // extra check for NULL results
+                    if (empty($objSpecification->label) OR empty($objSpecification->value)) {
+                        continue;
+                    }
 
-        $strUnit = (!empty($objSpecification->unit)) ? $objSpecification->unit : '';
+                    $strUnit = (!empty($objSpecification->unit)) ? $objSpecification->unit : '';
 
-        echo '<tr>
-                                <td><strong>' . $objSpecification->label . ':</strong></td>
-                                <td>' . $objSpecification->value . ' ' . $strUnit . '</td>
-                              </tr>';
+                    echo '<tr>
+                            <td><strong>' . $objSpecification->label . ':</strong></td>
+                            <td>' . $objSpecification->value . ' ' . $strUnit . '</td>
+                          </tr>';
 
-    }
+                }
 
-    echo '</table>';
+                echo '</table>';
 
-}
+            }
 
-?>
+            ?>
 
             <h3>Omschrijving</h3>
             <?php
-
-echo getCustomProductDesc($category_id, $Product);
-?>
+            echo getCustomProductDesc($category_id, $Product);
+            ?>
 
             <?php
-if (count($objPrinters->printers) > 0) {
-    echo '<h3>Geschikte printers</h3>';
-    echo '<p>Dit product is gegarandeerd geschikt voor de volgende printers: </p>';
-    foreach ($objPrinters->printers as $printer) {
-        print_r($printer->title);
-        echo ", ";
-    }
-}
-?>
+            if (count($objPrinters->printers) > 0) {
+                echo '<h3>Geschikte printers</h3>';
+                echo '<p>Dit product is gegarandeerd geschikt voor de volgende printers: </p>';
+                foreach ($objPrinters->printers as $printer) {
+                    print_r($printer->title);
+                    echo ", ";
+                }
+            }
+            ?>
 
         </div><!-- /product-body -->
     </div><!-- /col -->
@@ -295,16 +294,16 @@ if (count($objPrinters->printers) > 0) {
                 <li class="nav-header">Top 5 Meepakkers</li>
 
                 <?php
-$strSQL = "SELECT id FROM " . DB_PREFIX . "products WHERE opt_top5 = 1 ";
-$result = $objDB->sqlExecute($strSQL);
-while ($objProduct = $objDB->getObject($result)) {
+                $strSQL = "SELECT id FROM " . DB_PREFIX . "products WHERE opt_top5 = 1 ";
+                $result = $objDB->sqlExecute($strSQL);
+                while ($objProduct = $objDB->getObject($result)) {
 
-    $Product = $Api->getProduct($objProduct->id, '?fields=title');
+                    $Product = $Api->getProduct($objProduct->id, '?fields=title');
 
-    echo '<li><a href="' . SITE_URL . '/' . rewriteUrl($Product->getCategorieTitle()) . '/' . rewriteUrl($Product->getTitle()) . '/' . $Product->getId() . '/">' . $Product->getTitle() . '</a></li>';
+                    echo '<li><a href="' . SITE_URL . '/' . rewriteUrl($Product->getCategorieTitle()) . '/' . rewriteUrl($Product->getTitle()) . '/' . $Product->getId() . '/">' . $Product->getTitle() . '</a></li>';
 
-}
-?>
+                }
+                ?>
             </ul>
         </div><!-- /well -->
     </div><!-- /col -->

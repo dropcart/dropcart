@@ -79,25 +79,25 @@ if ($_POST) {
 }
 
 $strSQL =
-"SELECT
-                ca.defaultInv,
-                ca.defaultDel,
-                ca.id,
-                ca.custId,
-                ca.addressName,
-                ca.company,
-                ca.firstname,
-                ca.lastname,
-                ca.address,
-                ca.houseNr ,
-                ca.houseNrAdd,
-                ca.zipcode,
-                ca.city,
-                ca.lang
-                FROM " . DB_PREFIX . "customers_addresses ca
-                WHERE 1
-                AND ca.custId = '" . $_SESSION['customerId'] . "'
-                ";
+    "SELECT
+        ca.defaultInv,
+        ca.defaultDel,
+        ca.id,
+        ca.custId,
+        ca.addressName,
+        ca.company,
+        ca.firstname,
+        ca.lastname,
+        ca.address,
+        ca.houseNr ,
+        ca.houseNrAdd,
+        ca.zipcode,
+        ca.city,
+        ca.lang
+        FROM " . DB_PREFIX . "customers_addresses ca
+        WHERE 1
+        AND ca.custId = '" . $_SESSION['customerId'] . "'
+        ";
 $result = $objDB->sqlExecute($strSQL);
 
 // Start displaying HTML
@@ -108,14 +108,14 @@ require_once 'includes/php/dc_header.php';
     <div class="col-xs-12 col-sm-10 col-md-10 col-sm-offset-1 col-md-offset-1">
 
     <?php
-if (!empty($_GET['succes'])) {
-    echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> ' . $_GET['succes'] . '</div>';
-}
+    if (!empty($_GET['succes'])) {
+        echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Gelukt!</strong> ' . $_GET['succes'] . '</div>';
+    }
 
-if (!empty($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
-}
-?>
+    if (!empty($_GET['fail'])) {
+        echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    }
+    ?>
 
         <form class="form-horizontal" role="form" method="GET">
             <div class="form-group">
@@ -128,31 +128,31 @@ if (!empty($_GET['fail'])) {
                     <select class="form-control" name="id" onchange="this.form.submit()">
                         <option value="0">-- selecteer --</option>
                         <?php
-while ($objAd = $objDB->getObject($result)) {
-    $line = "";
-    $selected = "";
+                        while ($objAd = $objDB->getObject($result)) {
+                            $line = "";
+                            $selected = "";
 
-    if ($_GET['id'] == $objAd->id) {$selected = "selected";}
-    echo '<option value="' . $objAd->id . '" ' . $selected . ' >';
+                            if ($_GET['id'] == $objAd->id) {$selected = "selected";}
+                            echo '<option value="' . $objAd->id . '" ' . $selected . ' >';
 
-    if (!empty($objAd->addressName)) {$line .= '(' . $objAd->addressName . ')';}
-    $line .= $objAd->company . " ";
-    $line .= $objAd->firstname . " ";
-    $line .= $objAd->lastname . " ";
-    $line .= $objAd->address . " ";
-    $line .= $objAd->houseNr . "";
-    $line .= $objAd->houseNrAdd . "";
-    $line .= ", ";
-    $line .= $objAd->zipcode . " ";
-    $line .= $objAd->city . " ";
+                            if (!empty($objAd->addressName)) {$line .= '(' . $objAd->addressName . ')';}
+                            $line .= $objAd->company . " ";
+                            $line .= $objAd->firstname . " ";
+                            $line .= $objAd->lastname . " ";
+                            $line .= $objAd->address . " ";
+                            $line .= $objAd->houseNr . "";
+                            $line .= $objAd->houseNrAdd . "";
+                            $line .= ", ";
+                            $line .= $objAd->zipcode . " ";
+                            $line .= $objAd->city . " ";
 
-    // Remove excess white space
-    $line = preg_replace('/\s+/', ' ', $line);
-    echo $line;
+                            // Remove excess white space
+                            $line = preg_replace('/\s+/', ' ', $line);
+                            echo $line;
 
-    echo '</option>';
-}
-?>
+                            echo '</option>';
+                        }
+                        ?>
                     </select>
                 </div><!-- /col -->
             </div><!-- /form-group -->
@@ -163,12 +163,12 @@ while ($objAd = $objDB->getObject($result)) {
 
         <?php
 
-if (!empty($_GET['id'])) {
+        if (!empty($_GET['id'])) {
 
-    $result = $objDB->sqlExecute($strSQL . "AND id = '" . $_GET['id'] . "'");
-    $objAd = $objDB->getObject($result);
+        $result = $objDB->sqlExecute($strSQL . "AND id = '" . $_GET['id'] . "'");
+        $objAd = $objDB->getObject($result);
 
-    ?>
+        ?>
 
             <h3>Adres bewerken</h3>
             <hr class="colorgraph">
@@ -252,8 +252,7 @@ if (!empty($_GET['id'])) {
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="defaultInv" value="1" <?php if ($objAd->defaultInv == 1) {echo 'checked';}
-    ?>> Dit adres is mijn standaard factuuradres
+                        <input type="checkbox" name="defaultInv" value="1" <?php if ($objAd->defaultInv == 1) {echo 'checked';}?>> Dit adres is mijn standaard factuuradres
                     </label>
                     </div><!-- /checkbox -->
                 </div><!-- /col -->
@@ -263,8 +262,7 @@ if (!empty($_GET['id'])) {
                 <div class="col-sm-offset-2 col-sm-10">
                     <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="defaultDel" value="1" <?php if ($objAd->defaultDel == 1) {echo 'checked';}
-    ?>> Dit adres is mijn standaard afleveradres
+                        <input type="checkbox" name="defaultDel" value="1" <?php if ($objAd->defaultDel == 1) {echo 'checked';}?>> Dit adres is mijn standaard afleveradres
                     </label>
                     </div><!-- /checkbox -->
                 </div><!-- /col -->
@@ -279,9 +277,9 @@ if (!empty($_GET['id'])) {
 
         <?php
 
-}
+        }
 
-?>
+        ?>
 
     </div><!-- /col -->
 </div><!-- /row -->

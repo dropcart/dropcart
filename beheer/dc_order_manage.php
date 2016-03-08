@@ -259,24 +259,25 @@ $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
             <th>Betaalstatus</th>
             <td>
             <?php
-if ($objOrder->paymentStatus == 1) {
-    echo "Betaald";
-} else {
-    echo "Niet betaald";
-}
-?>
+            if ($objOrder->paymentStatus == 1) {
+                echo "Betaald";
+            } else {
+                echo "Niet betaald";
+            }
+            ?>
             </td>
         </tr>
         <tr>
             <th>Betaalmethode</th>
             <td>
             <?php
-if ($objOrder->paymethodId == 1) {
-    echo "Mollie";
-} else {
-    echo "Onbekend";
-}
-?></td>
+            if ($objOrder->paymethodId == 1) {
+                echo "Mollie";
+            } else {
+                echo "Onbekend";
+            }
+            ?>
+            </td>
         </tr>
     </table>
 
@@ -288,24 +289,24 @@ if ($objOrder->paymethodId == 1) {
             <th>Totaal</th>
         </tr>
         <?php
-$strSQL = "SELECT productId, price, discount, tax, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $intId . "'";
-$result = $objDB->sqlExecute($strSQL);
+        $strSQL = "SELECT productId, price, discount, tax, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $intId . "'";
+        $result = $objDB->sqlExecute($strSQL);
 
-$subTotal = "";
-while ($objDetails = $objDB->getObject($result)) {
+        $subTotal = "";
+        while ($objDetails = $objDB->getObject($result)) {
 
-    $Product = $Api->getProduct($objDetails->productId);
+            $Product = $Api->getProduct($objDetails->productId);
 
-    echo '<tr>';
-    echo '<td><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
-    echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)) . '</td>';
-    echo '<td>' . $objDetails->quantity . '</td>';
-    echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity) . '</td>';
-    echo '</tr>';
+            echo '<tr>';
+            echo '<td><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
+            echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)) . '</td>';
+            echo '<td>' . $objDetails->quantity . '</td>';
+            echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity) . '</td>';
+            echo '</tr>';
 
-    $subTotal = $subTotal + (round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity);
-}
-?>
+            $subTotal = $subTotal + (round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity);
+        }
+        ?>
         <tr>
             <td colspan="3">Subtotaal</td>
             <td><?php echo money_format('%(#1n', $subTotal);?></td>
@@ -315,8 +316,7 @@ while ($objDetails = $objDB->getObject($result)) {
             <td><?php echo money_format('%(#1n', $objOrder->shippingCosts);?></td>
         </tr>
         <tr>
-            <td colspan="3">Korting (Code: <?php echo $objOrder->kortingscode;
-echo ($objOrder->validationCode != '') ? ' / Validatiecode: ' . $objOrder->validationCode : '';?>)</td>
+            <td colspan="3">Korting (Code: <?php echo $objOrder->kortingscode;echo ($objOrder->validationCode != '') ? ' / Validatiecode: ' . $objOrder->validationCode : '';?>)</td>
             <td><?php echo money_format('%(#1n', $objOrder->kortingsbedrag);?></td>
         </tr>
         <tr>

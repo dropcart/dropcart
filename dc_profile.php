@@ -73,18 +73,9 @@ require_once 'includes/php/dc_header.php';
             <tr>
                 <td>Geslacht:</td>
                 <td>
-                    <?php if ($objCust->gender == 0) {
-    echo 'Onbekend';
-}
-?>
-                    <?php if ($objCust->gender == 1) {
-    echo 'Mannelijk';
-}
-?>
-                    <?php if ($objCust->gender == 2) {
-    echo 'Vrouwelijk';
-}
-?>
+                    <?php if ($objCust->gender == 0) { echo 'Onbekend'; } ?>
+                    <?php if ($objCust->gender == 1) { echo 'Mannelijk'; } ?>
+                    <?php if ($objCust->gender == 2) { echo 'Vrouwelijk'; } ?>
                 </td>
             </tr>
             <tr>
@@ -141,51 +132,51 @@ require_once 'includes/php/dc_header.php';
             </tr>
 
             <?php
-$strSQL =
-"SELECT co.orderId,
-                    co.entryDate,
-                    co.paymethodId,
-                    co.status
-                    FROM " . DB_PREFIX . "customers_orders co
-                    INNER JOIN " . DB_PREFIX . "customers_orders_details cod ON (cod.orderId = co.orderId)
-                    WHERE co.custId = '" . $_SESSION['customerId'] . "'
-                    GROUP BY co.orderId";
-$result = $objDB->sqlExecute($strSQL);
+            $strSQL =
+                "SELECT co.orderId,
+                co.entryDate,
+                co.paymethodId,
+                co.status
+                FROM " . DB_PREFIX . "customers_orders co
+                INNER JOIN " . DB_PREFIX . "customers_orders_details cod ON (cod.orderId = co.orderId)
+                WHERE co.custId = '" . $_SESSION['customerId'] . "'
+                GROUP BY co.orderId";
+            $result = $objDB->sqlExecute($strSQL);
 
-if (empty($result->num_rows)) {
-    echo '<tr><td colspan="5">Wij hebben (nog?) geen bestellingen van u gevonden.</td></tr>';
-}
+            if (empty($result->num_rows)) {
+                echo '<tr><td colspan="5">Wij hebben (nog?) geen bestellingen van u gevonden.</td></tr>';
+            }
 
-while ($objOrder = $objDB->getObject($result)) {
+            while ($objOrder = $objDB->getObject($result)) {
 
-    $strSQL = "SELECT COUNT(productId) * quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
-    $result = $objDB->sqlExecute($strSQL);
-    list($items) = $objDB->getRow($result);
+                $strSQL = "SELECT COUNT(productId) * quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
+                $result = $objDB->sqlExecute($strSQL);
+                list($items) = $objDB->getRow($result);
 
-    $strSQL = "SELECT productId, price, discount, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
-    $result = $objDB->sqlExecute($strSQL);
+                $strSQL = "SELECT productId, price, discount, quantity FROM " . DB_PREFIX . "customers_orders_details WHERE orderId = '" . $objOrder->orderId . "'";
+                $result = $objDB->sqlExecute($strSQL);
 
-    echo '<tr class="order" title="Klik om order details te bekijken">';
-    echo '<td><a>' . formOption('order_number_prefix') . $objOrder->orderId . '</a></td>';
-    echo '<td>' . $objOrder->entryDate . '</td>';
-    echo '<td>' . $items . '</td>';
-    echo '<td>' . $objOrder->paymethodId . '</td>';
-    echo '<td>' . getStatusDesc($objOrder->status) . '</td>';
-    echo '</tr>';
+                echo '<tr class="order" title="Klik om order details te bekijken">';
+                echo '<td><a>' . formOption('order_number_prefix') . $objOrder->orderId . '</a></td>';
+                echo '<td>' . $objOrder->entryDate . '</td>';
+                echo '<td>' . $items . '</td>';
+                echo '<td>' . $objOrder->paymethodId . '</td>';
+                echo '<td>' . getStatusDesc($objOrder->status) . '</td>';
+                echo '</tr>';
 
-    while ($objDetails = $objDB->getObject($result)) {
+                while ($objDetails = $objDB->getObject($result)) {
 
-        $Product = $Api->getProduct($objDetails->productId);
+                    $Product = $Api->getProduct($objDetails->productId);
 
-        echo '<tr class="order_details active">';
-        echo '<td colspan="2"><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
-        echo '<td>' . money_format('%(#1n', $objDetails->price) . '</td>';
-        echo '<td>' . $objDetails->quantity . '</td>';
-        echo '<td>' . money_format('%(#1n', $objDetails->price * $objDetails->quantity) . '</td>';
-        echo '</tr>';
-    }
-}
-?>
+                    echo '<tr class="order_details active">';
+                    echo '<td colspan="2"><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
+                    echo '<td>' . money_format('%(#1n', $objDetails->price) . '</td>';
+                    echo '<td>' . $objDetails->quantity . '</td>';
+                    echo '<td>' . money_format('%(#1n', $objDetails->price * $objDetails->quantity) . '</td>';
+                    echo '</tr>';
+                }
+            }
+            ?>
         </table>
 
     </div><!-- /col -->

@@ -17,7 +17,7 @@ require 'includes/php/dc_header.php';
 
 <div class="col-md-6 col-md-offset-3">
 	<ul>
-		<li><a href="http://www.dropcart.nl/">DropCart</a></li>
+		<li><a href="http://www.dropcart.nl/">Dropcart</a></li>
 		<li>Tel: 072 567 50 53</li>
 		<li>Email: support@dropcart.nl</li>
 	</ul>

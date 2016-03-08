@@ -35,8 +35,8 @@ $Parsedown = new Parsedown();
 <div class="row">
 <div class="col-lg-8 col-lg-offset-2 markdown">
     <?php
-echo $Parsedown->text($objPage->txt);
-?>
+    echo $Parsedown->text($objPage->txt);
+    ?>
 </div><!-- /col -->
 </div><!-- /row -->
 

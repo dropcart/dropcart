@@ -62,48 +62,28 @@ list($numOrders) = $objDB->getRow($result_numOrders);
                     Dropcart <strong><?php echo DROPCART_VERSION;?></strong>
 
                     <?php
-// compare versions
-if (isset($Versions->version_stable->number)) {
-    echo '<a href="dc_update.php" class="label label-info">' . $Versions->version_stable->number . ' beschikbaar</a>';
-}
-?>
+                    // compare versions
+                    if (isset($Versions->version_stable->number)) {
+                        echo '<a href="dc_update.php" class="label label-info">' . $Versions->version_stable->number . ' beschikbaar</a>';
+                    }
+                    ?>
                 </p>
             </li>
             <li class="static title">Menu</li>
             <li class="static">
-                <p>
-                    Welkom <strong>
-
-                        <?php echo (isset($_SESSION['sessionAdminUsername']))
-? $_SESSION['sessionAdminUsername']
-: '[ Gebruikersnaam niet gevonden ]'?>
-                    </strong>
-                </p>
+                <p>Welkom <strong><?php echo (isset($_SESSION['sessionAdminUsername'])) ? $_SESSION['sessionAdminUsername'] : '[ Gebruikersnaam niet gevonden ]'?></strong></p>
 
             </li>
-            <li <?php if (curPage() == "dc_index.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_index.php"> <span class="glyphicon glyphicon-home"></span> Home</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_order_admin.php" OR curPage() == "dc_order_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_order_admin.php"> <span class="glyphicon glyphicon-euro"></span> Bestellingen <?php if ($numOrders > 0) {
-    echo '<span class="label label-success">' . $numOrders . '</span>';
-}
-?></a><div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_customer_admin.php" OR curPage() == "dc_customer_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_customer_admin.php"> <span class="glyphicon glyphicon-user"></span> Klanten</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_product_admin.php" OR curPage() == "dc_product_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_product_admin.php"> <span class="glyphicon glyphicon-barcode"></span> Producten</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_codes_admin.php" OR curPage() == "dc_codes_list.php" OR curPage() == "dc_codes_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_codes_admin.php"> <span class="glyphicon glyphicon-credit-card"></span> Vouchercodes</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_page_admin.php" OR curPage() == "dc_page_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_page_admin.php"> <span class="glyphicon glyphicon-file"></span> Pagina's</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_email_admin.php" OR curPage() == "dc_email_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_email_admin.php"> <span class="glyphicon glyphicon-envelope"></span> Emails</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_content_admin.php" OR curPage() == "dc_content_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_content_admin.php"> <span class="glyphicon glyphicon-tags"></span> Content</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_user_admin.php" OR curPage() == "dc_user_manage.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_user_admin.php"> <span class="glyphicon glyphicon-user"></span> Gebruikers</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
-            <li <?php if (curPage() == "dc_setting_admin.php") {echo 'class="active" ';}
-?>><a href="<?php echo SITE_URL?>/beheer/dc_setting_admin.php"> <span class="glyphicon glyphicon-wrench"></span> Instellingen</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_index.php") { echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_index.php"> <span class="glyphicon glyphicon-home"></span> Home</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_order_admin.php" OR curPage() == "dc_order_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_order_admin.php"> <span class="glyphicon glyphicon-euro"></span> Bestellingen <?php if ($numOrders > 0) { echo '<span class="label label-success">' . $numOrders . '</span>';} ?></a><div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_customer_admin.php" OR curPage() == "dc_customer_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_customer_admin.php"> <span class="glyphicon glyphicon-user"></span> Klanten</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_product_admin.php" OR curPage() == "dc_product_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_product_admin.php"> <span class="glyphicon glyphicon-barcode"></span> Producten</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_codes_admin.php" OR curPage() == "dc_codes_list.php" OR curPage() == "dc_codes_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_codes_admin.php"> <span class="glyphicon glyphicon-credit-card"></span> Vouchercodes</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_page_admin.php" OR curPage() == "dc_page_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_page_admin.php"> <span class="glyphicon glyphicon-file"></span> Pagina's</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_email_admin.php" OR curPage() == "dc_email_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_email_admin.php"> <span class="glyphicon glyphicon-envelope"></span> Emails</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_content_admin.php" OR curPage() == "dc_content_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_content_admin.php"> <span class="glyphicon glyphicon-tags"></span> Content</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_user_admin.php" OR curPage() == "dc_user_manage.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_user_admin.php"> <span class="glyphicon glyphicon-user"></span> Gebruikers</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
+            <li <?php if (curPage() == "dc_setting_admin.php") {echo 'class="active" ';}?>><a href="<?php echo SITE_URL?>/beheer/dc_setting_admin.php"> <span class="glyphicon glyphicon-wrench"></span> Instellingen</a> <div class="arrow"><div class="bubble-arrow-border"></div><div class="bubble-arrow"></div></div></li>
             <li><a href="<?php echo SITE_URL?>/beheer/dc_logout.php"><i class="fa fa-sign-out"></i> Uitloggen</a></a> </li>
         </ul>
 

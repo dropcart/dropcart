@@ -109,12 +109,12 @@ if (!empty($_GET['fail'])) {
         <div class="col-sm-10">
 
             <?php
-$selectedDiscountType = null;
-$selected = 'selected="selected"';
-if (isset($objCode->discountType) && !empty($objCode->discountType)) {
-    $selectedDiscountType = $objCode->discountType;
-}
-?>
+            $selectedDiscountType = null;
+            $selected = 'selected="selected"';
+            if (isset($objCode->discountType) && !empty($objCode->discountType)) {
+                $selectedDiscountType = $objCode->discountType;
+            }
+            ?>
 
             <select class="form-control" name="discount_type" id="discount_type">
                 <option <?php echo ($selectedDiscountType == 'price') ? $selected : null?> value="price">Prijs</option>

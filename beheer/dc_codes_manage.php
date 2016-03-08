@@ -103,18 +103,9 @@ if (isset($_GET['fail']) && !empty($_GET['fail'])) {
         <label for="discountType" class="col-sm-2 control-label">Kortingstype</label>
         <div class="col-sm-10">
             <select class="form-control" id="discountType" name="discountType">
-                <option value="price" <?php if (isset($objCode->discountType) && $objCode->discountType == 'price') {
-    echo 'selected="selected"';
-}
-?>>Bedrag</option>
-                <option value="percentage" <?php if (isset($objCode->discountType) && $objCode->discountType == 'percentage') {
-    echo 'selected="selected"';
-}
-?>>Percentage</option>
-                <option value="dynamic" <?php if (isset($objCode->discountType) && $objCode->discountType == 'dynamic') {
-    echo 'selected="selected"';
-}
-?>>Verschillend per code</option>
+                <option value="price" <?php if (isset($objCode->discountType) && $objCode->discountType == 'price') { echo 'selected="selected"'; } ?>>Bedrag</option>
+                <option value="percentage" <?php if (isset($objCode->discountType) && $objCode->discountType == 'percentage') { echo 'selected="selected"'; } ?>>Percentage</option>
+                <option value="dynamic" <?php if (isset($objCode->discountType) && $objCode->discountType == 'dynamic') { echo 'selected="selected"'; } ?>>Verschillend per code</option>
             </select>
         </div><!-- /col -->
     </div><!-- /form group -->

@@ -70,7 +70,6 @@ if (isset($_GET["update"]) && $_GET["update"] == 1) {
                     // Can't copy file, stop updating
 
                     $arrError[] = "Kan bestand " . $filename . " niet updaten. Controleer de bestandsrechten.";
-//                  break;
 
                 }
 
@@ -123,8 +122,7 @@ require 'includes/php/dc_header.php';
 
                 <p><strong>Geen update beschikbaar</strong></p>
 
-            <?php }
-?>
+            <?php } ?>
 
         </div><!-- /panel-body -->
     </div><!-- /panel -->
