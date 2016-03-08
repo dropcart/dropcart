@@ -85,16 +85,16 @@ if (!empty($_GET['succes'])) {
 
     <form class="form-horizontal" role="form" method="POST" autocomplete="off">
 
-      <?php
-$strSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM " . DB_PREFIX . "content WHERE type = 1
+    <?php
+    $strSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM " . DB_PREFIX . "content WHERE type = 1
       AND name NOT IN (
       'category_title',
       'category_meta_description',
       'product_title',
       'product_meta_description'
       )";
-$result = $objDB->sqlExecute($strSQL);
-while ($objContent = $objDB->getObject($result)) {
+    $result = $objDB->sqlExecute($strSQL);
+    while ($objContent = $objDB->getObject($result)) {
 
     ?>
 
@@ -103,27 +103,24 @@ while ($objContent = $objDB->getObject($result)) {
           <div class="col-sm-8">
             <textarea class="form-control" id="<?php echo $objContent->name;?>" name="<?php echo $objContent->name;?>"><?php echo getContent($objContent->name, false);?></textarea>
             <?php
-if (!empty($objContent->description)) {
-        echo '<p class="help-block">' . $objContent->description . '</p>';
-    }
-    ?>
+            if (!empty($objContent->description)) {
+                    echo '<p class="help-block">' . $objContent->description . '</p>';
+                }
+                ?>
 
             <label>
-            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}
-    ?> /> Bevat Markdown
+            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}?> /> Bevat Markdown
             </label>
 
             <label>
-            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}
-    ?> /> Bevat Boilerplate
+            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}?> /> Bevat Boilerplate
             </label>
           </div><!-- /col -->
         </div><!-- /form-group -->
 
-      <?php
-}
-
-?>
+        <?php
+        }
+        ?>
 
 
       <div class="form-group">
@@ -146,39 +143,39 @@ if (!empty($objContent->description)) {
 
     <form class="form-horizontal" role="form" method="POST" autocomplete="off">
 
-      <?php
-$strSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM " . DB_PREFIX . "content WHERE type = 2";
-$result = $objDB->sqlExecute($strSQL);
-while ($objContent = $objDB->getObject($result)) {
+    <?php
+    $strSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate FROM " . DB_PREFIX . "content WHERE type = 2";
+    $result = $objDB->sqlExecute($strSQL);
+    while ($objContent = $objDB->getObject($result)) {
 
-    ?>
+        ?>
 
-        <div class="form-group">
-        <label for="<?php echo $objContent->name;?>" class="col-sm-2 control-label"><?php echo $objContent->label;?></label>
-          <div class="col-sm-8">
-            <textarea class="form-control" id="<?php echo $objContent->name;?>" name="<?php echo $objContent->name;?>"><?php echo getContent($objContent->name, false);?></textarea>
-            <?php
-if (!empty($objContent->description)) {
-        echo '<p class="help-block">' . $objContent->description . '</p>';
+            <div class="form-group">
+            <label for="<?php echo $objContent->name;?>" class="col-sm-2 control-label"><?php echo $objContent->label;?></label>
+              <div class="col-sm-8">
+                <textarea class="form-control" id="<?php echo $objContent->name;?>" name="<?php echo $objContent->name;?>"><?php echo getContent($objContent->name, false);?></textarea>
+                <?php
+    if (!empty($objContent->description)) {
+            echo '<p class="help-block">' . $objContent->description . '</p>';
+        }
+        ?>
+
+                <label>
+                <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}
+        ?> /> Bevat Markdown
+                </label>
+
+                <label>
+                <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}
+        ?> /> Bevat Boilerplate
+                </label>
+              </div><!-- /col -->
+            </div><!-- /form-group -->
+
+          <?php
     }
+
     ?>
-
-            <label>
-            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}
-    ?> /> Bevat Markdown
-            </label>
-
-            <label>
-            <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}
-    ?> /> Bevat Boilerplate
-            </label>
-          </div><!-- /col -->
-        </div><!-- /form-group -->
-
-      <?php
-}
-
-?>
 
 
       <div class="form-group">
@@ -192,39 +189,39 @@ if (!empty($objContent->description)) {
   </div><!-- /panel -->
 
   </div>
-  <?php
-$categories = array();
-$result = $Api->getProductsByCategory(0);
+    <?php
+    $categories = array();
+    $result = $Api->getProductsByCategory(0);
 
-$sqlCustomText = "SELECT * FROM " . DB_PREFIX . "content_tags";
-$resultCustomText = $objDB->sqlExecute($sqlCustomText);
+    $sqlCustomText = "SELECT * FROM " . DB_PREFIX . "content_tags";
+    $resultCustomText = $objDB->sqlExecute($sqlCustomText);
 
-$defaultsSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate  FROM " . DB_PREFIX . "content WHERE type = '1'
-        AND name IN (
-      'category_title',
-      'category_meta_description',
-      'product_title',
-      'product_meta_description'
-      )";
+    $defaultsSQL = "SELECT name, label, value, description, parse_markdown, parse_boilerplate  FROM " . DB_PREFIX . "content WHERE type = '1'
+            AND name IN (
+          'category_title',
+          'category_meta_description',
+          'product_title',
+          'product_meta_description'
+          )";
 
-$resultDefaults = $objDB->sqlExecute($defaultsSQL);
+    $resultDefaults = $objDB->sqlExecute($defaultsSQL);
 
-if (isset($result->categories) && is_array($result->categories)) {
-    $categories = $result->categories;
-}
-
-while ($row = $objDB->getArray($resultCustomText)) {
-
-    foreach ($row as $col => $value) {
-        $customTextValues[$row['category_id']][$col] = $value;
+    if (isset($result->categories) && is_array($result->categories)) {
+        $categories = $result->categories;
     }
-}
 
-$tagsSQL = "SELECT tag, `desc` FROM " . DB_PREFIX . "content_tags ORDER BY tag ASC";
+    while ($row = $objDB->getArray($resultCustomText)) {
 
-$resultTags = $objDB->sqlExecute($tagsSQL);
+        foreach ($row as $col => $value) {
+            $customTextValues[$row['category_id']][$col] = $value;
+        }
+    }
 
-?>
+    $tagsSQL = "SELECT tag, `desc` FROM " . DB_PREFIX . "content_tags ORDER BY tag ASC";
+
+    $resultTags = $objDB->sqlExecute($tagsSQL);
+
+    ?>
   <div class="tab-pane" id="categories">
          <div class="panel panel-default">
            <div class="panel-heading">Beschikbare tags</div>
@@ -258,20 +255,18 @@ $resultTags = $objDB->sqlExecute($tagsSQL);
                           <label for="<?php echo $objContent->name;?>" class="col-sm-2 control-label"><?php echo $objContent->label;?></label>
                           <div class="col-sm-8">
                               <textarea class="form-control" id="<?php echo $objContent->name;?>" name="<?php echo $objContent->name;?>"><?php echo getContent($objContent->name, false);?></textarea>
-                              <?php
-if (!empty($objContent->description)) {
-    echo '<p class="help-block">' . $objContent->description . '</p>';
-}
-?>
+                            <?php
+                            if (!empty($objContent->description)) {
+                                echo '<p class="help-block">' . $objContent->description . '</p>';
+                            }
+                            ?>
 
                               <label>
-                                  <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}
-?> /> Bevat Markdown
+                                  <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_markdown" <?php if ($objContent->parse_markdown == 1) {echo 'checked';}?> /> Bevat Markdown
                               </label>
 
                               <label>
-                                  <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}
-?> /> Bevat Boilerplate
+                                  <input type="checkbox" value="1" name="<?php echo $objContent->name;?>_boilerplate" <?php if ($objContent->parse_boilerplate == 1) {echo 'checked';}?> /> Bevat Boilerplate
                               </label>
                           </div><!-- /col -->
                       </div><!-- /form-group -->
@@ -315,35 +310,22 @@ if (!empty($objContent->description)) {
                                            type="text" class="form-control"
                                            name="categories[<?php echo $category->id?>][category_title]"
                                            placeholder="categorie titel"
-                                            value="<?php echo
-(isset($customTextValues[$category->id]['category_title']))
-? $customTextValues[$category->id]['category_title']
-: null
-?>"/>
+                                            value="<?php echo (isset($customTextValues[$category->id]['category_title'])) ? $customTextValues[$category->id]['category_title'] : null ?>"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="category_desc_<?php echo $category->id?>">Categorie beschrijving</label>
-                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][category_desc]" id="category_desc_<?php echo $category->id?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php
-echo (isset($customTextValues[$category->id]['category_desc']))
-? $customTextValues[$category->id]['category_desc'] : null
-?></textarea>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][category_desc]" id="category_desc_<?php echo $category->id?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php echo (isset($customTextValues[$category->id]['category_desc'])) ? $customTextValues[$category->id]['category_desc'] : null ?></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
 
                                 <div class="form-group">
                                     <label for="product_title_<?php echo $category->id?>">Product titel</label>
-                                    <input id="product_title_<?php echo $category->id?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][product_title]" placeholder="product titel" value="<?php
-echo (isset($customTextValues[$category->id]['product_title']))
-? $customTextValues[$category->id]['product_title'] : null
-?>"/>
+                                    <input id="product_title_<?php echo $category->id?>" type="text" class="form-control" name="categories[<?php echo $category->id?>][product_title]" placeholder="product titel" value="<?php echo (isset($customTextValues[$category->id]['product_title'])) ? $customTextValues[$category->id]['product_title'] : null ?>"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="product_desc_<?php echo $category->id?>">Product beschrijving</label>
-                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php
-echo (isset($customTextValues[$category->id]['product_desc']))
-? $customTextValues[$category->id]['product_desc'] : null
-?></textarea>
+                                    <textarea class="form-control" name="categories[<?php echo $category->id?>][product_desc]" id="product_desc_<?php echo $category->id?>" cols="30" rows="10" placeholder="Beschrijving categorie"><?php echo (isset($customTextValues[$category->id]['product_desc'])) ? $customTextValues[$category->id]['product_desc'] : null ?></textarea>
                                 </div>
 
                             </div>
@@ -355,23 +337,23 @@ echo (isset($customTextValues[$category->id]['product_desc']))
                                                                  value="1"
 
                                             <?php
-echo (
-    isset($customTextValues[$category->id]['parse_markdown'])
-    && $customTextValues[$category->id]['parse_markdown'] == 1
-)
-? 'checked="checked"' : null
-?>
+                                            echo (
+                                                isset($customTextValues[$category->id]['parse_markdown'])
+                                                && $customTextValues[$category->id]['parse_markdown'] == 1
+                                            )
+                                            ? 'checked="checked"' : null
+                                            ?>
                                             /></label>
                                     <label>Bevat boilerplate <input type="checkbox"
                                                                     name="categories[<?php echo $category->id?>][parse_boilerplate]"
                                                                     value="1"
                                             <?php
-echo (
-    isset($customTextValues[$category->id]['parse_boilerplate'])
-    && $customTextValues[$category->id]['parse_boilerplate'] == 1
-)
-? 'checked="checked"' : null
-?>/></label>
+                                            echo (
+                                                isset($customTextValues[$category->id]['parse_boilerplate'])
+                                                && $customTextValues[$category->id]['parse_boilerplate'] == 1
+                                            )
+                                            ? 'checked="checked"' : null
+                                            ?>/></label>
 
                                 </div>
                             </div>

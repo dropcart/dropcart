@@ -22,12 +22,6 @@ $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
 // GET vars
 $_GET = sanitize($_GET);
-//$arrCategories    = explode(',', $_GET['categories']);
-//
-//// if not set; check all categories from 0 to 100
-//if (empty($_GET['categories'])) {
-//  $arrCategories = range(0,100);
-//}
 
 // start product array
 $arrProducts = array();
@@ -77,8 +71,7 @@ if (empty($arrProducts)) {
         'message' => 'Er zijn geen producten gevonden...',
     );
     echo json_encode($arrError);
-}
-// all good, display proper JSON
-else {
+} else {
+    // all good, display proper JSON
     echo json_encode($arrProducts);
 }

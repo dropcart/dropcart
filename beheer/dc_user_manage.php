@@ -101,8 +101,7 @@ if (!empty($_GET['fail'])) {
     <div class="form-group">
         <label for="name" class="col-sm-2 control-label">Naam</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="name" name="name" value="<?php echo (isset($objUser->name)) ? $objUser->name : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}
-?>>
+            <input type="text" class="form-control" id="name" name="name" value="<?php echo (isset($objUser->name)) ? $objUser->name : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}?>>
             <p class="help-block">Voor intern gebruik</p>
         </div><!-- /col -->
     </div><!-- /form group -->
@@ -110,8 +109,7 @@ if (!empty($_GET['fail'])) {
     <div class="form-group">
         <label for="username" class="col-sm-2 control-label">Gebruikersnaam</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="username" name="username" value="<?php echo (isset($objUser->username)) ? $objUser->username : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}
-?>>
+            <input type="text" class="form-control" id="username" name="username" value="<?php echo (isset($objUser->username)) ? $objUser->username : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}?>>
             <p class="help-block">Wordt gebruikt om mee in te loggen, niet hoofdletterrgevoelig.</p>
         </div><!-- /col -->
     </div><!-- /form group -->
@@ -119,8 +117,7 @@ if (!empty($_GET['fail'])) {
     <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" id="email" name="email" value="<?php echo (isset($objUser->email)) ? $objUser->email : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}
-?>>
+            <input type="email" class="form-control" id="email" name="email" value="<?php echo (isset($objUser->email)) ? $objUser->email : null;?>" autocomplete="off" <?php if (empty($intId)) {echo 'required';}?>>
         </div><!-- /col -->
     </div><!-- /form group -->
 
@@ -135,11 +132,9 @@ if (!empty($_GET['fail'])) {
     <div class="form-group">
         <label for="password1" class="col-sm-2 control-label">Wachtwoord resetten</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="password1" name="password1" placeholder="Wachtwoord.." autocomplete="off" <?php if (empty($intId)) {echo 'required';}
-?>>
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="Wachtwoord.." autocomplete="off" <?php if (empty($intId)) {echo 'required';}?>>
             <br />
-            <input type="password" class="form-control" id="password2" name="password2" placeholder="Wachtwoord herhalen..." autocomplete="off" <?php if (empty($intId)) {echo 'required';}
-?>>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Wachtwoord herhalen..." autocomplete="off" <?php if (empty($intId)) {echo 'required';}?>>
             <p class="help-block">Leeg laten indien u het wachtwoord niet wenst te resetten</p>
         </div><!-- /col -->
     </div><!-- /form group -->

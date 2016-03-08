@@ -100,18 +100,9 @@ if (!empty($_GET['fail'])) {
                 <label for="gender" class="col-sm-2 control-label">Geslacht</label>
                 <div class="col-sm-10">
                     <select class="form-control" name="gender">
-                        <option value="0" <?php if ($objUser->gender == 0) {
-    echo 'selected';
-}
-?>>Onbekend</option>
-                        <option value="1" <?php if ($objUser->gender == 1) {
-    echo 'selected';
-}
-?>>Mannelijk</option>
-                        <option value="2" <?php if ($objUser->gender == 2) {
-    echo 'selected';
-}
-?>>Vrouwelijk</option>
+                        <option value="0" <?php if ($objUser->gender == 0) { echo 'selected'; }?>>Onbekend</option>
+                        <option value="1" <?php if ($objUser->gender == 1) { echo 'selected'; }?>>Mannelijk</option>
+                        <option value="2" <?php if ($objUser->gender == 2) { echo 'selected'; }?>>Vrouwelijk</option>
                     </select>
                 </div><!-- /col -->
             </div><!-- /form-group -->

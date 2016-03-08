@@ -194,32 +194,32 @@ $objCustomer = $objDB->getObject($result);
     <div class="row" style="margin-bottom:20px">
         <div class="col-md-4">
         <strong>Factuuradres</strong><br/>
-        <?=($objCustomer->company != '') ? $objCustomer->company . '<br/>' : ''?>
-        <?=$objCustomer->firstname?> <?=$objCustomer->lastname?><br/>
-        <?=$objCustomer->address?> <?=$objCustomer->houseNr?><?=$objCustomer->houseNrAdd?><br/>
-        <?=$objCustomer->zipcode?> <?=$objCustomer->city?><br/>
+        <?php echo ($objCustomer->company != '') ? $objCustomer->company . '<br/>' : ''?>
+        <?php echo $objCustomer->firstname?> <?php echo $objCustomer->lastname?><br/>
+        <?php echo $objCustomer->address?> <?php echo $objCustomer->houseNr?><?php echo $objCustomer->houseNrAdd?><br/>
+        <?php echo $objCustomer->zipcode?> <?php echo $objCustomer->city?><br/>
         <?php
-if ($objCustomer->lang == 'be') {
-    echo 'België';
-} else {
-    echo 'Nederland';
-}
-?>
+        if ($objCustomer->lang == 'be') {
+            echo 'België';
+        } else {
+            echo 'Nederland';
+        }
+        ?>
         </div>
 
         <div class="col-md-4">
         <strong>Afleveradres</strong><br/>
-        <?=(isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
-        <?=$objCustomer->delFirstname?> <?=$objCustomer->delLastname?><br/>
-        <?=$objCustomer->delAddress?> <?=$objCustomer->delHouseNr?><?=$objCustomer->delHouseNrAdd?><br/>
-        <?=$objCustomer->delZipcode?> <?=$objCustomer->delCity?><br/>
+        <?php echo (isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
+        <?php echo $objCustomer->delFirstname?> <?php echo $objCustomer->delLastname?><br/>
+        <?php echo $objCustomer->delAddress?> <?php echo $objCustomer->delHouseNr?><?php echo $objCustomer->delHouseNrAdd?><br/>
+        <?php echo $objCustomer->delZipcode?> <?php echo $objCustomer->delCity?><br/>
         <?php
-if ($objCustomer->delLang == 'be') {
-    echo 'België';
-} else {
-    echo 'Nederland';
-}
-?>
+        if ($objCustomer->delLang == 'be') {
+            echo 'België';
+        } else {
+            echo 'Nederland';
+        }
+        ?>
         </div>
     </div>
 
@@ -227,10 +227,10 @@ if ($objCustomer->delLang == 'be') {
         <div class="col-md-12">
             <strong>Uw bestelling</strong>
         <?php
-$intCartRows = count($arrCartItems);
+        $intCartRows = count($arrCartItems);
 
-if ($intCartRows > 0) {
-    ?>
+        if ($intCartRows > 0) {
+        ?>
 
             <table class="table shoppingcart">
                 <thead>
@@ -243,35 +243,35 @@ if ($intCartRows > 0) {
                 </thead>
                 <tbody>
 
-            <?php
-foreach ($arrCartItems as $arrCartItem) {
+                <?php
+                foreach ($arrCartItems as $arrCartItem) {
 
-        $strStock = ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
+                    $strStock = ($arrCartItem['intStock'] >= $arrCartItem['intQuantity']) ? 'Op voorraad' : 'Niet op voorraad (circa 3 werkdagen levertijd)';
 
-        echo '
-                        <tr>
-                            <td class="text-left">
-                                <img class="img-responsive pull-left" alt="product naam" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
-                                ' . $arrCartItem['strProductTitle'] . '
-                            </td>
-                            <td class="text-left">' . $arrCartItem['intQuantity'] . '</td>
-                            <td class="text-left">' . $arrCartItem['strPrice'] . '</td>
-                            <td class="text-right productTotal">' . $arrCartItem['strPriceTotal'] . '</td>
-                        </tr>';
-
-    }
-
-    if ($discountCode != null) {
-
-        echo '
-                    <tr class="table-footer">
-                        <td>&nbsp;</td>
-                        <td style="text-align:right;" colspan="2">Kortingscode ' . $discountCode . '</td>
-                        <td class="discountAmount">' . $dblDiscountAmount . '</td>
+                    echo
+                    '<tr>
+                        <td class="text-left">
+                        <img class="img-responsive pull-left" alt="product naam" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
+                        ' . $arrCartItem['strProductTitle'] . '
+                        </td>
+                        <td class="text-left">' . $arrCartItem['intQuantity'] . '</td>
+                        <td class="text-left">' . $arrCartItem['strPrice'] . '</td>
+                        <td class="text-right productTotal">' . $arrCartItem['strPriceTotal'] . '</td>
                     </tr>';
 
-    }
-    echo '
+                }
+
+                if ($discountCode != null) {
+
+                echo '
+                <tr class="table-footer">
+                    <td>&nbsp;</td>
+                    <td style="text-align:right;" colspan="2">Kortingscode ' . $discountCode . '</td>
+                    <td class="discountAmount">' . $dblDiscountAmount . '</td>
+                </tr>';
+
+                }
+                echo '
                 <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td style="text-align:right;" colspan="2">Subtotaal</td>
@@ -296,13 +296,13 @@ foreach ($arrCartItems as $arrCartItem) {
             </table>
             ';
 
-} else {
+            } else {
 
-    echo '<p>Geen producten in winkelwagen.</p>';
+                echo '<p>Geen producten in winkelwagen.</p>';
 
-}
+            }
 
-?>
+            ?>
         </div>
     </div><!-- /col -->
 
@@ -310,23 +310,23 @@ foreach ($arrCartItems as $arrCartItem) {
         <div class="col-md-12">
             <strong>Kies uw betaal methode:</strong>
             <?php
-$methods = $mollie->methods->all();
-foreach ($methods as $method):
-    $addition = formOption($method->id . '_fee_addition');
-    $percentage = formOption($method->id . '_fee_percent');
+            $methods = $mollie->methods->all();
+            foreach ($methods as $method):
+                $addition = formOption($method->id . '_fee_addition');
+                $percentage = formOption($method->id . '_fee_percent');
 
-    if ($percentage > 0 && $addition > 0) {
-        $transactionCost = sprintf('%s%% en %s euro', $percentage, $addition);
-    } elseif ($percentage > 0 && empty($addition)) {
-    $transactionCost = sprintf('%s%%', $percentage);
-} elseif ($addition > 0 && empty($percentage)) {
-    $transactionCost = sprintf('%s euro', $addition);
-} else {
-    $transactionCost = 'geen';
-}
+                if ($percentage > 0 && $addition > 0) {
+                    $transactionCost = sprintf('%s%% en %s euro', $percentage, $addition);
+                } elseif ($percentage > 0 && empty($addition)) {
+                $transactionCost = sprintf('%s%%', $percentage);
+            } elseif ($addition > 0 && empty($percentage)) {
+                $transactionCost = sprintf('%s euro', $addition);
+            } else {
+                $transactionCost = 'geen';
+            }
 
-$transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra transactiekosten bovenop de totaalprijs in rekening gebracht.', $method->description, $transactionCost);
-?>
+            $transactionNotice = sprintf('Wanneer u via %s betaalt, worden er %s extra transactiekosten bovenop de totaalprijs in rekening gebracht.', $method->description, $transactionCost);
+            ?>
             <div class="radio paymentMethod" style="line-height:40px; vertical-align:top">
                 <label>
                     <input<?php echo ($method->id == 'ideal' ? ' checked' : '');?> data-addition="<?php echo $addition;?>" data-percent="<?php echo $percentage;?>" class="paymentMethodInput" type="radio" style="margin-top:15px;" name="paymentMethod" value="<?php echo $method->id;?>">
@@ -460,7 +460,7 @@ $('#discountCodeSend').click(function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -472,14 +472,17 @@ $('#discountCodeSend').click(function(){
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
                     '<div class="italic">Voor deze code is een validatiecode vereist.<br/> Vul uw validatiecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=(isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?php echo (isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
                     '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
                 );
 
-                <?php if (isset($_SESSION["validationCode"]) && $_SESSION["validationCode"] != "") {?>
+                <?php
+                if (isset($_SESSION["validationCode"]) && $_SESSION["validationCode"] != "") {
+                ?>
                     $('#validationCodeSend').click();
-                <?php }
-?>
+                <?php
+                }
+                ?>
 
             } else {
 
@@ -520,7 +523,7 @@ $(document).on('click','#validationCodeSend',function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -532,10 +535,6 @@ $(document).on('click','#validationCodeSend',function(){
             $('.subtotal').html(data.cartSubTotal);
             $('.shippingCosts').html(data.cartShippingcosts);
             $('.total').html(data.cartTotal);
-
-//          $('.cartItems').html(data.cartItems);
-//          $('.cartSubtotal').html(data.cartSubTotal);
-
 
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -558,7 +557,7 @@ $('.cartQuantity').change(function(){
         {
             cartId      : intCartId,
             quantity    : intQuantity,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 
@@ -585,7 +584,7 @@ $('.deleteItem').click(function() {
         '<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
         {
             cartId      : intCartId,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 

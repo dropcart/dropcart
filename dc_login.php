@@ -55,10 +55,10 @@ require_once 'includes/php/dc_header.php';
 <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
     <?php
-if (!empty($_GET['fail'])) {
-    echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
-}
-?>
+    if (!empty($_GET['fail'])) {
+        echo '<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Fout!</strong> ' . $_GET['fail'] . '</div>';
+    }
+    ?>
 
     <form role="form" method="post">
         <fieldset>

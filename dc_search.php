@@ -85,18 +85,18 @@ $arrBrandOptions = array(
                 <li class="nav-header">Geschikt voor</li>
                 <label class="sr-only"><input type="hidden" name="brands[]" value="" checked /></label>
                 <?php
-foreach ($arrBrandOptions AS $brandKey => $brandValue) {
+                foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
-    $selected = '';
-    $arrGetBrand = explode(',', $strBrands);
-    foreach ($arrGetBrand AS $getBrand) {
-        if ($getBrand == $brandKey) {
-            $selected = "checked";
-        }
-    }
-    echo '<li><label><input type="checkbox" name="brands[]" onclick="document.getElementById(\'form-brand\').submit();" value="' . $brandKey . '" ' . $selected . ' /> ' . $brandValue . '</label></li>';
-}
-?>
+                    $selected = '';
+                    $arrGetBrand = explode(',', $strBrands);
+                    foreach ($arrGetBrand AS $getBrand) {
+                        if ($getBrand == $brandKey) {
+                            $selected = "checked";
+                        }
+                    }
+                    echo '<li><label><input type="checkbox" name="brands[]" onclick="document.getElementById(\'form-brand\').submit();" value="' . $brandKey . '" ' . $selected . ' /> ' . $brandValue . '</label></li>';
+                }
+                ?>
             </form>
             </ul>
         </div><!-- /well -->
@@ -104,26 +104,26 @@ foreach ($arrBrandOptions AS $brandKey => $brandValue) {
     </div><!-- /col -->
 
     <div class="col-md-9 cat">
-        <h1>Resultaten voor: <em>&#8220;<?=$strQuery?>&#8221;</em></h1>
+        <h1>Resultaten voor: <em>&#8220;<?php echo $strQuery?>&#8221;</em></h1>
 
         <div class="row">
 
             <?php
-if (isset($arrProducts->products) && count($arrProducts->products) > 0) {
+            if (isset($arrProducts->products) && count($arrProducts->products) > 0) {
 
-    foreach ($arrProducts->products as $arrProduct) {
+                foreach ($arrProducts->products as $arrProduct) {
 
-        $objPrice = $arrProduct->details[0];
-        $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
+                    $objPrice = $arrProduct->details[0];
+                    $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
 
-        $strProductImg = $arrProduct->details[1]->images->url;
+                    $strProductImg = $arrProduct->details[1]->images->url;
 
-        // check if valid image (ignore warnings)
-        if (@!getimagesize($strProductImg)) {
-            $strProductImg = DEFAULT_PRODUCT_IMAGE;
-        }
+                    // check if valid image (ignore warnings)
+                    if (@!getimagesize($strProductImg)) {
+                        $strProductImg = DEFAULT_PRODUCT_IMAGE;
+                    }
 
-        ?>
+                    ?>
 
                     <div class="col-md-3 col-xs-4">
                         <div class="image">
@@ -137,51 +137,51 @@ if (isset($arrProducts->products) && count($arrProducts->products) > 0) {
                     </div><!-- /col -->
 
                 <?php
-}
+                }
 
-} else {
-    echo "<p>Geen resultaten gevonden. Probeer uw zoekterm te verfijnen,</p>";
-}
-?>
+            } else {
+                echo "<p>Geen resultaten gevonden. Probeer uw zoekterm te verfijnen,</p>";
+            }
+            ?>
 
         </div><!-- /row -->
 
         <div class="row text-center">
             <ul class="pagination">
                 <?php
-$split = 5; // Maximum number of pages left and right of active
-$start = $intPageNumber - $split;
-$end = $intPageNumber + $split;
+                $split = 5; // Maximum number of pages left and right of active
+                $start = $intPageNumber - $split;
+                $end = $intPageNumber + $split;
 
-if ($start < 1) {
-    $start = 1;
-    $end = $split * 2;
-}
+                if ($start < 1) {
+                    $start = 1;
+                    $end = $split * 2;
+                }
 
-if ($end > $intPages) {
-    $end = $intPages;
-    $start = $end - ($split * 2);
-    $start++; // add one so that we get double the split at the end
-    if ($start < 1) {
-        $start = 1;
-    }
+                if ($end > $intPages) {
+                    $end = $intPages;
+                    $start = $end - ($split * 2);
+                    $start++; // add one so that we get double the split at the end
+                    if ($start < 1) {
+                        $start = 1;
+                    }
 
-}
+                }
 
-if ($intPageNumber > 1) {
-    echo '<li><a href="' . SITE_URL . '/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=1">&laquo;</a></li>';
-}
+                if ($intPageNumber > 1) {
+                    echo '<li><a href="' . SITE_URL . '/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=1">&laquo;</a></li>';
+                }
 
-for ($i = $start; $i <= $end; $i++) {
+                for ($i = $start; $i <= $end; $i++) {
 
-    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
-    echo '<li ' . $active . '><a href="' . SITE_URL . '/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
-}
+                    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
+                    echo '<li ' . $active . '><a href="' . SITE_URL . '/search/' . $i . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
+                }
 
-if (($intPages - 1) != $intPageNumber && $intPages != 1) {
-    echo '<li><a href="' . SITE_URL . '/search/' . $intPages . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
-}
-?>
+                if (($intPages - 1) != $intPageNumber && $intPages != 1) {
+                    echo '<li><a href="' . SITE_URL . '/search/' . $intPages . '/?q=' . $_GET["q"] . '&sort=' . $strSort . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
+                }
+                ?>
             </ul>
         </div><!-- /row -->
 

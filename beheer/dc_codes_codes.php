@@ -108,7 +108,7 @@ require 'includes/php/dc_header.php';
     </div><!-- /col -->
     <div class="col-sm-2">
         <form method="get" name="filter">
-            <input type="hidden" name="id" value="<?=$intCodeId?>" />
+            <input type="hidden" name="id" value="<?php echo $intCodeId?>" />
             <select class="form-control" name="type" data-json-table="#table" data-json-key="type">
                 <option data-json-value="" value="">Alle codes weergeven</option>
                 <option data-json-value="used" value="used">Alleen gebruikte codes</option>
@@ -119,7 +119,7 @@ require 'includes/php/dc_header.php';
         </form>
     </div><!-- /col -->
     <div class="col-sm-2">
-        <select onChange="if(this.options.selectedIndex > 0) document.location.href='?id=<?=$intCodeId?>&action=export&exportType='+this.options[this.selectedIndex].value" class="form-control" name="type">
+        <select onChange="if(this.options.selectedIndex > 0) document.location.href='?id=<?php echo $intCodeId?>&action=export&exportType='+this.options[this.selectedIndex].value" class="form-control" name="type">
             <option value="">Exporteren</option>
             <option value="0">Alle codes exporteren</option>
             <option value="1">Niet verzilverde codes exporteren</option>
@@ -138,14 +138,14 @@ if (!empty($_GET['succes'])) {
 
 ?>
 
-<span class="pull-right"><a href="dc_codes_codes_manage.php?codeId=<?=$_GET["id"]?>"><span class="glyphicon glyphicon-plus"></span> Code aanmaken</a></span>
+<span class="pull-right"><a href="dc_codes_codes_manage.php?codeId=<?php echo $_GET["id"]?>"><span class="glyphicon glyphicon-plus"></span> Code aanmaken</a></span>
 
 <ul class="nav nav-tabs" data-json-table="#table" data-json-key="show">
     <li class="active" data-json-value="new"><a>Alles</a></li>
 </ul>
 
 
-<table class="table table-striped table-json" id="table" data-json-file="dc_codes_codes_list.json" data-json-parameters="&codeId=<?=$_GET["id"]?>">
+<table class="table table-striped table-json" id="table" data-json-file="dc_codes_codes_list.json" data-json-parameters="&codeId=<?php echo $_GET["id"]?>">
     <thead>
     <tr>
         <th data-json-column="code" data-json-sort="asc">Code</th>

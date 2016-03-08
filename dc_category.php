@@ -85,18 +85,18 @@ $arrBrandOptions = array(
                 <li class="nav-header">Geschikt voor</li>
                 <label class="sr-only"><input type="hidden" name="brands[]" value="" checked /></label>
                 <?php
-foreach ($arrBrandOptions AS $brandKey => $brandValue) {
+                foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
-    $selected = '';
-    $arrGetBrand = explode(',', $strBrands);
-    foreach ($arrGetBrand AS $getBrand) {
-        if ($getBrand == $brandKey) {
-            $selected = "checked";
-        }
-    }
-    echo '<li><label><input type="checkbox" name="brands[]" onclick="document.getElementById(\'form-brand\').submit();" value="' . $brandKey . '" ' . $selected . ' /> ' . $brandValue . '</label></li>';
-}
-?>
+                    $selected = '';
+                    $arrGetBrand = explode(',', $strBrands);
+                    foreach ($arrGetBrand AS $getBrand) {
+                        if ($getBrand == $brandKey) {
+                            $selected = "checked";
+                        }
+                    }
+                    echo '<li><label><input type="checkbox" name="brands[]" onclick="document.getElementById(\'form-brand\').submit();" value="' . $brandKey . '" ' . $selected . ' /> ' . $brandValue . '</label></li>';
+                }
+                ?>
             </form>
             </ul>
         </div><!-- /well -->
@@ -104,84 +104,84 @@ foreach ($arrBrandOptions AS $brandKey => $brandValue) {
 
     <div class="col-md-9 cat">
 
-        <h1><?=getCustomCategoryTitle($arrProducts->categories[0]->id)?></h1>
+        <h1><?php echo getCustomCategoryTitle($arrProducts->categories[0]->id)?></h1>
 
         <div class="row">
 
+        <?php
+        if (count($arrProducts->products) > 0) {
+
+            foreach ($arrProducts->products as $arrProduct) {
+
+                $objPrice = $arrProduct->details[0];
+                $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
+
+                $strProductImg = null;
+                if (isset($arrProduct->details[1]->images->url)) {
+                    $strProductImg = $arrProduct->details[1]->images->url;
+                }
+
+                // check if valid image (ignore warnings)
+                if (@!getimagesize($strProductImg)) {
+                    $strProductImg = DEFAULT_PRODUCT_IMAGE;
+                }
+
+                ?>
+
+                <div class="col-md-3 col-xs-4">
+                <div class="image">
+                    <a href="<?php echo SITE_URL . '/' . rewriteUrl($arrProducts->categories[0]->name)?>/<?php echo rewriteUrl($arrProduct->title);?>/<?php echo $arrProduct->id;?>/">
+                    <img src="<?php echo $strProductImg;?>" class="img-responsive" alt="<?php echo $arrProduct->title;?>" style="height:195px;margin:0px auto;" />
+                    <span class="label label-primary"><?php echo $strPrice;?></span>
+                </a>
+                </div><!-- /image -->
+
+                <h4><a href="<?php echo SITE_URL . '/' . rewriteUrl($arrProducts->categories[0]->name)?>/<?php echo rewriteUrl($arrProduct->title);?>/<?php echo $arrProduct->id;?>/" class="truncate"><?php echo $arrProduct->title;?></a></h4>
+                </div><!-- /col -->
+
             <?php
-if (count($arrProducts->products) > 0) {
+            }
 
-    foreach ($arrProducts->products as $arrProduct) {
-
-        $objPrice = $arrProduct->details[0];
-        $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
-
-        $strProductImg = null;
-        if (isset($arrProduct->details[1]->images->url)) {
-            $strProductImg = $arrProduct->details[1]->images->url;
+        } else {
+            echo "<p>Geen resultaten gevonden.</p>";
         }
-
-        // check if valid image (ignore warnings)
-        if (@!getimagesize($strProductImg)) {
-            $strProductImg = DEFAULT_PRODUCT_IMAGE;
-        }
-
         ?>
-
-                    <div class="col-md-3 col-xs-4">
-                        <div class="image">
-                            <a href="<?php echo SITE_URL . '/' . rewriteUrl($arrProducts->categories[0]->name)?>/<?php echo rewriteUrl($arrProduct->title);?>/<?php echo $arrProduct->id;?>/">
-                                <img src="<?php echo $strProductImg;?>" class="img-responsive" alt="<?php echo $arrProduct->title;?>" style="height:195px;margin:0px auto;" />
-                                <span class="label label-primary"><?php echo $strPrice;?></span>
-                            </a>
-                        </div><!-- /image -->
-
-                        <h4><a href="<?php echo SITE_URL . '/' . rewriteUrl($arrProducts->categories[0]->name)?>/<?php echo rewriteUrl($arrProduct->title);?>/<?php echo $arrProduct->id;?>/" class="truncate"><?php echo $arrProduct->title;?></a></h4>
-                    </div><!-- /col -->
-
-                <?php
-}
-
-} else {
-    echo "<p>Geen resultaten gevonden.</p>";
-}
-?>
         </div><!-- /row -->
 
         <div class="row text-center">
             <ul class="pagination">
                 <?php
-$split = 5; // Maximum number of pages left and right of active
-$start = $intPageNumber - $split;
-$end = $intPageNumber + $split;
+                $split = 5; // Maximum number of pages left and right of active
+                $start = $intPageNumber - $split;
+                $end = $intPageNumber + $split;
 
-if ($start < 1) {
-    $start = 1;
-    $end = $split * 2;
-}
+                if ($start < 1) {
+                    $start = 1;
+                    $end = $split * 2;
+                }
 
-if ($end > $intPages) {
-    $end = $intPages;
-    $start = $end - ($split * 2) + 1;
+                if ($end > $intPages) {
+                    $end = $intPages;
+                    $start = $end - ($split * 2) + 1;
 
-    if ($start < 1) {
-        $start = 1;
-    }
-}
+                    if ($start < 1) {
+                        $start = 1;
+                    }
+                }
 
-if ($intPageNumber > 1) {
-    echo '<li><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
-}
+                if ($intPageNumber > 1) {
+                    echo '<li><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=1">&laquo;</a></li>';
+                }
 
-for ($i = $start; $i <= $end; $i++) {
-    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
-    echo '<li ' . $active . '><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
-}
+                for ($i = $start; $i <= $end; $i++) {
+                    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
+                    echo '<li ' . $active . '><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . '&pageNumber=' . $i . $queryBrands . '">' . $i . '</a></li>';
+                }
 
-if (($intPages - 1) != $intPageNumber && $intPages != 1) {
-    echo '<li><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
-}
-?>
+                if (($intPages - 1) != $intPageNumber && $intPages != 1) {
+                    echo '<li><a href="' . SITE_URL . '/categorie/' . $intCategoryId . '/?sort=' . $strSort . $queryBrands . '&pageNumber=' . $intPages . '">&raquo;</a></li>';
+                }
+                ?>
             </ul>
         </div><!-- /row -->
 

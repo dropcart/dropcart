@@ -65,34 +65,18 @@ $strNodePriceTotal = money_format('%(#1n', $dblNodePriceTotal);
     <div class="col-xs-12">
         <ul class="nav nav-tabs">
             <li class="active"><a href="<?php SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
-            <li class="<?php if (empty($_SESSION["customerId"])) {
-    echo 'disabled';
-}
-?>"><a href="<?php if (!empty($_SESSION["customerId"])) {
-    echo SITE_URL . '/dc_shoppingcart2.php';
-} else {
-    '#';
-}
-?>"><strong>Stap 2)</strong> Gegevens</a></li>
-            <li class="<?php if (empty($_SESSION["customerId"])) {
-    echo 'disabled';
-}
-?>"><a href="<?php if (!empty($_SESSION["customerId"])) {
-    echo SITE_URL . '/dc_shoppingcart3.php';
-} else {
-    '#';
-}
-?>"><strong>Stap 3)</strong> Betaling</a></li>
+            <li class="<?php if (empty($_SESSION["customerId"])) { echo 'disabled'; } ?>"><a href="<?php if (!empty($_SESSION["customerId"])) { echo SITE_URL . '/dc_shoppingcart2.php'; } else { '#'; } ?>"><strong>Stap 2)</strong> Gegevens</a></li>
+            <li class="<?php if (empty($_SESSION["customerId"])) { echo 'disabled'; } ?>"><a href="<?php if (!empty($_SESSION["customerId"])) { echo SITE_URL . '/dc_shoppingcart3.php'; } else { '#'; } ?>"><strong>Stap 3)</strong> Betaling</a></li>
             <li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
         </ul>
     </div><!-- /col -->
     <div class="col-xs-9">
 
         <?php
-$intCartRows = count($arrCartItems);
+        $intCartRows = count($arrCartItems);
 
-if ($intCartRows > 0) {
-    ?>
+        if ($intCartRows > 0) {
+        ?>
 
             <table class="table table-striped shoppingcart">
                 <thead>
@@ -106,104 +90,101 @@ if ($intCartRows > 0) {
                 </thead>
                 <tbody>
 
-            <?php
-foreach ($arrCartItems as $arrCartItem) {
-        ?>
-                    <script>
-                        var stock_<?php echo $arrCartItem['intProductId'];?> = "<?php echo $arrCartItem['intStock'];?>";
-                    </script>
                 <?php
-if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
-            $strStock = 'Op voorraad';
-        } elseif ($arrCartItem['intStock'] > 0) {
-            $strStock = 'Niet voldoende op voorraad';
-        } else {
-            $strStock = 'Niet op voorraad (circa 3 werkdagen levertijd)';
-        }
+                foreach ($arrCartItems as $arrCartItem) {
+                ?>
+                    <script>
+                    var stock_<?php echo $arrCartItem['intProductId'];?> = "<?php echo $arrCartItem['intStock'];?>";
+                    </script>
+                    <?php
+                    if ($arrCartItem['intStock'] >= $arrCartItem['intQuantity'] OR $arrCartItem['intStock'] == 'infinite') {
+                        $strStock = 'Op voorraad';
+                    } elseif ($arrCartItem['intStock'] > 0) {
+                        $strStock = 'Niet voldoende op voorraad';
+                    } else {
+                        $strStock = 'Niet op voorraad (circa 3 werkdagen levertijd)';
+                    }
 
-        echo '
-                        <tr>
-                            <td class="text-left">
-                                <img class="img-responsive pull-left" alt="' . $arrCartItem['strProductTitle'] . '" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
-                                <h4>' . $arrCartItem['strProductTitle'] . '</h4>
-                                <p><strong>Voorraad: </strong><span class="stock_message">' . $strStock . '</span></p>
-                            </td>
-                            <td><input type="number" value="' . $arrCartItem['intQuantity'] . '" min="1" class="cartQuantity" data-cartid="' . $arrCartItem['cartId'] . '" data-productid="' . $arrCartItem['intProductId'] . '" /></td>
-                            <td class="text-left">' . $arrCartItem['strPrice'] . '</td>
-                            <td class="text-left productTotal">' . $arrCartItem['strPriceTotal'] . '</td>
-                            <td><a class="btn btn-danger btn-sm deleteItem" title="Verwijder artikel uit winkelmandje" data-cartid="' . $arrCartItem['cartId'] . '"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
-                        </tr>';
-    }
+                    echo
+                    '<tr>
+                        <td class="text-left">
+                        <img class="img-responsive pull-left" alt="' . $arrCartItem['strProductTitle'] . '" src="' . $arrCartItem['strImageUrl'] . '" width="72" />
+                        <h4>' . $arrCartItem['strProductTitle'] . '</h4>
+                        <p><strong>Voorraad: </strong><span class="stock_message">' . $strStock . '</span></p>
+                        </td>
+                        <td><input type="number" value="' . $arrCartItem['intQuantity'] . '" min="1" class="cartQuantity" data-cartid="' . $arrCartItem['cartId'] . '" data-productid="' . $arrCartItem['intProductId'] . '" /></td>
+                        <td class="text-left">' . $arrCartItem['strPrice'] . '</td>
+                        <td class="text-left productTotal">' . $arrCartItem['strPriceTotal'] . '</td>
+                        <td><a class="btn btn-danger btn-sm deleteItem" title="Verwijder artikel uit winkelmandje" data-cartid="' . $arrCartItem['cartId'] . '"><span class="glyphicon glyphicon-remove"></span> Verwijder</a></td>
+                    </tr>';
+                }
 
-    echo '
-
-                <tr class="table-footer discountAmount_container" style="display:none">
+                echo
+                '<tr class="table-footer discountAmount_container" style="display:none">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td style="text-align:right" colspan="2">Kortingscode <span class="discountAmount_code"></span></td>
                     <td class="discountAmount"></td>
-                <tr class="table-footer">
+                    <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td style="text-align:right" colspan="2">Subtotaal</td>
                     <td class="subtotal">' . $strNodePriceSubtotal . '</td>
-                </tr>
-                <tr class="table-footer">
+                    </tr>
+                    <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td style="text-align:right" colspan="2">Verzendkosten</td>
                     <td class="shippingCosts">' . $strShippingCosts . '</td>
-                </tr>
-                <tr class="table-footer">
+                    </tr>
+                    <tr class="table-footer">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td style="text-align:right" colspan="2">Totaal</td>
                     <td><h3 class="total">' . $strNodePriceTotal . '</h3></td>
-                </tr>
-                <tr class="table-footer table-checkout">
+                    </tr>
+                    <tr class="table-footer table-checkout">
                     <td class="text-left" colspan="4">
-                        <strong>Heeft u een kortings of vouchercode?</strong>
-                        <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> Code invoeren</a></p>
-                        <div class="discount_container" style="display:none">
-                            <div class="discount_input">
-                                <input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="' . $discountCode . '" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
-                            </div>
-                            <div class="discount_code"></div>
-                            <div class="discount_message"></div>
-                            <div class="discount_error error"></div>
-                        </div>
+                    <strong>Heeft u een kortings of vouchercode?</strong>
+                    <p><a id="discountCode"><span class="glyphicon glyphicon-arrow-right"></span> Code invoeren</a></p>
+                    <div class="discount_container" style="display:none">
+                    <div class="discount_input">
+                    <input type="text" name="discountcode" id="discountCodeValue" placeholder="Uw kortingscode.." class="discountValue" value="' . $discountCode . '" /><a class="btn btn-primary btn-xs" id="discountCodeSend">Versturen</a>
+                    </div>
+                    <div class="discount_code"></div>
+                    <div class="discount_message"></div>
+                    <div class="discount_error error"></div>
+                    </div>
 
                     </td>
                     <td><a href="' . SITE_URL . '/dc_shoppingcart2.php" class="btn btn-primary">Bestelling afronden</a></td>
                 </tr>
                 </tbody>
-            </table>
-            ';
+                </table>';
 
-} else {
+            } else {
 
-    echo '<p>Geen producten in winkelwagen.</p>';
+                echo '<p>Geen producten in winkelwagen.</p>';
 
-}
-
-?>
+            }
+            ?>
     </div><!-- /col -->
     <div class="col-xs-3">
         <table class="table table-condensed table-bargain">
         <?php
 
-$strSQL = "SELECT id FROM " . DB_PREFIX . "products WHERE opt_cart = 1 ";
-$result = $objDB->sqlExecute($strSQL);
-while ($objProduct = $objDB->getObject($result)) {
+        $strSQL = "SELECT id FROM " . DB_PREFIX . "products WHERE opt_cart = 1 ";
+        $result = $objDB->sqlExecute($strSQL);
+        while ($objProduct = $objDB->getObject($result)) {
 
-    $Product = $Api->getProduct($objProduct->id, '?fields=title,images,price');
-    $arrImages = (array) $Product->getImages();
-    $strProductImg = @$arrImages[0]->url;
+        $Product = $Api->getProduct($objProduct->id, '?fields=title,images,price');
+        $arrImages = (array) $Product->getImages();
+        $strProductImg = @$arrImages[0]->url;
 
-    if (@!getimagesize($strProductImg)) {
+        if (@!getimagesize($strProductImg)) {
         $strProductImg = DEFAULT_PRODUCT_IMAGE;
-    }
-    ?>
+        }
+        ?>
         <tr>
             <td><img class="img-responsive pull-left" alt="<?php echo $Product->getTitle();?>" src="<?php echo $strProductImg;?>" style="width:72px;" /></td>
             <td>
@@ -213,9 +194,9 @@ while ($objProduct = $objDB->getObject($result)) {
             </td>
         </tr>
         <?php
-}
+        }
 
-?>
+        ?>
 
         </table>
     </div><!-- /col -->
@@ -237,7 +218,7 @@ $('#discountCodeSend').click(function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -249,15 +230,13 @@ $('#discountCodeSend').click(function(){
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
                     '<div class="italic">Voor deze code is een controlecode vereist.<br/>Vul uw controlecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?=$validationCode?>" />' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?php echo $validationCode?>" />' +
                     '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
                 );
 
                 <?php if (!empty($validationCode)) {?>
                     $('#validationCodeSend').click();
-                <?php }
-?>
-
+                <?php } ?>
             } else {
 
                 $('.discountAmount_container').show();
@@ -297,7 +276,7 @@ $(document).on('click','#validationCodeSend',function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -309,10 +288,6 @@ $(document).on('click','#validationCodeSend',function(){
             $('.subtotal').html(data.cartSubTotal);
             $('.shippingCosts').html(data.cartShippingcosts);
             $('.total').html(data.cartTotal);
-
-//          $('.cartItems').html(data.cartItems);
-//          $('.cartSubtotal').html(data.cartSubTotal);
-
 
         },
         error: function(xhr, textStatus, errorThrown) {
@@ -347,7 +322,7 @@ $('.cartQuantity').change(function(){
         {
             cartId      : intCartId,
             quantity    : intQuantity,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 
@@ -378,7 +353,7 @@ $('.deleteItem').click(function() {
         '<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
         {
             cartId      : intCartId,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
             console.log(curThis);

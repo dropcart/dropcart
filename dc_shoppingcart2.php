@@ -238,15 +238,7 @@ require_once 'includes/php/dc_header.php';
         <ul class="nav nav-tabs">
             <li class=""><a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><strong>Stap 1)</strong> Winkelmand</a></li>
             <li class="active"><a href="#"><strong>Stap 2)</strong> Gegevens</a></li>
-            <li class="<?php if (empty($_SESSION["customerId"])) {
-    echo 'disabled';
-}
-?>"><a href="<?php if (!empty($_SESSION["customerId"])) {
-    echo SITE_URL . '/dc_shoppingcart3.php';
-} else {
-    '#';
-}
-?>"><strong>Stap 3)</strong> Betaling</a></li>
+            <li class="<?php if (empty($_SESSION["customerId"])) { echo 'disabled'; }?>"><a href="<?php if (!empty($_SESSION["customerId"])) { echo SITE_URL . '/dc_shoppingcart3.php'; } else { '#'; }?>"><strong>Stap 3)</strong> Betaling</a></li>
             <li class="disabled"><a href="#"><strong>Stap 4)</strong> Bestelling geplaatst</a></li>
         </ul>
     </div><!-- /col -->
@@ -258,10 +250,11 @@ require_once 'includes/php/dc_header.php';
     <fieldset>
     <legend>Waar mogen wij uw bestelling naar toezenden?</legend>
 
-    <?php if (isset($intError) && $intError == 1) {
-    echo '<p>U heeft niet alle verplichte velden ingevuld.</p>';
-}
-?>
+    <?php
+    if (isset($intError) && $intError == 1) {
+        echo '<p>U heeft niet alle verplichte velden ingevuld.</p>';
+    }
+    ?>
 
     <div class="form-group">
         <label class="col-sm-2 control-label" for="textinput">Voornaam</label>
@@ -288,10 +281,7 @@ require_once 'includes/php/dc_header.php';
         <label class="col-sm-2 control-label" for="textinput">Wachtwoord</label>
         <div class="col-sm-10">
             <div class="input-group">
-                <input type="password" class="form-control pwd" value="" name="password" <?php if (!isset($strEmail)) {
-    echo 'data-bv-notempty="true" data-bv-message="Dit veld is verplicht"';
-}
-?>>
+                <input type="password" class="form-control pwd" value="" name="password" <?php if (!isset($strEmail)) { echo 'data-bv-notempty="true" data-bv-message="Dit veld is verplicht"'; } ?>>
                 <span class="input-group-btn">
                     <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                 </span>
@@ -306,14 +296,8 @@ require_once 'includes/php/dc_header.php';
         <label class="col-sm-2 control-label" for="textinput">Land</label>
         <div class="col-sm-10">
             <select class="form-control" name="lang" data-bv-notempty="true">
-                <option value="nl" <?php if ($strLang == "nl") {
-    echo "selected";
-}
-?>>Nederland</option>
-                <option value="be" <?php if ($strLang == "be") {
-    echo "selected";
-}
-?>>België</option>
+                <option value="nl" <?php if ($strLang == "nl") { echo "selected"; }?>>Nederland</option>
+                <option value="be" <?php if ($strLang == "be") { echo "selected"; }?>>België</option>
             </select>
         </div><!-- /col -->
     </div><!-- /form-group -->
@@ -350,31 +334,19 @@ require_once 'includes/php/dc_header.php';
 
     <div class="form-group checkbox">
         <div class="col-sm-12">
-            <label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if (!isset($intDelivery) || $intDelivery == 1) {
-    echo 'checked="checked"';
-}
-?>> Mijn bestelling afleveren op een ander adres</label>
+            <label><input type="checkbox" name="deliveryAddress" id="deliveryAddress" value="1" <?php if (!isset($intDelivery) || $intDelivery == 1) { echo 'checked="checked"'; }?>> Mijn bestelling afleveren op een ander adres</label>
         </div><!-- /col -->
     </div><!-- /form-group -->
 
-        <div id="delivery" <?php if (isset($intDelivery) && $intDelivery != 1) {
-    echo 'style="display:none"';
-}
-?>>
+        <div id="delivery" <?php if (isset($intDelivery) && $intDelivery != 1) { echo 'style="display:none"'; } ?>>
             <legend>Bezorgadres</legend>
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Land</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="delLang">
-                            <option value="nl" <?php if ($strDelLang == "nl") {
-    echo "selected";
-}
-?>>Nederland</option>
-                            <option value="be" <?php if ($strDelLang == "be") {
-    echo "selected";
-}
-?>>België</option>
+                            <option value="nl" <?php if ($strDelLang == "nl") { echo "selected"; }?>>Nederland</option>
+                            <option value="be" <?php if ($strDelLang == "be") { echo "selected"; }?>>België</option>
                         </select>
                     </div><!-- /col -->
                 </div><!-- /form-group -->
@@ -382,26 +354,26 @@ require_once 'includes/php/dc_header.php';
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Voornaam</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="" class="form-control" name="delFirstname" value="<?php echo $strDelFirstname;?>">
+                        <input type="text" placeholder="" class="form-control" name="delFirstname" value="<?php echo $strDelFirstname;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Achternaam</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>">
+                        <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Postcode</label>
                     <div class="col-sm-4">
-                        <input type="text" placeholder="1234AB" class="form-control zipcode" name="delZipcode" value="<?php echo $strDelZipcode;?>">
+                        <input type="text" placeholder="1234AB" class="form-control zipcode" name="delZipcode" value="<?php echo $strDelZipcode;?>" data-bv-notempty="true">
                     </div><!-- /col -->
 
                     <label class="col-sm-2 control-label" for="textinput">Huisnummer</label>
                     <div class="col-sm-2">
-                        <input type="text" placeholder="21" class="form-control houseNr" name="delHouseNr" value="<?php echo $strDelHouseNr;?>">
+                        <input type="text" placeholder="21" class="form-control houseNr" name="delHouseNr" value="<?php echo $strDelHouseNr;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                     <div class="col-sm-2">
                         <input type="text" placeholder="b" class="form-control houseNrAdd" name="delHouseNrAdd" value="<?php echo $strDelHouseNrAdd;?>">
@@ -412,14 +384,14 @@ require_once 'includes/php/dc_header.php';
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Straatnaam</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control address" name="delAddress" value="<?php echo $strDelAddress;?>">
+                        <input type="text" class="form-control address" name="delAddress" value="<?php echo $strDelAddress;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Plaats</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control city" name="delCity" value="<?php echo $strDelCity;?>">
+                        <input type="text" class="form-control city" name="delCity" value="<?php echo $strDelCity;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
         </div><!-- /delivery -->

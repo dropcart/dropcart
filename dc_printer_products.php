@@ -51,13 +51,13 @@ $arrSortOptions = array(
 
                 <li class="nav-header">Sorteer op</li>
                 <?php
-foreach ($arrSortOptions as $sortIndex => $sortTitle) {
+                foreach ($arrSortOptions as $sortIndex => $sortTitle) {
 
-    $active = ($sortIndex == $strSort) ? 'class="active" ' : '';
-    echo '<li ' . $active . '><a href="?sort=' . $sortIndex . '"><span class="glyphicon glyphicon-ok"></span> ' . $sortTitle . '</a></li>';
+                    $active = ($sortIndex == $strSort) ? 'class="active" ' : '';
+                    echo '<li ' . $active . '><a href="?sort=' . $sortIndex . '"><span class="glyphicon glyphicon-ok"></span> ' . $sortTitle . '</a></li>';
 
-}
-?>
+                }
+                ?>
 
             </ul>
         </div><!-- /well -->
@@ -71,21 +71,21 @@ foreach ($arrSortOptions as $sortIndex => $sortTitle) {
 
             <?php
 
-if (count($arrProducts->products) > 0) {
+            if (count($arrProducts->products) > 0) {
 
-    foreach ($arrProducts->products as $arrProduct) {
+                foreach ($arrProducts->products as $arrProduct) {
 
-        $objPrice = $arrProduct->details[0];
-        $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
+                $objPrice = $arrProduct->details[0];
+                $strPrice = calculateProductPrice($objPrice, $arrProduct->id);
 
-        $strProductImg = $arrProduct->details[1]->images->url;
+                $strProductImg = $arrProduct->details[1]->images->url;
 
-        // check if valid image (ignore warnings)
-        if (@!getimagesize($strProductImg)) {
-            $strProductImg = DEFAULT_PRODUCT_IMAGE;
-        }
+                // check if valid image (ignore warnings)
+                if (@!getimagesize($strProductImg)) {
+                    $strProductImg = DEFAULT_PRODUCT_IMAGE;
+                }
 
-        ?>
+                ?>
 
                     <div class="col-md-3 col-xs-4">
                         <div class="image">
@@ -99,12 +99,12 @@ if (count($arrProducts->products) > 0) {
                     </div><!-- /col -->
 
                 <?php
-}
+                }
 
-} else {
-    echo "<p>Geen geschikte inkt cartridges, toners papier of andere toebehoren gevonden voor deze printer. Misschien dat u met onderstaande links verder komt?</p>";
-}
-?>
+        } else {
+            echo "<p>Geen geschikte inkt cartridges, toners papier of andere toebehoren gevonden voor deze printer. Misschien dat u met onderstaande links verder komt?</p>";
+        }
+        ?>
 
         </div><!-- /row -->
 
@@ -112,25 +112,25 @@ if (count($arrProducts->products) > 0) {
             <ul class="pagination">
 
                 <?php
-if ($intPageNumber > 1) {
+                if ($intPageNumber > 1) {
 
-    echo '<li><a href="#">&laquo;</a></li>';
+                    echo '<li><a href="#">&laquo;</a></li>';
 
-}
+                }
 
-for ($i = 1; $i <= $intPages; $i++) {
+                for ($i = 1; $i <= $intPages; $i++) {
 
-    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
-    echo '<li ' . $active . '><a href="?sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
+                    $active = ($intPageNumber == $i) ? 'class="active" ' : '';
+                    echo '<li ' . $active . '><a href="?sort=' . $strSort . '&pageNumber=' . $i . '">' . $i . '</a></li>';
 
-}
+                }
 
-if (($i - 1) != $intPageNumber && $i != 1) {
+                if (($i - 1) != $intPageNumber && $i != 1) {
 
-    echo '<li><a href="#">&raquo;</a></li>';
+                    echo '<li><a href="#">&raquo;</a></li>';
 
-}
-?>
+                }
+                ?>
             </ul>
         </div><!-- /row -->
 

@@ -103,18 +103,9 @@ if (isset($_GET['fail']) && !empty($_GET['fail'])) {
         <label for="discountType" class="col-sm-2 control-label">Kortingstype</label>
         <div class="col-sm-10">
             <select class="form-control" id="discountType" name="discountType">
-                <option value="price" <?php if (isset($objCode->discountType) && $objCode->discountType == 'price') {
-    echo 'selected="selected"';
-}
-?>>Bedrag</option>
-                <option value="percentage" <?php if (isset($objCode->discountType) && $objCode->discountType == 'percentage') {
-    echo 'selected="selected"';
-}
-?>>Percentage</option>
-                <option value="dynamic" <?php if (isset($objCode->discountType) && $objCode->discountType == 'dynamic') {
-    echo 'selected="selected"';
-}
-?>>Verschillend per code</option>
+                <option value="price" <?php if (isset($objCode->discountType) && $objCode->discountType == 'price') { echo 'selected="selected"'; } ?>>Bedrag</option>
+                <option value="percentage" <?php if (isset($objCode->discountType) && $objCode->discountType == 'percentage') { echo 'selected="selected"'; } ?>>Percentage</option>
+                <option value="dynamic" <?php if (isset($objCode->discountType) && $objCode->discountType == 'dynamic') { echo 'selected="selected"'; } ?>>Verschillend per code</option>
             </select>
         </div><!-- /col -->
     </div><!-- /form group -->
@@ -129,21 +120,21 @@ if (isset($_GET['fail']) && !empty($_GET['fail'])) {
     <div class="form-group">
         <label for="validationCodeRequired" class="col-sm-2 control-label">Validatiecode benodigd</label>
         <div class="col-sm-10">
-            <input type="checkbox" name="validationCodeRequired" id="validationCodeRequired" value="1" <?=(isset($objCode->validationCodeRequired) && $objCode->validationCodeRequired == 1) ? 'checked="checked"' : ''?> />
+            <input type="checkbox" name="validationCodeRequired" id="validationCodeRequired" value="1" <?php echo (isset($objCode->validationCodeRequired) && $objCode->validationCodeRequired == 1) ? 'checked="checked"' : ''?> />
         </div><!-- /col -->
     </div><!-- /form group -->
 
     <div class="form-group">
         <label for="fixedShipping" class="col-sm-2 control-label">Vaste verzendkosten</label>
         <div class="col-sm-10">
-            <input type="checkbox" name="fixedShipping" id="fixedShipping" value="1" <?=(isset($objCode->fixedShipping) && $objCode->fixedShipping == 1) ? 'checked="checked"' : ''?> />
+            <input type="checkbox" name="fixedShipping" id="fixedShipping" value="1" <?php echo (isset($objCode->fixedShipping) && $objCode->fixedShipping == 1) ? 'checked="checked"' : ''?> />
         </div><!-- /col -->
     </div><!-- /form group -->
 
     <div class="form-group">
         <label for="online" class="col-sm-2 control-label">Code actief</label>
         <div class="col-sm-10">
-            <input type="checkbox" name="online" id="online" value="1" <?=(isset($objCode->online) && $objCode->online == 1) ? 'checked="checked"' : ''?> />
+            <input type="checkbox" name="online" id="online" value="1" <?php echo (isset($objCode->online) && $objCode->online == 1) ? 'checked="checked"' : ''?> />
         </div><!-- /col -->
     </div><!-- /form group -->
 

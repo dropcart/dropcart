@@ -381,7 +381,7 @@ INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (14, 'price_values', '["1.21"]'),
 (15, 'price_base', 'price'),
 (16, 'site_shipping', '5.95'),
-(17, 'dropcart_version', 'v1.7.3'),
+(17, 'dropcart_version', 'v1.7.4'),
 (18, 'email_bcc', 'bcc@dropcart.nl'),
 (19, 'site_email_template', 'includes/templates/dc_mail_template.html'),
 (20, 'tmp_path', 'tmp/'),

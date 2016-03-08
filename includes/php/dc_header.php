@@ -163,7 +163,7 @@ echo ' - ' . formOption('SITE_NAME')?></title>
     <div class="col-lg-4 col-md-3 col-sm-4 col-xs-12">
         <div id="cart">
             <h3><span class="glyphicon glyphicon-shopping-cart"></span> Winkelwagen</h3>
-            <a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><span class="cartItems"><?=$intNodeItems?></span> artikelen - <span class="cartSubtotal"><?=$strNodePriceSubtotal?></span> <span class="caret"></span></a>
+            <a href="<?php echo SITE_URL?>/dc_shoppingcart.php"><span class="cartItems"><?php echo $intNodeItems?></span> artikelen - <span class="cartSubtotal"><?php echo $strNodePriceSubtotal?></span> <span class="caret"></span></a>
         </div><!-- /cart -->
 
     </div><!-- /col -->
