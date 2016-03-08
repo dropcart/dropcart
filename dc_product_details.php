@@ -101,7 +101,7 @@ if (@!getimagesize($strProductImg)) {
     <div class="col-md-5 col-sm-8 col-xs-12">
         <div class="product-header">
             <h2 id="productPrice" data-type="text" data-pk="<?php echo $intProductId;?>" data-url="/post" data-title="Verander prijs">
-                <?=($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '';?>
+                <?php echo ($productPriceFrom != NULL) ? '<small><del>&euro; ' . $productPriceFrom . '</del></small>' : '';?>
                 <?php echo $strPrice?> <small>inclusief BTW</small>
             </h2>
 
@@ -258,9 +258,9 @@ if (@!getimagesize($strProductImg)) {
         $.get(
             '<?php echo SITE_URL?>/includes/json/addProductToCart.php',
             {
-                productId   : <?=$intProductId?>,
+                productId   : <?php echo $intProductId?>,
                 quantity    : quantity,
-                timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+                timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
             },
             function(data) {
 

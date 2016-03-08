@@ -60,7 +60,7 @@ $('#printerBrandSelect').change(function(){
         '<?php echo SITE_URL . '/includes/json/getPrinterSeries.php'?>',
         {
             printerBrandId  : printerBrandId,
-            timestamp       : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp       : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 
@@ -99,7 +99,7 @@ $('#printerSerieSelect').change(function(){
         {
             printerBrandId  : printerBrandId,
             printerSerieId  : printerSerieId,
-            timestamp       : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp       : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 

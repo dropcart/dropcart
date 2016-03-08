@@ -104,7 +104,7 @@ $arrBrandOptions = array(
 
     <div class="col-md-9 cat">
 
-        <h1><?=getCustomCategoryTitle($arrProducts->categories[0]->id)?></h1>
+        <h1><?php echo getCustomCategoryTitle($arrProducts->categories[0]->id)?></h1>
 
         <div class="row">
 

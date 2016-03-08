@@ -106,16 +106,16 @@ require 'includes/php/dc_header.php';
 
 <div class="col-md-12">
 
-    <?=$strMessage?>
+    <?php echo $strMessage?>
 
     <div class="panel panel-default">
         <div class="panel-heading">Update dropcart</div><!-- /panel-heading -->
         <div class="panel-body">
-            <p>Uw huidige versie van Dropcart is <strong><?=DROPCART_VERSION?></strong></p>
+            <p>Uw huidige versie van Dropcart is <strong><?php echo DROPCART_VERSION?></strong></p>
 
             <?php if (!empty($arrVersion->{'version_' . $strBuild})) {?>
 
-                <p>Beschikbare versie: <strong><?=$strVersionNumber?></strong> (uitgebracht op <?=$strVersionDate?>)</p>
+                <p>Beschikbare versie: <strong><?php echo $strVersionNumber?></strong> (uitgebracht op <?php echo $strVersionDate?>)</p>
                 <a class="btn btn-primary" href="?update=1">Nu updaten</a>
 
             <?php } else {?>

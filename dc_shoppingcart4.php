@@ -74,9 +74,9 @@ require_once 'includes/php/dc_header.php';
 
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
-    <h1><?=$strMessageTitle?></h1>
+    <h1><?php echo $strMessageTitle?></h1>
 
-    <?=$strMessage?>
+    <?php echo $strMessage?>
 
 </div><!-- /col -->
 </div><!-- /row -->

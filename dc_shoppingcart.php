@@ -218,7 +218,7 @@ $('#discountCodeSend').click(function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -230,7 +230,7 @@ $('#discountCodeSend').click(function(){
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
                     '<div class="italic">Voor deze code is een controlecode vereist.<br/>Vul uw controlecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?=$validationCode?>" />' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw controlecode.." class="discountValue" value="<?php echo $validationCode?>" />' +
                     '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
                 );
 
@@ -276,7 +276,7 @@ $(document).on('click','#validationCodeSend',function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -322,7 +322,7 @@ $('.cartQuantity').change(function(){
         {
             cartId      : intCartId,
             quantity    : intQuantity,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 
@@ -353,7 +353,7 @@ $('.deleteItem').click(function() {
         '<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
         {
             cartId      : intCartId,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
             console.log(curThis);

@@ -194,10 +194,10 @@ $objCustomer = $objDB->getObject($result);
     <div class="row" style="margin-bottom:20px">
         <div class="col-md-4">
         <strong>Factuuradres</strong><br/>
-        <?=($objCustomer->company != '') ? $objCustomer->company . '<br/>' : ''?>
-        <?=$objCustomer->firstname?> <?=$objCustomer->lastname?><br/>
-        <?=$objCustomer->address?> <?=$objCustomer->houseNr?><?=$objCustomer->houseNrAdd?><br/>
-        <?=$objCustomer->zipcode?> <?=$objCustomer->city?><br/>
+        <?php echo ($objCustomer->company != '') ? $objCustomer->company . '<br/>' : ''?>
+        <?php echo $objCustomer->firstname?> <?php echo $objCustomer->lastname?><br/>
+        <?php echo $objCustomer->address?> <?php echo $objCustomer->houseNr?><?php echo $objCustomer->houseNrAdd?><br/>
+        <?php echo $objCustomer->zipcode?> <?php echo $objCustomer->city?><br/>
         <?php
         if ($objCustomer->lang == 'be') {
             echo 'België';
@@ -209,10 +209,10 @@ $objCustomer = $objDB->getObject($result);
 
         <div class="col-md-4">
         <strong>Afleveradres</strong><br/>
-        <?=(isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
-        <?=$objCustomer->delFirstname?> <?=$objCustomer->delLastname?><br/>
-        <?=$objCustomer->delAddress?> <?=$objCustomer->delHouseNr?><?=$objCustomer->delHouseNrAdd?><br/>
-        <?=$objCustomer->delZipcode?> <?=$objCustomer->delCity?><br/>
+        <?php echo (isset($objCustomer->delCompany) && $objCustomer->delCompany != '') ? $objCustomer->delCompany . '<br/>' : ''?>
+        <?php echo $objCustomer->delFirstname?> <?php echo $objCustomer->delLastname?><br/>
+        <?php echo $objCustomer->delAddress?> <?php echo $objCustomer->delHouseNr?><?php echo $objCustomer->delHouseNrAdd?><br/>
+        <?php echo $objCustomer->delZipcode?> <?php echo $objCustomer->delCity?><br/>
         <?php
         if ($objCustomer->delLang == 'be') {
             echo 'België';
@@ -460,7 +460,7 @@ $('#discountCodeSend').click(function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -472,7 +472,7 @@ $('#discountCodeSend').click(function(){
                 $('.discount_code').html('<div>Kortingscode: '+ discountCode +'</div>');
                 $('.discount_message').html(
                     '<div class="italic">Voor deze code is een validatiecode vereist.<br/> Vul uw validatiecode in die u heeft ontvangen.</div>' +
-                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?=(isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
+                    '<input type="text" name="validationCode" id="validationCodeValue" placeholder="Uw validatiecode.." class="discountValue" value="<?php echo (isset($_SESSION["validationCode"])) ? $_SESSION["validationCode"] : null?>" />' +
                     '<a class="btn btn-primary btn-xs" id="validationCodeSend">Versturen</a>'
                 );
 
@@ -523,7 +523,7 @@ $(document).on('click','#validationCodeSend',function(){
         type:       'POST',
         dataType:   'json',
         url:        '<?php echo SITE_URL?>/includes/json/calculateDiscount.php',
-        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?=$_SERVER["REQUEST_TIME"]?>' },
+        data:       { code: discountCode, validationCode: validationCode, timestamp: '<?php echo $_SERVER["REQUEST_TIME"]?>' },
         success: function(data, textStatus) {
         // Handle success
 
@@ -557,7 +557,7 @@ $('.cartQuantity').change(function(){
         {
             cartId      : intCartId,
             quantity    : intQuantity,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 
@@ -584,7 +584,7 @@ $('.deleteItem').click(function() {
         '<?php echo SITE_URL?>/includes/json/deleteCartItem.php',
         {
             cartId      : intCartId,
-            timestamp   : '<?=$_SERVER["REQUEST_TIME"]?>'
+            timestamp   : '<?php echo $_SERVER["REQUEST_TIME"]?>'
         },
         function(data) {
 

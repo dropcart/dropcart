@@ -201,11 +201,11 @@ if (!empty($_GET['succes'])) {
                         <div class="col-sm-8 col-sm-offset-2">
                             <label for="product_price_tiers_qty" class="col-sm-3 control-label">Vanaf</label>
                             <div class="col-sm-3">
-                                <input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  value="<?=$objTier->quantity;?>" autocomplete="off">
+                                <input type="number" min="1" class="form-control" id="product_price_tiers_qty" name="product_price_tiers_qty[]"  value="<?php echo $objTier->quantity;?>" autocomplete="off">
                             </div><!-- /col -->
                             <label for="product_price_tiers_percentage" class="col-sm-3 control-label">Percentage korting</label>
                             <div class="col-sm-3">
-                                <input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  value="<?=$objTier->percentage;?>" autocomplete="off">
+                                <input type="number" min="1" class="form-control" id="product_price_tiers_percentage" name="product_price_tiers_percentage[]"  value="<?php echo $objTier->percentage;?>" autocomplete="off">
                             </div><!-- /col -->
                         </div><!-- /col -->
                         </div><!-- /form-group -->

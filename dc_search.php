@@ -104,7 +104,7 @@ $arrBrandOptions = array(
     </div><!-- /col -->
 
     <div class="col-md-9 cat">
-        <h1>Resultaten voor: <em>&#8220;<?=$strQuery?>&#8221;</em></h1>
+        <h1>Resultaten voor: <em>&#8220;<?php echo $strQuery?>&#8221;</em></h1>
 
         <div class="row">
 
