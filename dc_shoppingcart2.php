@@ -382,26 +382,26 @@ require_once 'includes/php/dc_header.php';
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Voornaam</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="" class="form-control" name="delFirstname" value="<?php echo $strDelFirstname;?>">
+                        <input type="text" placeholder="" class="form-control" name="delFirstname" value="<?php echo $strDelFirstname;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Achternaam</label>
                     <div class="col-sm-10">
-                        <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>">
+                        <input type="text" placeholder="" class="form-control" name="delLastname" value="<?php echo $strDelLastname;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Postcode</label>
                     <div class="col-sm-4">
-                        <input type="text" placeholder="1234AB" class="form-control zipcode" name="delZipcode" value="<?php echo $strDelZipcode;?>">
+                        <input type="text" placeholder="1234AB" class="form-control zipcode" name="delZipcode" value="<?php echo $strDelZipcode;?>" data-bv-notempty="true">
                     </div><!-- /col -->
 
                     <label class="col-sm-2 control-label" for="textinput">Huisnummer</label>
                     <div class="col-sm-2">
-                        <input type="text" placeholder="21" class="form-control houseNr" name="delHouseNr" value="<?php echo $strDelHouseNr;?>">
+                        <input type="text" placeholder="21" class="form-control houseNr" name="delHouseNr" value="<?php echo $strDelHouseNr;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                     <div class="col-sm-2">
                         <input type="text" placeholder="b" class="form-control houseNrAdd" name="delHouseNrAdd" value="<?php echo $strDelHouseNrAdd;?>">
@@ -412,14 +412,14 @@ require_once 'includes/php/dc_header.php';
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Straatnaam</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control address" name="delAddress" value="<?php echo $strDelAddress;?>">
+                        <input type="text" class="form-control address" name="delAddress" value="<?php echo $strDelAddress;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label" for="textinput">Plaats</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control city" name="delCity" value="<?php echo $strDelCity;?>">
+                        <input type="text" class="form-control city" name="delCity" value="<?php echo $strDelCity;?>" data-bv-notempty="true">
                     </div><!-- /col -->
                 </div><!-- /form-group -->
         </div><!-- /delivery -->
