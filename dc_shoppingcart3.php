@@ -134,6 +134,7 @@ if ($intCartItems == 0) {
             "method" => $method,
             "description" => SITE_NAME . " Ordernr. " . formOption('order_number_prefix') . $intOrderId,
             "redirectUrl" => SITE_URL . "/dc_shoppingcart4.php?order_id={$intOrderId}",
+            "webhookUrl" => SITE_URL . "/dc_shoppingcart3_process.php",
             "metadata" => array(
                 "order_id" => $intOrderId,
             ),
