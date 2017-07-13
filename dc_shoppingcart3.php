@@ -147,6 +147,26 @@ if ($intCartItems == 0) {
 
     } else {
 
+        /* Get the cart items result */
+        $cartResult = $objCart->getCart();
+
+        /* Save all the cart items to the cart archive table, which can't be manipulated by the user */
+        while ($row = $objDB->getObject($cartResult)) {
+
+            $newCartItem = "INSERT INTO " . DB_PREFIX . "cart_archive
+            (entryDate, orderId, customerId, productId, quantity)
+            VALUES (
+                '{$row->entryDate}',
+                '{$intOrderId}',
+                '{$row->customerId}',
+                '{$row->productId}',
+                '{$row->quantity}'
+                )";
+
+            $objDB->sqlExecute($newCartItem);
+
+        }
+
         // Price is 0, so we give a custom status to process the order
         $strSQL = "UPDATE " . DB_PREFIX . "customers_orders_id SET discountCode = '" . $_SESSION["discountCode"] . "', status = 'ready' WHERE orderId = " . $intOrderId;
         $result = $objDB->sqlExecute($strSQL);

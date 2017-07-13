@@ -22,9 +22,6 @@ $mollie->setApiKey(MOLLIE_API_KEY);
 // New Inktweb Api object
 $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
-//opening database
-$objDB = new DB();
-
 // process open orders
 $strSQL = "SELECT * FROM " . DB_PREFIX . "customers_orders_id WHERE status = 'open' OR status = 'pending' OR status = 'ready'";
 $result2 = $objDB->sqlExecute($strSQL);
