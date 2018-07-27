@@ -1,4 +1,9 @@
-# Dropcart
+# Dropcart V1
+## THIS VERSION IS DEPRECATED
+
+**Please check the website [Dropcart](https://dropcart.nl) or our new and improved version 3 on [GitHub](https://github.com/dropcart/webshop-frontend)**
+
+---------
 
 ## What?
 Dropcart is a new ecommerce platform. Dropcart is perfect for dropshipment: no need to carry your own product stock and instead focus on attracting new customers. Dropcart focuses on smart, automatic, API integrations and an easy to use system. Stock, prices and product descriptions are all read from an API and are easily customizable. New orders are automatically send to the supplier for further processing.
