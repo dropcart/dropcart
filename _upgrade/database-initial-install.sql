@@ -368,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `dc_options` (
 INSERT INTO `dc_options` (`id`, `optionName`, `optionValue`) VALUES
 (1, 'site_name', 'Dropcart Demo'),
 (3, 'site_email', 'info@dropcart.nl'),
-(4, 'default_product_image', 'https://dropcart.nl/images/thumbnail.png'),
+(4, 'default_product_image', '/images/defaultthumb.png'),
 (5, 'api_key', '- inktweb api key here -'),
 (6, 'zipcode_api_key', '- postcode.nl api key here -'),
 (7, 'zipcode_api_secret', '- postcode.nl secret key here -'),
