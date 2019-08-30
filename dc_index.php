@@ -43,7 +43,7 @@ include 'includes/php/dc_include_selector.php';
 	</div><!-- /col -->
 
 	<div class="col-xs-6">
-		<p class="pull-right"><img src="http://placehold.it/315x85" alt="Demo image" class="img-responsive"></p>
+		<p class="pull-right"><!-- If required, place your image image here --></p>
 	</div><!-- /col -->
 </div><!-- /col -->
 </div><!-- /row -->
