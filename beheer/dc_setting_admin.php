@@ -389,7 +389,7 @@ if (isset($_SESSION['logo_upload_error'])) {
             try {
                 $mollie = new \Mollie\Api\MollieApiClient();
                 $mollie->setApiKey(MOLLIE_API_KEY);
-                $methods = $mollie->methods->all();
+                $methods = $mollie->methods->allActive();
                 foreach ($methods as $method):
                     $optionId = $method->id . '_fee';
                     ?>
