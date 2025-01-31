@@ -43,8 +43,8 @@ while ($objNodeCart = $objDB->getObject($result_header_cart)) {
     $arrCartItems[$i]['strProductTitle'] = $Product->getTitle();
     $arrCartItems[$i]['intQuantity'] = $objNodeCart->quantity;
     $arrCartItems[$i]['dblPrice'] = calculateProductPrice($Product->getPrice(), $objNodeCart->productId, $arrCartItems[$i]['intQuantity'], false);
-    $arrCartItems[$i]['strPrice'] = money_format('%(#1n', $arrCartItems[$i]['dblPrice']);
-    $arrCartItems[$i]['strPriceTotal'] = money_format('%(#1n', ($arrCartItems[$i]['dblPrice'] * $arrCartItems[$i]['intQuantity']));
+    $arrCartItems[$i]['strPrice'] = moneyFormat('%(#1n', $arrCartItems[$i]['dblPrice']);
+    $arrCartItems[$i]['strPriceTotal'] = moneyFormat('%(#1n', ($arrCartItems[$i]['dblPrice'] * $arrCartItems[$i]['intQuantity']));
     $arrCartItems[$i]['intStock'] = $Product->getStock();
     $arrCartItems[$i]['intProductId'] = $Product->getId();
 
@@ -54,11 +54,11 @@ while ($objNodeCart = $objDB->getObject($result_header_cart)) {
     $i++;
 }
 
-$strNodePriceSubtotal = money_format('%(#1n', $dblNodePriceTotal);
+$strNodePriceSubtotal = moneyFormat('%(#1n', $dblNodePriceTotal);
 $dblShippingCosts = calculateSiteShipping($dblNodePriceTotal, '', false);
-$strShippingCosts = money_format('%(#1n', $dblShippingCosts);
+$strShippingCosts = moneyFormat('%(#1n', $dblShippingCosts);
 $dblNodePriceTotal = $dblNodePriceTotal + $dblShippingCosts;
-$strNodePriceTotal = money_format('%(#1n', $dblNodePriceTotal);
+$strNodePriceTotal = moneyFormat('%(#1n', $dblNodePriceTotal);
 ?>
 
 <div class="row">

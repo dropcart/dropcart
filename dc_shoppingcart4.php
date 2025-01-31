@@ -47,7 +47,7 @@ switch ($status) {
         '<p>Wanneer uw bestelling wordt verzonden sturen wij u nog een email met informatie over hoe u uw pakket kunt volgen.</p>';
 
         break;
-    case 'cancelled':
+    case 'canceled':
     case 'expired':
         // Betaling verlopen of gestopt
         header('Location: ' . SITE_URL . '/dc_shoppingcart3.php');

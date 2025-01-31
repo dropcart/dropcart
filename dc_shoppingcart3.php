@@ -10,13 +10,13 @@ require_once 'includes/php/dc_config.php';
 // Page specific includes
 require_once '_classes/class.cart.php';
 require_once 'includes/php/dc_functions.php';
-require_once 'libraries/Mollie/API/Autoloader.php';
+//require_once 'libraries/Mollie/API/Autoloader.php';
 
 // Start API
 require_once 'libraries/Api_Inktweb/API.class.php';
 
 // Mollie Payment API
-$mollie = new Mollie_API_Client;
+$mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey(MOLLIE_API_KEY);
 
 // New Inktweb Api object
@@ -130,7 +130,10 @@ if ($intCartItems == 0) {
          *   metadata      Custom metadata that is stored with the payment.
          */
         $payment = $mollie->payments->create(array(
-            "amount" => $dblNodePriceTotal,
+            "amount" => (object) [
+                "currency" => "EUR",
+                "value" => number_format($dblNodePriceTotal, 2, '.', ''),
+            ],
             "method" => $method,
             "description" => SITE_NAME . " Ordernr. " . formOption('order_number_prefix') . $intOrderId,
             "redirectUrl" => SITE_URL . "/dc_shoppingcart4.php?order_id={$intOrderId}",
@@ -143,7 +146,7 @@ if ($intCartItems == 0) {
         $strSQL = "UPDATE " . DB_PREFIX . "customers_orders_id SET discountCode = '" . $_SESSION["discountCode"] . "', status = '" . $payment->status . "', transactionId = '" . $payment->id . "' WHERE orderId = " . $intOrderId;
         $result = $objDB->sqlExecute($strSQL);
 
-        header("Location: " . $payment->getPaymentUrl());
+        header("Location: " . $payment->getCheckoutUrl());
 
     } else {
 
@@ -331,7 +334,7 @@ $objCustomer = $objDB->getObject($result);
         <div class="col-md-12">
             <strong>Kies uw betaal methode:</strong>
             <?php
-            $methods = $mollie->methods->all();
+            $methods = $mollie->methods->allActive();
             foreach ($methods as $method):
                 $addition = formOption($method->id . '_fee_addition');
                 $percentage = formOption($method->id . '_fee_percent');
@@ -351,7 +354,7 @@ $objCustomer = $objDB->getObject($result);
             <div class="radio paymentMethod" style="line-height:40px; vertical-align:top">
                 <label>
                     <input<?php echo ($method->id == 'ideal' ? ' checked' : '');?> data-addition="<?php echo $addition;?>" data-percent="<?php echo $percentage;?>" class="paymentMethodInput" type="radio" style="margin-top:15px;" name="paymentMethod" value="<?php echo $method->id;?>">
-                    <img src="<?php echo htmlspecialchars($method->image->normal)?>">
+                    <img src="<?php echo htmlspecialchars($method->image->size1x)?>">
                     <?php echo htmlspecialchars($method->description) . ' (' . htmlspecialchars($method->id) . ')';?>
                 </label>
                 <div class="alert alert-info transactionNotice" style="padding: 5px 5px;line-height:18px;">

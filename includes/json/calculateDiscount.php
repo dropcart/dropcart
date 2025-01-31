@@ -137,7 +137,7 @@ if ($intError == 0 && empty($arrOutput['validationRequired'])) {
     $dblDiscountOver = $arrDiscount['dblDiscountOver'];
     $dblPriceTotal = $arrDiscount['dblPriceTotal'];
     $dblShippingCosts = calculateSiteShipping($dblPriceTotal, '', false);
-    $strShippingCosts = money_format('%(#1n', $dblShippingCosts);
+    $strShippingCosts = moneyFormat('%(#1n', $dblShippingCosts);
 
     // check if remaning discount should be removed from shippingcosts
     // 1 = true
@@ -157,9 +157,9 @@ if ($intError == 0 && empty($arrOutput['validationRequired'])) {
     $arrOutput['valid'] = 1;
     $arrOutput['discountCode'] = $strDiscountCode;
     $arrOutput['cartDiscountAmount'] = $strDiscountAmount;
-    $arrOutput['cartSubTotal'] = money_format('%(#1n', $dblPriceTotal);
+    $arrOutput['cartSubTotal'] = moneyFormat('%(#1n', $dblPriceTotal);
     $arrOutput['cartShippingcosts'] = $strShippingCosts;
-    $arrOutput['cartTotal'] = money_format('%(#1n', $dblPriceTotal + ((isset($dblShippingcosts)) ? $dblShippingCosts : null));
+    $arrOutput['cartTotal'] = moneyFormat('%(#1n', $dblPriceTotal + ((isset($dblShippingcosts)) ? $dblShippingCosts : null));
 
     $_SESSION["discountCode"] = $strDiscountCode;
     $_SESSION["validationCode"] = $strValidationCode;

@@ -59,7 +59,7 @@ require_once 'includes/php/dc_header.php';
 
 $objPrice = $Product->getPrice();
 $dblPrice = calculateProductPrice($objPrice, $intProductId, '', false);
-$strPrice = money_format('%(#1n', $dblPrice);
+$strPrice = moneyFormat('%(#1n', $dblPrice);
 $productPriceFrom = getPriceFrom($intProductId);
 
 $intStock = $Product->getStock();
@@ -115,7 +115,7 @@ if (@!getimagesize($strProductImg)) {
             while ($objTier = $objDB->getObject($result)) {
                 $dblSaving = ($dblPrice / 100) * $objTier->percentage;
                 $dblPiecePrice = $dblPrice - $dblSaving;
-                echo '<p>Koop ' . $objTier->quantity . ' stuks voor <strong>' . money_format('%(#1n', $dblPiecePrice) . '</strong> per stuk en <strong>bespaar ' . $objTier->percentage . '%</strong>.</p>';
+                echo '<p>Koop ' . $objTier->quantity . ' stuks voor <strong>' . moneyFormat('%(#1n', $dblPiecePrice) . '</strong> per stuk en <strong>bespaar ' . $objTier->percentage . '%</strong>.</p>';
             }
             if ($numTiers > 0) {
                 echo '</div>';

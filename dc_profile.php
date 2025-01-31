@@ -170,9 +170,9 @@ require_once 'includes/php/dc_header.php';
 
                     echo '<tr class="order_details active">';
                     echo '<td colspan="2"><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
-                    echo '<td>' . money_format('%(#1n', $objDetails->price) . '</td>';
+                    echo '<td>' . moneyFormat('%(#1n', $objDetails->price) . '</td>';
                     echo '<td>' . $objDetails->quantity . '</td>';
-                    echo '<td>' . money_format('%(#1n', $objDetails->price * $objDetails->quantity) . '</td>';
+                    echo '<td>' . moneyFormat('%(#1n', $objDetails->price * $objDetails->quantity) . '</td>';
                     echo '</tr>';
                 }
             }

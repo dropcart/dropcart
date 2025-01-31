@@ -299,9 +299,9 @@ $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
 
             echo '<tr>';
             echo '<td><a href="' . SITE_URL . '/dc_product_details.php?productId=' . $objDetails->productId . '">' . $Product->getTitle() . '</a></td>';
-            echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2)) . '</td>';
+            echo '<td>' . moneyFormat('%(#1n', round($objDetails->price * $objDetails->tax, 2)) . '</td>';
             echo '<td>' . $objDetails->quantity . '</td>';
-            echo '<td>' . money_format('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity) . '</td>';
+            echo '<td>' . moneyFormat('%(#1n', round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity) . '</td>';
             echo '</tr>';
 
             $subTotal = $subTotal + (round($objDetails->price * $objDetails->tax, 2) * $objDetails->quantity);
@@ -309,19 +309,19 @@ $Api = new Inktweb\API(API_KEY, API_TEST, API_DEBUG);
         ?>
         <tr>
             <td colspan="3">Subtotaal</td>
-            <td><?php echo money_format('%(#1n', $subTotal);?></td>
+            <td><?php echo moneyFormat('%(#1n', $subTotal);?></td>
         </tr>
         <tr>
             <td colspan="3">Verzendkosten</td>
-            <td><?php echo money_format('%(#1n', $objOrder->shippingCosts);?></td>
+            <td><?php echo moneyFormat('%(#1n', $objOrder->shippingCosts);?></td>
         </tr>
         <tr>
             <td colspan="3">Korting (Code: <?php echo $objOrder->kortingscode;echo ($objOrder->validationCode != '') ? ' / Validatiecode: ' . $objOrder->validationCode : '';?>)</td>
-            <td><?php echo money_format('%(#1n', $objOrder->kortingsbedrag);?></td>
+            <td><?php echo moneyFormat('%(#1n', $objOrder->kortingsbedrag);?></td>
         </tr>
         <tr>
             <td colspan="3">Totaal</td>
-            <td style="font-size:large;"><?php echo money_format('%(#1n', $objOrder->totalPrice);?></td>
+            <td style="font-size:large;"><?php echo moneyFormat('%(#1n', $objOrder->totalPrice);?></td>
         </tr>
     </table>
 </div><!-- /col-md-8 -->

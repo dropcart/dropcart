@@ -10,7 +10,7 @@ require_once __DIR__ . '/../beheer/includes/php/dc_config.php';
 require_once __DIR__ . '/../beheer/includes/php/dc_functions.php';
 
 // For mollie paymethods
-require_once __DIR__ . '/../libraries/Mollie/API/Autoloader.php';
+//require_once __DIR__ . '/../libraries/Mollie/API/Autoloader.php';
 
 $objDB = new DB();
 
@@ -387,7 +387,7 @@ if (isset($_SESSION['logo_upload_error'])) {
 
             <?php
             try {
-                $mollie = new Mollie_API_Client;
+                $mollie = new \Mollie\Api\MollieApiClient();
                 $mollie->setApiKey(MOLLIE_API_KEY);
                 $methods = $mollie->methods->all();
                 foreach ($methods as $method):

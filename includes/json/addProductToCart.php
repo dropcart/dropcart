@@ -48,12 +48,12 @@ while ($objCart = $objDB->getObject($result_cart)) {
 }
 
 $dblShippingCosts = calculateSiteShipping($dblPriceTotal, '', false);
-$strShippingCosts = money_format('%(#1n', $dblShippingCosts);
+$strShippingCosts = moneyFormat('%(#1n', $dblShippingCosts);
 
 $arrOutput['cartItems'] = $intItems;
-$arrOutput['cartSubTotal'] = money_format('%(#1n', $dblPriceTotal);
+$arrOutput['cartSubTotal'] = moneyFormat('%(#1n', $dblPriceTotal);
 $arrOutput['cartShippingCosts'] = $strShippingCosts;
-$arrOutput['cartTotal'] = money_format('%(#1n', $dblPriceTotal + $dblShippingCosts);
+$arrOutput['cartTotal'] = moneyFormat('%(#1n', $dblPriceTotal + $dblShippingCosts);
 
 echo json_encode($arrOutput);
 

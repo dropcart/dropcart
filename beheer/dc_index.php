@@ -42,7 +42,7 @@ require 'includes/php/dc_header.php';
         <p>Bestellingen</p>
     </div><!-- /col -->
     <div class="col-md-4">
-        <h1><?php echo money_format('%(#1n', $dbVolume);?></h1>
+        <h1><?php echo moneyFormat('%(#1n', $dbVolume);?></h1>
         <p>Omzet</p>
     </div><!-- /col -->
 </div><!-- /col -->

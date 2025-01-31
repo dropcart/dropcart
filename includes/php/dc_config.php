@@ -1,44 +1,48 @@
 <?php
 
-/**
- * Function to get options and values from the database
- * @param  string optionName as used in the database 'dc_options'
- * @return string optionValue
- */
-function formOption($optionName) {
-    global $objDB;
+if (!function_exists('formOption')) {
+    /**
+     * Function to get options and values from the database
+     * @param  string optionName as used in the database 'dc_options'
+     * @return string optionValue
+     */
+    function formOption($optionName) {
+        global $objDB;
 
-    $optionName = strtolower($optionName);
+        $optionName = strtolower($optionName);
 
-    $strSQL = "SELECT optionValue FROM " . DB_PREFIX . "options WHERE optionName = '" . $optionName . "' ";
-    $result = $objDB->sqlExecute($strSQL);
-    list($optionValue) = $objDB->getRow($result);
+        $strSQL = "SELECT optionValue FROM " . DB_PREFIX . "options WHERE optionName = '" . $optionName . "' ";
+        $result = $objDB->sqlExecute($strSQL);
+        list($optionValue) = $objDB->getRow($result);
 
-    return $optionValue;
+        return $optionValue;
+    }
 }
 
-function getSiteUrl() {
+if (!function_exists('getSiteUrl')) {
+    function getSiteUrl() {
 
-    $url = 'http';
+        $url = 'http';
 
-    // Check if connection is secure
-    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
-        $url .= 's'; # so it becomes https
+        // Check if connection is secure
+        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
+            $url .= 's'; # so it becomes https
+        }
+
+        $url .= '://' . $_SERVER['SERVER_NAME'];
+
+        /* Determine if we have a subdirectory */
+
+        /* Substract document root from absolute path */
+        $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', dirname(__FILE__));
+
+        /* Remove the config dir from the path */
+        $path = str_replace('/includes/php', '', $path);
+
+        $url .= $path;
+
+        return $url;
     }
-
-    $url .= '://' . $_SERVER['SERVER_NAME'];
-
-    /* Determine if we have a subdirectory */
-
-    /* Substract document root from absolute path */
-    $path = str_replace($_SERVER['DOCUMENT_ROOT'] . '', '', dirname(__FILE__));
-
-    /* Remove the config dir from the path */
-    $path = str_replace('/includes/php', '', $path);
-
-    $url .= $path;
-
-    return $url;
 }
 
 /*
@@ -47,6 +51,16 @@ Enables all errors
  */
 
 define('DEV_MODE', false); # NEVER change this value in production environment
+if (DEV_MODE == true) {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+    error_reporting(-1);
+} else {
+    // Turn off all error reporting
+    error_reporting(0);
+}
+
 define('DROPCART_VERSION', formOption('DROPCART_VERSION'));
 define('SITE_URL', getSiteUrl()); // ends in a slash
 
@@ -76,11 +90,7 @@ define('ZIPCODE_API_SECRET', formOption('ZIPCODE_API_SECRET'));
 
 setlocale(LC_MONETARY, formOption('LC_MONETARY'));
 
-if (DEV_MODE == true) {
-    error_reporting(-1);
-} else {
-    // Turn off all error reporting
-    error_reporting(0);
-}
+/** Mollie v2 setup */
+require_once __DIR__ . "/../../libraries/Mollie/v2/vendor/autoload.php";
 
 ?>
